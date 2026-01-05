@@ -73,3 +73,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+
+
+# plastic to stop Unity Cloud sync meta files ExcludeGit for files we must not share 
+.plastic/
+Assets/ExcludeGit/
