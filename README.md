@@ -1,2 +1,2 @@
 # KGAMagicalNetTeam
-Unity + Photon PUN2
+Unity 6000.2.10f + Photon PUN2
