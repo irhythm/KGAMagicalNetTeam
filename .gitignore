@@ -84,3 +84,6 @@ Assets/Photon/
 # firebase private info sharing prevention
 Assets/google-services.json
 Assets/StreamingAssets/google-services-desktop.json
+
+#firebase file too big for github
+Assets/Firebase/
