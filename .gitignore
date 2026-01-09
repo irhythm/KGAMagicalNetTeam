@@ -79,3 +79,4 @@ crashlytics-build.properties
 # plastic to stop Unity Cloud sync meta files ExcludeGit for files we must not share 
 .plastic/
 Assets/ExcludeGit/
+Assets/Photon/
