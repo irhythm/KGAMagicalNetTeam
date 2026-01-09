@@ -80,3 +80,7 @@ crashlytics-build.properties
 .plastic/
 Assets/ExcludeGit/
 Assets/Photon/
+
+# firebase private info sharing prevention
+Assets/google-services.json
+Assets/StreamingAssets/google-services-desktop.json
