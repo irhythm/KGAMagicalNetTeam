@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 
+//
 public static class BuildAutomator
 {
     public static void Build()
