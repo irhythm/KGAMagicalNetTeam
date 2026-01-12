@@ -23,9 +23,9 @@ public class ChattingManager : MonoBehaviourPunCallbacks
         Debug.Log("방 입장");
 
         chatInputField = chatInput.GetComponent<TMP_InputField>();
-        chattingText.text += "환영합니다 " + _myName + "님.";
         pv= GetComponent<PhotonView>();
         _myName = PhotonNetwork.NickName;
+        //chattingText.text += "환영합니다 " + _myName + "님.";
         playerInput = GetComponent<PlayerInput>();
 
         playerInput.actions["Enter"].performed += SendControl;

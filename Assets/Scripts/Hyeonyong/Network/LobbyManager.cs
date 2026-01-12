@@ -1,10 +1,11 @@
+using Firebase.Auth;//실시간으로 해야 할 것들
 using Photon.Pun;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using System.Collections.Generic;
-using TMPro;//실시간으로 해야 할 것들
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -12,6 +13,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //[SerializeField] InputField joinRoomInput;
     [SerializeField] TMP_InputField createRoomInput;
     [SerializeField] TMP_InputField joinRoomInput;
+    [SerializeField] TMP_InputField changeNicknameInput;
 
     [SerializeField] GameObject roomPrefab;
     [SerializeField] Transform roomListPanel;
@@ -19,16 +21,30 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(!PhotonNetwork.InLobby)
+        Debug.Log("로비 씬 시작");
+        FirebaseAuthManager.Instance.RefreshUser();
+        PhotonNetwork.NickName = FirebaseAuthManager.Instance.user.DisplayName;
+        if (FirebaseAuthManager.Instance.user == null)
+        {
+            Debug.Log("유저가 없다");
+            return;
+        }    
+        changeNicknameInput.placeholder.GetComponent<TMP_Text>().text = FirebaseAuthManager.Instance.user.DisplayName;
+
+        if (!PhotonNetwork.InLobby)
             return;
         if (PhotonNetwork.NetworkClientState == Photon.Realtime.ClientState.Leaving)
             return;
         PhotonNetwork.JoinLobby();
+        //changeNicknameInput.placeholder.GetComponent<TMP_Text>().text = FirebaseAuthManager.user.DisplayName;
+
     }
-    public override void OnJoinedLobby()
-    {
-        Debug.Log("로비 입장 완료");
-    }
+    //public override void OnJoinedLobby()
+    //{
+    //    Debug.Log("로비 입장 완료");
+
+    //    changeNicknameInput.placeholder.GetComponent<TMP_Text>().text = FirebaseAuthManager.user.DisplayName;
+    //}
 
     public void CreateRoom()
     {
@@ -84,6 +100,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("방 입장 및 룸 씬으로 전환 요청");
         SceneManager.LoadScene("Room");
+    }
+
+
+    public void ChangeNickName()
+    {
+        StartCoroutine(FirebaseAuthManager.Instance.ChangeNickName(changeNicknameInput.text, changeNicknameInput));
     }
 
 }

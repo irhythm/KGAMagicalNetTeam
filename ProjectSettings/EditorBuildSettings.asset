@@ -6,8 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Hyeonyong/Title.unity
+    guid: 0f738a04e709e6f41b10ea83a5d20d07
+  - enabled: 1
+    path: Assets/Scenes/Hyeonyong/Lobby.unity
+    guid: 1d89b202bc23e7348a1d115b7af3ed52
+  - enabled: 1
+    path: Assets/Scenes/Hyeonyong/Room.unity
+    guid: c13287d160670f840906b17ddf42f412
+  - enabled: 1
+    path: Assets/Scenes/Hyeonyong/Game.unity
+    guid: ed790c0ecc1534440aea1a1c5bc33b7f
+  - enabled: 1
+    path: Assets/Scenes/Hyeonyong/Login.unity
+    guid: 6a43dff473fb7da4c93dfbcb5affbe37
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

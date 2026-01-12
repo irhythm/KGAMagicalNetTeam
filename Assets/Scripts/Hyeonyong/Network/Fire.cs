@@ -21,9 +21,10 @@ public class Fire : MonoBehaviour
             return;
         if (isMouseClick)
         {
-            FireBullet(pv.Owner.ActorNumber);
-            //내가 아닌 다른 이들
-            pv.RPC(nameof(FireBullet),RpcTarget.Others,pv.Owner.ActorNumber);
+            PhotonManager.Instance.SendRPCAll(pv, nameof(FireBullet), RpcTarget.All, pv.Owner.ActorNumber);
+            //FireBullet(pv.Owner.ActorNumber);
+            ////내가 아닌 다른 이들
+            //pv.RPC(nameof(FireBullet),RpcTarget.Others,pv.Owner.ActorNumber);
             //pv.RPC(nameof(FireBullet),RpcTarget.All,pv.Owner.ActorNumber);
         }
     }
