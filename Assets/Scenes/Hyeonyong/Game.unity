@@ -309,6 +309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChattingManager
   chatInput: {fileID: 734956910}
   chattingText: {fileID: 4536152}
+  playerInput: {fileID: 7289882215141521487, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!4 &69406216
 Transform:
   m_ObjectHideFlags: 0
@@ -788,8 +789,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1901086770}
   m_HandleRect: {fileID: 1901086769}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.9999281
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2377,7 +2378,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1348.2965}
+  m_AnchoredPosition: {x: 0, y: -1348.2964}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1349325205
@@ -2450,6 +2451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerPrefab: {fileID: 7940719953895527930, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
+  playerInput: {fileID: 4999798944730601836, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   gameSettingUI: {fileID: 196490467}
 --- !u!4 &1373324415
 Transform:

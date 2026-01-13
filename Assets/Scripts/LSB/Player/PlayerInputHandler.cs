@@ -34,6 +34,9 @@ public class PlayerInputHandler : MonoBehaviourPun
         ConnectJump();
         ConnectWalk();
         ConnectSprint();
+
+        GameManager.Instance.onOpenUI += CheckDisable;
+        GameManager.Instance.onCloseUI += CheckEnable;
     }
 
     private void LateUpdate()
@@ -51,6 +54,30 @@ public class PlayerInputHandler : MonoBehaviourPun
         IsSprintInput = false;
         IsWalkInput = false;
         IsJumpInput = false;
+
+        GameManager.Instance.onOpenUI -= CheckDisable;
+        GameManager.Instance.onCloseUI -= CheckEnable;
+    }
+
+    private void CheckEnable()
+    {
+        if (!photonView.IsMine)
+            return;
+        _moveAction.Enable();
+        _jumpAction.Enable();
+        _walkAction.Enable();
+        _sprintAction.Enable();
+        Debug.Log("움직임 가능");
+    }
+    private void CheckDisable()
+    {
+        if (!photonView.IsMine)
+            return;
+        _moveAction.Disable();
+        _jumpAction.Disable();
+        _walkAction.Disable();
+        _sprintAction.Disable();
+        Debug.Log("움직임 불가능");
     }
 
     private void ConnectMove()

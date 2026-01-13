@@ -1,6 +1,10 @@
 using Photon.Pun;
 using Photon.Realtime;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -8,10 +12,20 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager Instance;
     [SerializeField] GameObject playerPrefab;
-    PlayerInput playerInput;
+    //PlayerInput playerInput;
+    [Header("인풋 액션")]
+    [SerializeField] private InputActionReference playerInput;
+
     [SerializeField] GameObject gameSettingUI;
     bool onGameSettingUI=false;
 
+    public Action onOpenUI;
+    public Action onCloseUI;
+
+    Dictionary<string, bool> checkUI = new Dictionary<string, bool>();
+
+
+    [SerializeField] string uiName = "GameMenu";
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()//씬이 너무 빨리 불러와져서 스타트가 room 들어가기 전에 호출되는 것이 문제임
     {
@@ -20,20 +34,26 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             StartCoroutine(SpawnPlayerWhenConnected());
         }
-        playerInput = GetComponent<PlayerInput>();
-        playerInput.actions["Exit"].performed += OpenUI;
+        //playerInput = GetComponent<PlayerInput>();
+        //playerInput.actions["Exit"].performed += OpenUI;
+
+        AddUI(uiName);
+
+        playerInput.action.Enable();
+        playerInput.action.performed += OpenUI;
     }
 
 
     IEnumerator SpawnPlayerWhenConnected() //네트워크 게임은, 라이프 사이클도 중요하고, 또 네트워크 지연까지 고려해야 함
     {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
-        PlayerManager.LocalPlayerInstance = PhotonNetwork.Instantiate("PlayerPrefab/"+playerPrefab.name, new Vector3(Random.Range(0,3), 1f, Random.Range(0, 3)), Quaternion.identity, 0);
+        PlayerManager.LocalPlayerInstance = PhotonNetwork.Instantiate("PlayerPrefab/"+playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity, 0);
     }
 
     private void OnDisable()
     {
-        playerInput.actions["Exit"].performed -= OpenUI;
+        //playerInput.actions["Exit"].performed -= OpenUI;
+        playerInput.action.Disable();
     }
     public override void OnLeftRoom()
     {
@@ -75,6 +95,49 @@ public class GameManager : MonoBehaviourPunCallbacks
         Debug.Log("esc 입력");
         onGameSettingUI = !onGameSettingUI;
         gameSettingUI.SetActive(onGameSettingUI);
+
+        if (onGameSettingUI)
+        {
+            OpenUI(uiName);
+        }
+        else
+        {
+            CloseUI(uiName);
+        }
+    }
+
+    public void OpenUI(string uiName)
+    {
+        Debug.Log("UI 열림");
+        checkUI[uiName] = true;
+        onOpenUI.Invoke();
+    }
+
+    public void CloseUI(string name)
+    {
+        checkUI[name] = false;
+        if (!CheckUiClose())
+            return;
+        Debug.Log("UI 닫힘");
+        onCloseUI.Invoke();
+    }
+
+    public bool CheckUiClose()
+    {
+        foreach (var c in checkUI)
+        {
+            if (c.Value)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public void AddUI(string name)
+    {
+        if (checkUI.ContainsKey(name))
+            return;
+        checkUI[name] = false;
     }
 
 }

@@ -1,6 +1,7 @@
 using Firebase.Auth;//실시간으로 해야 할 것들
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,18 +9,17 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
-{
-    //[SerializeField] InputField createRoomInput;
-    //[SerializeField] InputField joinRoomInput;
+{ 
     [SerializeField] TMP_InputField createRoomInput;
     [SerializeField] TMP_InputField joinRoomInput;
     [SerializeField] TMP_InputField changeNicknameInput;
 
     [SerializeField] GameObject roomPrefab;
     [SerializeField] Transform roomListPanel;
-    [SerializeField] List<string> curRoomList = new List<string>();
+    //[SerializeField] List<string> curRoomList = new List<string>();
+    [SerializeField] Dictionary<string,GameObject> curRoomList = new Dictionary<string, GameObject>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         Debug.Log("로비 씬 시작");
         FirebaseAuthManager.Instance.RefreshUser();
@@ -27,25 +27,22 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (FirebaseAuthManager.Instance.user == null)
         {
             Debug.Log("유저가 없다");
+            //yield break;
             return;
         }    
         changeNicknameInput.placeholder.GetComponent<TMP_Text>().text = FirebaseAuthManager.Instance.user.DisplayName;
 
         if (!PhotonNetwork.InLobby)
             return;
+            //yield break;
         if (PhotonNetwork.NetworkClientState == Photon.Realtime.ClientState.Leaving)
             return;
+            //yield break;
         PhotonNetwork.JoinLobby();
-        //changeNicknameInput.placeholder.GetComponent<TMP_Text>().text = FirebaseAuthManager.user.DisplayName;
+        //yield return new WaitUntil(() => PhotonNetwork.InLobby);
+        //yield return null;
 
     }
-    //public override void OnJoinedLobby()
-    //{
-    //    Debug.Log("로비 입장 완료");
-
-    //    changeNicknameInput.placeholder.GetComponent<TMP_Text>().text = FirebaseAuthManager.user.DisplayName;
-    //}
-
     public void CreateRoom()
     {
         //PhotonNetwork.CreateRoom(createRoomInput.text, new RoomOptions { MaxPlayers=4});//옆에 인풋필드에 들어있던 내용의 이름으로 방 생성
@@ -54,16 +51,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void JoinRoom()
     {
         PhotonNetwork.JoinRoom(joinRoomInput.text);
-        //PhotonNetwork.JoinOrCreateRoom(joinRoomInput.text);//옆의 내용으로 방을 찾아보고 없으면 그 이름으로 방 생성
     }
     public void JoinRoom(string roomName)
     {
         PhotonNetwork.JoinRoom(roomName);
-        //PhotonNetwork.JoinOrCreateRoom(joinRoomInput.text);//옆의 내용으로 방을 찾아보고 없으면 그 이름으로 방 생성
     }
     public void JoinRandomRoom()
     {
-        //PhotonNetwork.JoinRandomRoom();//있는 것 중 랜덤으로 들어가거나
         PhotonNetwork.JoinRandomOrCreateRoom();//만드는 것까지 하거나
     }
 
@@ -77,19 +71,35 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         foreach (RoomInfo roomInfo in roomList)
         {
-            //방 재생성 방지
-            if (!curRoomList.Contains(roomInfo.Name))
+            if (roomInfo.RemovedFromList)
             {
-                var room = Instantiate(roomPrefab, roomListPanel);
-
-                room.GetComponentInChildren<TextMeshProUGUI>().text = roomInfo.Name;
-                room.GetComponent<Button>().onClick.AddListener(() => JoinRoom(roomInfo.Name));
-                curRoomList.Add(roomInfo.Name);
+                if (curRoomList.ContainsKey(roomInfo.Name)) 
+                {
+                    Destroy(curRoomList[roomInfo.Name]);
+                    curRoomList.Remove(roomInfo.Name);
+                }
+                continue;
             }
-            //생성된 방은 현재 플레이어 인원수 표시 원함
+
+            if (!curRoomList.ContainsKey(roomInfo.Name))
+            {
+                GameObject roomBtn = Instantiate(roomPrefab, roomListPanel);
+                roomBtn.GetComponentInChildren<TextMeshProUGUI>().text = roomInfo.Name;
+                roomBtn.GetComponent<Button>().onClick.AddListener(() => JoinRoom(roomInfo.Name));
+                curRoomList.Add(roomInfo.Name, roomBtn);
+            }
+            
+            ////방 재생성 방지
+            //if (!curRoomList.Contains(roomInfo.Name))
+            //{
+            //    var room = Instantiate(roomPrefab, roomListPanel);
+
+            //    room.GetComponentInChildren<TextMeshProUGUI>().text = roomInfo.Name;
+            //    room.GetComponent<Button>().onClick.AddListener(() => JoinRoom(roomInfo.Name));
+            //    curRoomList.Add(roomInfo.Name);
+            //}
         }
     }
-
     public void Refresh()//룸 새로고침 : 로비 나갔다 들어오기
     {
         PhotonNetwork.LeaveLobby();

@@ -7,6 +7,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
+using WebSocketSharp;
 
 public class ChattingManager : MonoBehaviourPunCallbacks
 {
@@ -15,8 +16,14 @@ public class ChattingManager : MonoBehaviourPunCallbacks
     [SerializeField] TextMeshProUGUI chattingText;
     string _myName;
     PhotonView pv;
-    PlayerInput playerInput;
+    //PlayerInput playerInput;
+    [Header("인풋 액션")]
+    [SerializeField] private InputActionReference playerInput;
     bool onChat=false;
+
+    [SerializeField] string uiName="Chat";
+
+    [SerializeField] bool onReadyRoom=false;
 
     public void Start()
     {
@@ -26,16 +33,19 @@ public class ChattingManager : MonoBehaviourPunCallbacks
         pv= GetComponent<PhotonView>();
         _myName = PhotonNetwork.NickName;
         //chattingText.text += "환영합니다 " + _myName + "님.";
-        playerInput = GetComponent<PlayerInput>();
-
-        playerInput.actions["Enter"].performed += SendControl;
+        //playerInput = GetComponent<PlayerInput>();
+        playerInput.action.Enable();
+        playerInput.action.performed += SendControl;
+        //playerInput.actions["Enter"].performed += SendControl;
 
     }
 
     public override void OnLeftRoom()
     {
-        playerInput.actions["Enter"].performed -= SendControl;
+        //playerInput.actions["Enter"].performed -= SendControl;
+        playerInput.action.Disable();
     }
+
     private void SendControl(InputAction.CallbackContext context)
     {
         Debug.Log("엔터 입력");
@@ -43,6 +53,10 @@ public class ChattingManager : MonoBehaviourPunCallbacks
         //    return;
         if (!onChat)
         {
+            if (!onReadyRoom)
+            {
+                GameManager.Instance.OpenUI(uiName);
+            }
             onChat = true;
             chatInput.SetActive(true);
             chatInputField.Select();
@@ -50,6 +64,10 @@ public class ChattingManager : MonoBehaviourPunCallbacks
         }
         else
         {
+            if (!onReadyRoom)
+            {
+                GameManager.Instance.CloseUI(uiName);
+            }
             StartCoroutine(SendMyMessage());
         }
         
@@ -58,10 +76,14 @@ public class ChattingManager : MonoBehaviourPunCallbacks
     IEnumerator SendMyMessage()
     {
         Debug.Log("채팅입력");
-        yield return null;
+        //yield return CoroutineManager.WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.3f);
         onChat = false;
-        string message = "\n" + _myName + ": " + chatInputField.text + " ";
-        pv.RPC(nameof(SendChat), RpcTarget.All, message);
+        if (!chatInputField.text.IsNullOrEmpty())
+        {
+            string message = "\n" + _myName + ": " + chatInputField.text+" ";
+            pv.RPC(nameof(SendChat), RpcTarget.All, message);
+        }
         chatInputField.text = "";
         chatInput.SetActive(false);
     }
@@ -79,4 +101,10 @@ public class ChattingManager : MonoBehaviourPunCallbacks
         chattingText.text += "\n" + newPlayer.NickName + "님이 방에 입장하셨습니다.";
     }
 
+
+    IEnumerator CheckGameManager()
+    {
+        yield return new WaitUntil(() => FindAnyObjectByType(typeof(GameManager)));
+        GameManager.Instance.AddUI(uiName);
+    }
 }

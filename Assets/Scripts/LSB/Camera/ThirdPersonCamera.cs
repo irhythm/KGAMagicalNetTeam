@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -53,6 +54,8 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        StartCoroutine(CheckGameManager());
     }
 
     private void OnEnable()
@@ -63,7 +66,36 @@ public class ThirdPersonCamera : MonoBehaviour
     private void OnDisable()
     {
         if (lookAction != null) lookAction.action.Disable();
+
+        else
+            return;
+
+        GameManager.Instance.onOpenUI -= CheckDisable;
+        GameManager.Instance.onCloseUI -= CheckEnable;
     }
+
+    IEnumerator CheckGameManager()
+    {
+        yield return new WaitUntil(() => FindAnyObjectByType(typeof(GameManager)));
+        
+        GameManager.Instance.onOpenUI += CheckDisable;
+        GameManager.Instance.onCloseUI += CheckEnable;
+    }
+    private void CheckEnable()
+    {
+        if (lookAction != null) lookAction.action.Enable();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Debug.Log("√‘øµ º”«‡");
+    }
+    private void CheckDisable()
+    {
+        if (lookAction != null) lookAction.action.Disable();
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+        Debug.Log("√‘øµ ¡ﬂ¡ˆ");
+    }
+    
 
     public void SetTarget(Transform newTarget)
     {

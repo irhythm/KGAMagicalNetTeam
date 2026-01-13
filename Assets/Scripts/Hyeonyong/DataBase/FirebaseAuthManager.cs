@@ -137,6 +137,12 @@ public class FirebaseAuthManager : Singleton<FirebaseAuthManager>
                 StopCoroutine(onCheckEmail);
             onCheckEmail = StartCoroutine(OnCheckEmail(emailField.text));
         }
+        else
+        {
+            loginButton.gameObject.SetActive(false);
+            registerButton.gameObject.SetActive(true);
+            nickField.interactable = true;
+        }
 
     }
 
@@ -145,39 +151,6 @@ public class FirebaseAuthManager : Singleton<FirebaseAuthManager>
         //해당 방법은 이메일 열거 보호를 해제해야 하므로 제외 <- 우회하려고 회원가입 과정, 로그인 과정 중 발생하는 오류 코드 까지 사용해 보았으나 실패
         var task = auth.FetchProvidersForEmailAsync(email);
         yield return new WaitUntil(() => task.IsCompleted);
-
-        //Task<AuthResult> LoginTask = auth.SignInWithEmailAndPasswordAsync(email, "FakePasswordForTest000001");
-        //yield return new WaitUntil(() => LoginTask.IsCompleted);
-        //bool checkEmail = false;
-        //if (LoginTask.Exception != null)
-        //{
-        //    FirebaseException firebaseEx = LoginTask.Exception.GetBaseException() as FirebaseException;
-        //    AuthError errorCode = (AuthError)firebaseEx.ErrorCode;//진짜 우리가 해석 가능한 형태로 바꿈
-
-        //    string message = "";
-        //    switch (errorCode)
-        //    {
-        //        case AuthError.MissingEmail:
-        //            message = "이메일 누락";
-        //            break;
-        //        case AuthError.MissingPassword:
-        //            message = "패스워드 누락";
-        //            break;
-        //        case AuthError.WrongPassword:
-        //            message = "패스워드 틀림";
-        //            break;
-        //        case AuthError.InvalidEmail:
-        //            message = "이메일 형식이 옳지 않음";
-        //            break;
-        //        case AuthError.UserNotFound:
-        //            message = "아이디가 존재하지 않음";
-        //            break;
-        //        default:
-        //            message = "관리자에게 문의 바랍니다";
-        //            break;
-        //    }
-        //    Debug.Log(message);
-        //}
 
         bool checkEmail = task.Result.Any();
 
@@ -223,6 +196,7 @@ public class FirebaseAuthManager : Singleton<FirebaseAuthManager>
                     message = "관리자에게 문의 바랍니다";
                     break;
             }
+            Debug.Log(message);
         }
         else//여기 왔단 뜻은 성공
         {
