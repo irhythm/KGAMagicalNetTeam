@@ -5,6 +5,14 @@ public class PlayerMoveState : PlayerStateBase
     public PlayerMoveState(PlayableCharacter player, StateMachine stateMachine)
         : base(player, stateMachine, "IsMove") { }
 
+    private float WalkMultiplier = 0.5f;   // Walk 애니메이션 좌표
+    private float RunMultiplier = 1.0f;    // Run 애니메이션 좌표
+    private float SprintMultiplier = 1.5f; // Sprint 애니메이션 좌표
+
+    // private float WalkSpeed = 2.0f;
+    // private float SprintSpeed = 8.0f;
+
+
     public override void Enter()
     {
         base.Enter();
@@ -31,10 +39,12 @@ public class PlayerMoveState : PlayerStateBase
             inputDir.Normalize();
         }
 
+        float targetSpeed = GetCurrentMoveSpeed();
+
         player.Rigidbody.linearVelocity = new Vector3(
-            inputDir.x * player.MoveSpeed,
+            inputDir.x * targetSpeed,
             player.Rigidbody.linearVelocity.y,
-            inputDir.z * player.MoveSpeed
+            inputDir.z * targetSpeed
         );
 
         if (Camera.main != null)
@@ -42,14 +52,11 @@ public class PlayerMoveState : PlayerStateBase
             Vector3 camForward = Camera.main.transform.forward;
             camForward.y = 0;
             camForward.Normalize();
-
             if (camForward != Vector3.zero)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(camForward);
-
                 player.transform.rotation = Quaternion.Slerp(
                     player.transform.rotation,
-                    targetRotation,
+                    Quaternion.LookRotation(camForward),
                     player.RotationSpeed * Time.fixedDeltaTime
                 );
             }
@@ -64,28 +71,38 @@ public class PlayerMoveState : PlayerStateBase
 
         if (input.sqrMagnitude < 0.01f)
         {
-            stateMachine.ChangeState(player.IdleState);
+            player.Animator.SetFloat(player.HashInputX, 0, 0.15f, Time.deltaTime);
+            player.Animator.SetFloat(player.HashInputZ, 0, 0.15f, Time.deltaTime);
             return;
         }
 
-        UpdateBlendTree();
+        float speedFactor = GetCurrentSpeedMultiplier();
+
+        Vector3 inputDir = new Vector3(input.x, 0, input.y).normalized;
+        if (Camera.main != null)
+        {
+            inputDir = Camera.main.transform.TransformDirection(inputDir);
+            inputDir.y = 0;
+            inputDir.Normalize();
+        }
+
+        Vector3 localDir = player.transform.InverseTransformDirection(inputDir);
+
+        player.Animator.SetFloat(player.HashInputX, localDir.x * speedFactor, 0.15f, Time.deltaTime);
+        player.Animator.SetFloat(player.HashInputZ, localDir.z * speedFactor, 0.15f, Time.deltaTime);
     }
 
-    private void UpdateBlendTree()
+    private float GetCurrentSpeedMultiplier()
     {
-        Vector3 worldVelocity = player.Rigidbody.linearVelocity;
-        worldVelocity.y = 0;
+        if (player.InputHandler.IsWalkInput) return WalkMultiplier;
+        if (player.InputHandler.IsSprintInput) return SprintMultiplier;
+        return RunMultiplier;
+    }
 
-        if (worldVelocity.magnitude < 0.1f)
-        {
-            player.Animator.SetFloat(player.HashInputX, 0);
-            player.Animator.SetFloat(player.HashInputZ, 0);
-            return;
-        }
-
-        Vector3 localVelocity = player.transform.InverseTransformDirection(worldVelocity.normalized);
-
-        player.Animator.SetFloat(player.HashInputX, localVelocity.x, player.AnimDampTime, Time.deltaTime);
-        player.Animator.SetFloat(player.HashInputZ, localVelocity.z, player.AnimDampTime, Time.deltaTime);
+    private float GetCurrentMoveSpeed()
+    {
+        if (player.InputHandler.IsWalkInput) return player.MoveSpeed * 0.5f;
+        if (player.InputHandler.IsSprintInput) return player.MoveSpeed * 1.5f;
+        return player.MoveSpeed;
     }
 }
