@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     IEnumerator SpawnPlayerWhenConnected() //네트워크 게임은, 라이프 사이클도 중요하고, 또 네트워크 지연까지 고려해야 함
     {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
-        PlayerManager.LocalPlayerInstance = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(Random.Range(0,3), Random.Range(0.5f, 3f), Random.Range(0, 3)), Quaternion.identity, 0);
+        PlayerManager.LocalPlayerInstance = PhotonNetwork.Instantiate("PlayerPrefab/"+playerPrefab.name, new Vector3(Random.Range(0,3), 1f, Random.Range(0, 3)), Quaternion.identity, 0);
     }
 
     private void OnDisable()
