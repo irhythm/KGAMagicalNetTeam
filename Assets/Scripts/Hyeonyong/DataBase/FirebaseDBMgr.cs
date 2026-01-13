@@ -72,7 +72,7 @@ public class FirebaseDBMgr : MonoBehaviour
     {
         Debug.Log($"드롭다운 인덱스 변경 감지: {index}");
 
-        playerColor = (WizardColor)(index + 1); // Dropdown 인덱스는 0부터 시작하므로 1을 더해줌
+        playerColor = (WizardColor)(index); // Dropdown 인덱스는 0부터 시작하므로 1을 더해줌
 
         if (checkAndSetColor != null)
         {

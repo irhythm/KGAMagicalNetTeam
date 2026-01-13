@@ -13,9 +13,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static GameManager Instance;
     [SerializeField] GameObject playerPrefab;
 
-    //260113 최정욱 WizardColor 시스템 적용
-    [SerializeField] List<Color> playerColors = new List<Color>();
-
+    
 
     //PlayerInput playerInput;
     [Header("인풋 액션")]
@@ -54,9 +52,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
         PlayerManager.LocalPlayerInstance = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity, 0);
 
-        PlayerManager.LocalPlayerInstance.transform.GetChild(0).GetChild(0).GetComponent<Renderer>().material.color = playerColors[(int)PhotonNetwork.LocalPlayer.CustomProperties["WizardColor"]-1];
-        PlayerManager.LocalPlayerInstance.transform.GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = playerColors[(int)PhotonNetwork.LocalPlayer.CustomProperties["WizardColor"]-1];
-
+        
 
 
 
