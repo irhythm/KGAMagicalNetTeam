@@ -17,6 +17,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     /// </summary>
     [SerializeField] Button StartBtn;
     [SerializeField] Button ReadyBtn;
+    [SerializeField] Toggle checkHiddenRoom;
     [SerializeField] Transform playerInfoTab;
     [SerializeField] GameObject playerInfo;
 
@@ -70,10 +71,12 @@ public class RoomManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             StartBtn.gameObject.SetActive(true);
+            checkHiddenRoom.gameObject.SetActive(true);
         }
         else
         {
             ReadyBtn.gameObject.SetActive(true);
+            checkHiddenRoom.gameObject.SetActive(false);
         }
 
     }
@@ -216,7 +219,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             StartBtn.gameObject.SetActive(true);
             ReadyBtn.gameObject.SetActive(false);
-
+            checkHiddenRoom.gameObject.SetActive(true);
+        }
+        else
+        {
+            StartBtn.gameObject.SetActive(false);
+            ReadyBtn.gameObject.SetActive(true);
+            checkHiddenRoom.gameObject.SetActive(false);
         }
     }
 
@@ -232,5 +241,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
         // 로컬 플레이어의 프로퍼티를 업데이트 (네트워크 전체에 동기화됨)
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+    }
+
+
+    public void ChangeRoomToHidden()
+    {
+        PhotonNetwork.CurrentRoom.IsVisible = checkHiddenRoom.isOn;
     }
 }

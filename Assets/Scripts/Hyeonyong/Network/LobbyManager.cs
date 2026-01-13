@@ -32,13 +32,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }    
         changeNicknameInput.placeholder.GetComponent<TMP_Text>().text = FirebaseAuthManager.Instance.user.DisplayName;
 
-        if (!PhotonNetwork.InLobby)
+        PhotonNetwork.JoinLobby(  );
+        if (PhotonNetwork.InLobby)
             return;
             //yield break;
         if (PhotonNetwork.NetworkClientState == Photon.Realtime.ClientState.Leaving)
             return;
             //yield break;
-        PhotonNetwork.JoinLobby();
         //yield return new WaitUntil(() => PhotonNetwork.InLobby);
         //yield return null;
 
@@ -71,6 +71,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         foreach (RoomInfo roomInfo in roomList)
         {
+            Debug.Log("방 목록 가져오기");
             if (roomInfo.RemovedFromList)
             {
                 if (curRoomList.ContainsKey(roomInfo.Name)) 
@@ -80,7 +81,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 }
                 continue;
             }
-
             if (!curRoomList.ContainsKey(roomInfo.Name))
             {
                 GameObject roomBtn = Instantiate(roomPrefab, roomListPanel);
