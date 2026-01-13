@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 584731637786702885}
   - component: {fileID: 2058227398658256218}
   - component: {fileID: 7488527903777639671}
+  - component: {fileID: 1836383907938754046}
   - component: {fileID: 5016317772577129787}
   m_Layer: 0
   m_Name: PlayableCharacter
@@ -229,6 +230,24 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &1836383907938754046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940719953895527930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52d18e9502cbf2a4da8768a45215538c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ColorChangeScript
+  playerColors:
+  - {r: 0, g: 0.37785387, b: 1, a: 0}
+  - {r: 1, g: 0, b: 0, a: 0}
+  - {r: 0, g: 1, b: 0.0022239685, a: 0}
+  - {r: 1, g: 0.92589796, b: 0, a: 0}
+  - {r: 1, g: 0, b: 0.90223503, a: 0}
 --- !u!114 &5016317772577129787
 MonoBehaviour:
   m_ObjectHideFlags: 0
