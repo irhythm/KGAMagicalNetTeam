@@ -91,7 +91,7 @@ public class ThirdPersonCamera : MonoBehaviour
     private void CheckDisable()
     {
         if (lookAction != null) lookAction.action.Disable();
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Debug.Log("ÃÔ¿µ ÁßÁö");
     }
