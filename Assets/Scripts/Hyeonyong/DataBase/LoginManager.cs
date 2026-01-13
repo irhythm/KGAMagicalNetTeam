@@ -1,6 +1,9 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+
+
 
 public class LoginManager : MonoBehaviour
 {
@@ -51,5 +54,12 @@ public class LoginManager : MonoBehaviour
             }
         }
         curIndex = -1;
+    }
+
+
+    //260113 √÷¡§øÌ
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("Title");
     }
 }
