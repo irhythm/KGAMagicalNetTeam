@@ -55,6 +55,8 @@ public class PlayerInputHandler : MonoBehaviourPun
         IsWalkInput = false;
         IsJumpInput = false;
 
+        CheckEnable();
+
         GameManager.Instance.onOpenUI -= CheckDisable;
         GameManager.Instance.onCloseUI -= CheckEnable;
     }
