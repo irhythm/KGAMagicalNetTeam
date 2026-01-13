@@ -14,7 +14,7 @@ public class ColorChangeScript : MonoBehaviourPunCallbacks
         {
             return;
         }
-        int colorIndex = (int)PhotonNetwork.LocalPlayer.CustomProperties["WizardColor"];
+        int colorIndex = (int)PhotonNetwork.LocalPlayer.CustomProperties["WizardColor"]-1;
         photonView.RPC("ChangeColor", RpcTarget.AllBuffered, colorIndex);
     }
 
