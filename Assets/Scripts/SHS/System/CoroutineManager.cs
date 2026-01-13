@@ -12,6 +12,12 @@ public static class CoroutineManager
     private static readonly Dictionary<float, WaitForSeconds> _waitForSeconds = new Dictionary<float, WaitForSeconds>();
     private static readonly Dictionary<float, WaitForSecondsRealtime> _waitForSecondsRealTime = new Dictionary<float, WaitForSecondsRealtime>();
 
+    /// <summary>
+    /// yield return new waitForSeconds 캐싱
+    /// n초 동안 대기시킬 때 사용
+    /// </summary>
+    /// <param name="seconds"> 지연시킬 시간(초) </param>
+    /// <returns></returns>
     public static WaitForSeconds waitForSeconds(float seconds)
     {
         if (!_waitForSeconds.TryGetValue(seconds, out var _seconds))
@@ -22,6 +28,12 @@ public static class CoroutineManager
         return _seconds;
     }
 
+    /// <summary>
+    /// yield return new waitforSecondsRealtime 캐싱
+    /// n초 동안 대기시킬 때 사용
+    /// </summary>
+    /// <param name="seconds"> 지연시킬 시간(초) </param>
+    /// <returns></returns>
     public static WaitForSecondsRealtime waitForSecondsRealtime(float seconds)
     {
         if (!_waitForSecondsRealTime.TryGetValue(seconds, out var _seconds))

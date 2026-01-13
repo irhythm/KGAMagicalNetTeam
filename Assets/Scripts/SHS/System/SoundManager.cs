@@ -1,14 +1,214 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
-public class SoundManager : MonoBehaviour
+public enum Soundtype
 {
-    private void Start()
+    BGM,        // 배경음
+    SFX,        // 효과음
+}
+
+public class SoundManager : Singleton<SoundManager>
+{
+    [SerializeField] private AudioClip clip1;
+    [SerializeField] private AudioClip clip2;
+
+    [SerializeField] private AudioSource bgmSource;
+
+    [Header("사운드 풀")]
+    [SerializeField] private SoundPool soundPool;
+
+    [Header("오디오 클립 모음 SO 파일")]
+    [SerializeField] private AudioClipSO audioClipSO;
+
+    // 배경음, 효과음 오디오 클립을 저장할 딕셔너리
+    private Dictionary<string, AudioClip> bgmDic = new Dictionary<string, AudioClip>();
+    private Dictionary<string, AudioClip> sfxDic = new Dictionary<string, AudioClip>();
+
+    private List<AudioSource> sfxList = new List<AudioSource>();    // 현재 재생중인 효과음 오디오 소스를 가지고 있을 리스트
+    private Coroutine sfxPlayCoroutine;                             // 현재 재생중인 효과음 오디오 소스들을 체크하는 코루틴 변수
+
+    protected override void Awake()
     {
-        
+        base.Awake();
+        InitData();
     }
 
     private void Update()
     {
+        if(Keyboard.current.fKey.wasPressedThisFrame)
+        {
+            PlaySFX(clip1, 1, Vector3.zero);
+        }
+
+        if (Keyboard.current.gKey.wasPressedThisFrame)
+        {
+            PlaySFX(clip2, 1, Vector3.zero);
+        }
+
+        if (Keyboard.current.hKey.wasPressedThisFrame)
+        {
+            PlaySFX(clip1);
+        }
+    }
+
+    #region Init
+    // 데이터 초기화
+    private void InitData()
+    {
+        // 배경음 딕셔너리에 데이터 추가
+        if (audioClipSO.bgmClips.Length > 0)
+        {
+            foreach(var so in audioClipSO.bgmClips)
+            {
+                bgmDic.Add(so.name, so);
+            }
+        }
+
+        // 효과음 딕셔너리에 데이터 추가
+        if(audioClipSO.sfxClips.Length > 0)
+        {
+            foreach(var so in audioClipSO.sfxClips)
+            {
+                sfxDic.Add(so.name, so);
+            }
+        }
+    }
+    #endregion
+
+    #region 오디오 클립을 받아와 재생
+    public void PlayBGM(AudioClip clip)
+    {
+        if (bgmSource == null) return;
+
+        bgmSource.clip = clip;
+        bgmSource.Play();
+    }
+
+    /// <summary>
+    /// 효과음 재생
+    /// </summary>
+    /// <param name="clip"> 재생할 오디오 클립 </param>
+    public void PlaySFX(AudioClip clip)
+    {
+        AudioSource source = soundPool.pool.Get();
+
+        if (source == null) return;
+
+        source.clip = clip;
+        source.spatialBlend = 0f;
+        source.Play();
+
+        AddSfXList(source);
+    }
+
+    /// <summary>
+    /// 효과음 재생
+    /// </summary>
+    /// <param name="clip"> 재생할 오디오 클립 </param>
+    /// <param name="spatialAmount"> 공간 음향 수치값 (0 → 2D 음향 / 1 → 3D 음향) </param>
+    /// <param name="pos"> 재생시킬 위치 </param>
+    public void PlaySFX(AudioClip clip, float spatialAmount, Vector3 pos)
+    {
+        AudioSource source = soundPool.pool.Get();
+
+        if (source == null) return;
+
+        source.clip = clip;
+        source.spatialBlend = Mathf.Clamp(spatialAmount, 0.0f, 1.0f);
+        source.Play();
+
+        AddSfXList(source);
+    }
+    #endregion
+
+    #region 오디오 클립 이름(string)을 받아와 재생
+    public void PlayBGM(string bgmName)
+    {
+        if (bgmSource == null) return;
+
+    }
+    #endregion
+
+    #region 사운드 재생 중지
+    public void StopSound(AudioSource source)
+    {
+        if(source != null && source.isPlaying)
+        {
+            source.Stop();
+        }
+    }
+    #endregion
+
+    #region 오디오 소스 설정
+    public void SetSoundVolume(Soundtype type, float volume)
+    {
+        switch(type)
+        {
+            case Soundtype.BGM:
+                SetVolume(bgmSource, volume);
+                break;
+        }
+    }
+
+    private void SetVolume(AudioSource source, float volume)
+    {
+        if (source == null) return;
+
+        source.volume = volume;
+    }
+    #endregion
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        StopSound(bgmSource);
+    }
+
+    private void AddSfXList(AudioSource sfx)
+    {
+        if (sfx == null) return;
+
+        sfxList.Add(sfx);
+
+        if(sfxPlayCoroutine == null)
+        {
+            sfxPlayCoroutine = StartCoroutine(CheckPlayingSFX());
+        }
+    }
+
+    // sfxList중 재생이 완료된 오디오 소스 정리
+    private IEnumerator CheckPlayingSFX()
+    {
+        while(sfxList.Count > 0)
+        {
+            for(int i = sfxList.Count - 1; i >= 0; i--)
+            {
+                if (!sfxList[i].isPlaying)
+                {
+                    soundPool.pool.Release(sfxList[i]);
+                    sfxList.RemoveAt(i);
+                }
+            }
+
+            Debug.Log("코루틴 도는중");
+            yield return CoroutineManager.waitForSeconds(0.5f);
+        }
         
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        if(sfxPlayCoroutine != null)
+            StopCoroutine(sfxPlayCoroutine);
     }
 }
