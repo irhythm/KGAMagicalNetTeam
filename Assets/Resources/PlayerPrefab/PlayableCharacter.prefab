@@ -68,7 +68,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayableCharacter
   MoveSpeed: 5
   RotationSpeed: 10
-  AnimDampTime: 0.15
 --- !u!114 &6264066921911791175
 MonoBehaviour:
   m_ObjectHideFlags: 0
