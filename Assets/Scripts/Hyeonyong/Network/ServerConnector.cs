@@ -13,9 +13,16 @@ public class ServerConnector : MonoBehaviourPunCallbacks
     //버튼 연결을 위해 우리가 만든 메서드임 OnConnectToServer아님
     public void ConnectToServer()
     {
-        PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "kr";
-        PhotonNetwork.PhotonServerSettings.AppSettings.UseNameServer = true;
-        PhotonNetwork.ConnectUsingSettings();
+        if (PhotonNetwork.IsConnected)
+        {
+            OnConnectedToMaster();
+        }
+        else
+        {
+            PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "kr";
+            PhotonNetwork.PhotonServerSettings.AppSettings.UseNameServer = true;
+            PhotonNetwork.ConnectUsingSettings();
+        }
     }
 
     public override void OnConnectedToMaster()

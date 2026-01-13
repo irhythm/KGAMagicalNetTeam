@@ -248,4 +248,21 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.CurrentRoom.IsVisible = checkHiddenRoom.isOn;
     }
+
+    //260113 √÷¡§øÌ
+    public void ReturnToLobby()
+    {
+        if (!PhotonNetwork.InRoom)
+            return;
+        if (PhotonNetwork.NetworkClientState == Photon.Realtime.ClientState.Leaving)
+            return;
+        PhotonNetwork.LeaveRoom();
+       
+    }
+
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene("Lobby");
+    }
+
 }

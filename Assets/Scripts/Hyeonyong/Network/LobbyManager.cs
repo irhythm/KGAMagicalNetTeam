@@ -32,7 +32,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }    
         changeNicknameInput.placeholder.GetComponent<TMP_Text>().text = FirebaseAuthManager.Instance.user.DisplayName;
 
-        PhotonNetwork.JoinLobby(  );
+        //260113 최정욱 방 나가고 로비로 돌아올때 마스터서버로 전환 기다리기
+
+        if (PhotonNetwork.IsConnectedAndReady)
+        {
+            PhotonNetwork.JoinLobby();
+        }
         if (PhotonNetwork.InLobby)
             return;
             //yield break;
@@ -43,6 +48,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //yield return null;
 
     }
+
+    //260113 최정욱 방 나가고 로비로 돌아올때 마스터서버로 전환 기다리기
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.JoinLobby();
+    }
+
+
+
+
     public void CreateRoom()
     {
         //PhotonNetwork.CreateRoom(createRoomInput.text, new RoomOptions { MaxPlayers=4});//옆에 인풋필드에 들어있던 내용의 이름으로 방 생성
@@ -116,6 +131,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void ChangeNickName()
     {
         StartCoroutine(FirebaseAuthManager.Instance.ChangeNickName(changeNicknameInput.text, changeNicknameInput));
+    }
+
+
+    //260113 최정욱
+    public void ReturnToLogin()
+    {
+        FirebaseAuth.DefaultInstance.SignOut();
+        SceneManager.LoadScene("Login");
+
     }
 
 }
