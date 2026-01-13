@@ -1,5 +1,4 @@
 using Photon.Pun;
-using POpusCodec.Enums;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,31 +7,37 @@ public class ThirdPersonCamera : MonoBehaviour
     [Header("인풋 액션")]
     [SerializeField] private InputActionReference lookAction;
 
+    [Header("추적 대상")]
+    [SerializeField] private Transform target; // 추적할 플레이어
+
     [Header("위치 설정")]
     [SerializeField] private float distance = 5.0f;
     [SerializeField] private Vector2 pitchLimits = new Vector2(-20, 80);
 
+    [Header("오프셋 설정")]
+    [SerializeField] private Vector3 Offset = new Vector3(1f, 1.5f, 0f);
+
     [Header("감도 설정")]
-    [Tooltip("마우스 감도")]
     [SerializeField] private float sensitivity = 50.0f;
-    public float Sensitivity{
+    public float Sensitivity
+    {
         get => sensitivity;
         set => sensitivity = value;
     }
 
     [SerializeField] private bool invertX = false;
-    public bool InvertX{
+    public bool InvertX
+    {
         get => invertX;
         set => invertX = value;
     }
 
     [SerializeField] private bool invertY = false;
-    public bool InvertY{ 
-        get => invertY; 
+    public bool InvertY
+    {
+        get => invertY;
         set => invertY = value;
     }
-
-    private Transform target; // 추적할 플레이어
 
     private float currentX = 0.0f;
     private float currentY = 0.0f;
@@ -83,7 +88,10 @@ public class ThirdPersonCamera : MonoBehaviour
         currentY = Mathf.Clamp(currentY, pitchLimits.x, pitchLimits.y);
 
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
-        Vector3 position = target.position - (rotation * Vector3.forward * distance);
+
+        Vector3 rotatedOffset = rotation * Offset;
+
+        Vector3 position = target.position + rotatedOffset - (rotation * Vector3.forward * distance);
 
         transform.rotation = rotation;
         transform.position = position;
