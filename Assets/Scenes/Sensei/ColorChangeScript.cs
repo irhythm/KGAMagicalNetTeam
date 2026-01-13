@@ -2,7 +2,7 @@ using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColorChangeScript : MonoBehaviour
+public class ColorChangeScript : MonoBehaviourPunCallbacks
 {
     //260113 최정욱 WizardColor 시스템 적용
     [SerializeField] List<Color> playerColors = new List<Color>();
@@ -14,10 +14,18 @@ public class ColorChangeScript : MonoBehaviour
         {
             return;
         }
-        transform.GetChild(0).GetChild(0).GetComponent<Renderer>().material.color = playerColors[(int)PhotonNetwork.LocalPlayer.CustomProperties["WizardColor"] - 1];
-        transform.GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = playerColors[(int)PhotonNetwork.LocalPlayer.CustomProperties["WizardColor"] - 1];
+        int colorIndex = (int)PhotonNetwork.LocalPlayer.CustomProperties["WizardColor"];
+        photonView.RPC("ChangeColor", RpcTarget.AllBuffered, colorIndex);
+    }
+
+    [PunRPC]
+    public void ChangeColor(int colorIndex)
+    {
+        transform.GetChild(0).GetChild(0).GetComponent<Renderer>().material.color = playerColors[colorIndex];
+        transform.GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = playerColors[colorIndex];
 
     }
+
 
     // Update is called once per frame
     void Update()
