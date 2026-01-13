@@ -623,6 +623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6fe73668abcf1448ebf929aad64bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ServerConnector
+  onTest: 0
 --- !u!4 &318443349
 Transform:
   m_ObjectHideFlags: 0
