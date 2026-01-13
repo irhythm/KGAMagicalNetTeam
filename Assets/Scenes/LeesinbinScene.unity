@@ -171,10 +171,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6159757347064957982, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 19cd67cc3a1e8f74c9eaaa4022dea783, type: 2}
     - target: {fileID: 7940719953895527930, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
       propertyPath: m_Name
       value: PlayableCharacter
@@ -182,10 +178,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7940719953895527930, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 1670055762}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
 --- !u!1 &496109684
 GameObject:
@@ -582,24 +575,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1670055752 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7940719953895527930, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
-  m_PrefabInstance: {fileID: 232072068}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1670055762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1670055752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cc3ce7ce5d758a4d957c66419dcbd88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCameraSetup
-  cameraScript: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
