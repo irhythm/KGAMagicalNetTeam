@@ -1,25 +1,41 @@
 using Photon.Pun;
 using UnityEngine;
+using static PlayerMoveState;
 
 public class PlayableCharacter : MonoBehaviourPun
 {
     [Header("Settings")]
-    public float MoveSpeed = 5f;
-    public float RotationSpeed = 10f;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float rotationSpeed = 10f;
+    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float dodgeForce = 7f;
 
-    [Header("References")]
+    [Header("Ground Detection")]
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float groundCheckDist = 0.1f;
+
+    #region 프로퍼티
+    public float MoveSpeed => moveSpeed;
+    public float RotationSpeed => rotationSpeed;
+    public float JumpForce => jumpForce;
+    public float DodgeForce => dodgeForce;
+    #endregion
+
+    #region 참조
     public PlayerInputHandler InputHandler { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
     public Animator Animator { get; private set; }
     public ThirdPersonCamera GameCamera { get; private set; }
+    #endregion
 
     #region 상태 머신
     public StateMachine StateMachine { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
+    public PlayerJumpState JumpState { get; private set; }
+    public PlayerDodgeState DodgeState { get; private set; } // [New]
     #endregion
 
-    public readonly int HashInputX = Animator.StringToHash("InputX");
-    public readonly int HashInputZ = Animator.StringToHash("InputZ");
+
 
     private void Awake()
     {
@@ -29,6 +45,8 @@ public class PlayableCharacter : MonoBehaviourPun
 
         StateMachine = new StateMachine();
         MoveState = new PlayerMoveState(this, StateMachine);
+        JumpState = new PlayerJumpState(this, StateMachine, "IsJumping");
+        DodgeState = new PlayerDodgeState(this, StateMachine, "IsDodging");
     }
 
     private void Start()
@@ -56,5 +74,27 @@ public class PlayableCharacter : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
         StateMachine.CurrentState.FixedExecute();
+    }
+
+
+
+    public enum MoveDir { Front, Back, Left, Right }
+    public MoveDir GetMoveDir(Vector2 input)
+    {
+        if (input.magnitude < 0.1f) return MoveDir.Front;
+
+        if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
+        {
+            return input.x > 0 ? MoveDir.Right : MoveDir.Left;
+        }
+        else
+        {
+            return input.y > 0 ? MoveDir.Front : MoveDir.Back;
+        }
+    }
+
+    public bool CheckIsGrounded()
+    {
+        return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, groundCheckDist + 0.1f, groundLayer);
     }
 }

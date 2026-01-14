@@ -6,11 +6,12 @@ public abstract class PlayerStateBase : IState
     protected StateMachine stateMachine;
     protected int animationNum;
 
-    protected PlayerStateBase(PlayableCharacter player, StateMachine stateMachine, string animationNum)
+    protected PlayerStateBase(PlayableCharacter player, StateMachine stateMachine, string animationNum = null)
     {
         this.player = player;
         this.stateMachine = stateMachine;
-        this.animationNum = Animator.StringToHash(animationNum);
+        if(animationNum != null )
+            this.animationNum = Animator.StringToHash(animationNum);
     }
 
     public virtual void Enter()
