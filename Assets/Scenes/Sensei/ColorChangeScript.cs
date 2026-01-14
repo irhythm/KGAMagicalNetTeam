@@ -14,13 +14,22 @@ public class ColorChangeScript : MonoBehaviourPunCallbacks
         {
             return;
         }
-        int colorIndex = (int)PhotonNetwork.LocalPlayer.CustomProperties["WizardColor"]-1;
-        photonView.RPC("ChangeColor", RpcTarget.AllBuffered, colorIndex);
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("WizardColor"))
+        {
+
+
+            int colorIndex = (int)PhotonNetwork.LocalPlayer.CustomProperties["WizardColor"] - 1;
+            photonView.RPC("ChangeColor", RpcTarget.AllBuffered, colorIndex);
+        }
     }
 
     [PunRPC]
     public void ChangeColor(int colorIndex)
     {
+        if (colorIndex == 0)
+        {
+            return;
+        }
         transform.GetChild(0).GetChild(0).GetComponent<Renderer>().material.color = playerColors[colorIndex];
         transform.GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = playerColors[colorIndex];
 

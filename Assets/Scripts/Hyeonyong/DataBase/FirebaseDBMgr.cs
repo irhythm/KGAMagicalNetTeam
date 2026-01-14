@@ -52,12 +52,12 @@ public class FirebaseDBMgr : MonoBehaviour
         this.dbRef = FirebaseAuthManager.Instance.dbRef;
         if (dbRef == null)
         {
-            Debug.LogError("FirebaseDBMgr: dbRef가 null입니다!");
+            Debug.Log("FirebaseDBMgr: dbRef가 null입니다!");
             //yield break;
             dbRef = FirebaseDatabase.DefaultInstance.RootReference;
             if (dbRef == null)
             {
-                Debug.LogError("FirebaseDBMgr: DefaultInstance의 RootReference도 null입니다!");
+                Debug.Log("FirebaseDBMgr: DefaultInstance의 RootReference도 null입니다!");
             }
         }
         //Debug.Log(dbRef)
