@@ -17,7 +17,7 @@ public class StateMachine
         string prevStateName = CurrentState != null ? CurrentState.GetType().Name : "None";
         Debug.Log($"상태 바뀜: {CurrentState?.GetType().Name} -> {newState.GetType().Name}");
 
-        CurrentState.Exit();
+        CurrentState?.Exit();
         CurrentState = newState;
         CurrentState.Enter();
     }
