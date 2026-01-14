@@ -1398,7 +1398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
   m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -1519,10 +1519,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 591dddbaca0cb744f87343b1aedc8618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoginManager
+  nextTabInput: {fileID: -135069969608573499, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  enterInput: {fileID: 7289882215141521487, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   inputField:
   - {fileID: 1186008608}
   - {fileID: 704065802}
   - {fileID: 1704123933}
+  playGameBtns:
+  - {fileID: 191458}
+  - {fileID: 271012259}
 --- !u!4 &705780661
 Transform:
   m_ObjectHideFlags: 0
