@@ -77,7 +77,7 @@ MonoBehaviour:
   dodgeForce: 7
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   groundCheckDist: 0.1
 --- !u!114 &6264066921911791175
 MonoBehaviour:
