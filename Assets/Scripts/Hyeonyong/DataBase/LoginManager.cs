@@ -2,23 +2,34 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 
 public class LoginManager : MonoBehaviour
 {
+    [SerializeField] private InputActionReference nextTabInput;
+    [SerializeField] private InputActionReference enterInput;
+
     PlayerInput playerInput;
     [SerializeField] TMP_InputField[] inputField;
+    [SerializeField] Button[] playGameBtns;
     int curIndex = -1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
-        playerInput.actions["Tab"].performed += NextTab;
+        nextTabInput.action.Enable();
+        nextTabInput.action.performed += NextTab;
+        enterInput.action.Enable();
+        enterInput.action.performed += EnterGame;
+        //playerInput.actions["Tab"].performed += NextTab;
     }
     private void OnDisable()
     {
-        playerInput.actions["Tab"].performed -= NextTab;
+        nextTabInput.action.Disable();
+        enterInput.action.Disable();
+        //playerInput.actions["Tab"].performed -= NextTab;
     }
     public void NextTab(InputAction.CallbackContext context)
     {
@@ -42,7 +53,18 @@ public class LoginManager : MonoBehaviour
         inputField[curIndex].Select();
         inputField[curIndex].ActivateInputField();
     }
-
+    public void EnterGame(InputAction.CallbackContext context)
+    {
+        foreach (Button btn in playGameBtns)
+        {
+            if (btn.gameObject.activeSelf)
+            {
+                Debug.Log("버튼 클릭");
+                btn.onClick.Invoke();
+                break;
+            }
+        }
+    }
     public void SetTabNum()
     {
         for (int i = 0; i < inputField.Length; i++)

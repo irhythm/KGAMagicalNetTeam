@@ -124,9 +124,9 @@ public class FirebaseAuthManager : Singleton<FirebaseAuthManager>
                 }
             }
             Debug.Log("회원가입 성공 " + user.DisplayName + "님 환영합니다");
+            SceneManager.LoadSceneAsync("Lobby");
         }
 
-        SceneManager.LoadSceneAsync("Lobby");
     }
 
     public void CheckEmail()
