@@ -150,7 +150,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 64d944889985dbd4a99557e93ed033b4, type: 3}
+  m_Motion: {fileID: -203655887218126122, guid: d7d8fba7395cc53459e4d34621b1c057, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -179,7 +179,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 8598679409691226165}
-    m_Position: {x: 310, y: 20, z: 0}
+    m_Position: {x: 280, y: -10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4883776167500541140}
     m_Position: {x: 310, y: 200, z: 0}
@@ -576,7 +576,13 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: IsDodging
+    m_EventTreshold: 0
+  - m_ConditionMode: 3
+    m_ConditionEvent: JumpType
+    m_EventTreshold: 1
   m_DstStateMachine: {fileID: -4346729647182262469}
   m_DstState: {fileID: 0}
   m_Solo: 0
