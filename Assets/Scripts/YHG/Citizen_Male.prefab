@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 2054430577141221182}
   - component: {fileID: 7145013785787814099}
   - component: {fileID: 2540926614430077418}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Citizen_Male
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -273,7 +273,7 @@ MonoBehaviour:
   runSpeed: 6
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!195 &7145013785787814099
 NavMeshAgent:
   m_ObjectHideFlags: 0

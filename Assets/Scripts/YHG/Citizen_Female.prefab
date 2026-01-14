@@ -2824,7 +2824,7 @@ GameObject:
   - component: {fileID: 6453886573376550238}
   - component: {fileID: 7619062362449527901}
   - component: {fileID: 3632195477549707009}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Citizen_Female
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2961,7 +2961,7 @@ MonoBehaviour:
   runSpeed: 6
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!1 &8460227537249621534
 GameObject:
   m_ObjectHideFlags: 0
