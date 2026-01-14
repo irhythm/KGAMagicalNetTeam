@@ -11,6 +11,8 @@ public class CitizenAI : BaseAI
     public float runSpeed = 6.0f;
     public LayerMask playerLayer;
 
+    private bool isEscaped = false;
+
 
     private Vector3 startPos;
     //상태가 사용할 변수
@@ -88,13 +90,20 @@ public class CitizenAI : BaseAI
     //틸출 성공
     public void OnEscapeSuccess()
     {
+        if (isEscaped) return;
         Debug.Log("시민 탈출 성공! (경비 스폰 시간 단축 페널티)");
         if (!PhotonNetwork.IsMasterClient) return;
 
         //GameManager 등 시간재는 애 -10초 
+        if (GuardManager.instance != null)
+        {
+            GuardManager.instance.NotifyCitizenEscape();
+        }
 
-        //네트워크 상에서 오브젝트 파괴, 최적화 필요시 비활성화 근데 굳이?
-        PhotonNetwork.Destroy(gameObject);
+        //오브젝트 파괴는 방장 권한으로
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
-
 }
