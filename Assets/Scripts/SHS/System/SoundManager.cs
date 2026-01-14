@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 public enum Soundtype
 {
@@ -13,10 +11,7 @@ public enum Soundtype
 
 public class SoundManager : Singleton<SoundManager>
 {
-    [SerializeField] private AudioClip clip1;
-    [SerializeField] private AudioClip clip2;
-
-    [SerializeField] private AudioSource bgmSource;
+    [field: SerializeField] public AudioSource bgmSource { get; private set; }
 
     [Header("사운드 풀")]
     [SerializeField] private SoundPool soundPool;
@@ -35,24 +30,6 @@ public class SoundManager : Singleton<SoundManager>
     {
         base.Awake();
         InitData();
-    }
-
-    private void Update()
-    {
-        if(Keyboard.current.fKey.wasPressedThisFrame)
-        {
-            PlaySFX(clip1, 1, Vector3.zero);
-        }
-
-        if (Keyboard.current.gKey.wasPressedThisFrame)
-        {
-            PlaySFX(clip2, 1, Vector3.zero);
-        }
-
-        if (Keyboard.current.hKey.wasPressedThisFrame)
-        {
-            PlaySFX(clip1);
-        }
     }
 
     #region Init
@@ -82,10 +59,7 @@ public class SoundManager : Singleton<SoundManager>
     #region 오디오 클립을 받아와 재생
     public void PlayBGM(AudioClip clip)
     {
-        if (bgmSource == null) return;
-
-        bgmSource.clip = clip;
-        bgmSource.Play();
+        PlaySound(Soundtype.BGM, bgmSource, clip, 0f);
     }
 
     /// <summary>
@@ -98,11 +72,7 @@ public class SoundManager : Singleton<SoundManager>
 
         if (source == null) return;
 
-        source.clip = clip;
-        source.spatialBlend = 0f;
-        source.Play();
-
-        AddSfXList(source);
+        PlaySound(Soundtype.SFX, source, clip, 0f);
     }
 
     /// <summary>
@@ -110,28 +80,65 @@ public class SoundManager : Singleton<SoundManager>
     /// </summary>
     /// <param name="clip"> 재생할 오디오 클립 </param>
     /// <param name="spatialAmount"> 공간 음향 수치값 (0 → 2D 음향 / 1 → 3D 음향) </param>
+    /// <param name="maxDistance"> 3D 음향일 경우 들을 수 있는 최대 거리 </param>
     /// <param name="pos"> 재생시킬 위치 </param>
-    public void PlaySFX(AudioClip clip, float spatialAmount, Vector3 pos)
+    public void PlaySFX(AudioClip clip, float spatialAmount, float maxDistance, Vector3 pos)
     {
         AudioSource source = soundPool.pool.Get();
 
         if (source == null) return;
 
-        source.clip = clip;
-        source.spatialBlend = Mathf.Clamp(spatialAmount, 0.0f, 1.0f);
-        source.Play();
-
-        AddSfXList(source);
+        source.transform.position = pos;
+        PlaySound(Soundtype.SFX, source, clip, spatialAmount, maxDistance);
     }
     #endregion
 
     #region 오디오 클립 이름(string)을 받아와 재생
     public void PlayBGM(string bgmName)
     {
-        if (bgmSource == null) return;
+        if (bgmSource == null || !bgmDic.TryGetValue(bgmName, out var clip)) return;
 
+        PlaySound(Soundtype.BGM, bgmSource, clip, 0f);
+    }
+
+    public void PlaySFX(string sfxName)
+    {
+        AudioSource source = soundPool.pool.Get();
+
+        if (source == null || !sfxDic.TryGetValue(sfxName, out var clip)) return;
+
+        PlaySound(Soundtype.SFX, source, clip, 0f);
+    }
+
+    /// <summary>
+    /// 효과음 재생
+    /// </summary>
+    /// <param name="sfxName"> 재생할 오디오 클립 이름, 딕셔너리에서 찾을 키값 </param>
+    /// <param name="spatialAmount"> 공간 음향 수치값 (0 → 2D 음향 / 1 → 3D 음향) </param>
+    /// <param name="pos"> 재생시킬 위치 </param>
+    public void PlaySFX(string sfxName, float spatialAmount, float maxDistance, Vector3 pos)
+    {
+        AudioSource source = soundPool.pool.Get();
+
+        if (source == null || !sfxDic.TryGetValue(sfxName, out var clip)) return;
+
+        source.transform.position = pos;
+        PlaySound(Soundtype.SFX, source, clip, spatialAmount, maxDistance);
     }
     #endregion
+    
+    private void PlaySound(Soundtype type, AudioSource source, AudioClip clip, float spatialAmount, float maxDistance = 500)
+    {
+        if (source == null || clip == null) return;
+
+        source.clip = clip;
+        source.spatialBlend = Mathf.Clamp(spatialAmount, 0.0f, 1.0f);
+        source.maxDistance = maxDistance;
+        source.Play();
+
+        if(type == Soundtype.SFX)
+            AddSfXList(source);
+    }
 
     #region 사운드 재생 중지
     public void StopSound(AudioSource source)
@@ -182,9 +189,9 @@ public class SoundManager : Singleton<SoundManager>
     // sfxList중 재생이 완료된 오디오 소스 정리
     private IEnumerator CheckPlayingSFX()
     {
-        while(sfxList.Count > 0)
+        while (sfxList.Count > 0)
         {
-            for(int i = sfxList.Count - 1; i >= 0; i--)
+            for (int i = sfxList.Count - 1; i >= 0; i--)
             {
                 if (!sfxList[i].isPlaying)
                 {
@@ -196,7 +203,8 @@ public class SoundManager : Singleton<SoundManager>
             Debug.Log("코루틴 도는중");
             yield return CoroutineManager.waitForSeconds(0.5f);
         }
-        
+
+        sfxPlayCoroutine = null;
     }
 
     private void OnEnable()
