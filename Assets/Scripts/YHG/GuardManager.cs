@@ -123,16 +123,22 @@ public class GuardManager : MonoBehaviourPunCallbacks
     {
         currentWave++;
         //2제곱
-        int spawnCountPerPoint = (int)Mathf.Pow(2, currentWave);
+        int calcCount = (int)Mathf.Pow(2, currentWave);
+        int spawnCountPerPoint = Mathf.Min(calcCount, 6);
         foreach (Transform point in spawnPoints)
         {
             for (int i = 0; i < spawnCountPerPoint; i++)
             {
-                Vector3 offset = new Vector3(Random.Range(-2f, 2f), 0, Random.Range(-2f, 2f)); //근처 랜덤 소환
-                PhotonNetwork.InstantiateRoomObject(
-                    guardPrefab.name, 
-                    point.position + offset, 
-                    Quaternion.identity); //룸 오브젝트로 소환
+                Vector3 offset = new Vector3(Random.Range(-6f, 6f), 0, Random.Range(-6f, 6f)); //근처 랜덤 소환
+                Vector3 spawnPos = point.position + offset;
+                if (UnityEngine.AI.NavMesh.SamplePosition(spawnPos, out UnityEngine.AI.NavMeshHit hit, 10f, UnityEngine.AI.NavMesh.AllAreas))
+                {
+                    PhotonNetwork.InstantiateRoomObject(
+guardPrefab.name,
+point.position + offset,
+Quaternion.identity); //룸 오브젝트로 소환
+                }
+
             }
         }
         //웨이브 실행할 때마다 시간 오차 맞추기
@@ -182,7 +188,7 @@ public class GuardManager : MonoBehaviourPunCallbacks
             }
             if (found) return bestPos; //리턴
         }
-        return null; 
+        return null;
     }
 
     //딕셔너리 갱신
@@ -262,8 +268,8 @@ public class GuardManager : MonoBehaviourPunCallbacks
 
     //탈출 시 시간 갱신 명령 +10
     [PunRPC]
-    void RpcModifyTimer(float amount) 
-    { 
+    void RpcModifyTimer(float amount)
+    {
         Timer += amount;
         Debug.Log("타이머 10초 증가");
     }
