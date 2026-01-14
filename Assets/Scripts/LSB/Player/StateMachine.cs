@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class StateMachine
 {
@@ -12,9 +12,10 @@ public class StateMachine
 
     public void ChangeState(IState newState)
     {
-        if (CurrentState == newState) return; // °°Àº »óÅÂ·Î ÀüÈ¯ ¹æÁö
-
-        Debug.Log($"»óÅÂ ¹Ù²ñ: {CurrentState?.GetType().Name} -> {newState.GetType().Name}");
+        if (CurrentState == newState) return; // ê°™ì€ ìƒíƒœë¡œ ì „í™˜ ë°©ì§€
+        //ìƒíƒœê°€ìžˆìœ¼ë©´ ê°€ì ¸ì˜¤ê¸°, ì—†ìœ¼ë©´ None
+        string prevStateName = CurrentState != null ? CurrentState.GetType().Name : "None";
+        Debug.Log($"ìƒíƒœ ë°”ë€œ: {CurrentState?.GetType().Name} -> {newState.GetType().Name}");
 
         CurrentState.Exit();
         CurrentState = newState;

@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Hyeonyong/Login.unity
     guid: 6a43dff473fb7da4c93dfbcb5affbe37
+  - enabled: 1
+    path: Assets/Scenes/HyeonGu/GameMapOne.unity
+    guid: c1c8362a95651b34aa8307a7a0b00289
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
