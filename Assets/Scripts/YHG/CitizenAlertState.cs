@@ -41,7 +41,8 @@ public class CitizenAlertState : AIStateBase
         //플레이어 거리 계산
         float distSqr = (citizen.transform.position - citizen.detectedPlayer.position).sqrMagnitude;
         //감지 범위의 제곱
-        float safeDistSqr = citizen.detectRadius * citizen.detectRadius;
+        float safeRadius = citizen.detectRadius * 1.3f;
+        float safeDistSqr = safeRadius * safeRadius;
 
         if (distSqr > safeDistSqr)
         {
