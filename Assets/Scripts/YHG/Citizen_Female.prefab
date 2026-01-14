@@ -2892,9 +2892,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2.2
+  m_Height: 1.842129
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: 0, y: 0.91366756, z: 0}
 --- !u!195 &6453886573376550238
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2955,7 +2955,7 @@ MonoBehaviour:
   moveSpeed: 3.5
   rotSpeed: 120
   maxHP: 100
-  currentNetworkState: 0
+  currentNetworkState: 1
   patrolRange: 5
   detectRadius: 15
   runSpeed: 6
