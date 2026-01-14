@@ -18,12 +18,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] Button StartBtn;
     [SerializeField] Button ReadyBtn;
     [SerializeField] Toggle checkHiddenRoom;
+    [SerializeField] Toggle friendlyFire;
     [SerializeField] Transform playerInfoTab;
     [SerializeField] GameObject playerInfo;
 
     Hashtable readyTable = new Hashtable();
-    bool onReady=false;
-    int readyCount =0 ;
+    Hashtable roomTable = new Hashtable();
+    bool onReady = false;
+    int readyCount = 0;
 
 
     Dictionary<int, TextMeshProUGUI> playerStateDic = new Dictionary<int, TextMeshProUGUI>();
@@ -34,7 +36,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         yield return new WaitUntil(() => PhotonNetwork.InRoom);//방에 입장했는지
         yield return null;
         InitReady();
-        
+
 
         //yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);//방에 연결 및 준비되었는지
         Player[] players = PhotonNetwork.PlayerList;//방 속 사람을 받아옴
@@ -72,6 +74,21 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             StartBtn.gameObject.SetActive(true);
             checkHiddenRoom.gameObject.SetActive(true);
+            friendlyFire.gameObject.SetActive(true);
+
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("FriendlyFire", out object isCheck))
+            {
+                friendlyFire.isOn = (bool)isCheck;
+            }
+            else
+            {
+                roomTable["FirendlyFire"] = friendlyFire.isOn;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+
+                // 로컬 플레이어의 프로퍼티를 업데이트 (네트워크 전체에 동기화됨)
+
+            }
+
         }
         else
         {
@@ -86,6 +103,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient == true)
         {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
         }
     }
@@ -220,12 +238,23 @@ public class RoomManager : MonoBehaviourPunCallbacks
             StartBtn.gameObject.SetActive(true);
             ReadyBtn.gameObject.SetActive(false);
             checkHiddenRoom.gameObject.SetActive(true);
+            friendlyFire.gameObject.SetActive(true);
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("FriendlyFire", out object isCheck))
+            {
+                friendlyFire.isOn = (bool)isCheck;
+            }
+            else
+            {
+                roomTable["FirendlyFire"] = friendlyFire.isOn;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+            }
         }
         else
         {
             StartBtn.gameObject.SetActive(false);
             ReadyBtn.gameObject.SetActive(true);
             checkHiddenRoom.gameObject.SetActive(false);
+            friendlyFire.gameObject.SetActive(false);
         }
     }
 
@@ -249,6 +278,17 @@ public class RoomManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.IsVisible = checkHiddenRoom.isOn;
     }
 
+    public void CheckFiredlyFire()
+    {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
+
+        roomTable["FirendlyFire"] = friendlyFire.isOn;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+        // 로컬 플레이어의 프로퍼티를 업데이트 (네트워크 전체에 동기화됨)
+    }
+
     //260113 최정욱
     public void ReturnToLobby()
     {
@@ -257,7 +297,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.NetworkClientState == Photon.Realtime.ClientState.Leaving)
             return;
         PhotonNetwork.LeaveRoom();
-       
+
     }
 
     public override void OnLeftRoom()

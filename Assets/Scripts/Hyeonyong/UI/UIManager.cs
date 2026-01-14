@@ -1,6 +1,7 @@
 using Photon.Voice.PUN;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -19,76 +20,144 @@ public class UIManager : MonoBehaviour
     /// </summary>
 
     [SerializeField] TMP_InputField emailInput;
-    [SerializeField] AudioSource bgmSound;
-    [SerializeField] AudioSource effectSound;
-    [SerializeField] AudioSource voiceChatSound;
+    [SerializeField] Slider bgmSound;
+    [SerializeField] Slider effectSound;
+    [SerializeField] Slider voiceChatSound;
     [SerializeField] TMP_Dropdown graphicQualityDropDown;
     [SerializeField] Slider mouseSensivitySlider;
     [SerializeField] Toggle checkXYInversion;
     [SerializeField] TMP_Dropdown languageDropDown;
-
+    [SerializeField] GameObject[] Panels;
+    [SerializeField] private InputActionReference escInput;
     private void Awake()
     {
         Instance = this;
         LoadData();
+        if(escInput==null)
+            return;
+        escInput.action.Enable();
+        escInput.action.performed += ClosePanels;
     }
-
     private void OnDisable()
     {
-        SaveData();
+        escInput.action.performed -= ClosePanels;
     }
 
-    public void SetVoiceChatSound(AudioSource playerVoiceSound)
+    private void ClosePanels(InputAction.CallbackContext context)
     {
-        voiceChatSound = playerVoiceSound;
-        LoadVoiceChatSound();
-    }
-
-    public void LoadVoiceChatSound()
-    {
-        if (voiceChatSound != null && PlayerPrefs.HasKey("VoiceChatVolume"))
+        if (Panels.Length <= 0)
         {
-            voiceChatSound.volume = PlayerPrefs.GetFloat("VoiceChatVolume");
+            return;
+        }
+
+        foreach (var panel in Panels)
+        {
+            if (panel.activeSelf)
+            {
+                panel.SetActive(false);
+            }
         }
     }
+    
+
+
+    //public void SetVoiceChatSound(AudioSource playerVoiceSound)
+    //{
+    //    voiceChatSound = playerVoiceSound;
+    //    LoadVoiceChatSound();
+    //}
+
+    //public void LoadVoiceChatSound()
+    //{
+    //    if (voiceChatSound != null && PlayerPrefs.HasKey("VoiceChatVolume"))
+    //    {
+    //        voiceChatSound.volume = PlayerPrefs.GetFloat("VoiceChatVolume");
+    //    }
+    //}
     private void LoadData()
     {
-        if (emailInput != null && PlayerPrefs.HasKey("Email"))
+        if (emailInput != null)
         {
-            emailInput.text = PlayerPrefs.GetString("Email");
+            if (PlayerPrefs.HasKey("Email"))
+            {
+                emailInput.text = PlayerPrefs.GetString("Email");
+            }
+            emailInput.onValueChanged.AddListener((value) => { PlayerPrefs.SetString("Email", value); });
         }
 
-        if (bgmSound != null && PlayerPrefs.HasKey("BGMVolume"))
+        if (bgmSound != null)
         {
-            bgmSound.volume = PlayerPrefs.GetFloat("BGMVolume");
+            if (PlayerPrefs.HasKey("BGMVolume"))
+            {
+                bgmSound.value = PlayerPrefs.GetFloat("BGMVolume");
+            }
+            bgmSound.onValueChanged.AddListener((value) => { PlayerPrefs.SetFloat("BGMVolume", value); });
         }
 
-        if (effectSound != null && PlayerPrefs.HasKey("EffectVolume"))
+        if (effectSound != null)
         {
-            effectSound.volume = PlayerPrefs.GetFloat("EffectVolume");
+            if (PlayerPrefs.HasKey("EffectVolume"))
+            {
+                effectSound.value = PlayerPrefs.GetFloat("EffectVolume");
+                //PlayerPrefs.SetFloat("EffectVolume", effectSound.value);
+            }
+            effectSound.onValueChanged.AddListener((value) => { PlayerPrefs.SetFloat("EffectVolume", value); });
         }
 
-        if (voiceChatSound != null && PlayerPrefs.HasKey("VoiceChatVolume"))
+        if (voiceChatSound != null)
         {
-            voiceChatSound.volume = PlayerPrefs.GetFloat("VoiceChatVolume");
+            if (PlayerPrefs.HasKey("VoiceChatVolume"))
+            {
+                voiceChatSound.value = PlayerPrefs.GetFloat("VoiceChatVolume");
+                //PlayerPrefs.SetFloat("VoiceChatVolume", voiceChatSound.value);
+            }
+            voiceChatSound.onValueChanged.AddListener((value) => { PlayerPrefs.SetFloat("VoiceChatVolume", value); });
         }
 
-        if (graphicQualityDropDown != null && PlayerPrefs.HasKey("GraphicQuality"))
+        if (graphicQualityDropDown != null)
         {
-            graphicQualityDropDown.value = PlayerPrefs.GetInt("GraphicQulity");
+            if (PlayerPrefs.HasKey("GraphicQuality"))
+            {
+                graphicQualityDropDown.value = PlayerPrefs.GetInt("GraphicQuality");
+                //PlayerPrefs.SetInt("GraphicQuality", graphicQualityDropDown.value);
+            }
+            graphicQualityDropDown.onValueChanged.AddListener((value) => { PlayerPrefs.SetInt("GraphicQuality", value); });
         }
 
-        if (mouseSensivitySlider != null && PlayerPrefs.HasKey("MouseSensivity"))
+        if (mouseSensivitySlider != null)
         {
-            mouseSensivitySlider.value = PlayerPrefs.GetFloat("MouseSensivity");
+            if (PlayerPrefs.HasKey("MouseSensivity"))
+            {
+                mouseSensivitySlider.value = PlayerPrefs.GetFloat("MouseSensivity");
+                mouseSensivitySlider.onValueChanged.AddListener((value) => { PlayerPrefs.SetFloat("MouseSensivity", value); });
+                //PlayerPrefs.SetFloat("MouseSensivity", mouseSensivitySlider.value);
+            }
         }
-        if (checkXYInversion != null && PlayerPrefs.HasKey("XYInversion"))
+        if (checkXYInversion != null)
         {
-            checkXYInversion.isOn = PlayerPrefs.GetInt("XYInversion") == 1 ? true : false;
+            if (PlayerPrefs.HasKey("XYInversion"))
+            {
+                checkXYInversion.isOn = PlayerPrefs.GetInt("XYInversion") == 1 ? true : false;
+
+                //int num = checkXYInversion.isOn == true ? 1 : 0;
+                //PlayerPrefs.SetInt("XYInversion", num);
+            }
+            checkXYInversion.onValueChanged.AddListener((isOn) =>
+            {
+                int num = checkXYInversion.isOn == true ? 1 : 0;
+                PlayerPrefs.SetInt("XYInversion", num);
+            });
         }
-        if (languageDropDown != null && PlayerPrefs.HasKey("language"))
+
+
+        if (languageDropDown != null)
         {
-            languageDropDown.value = PlayerPrefs.GetInt("language");
+            if (PlayerPrefs.HasKey("language"))
+            {
+                languageDropDown.value = PlayerPrefs.GetInt("language");
+                //PlayerPrefs.SetInt("language", languageDropDown.value);
+            }
+            languageDropDown.onValueChanged.AddListener((value) => { PlayerPrefs.SetInt("language", value); });
         }
     }
 
@@ -98,39 +167,47 @@ public class UIManager : MonoBehaviour
         {
             PlayerPrefs.SetString("Email", emailInput.text);
         }
+        Debug.Log("email");
 
         if (bgmSound != null)
         {
-            PlayerPrefs.SetFloat("BGMVolume", bgmSound.volume);
+            PlayerPrefs.SetFloat("BGMVolume", bgmSound.value);
         }
-
+        Debug.Log("BGM");
         if (effectSound != null)
         {
-            PlayerPrefs.SetFloat("EffectVolume", effectSound.volume);
+            PlayerPrefs.SetFloat("EffectVolume", effectSound.value);
         }
-
+        Debug.Log("이펙트");
+        Debug.Log("Voice");
         if (voiceChatSound != null)
         {
-            PlayerPrefs.SetFloat("VoiceChatVolume", voiceChatSound.volume);
+            PlayerPrefs.SetFloat("VoiceChatVolume", voiceChatSound.value);
         }
-
+        Debug.Log("퀄리티");
         if (graphicQualityDropDown != null)
         {
-            PlayerPrefs.SetInt("GraphicQulity", graphicQualityDropDown.value);
+            Debug.Log("저장하는 값 : " + graphicQualityDropDown.value);
+            PlayerPrefs.SetInt("GraphicQuality", graphicQualityDropDown.value);
         }
-
+        Debug.Log("감도");
         if (mouseSensivitySlider != null)
         {
             PlayerPrefs.SetFloat("MouseSensivity", mouseSensivitySlider.value);
         }
+
+        Debug.Log("좌우 반전");
         if (checkXYInversion != null)
         {
             int num = checkXYInversion.isOn == true ? 1 : 0;
             PlayerPrefs.SetInt("XYInversion", num);
         }
+        Debug.Log("언어");
         if (languageDropDown != null)
         {
             PlayerPrefs.SetInt("language", languageDropDown.value);
         }
+
+        //다른 값들이 먼저 지워져서 문제인 것으로 추정
     }
 }
