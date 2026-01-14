@@ -1,13 +1,19 @@
 using UnityEngine;
+using static PlayerJumpState;
 
 public class PlayerMoveState : PlayerStateBase
 {
     public PlayerMoveState(PlayableCharacter player, StateMachine stateMachine)
-        : base(player, stateMachine, "IsMove") { }
+        : base(player, stateMachine) { }
+
+    private readonly int HashInputX = Animator.StringToHash("InputX");
+    private readonly int HashInputZ = Animator.StringToHash("InputZ");
 
     private float WalkMultiplier = 0.5f;   // Walk 애니메이션 좌표
     private float RunMultiplier = 1.0f;    // Run 애니메이션 좌표
     private float SprintMultiplier = 1.5f; // Sprint 애니메이션 좌표
+
+    
 
     // private float WalkSpeed = 2.0f;
     // private float SprintSpeed = 8.0f;
@@ -16,13 +22,13 @@ public class PlayerMoveState : PlayerStateBase
     public override void Enter()
     {
         base.Enter();
+
+        player.InputHandler.OnPlayerInput();
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.Animator.SetFloat(player.HashInputX, 0);
-        player.Animator.SetFloat(player.HashInputZ, 0);
     }
 
     public override void FixedExecute()
@@ -69,10 +75,25 @@ public class PlayerMoveState : PlayerStateBase
 
         Vector2 input = player.InputHandler.MoveInput;
 
+        if (player.InputHandler.JumpTriggered)
+        {
+            var dir = player.GetMoveDir(input);
+
+            if (dir == PlayableCharacter.MoveDir.Left || dir == PlayableCharacter.MoveDir.Right)
+            {
+                stateMachine.ChangeState(player.DodgeState);
+            }
+            else
+            {
+                stateMachine.ChangeState(player.JumpState);
+            }
+            return;
+        }
+
         if (input.sqrMagnitude < 0.01f)
         {
-            player.Animator.SetFloat(player.HashInputX, 0, 0.15f, Time.deltaTime);
-            player.Animator.SetFloat(player.HashInputZ, 0, 0.15f, Time.deltaTime);
+            player.Animator.SetFloat(HashInputX, 0, 0.15f, Time.deltaTime);
+            player.Animator.SetFloat(HashInputZ, 0, 0.15f, Time.deltaTime);
             return;
         }
 
@@ -88,8 +109,8 @@ public class PlayerMoveState : PlayerStateBase
 
         Vector3 localDir = player.transform.InverseTransformDirection(inputDir);
 
-        player.Animator.SetFloat(player.HashInputX, localDir.x * speedFactor, 0.15f, Time.deltaTime);
-        player.Animator.SetFloat(player.HashInputZ, localDir.z * speedFactor, 0.15f, Time.deltaTime);
+        player.Animator.SetFloat(HashInputX, localDir.x * speedFactor, 0.15f, Time.deltaTime);
+        player.Animator.SetFloat(HashInputZ, localDir.z * speedFactor, 0.15f, Time.deltaTime);
     }
 
     private float GetCurrentSpeedMultiplier()
