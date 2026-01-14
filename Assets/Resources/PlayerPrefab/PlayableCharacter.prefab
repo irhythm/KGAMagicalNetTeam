@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 5016317772577129787}
   - component: {fileID: -800506876397032378}
   - component: {fileID: 4599102605680869238}
+  - component: {fileID: -5163282422903754876}
+  - component: {fileID: -6071281804930736318}
   m_Layer: 0
   m_Name: PlayableCharacter
   m_TagString: Untagged
@@ -383,6 +385,67 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-5163282422903754876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940719953895527930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91175dcc15224463780e01a8a98b1b60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonVoice::Photon.Voice.Unity.Recorder
+  voiceDetection: 0
+  voiceDetectionThreshold: 0.01
+  voiceDetectionDelayMs: 500
+  interestGroup: 0
+  useTargetPlayers: 0
+  targetPlayers: 
+  debugEchoMode: 1
+  reliableMode: 0
+  encrypt: 0
+  transmitEnabled: 1
+  samplingRate: 24000
+  frameDuration: 40000
+  bitrate: 30000
+  sourceType: 0
+  microphoneType: 0
+  audioClip: {fileID: 0}
+  loopAudioClip: 1
+  recordingEnabled: 1
+  audioSessionParameters:
+    Category: 4
+    Mode: 1
+    CategoryOptions: 0800000004000000
+  editorAudioSessionPreset: 1
+  androidMicrophoneSettings:
+    EnableAEC: 1
+    EnableAGC: 1
+    EnableNS: 1
+  stopRecordingWhenPaused: 0
+  useOnAudioFilterRead: 0
+  useMicrophoneTypeFallback: 1
+  recordWhenJoined: 1
+--- !u!114 &-6071281804930736318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940719953895527930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd7fea91fe63f4e1b884ef1e16a975c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonVoice::Photon.Voice.Unity.Speaker
+  playDelayConfig:
+    Low: 200
+    High: 200
+    Max: 1000
+    SpeedUpPerc: 5
+  restartOnDeviceChange: 1
 --- !u!1001 &8488196711846185449
 PrefabInstance:
   m_ObjectHideFlags: 0

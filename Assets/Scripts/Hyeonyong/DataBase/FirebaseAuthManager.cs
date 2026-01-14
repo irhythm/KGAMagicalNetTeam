@@ -25,8 +25,9 @@ public class FirebaseAuthManager : Singleton<FirebaseAuthManager>
     [SerializeField] TMP_InputField nickField;
 
     Coroutine onCheckEmail;
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             var dependencyStatus = task.Result;//비동기 작업을 기억
