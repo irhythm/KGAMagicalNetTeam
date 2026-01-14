@@ -792,7 +792,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1901086769}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999922
+  m_Size: 0.9999958
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2307,8 +2307,8 @@ MonoBehaviour:
   runInBackground: 1
   statsResetInterval: 1000
   speakerPrefab: {fileID: 3584750691455622081, guid: 8bca3d59dbc06ee42973d9dfb0ef4ea1, type: 3}
-  primaryRecorder: {fileID: 1299597128}
-  usePrimaryRecorder: 0
+  primaryRecorder: {fileID: 0}
+  usePrimaryRecorder: 1
   cppCompatibilityMode: 0
   Settings:
     AppIdRealtime: 
@@ -2380,7 +2380,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1348.2965}
+  m_AnchoredPosition: {x: 0, y: -1348.2933}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1349325205
@@ -2453,12 +2453,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerPrefab: {fileID: 7940719953895527930, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
-  playerColors:
-  - {r: 0, g: 0.43244553, b: 1, a: 0}
-  - {r: 1, g: 0.076474264, b: 0.0141509175, a: 0}
-  - {r: 0.042452812, g: 1, b: 0.15028138, a: 0}
-  - {r: 1, g: 0.9848262, b: 0.0047169924, a: 0}
-  - {r: 1, g: 0, b: 0.92387056, a: 0}
   playerInput: {fileID: 4999798944730601836, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   gameSettingUI: {fileID: 196490467}
   uiName: GameMenu
