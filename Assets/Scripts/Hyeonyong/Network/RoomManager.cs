@@ -86,6 +86,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient == true)
         {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
         }
     }
