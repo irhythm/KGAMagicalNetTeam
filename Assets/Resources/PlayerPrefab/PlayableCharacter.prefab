@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 4599102605680869238}
   - component: {fileID: -5163282422903754876}
   - component: {fileID: -6071281804930736318}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PlayableCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,8 +71,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9fb8b1bfc177a34b9857bdaeeab31a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayableCharacter
-  MoveSpeed: 5
-  RotationSpeed: 10
+  moveSpeed: 5
+  rotationSpeed: 10
+  jumpForce: 5
+  dodgeForce: 7
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  groundCheckDist: 0.1
 --- !u!114 &6264066921911791175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,10 +217,22 @@ MonoBehaviour:
     Name: InputZ
   - Type: 4
     SynchronizeType: 0
-    Name: IsIdle
+    Name: IsMoveing
   - Type: 4
-    SynchronizeType: 1
-    Name: IsMove
+    SynchronizeType: 0
+    Name: IsJumping
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsDodging
+  - Type: 9
+    SynchronizeType: 0
+    Name: JumpTrigger
+  - Type: 3
+    SynchronizeType: 0
+    Name: JumpType
+  - Type: 1
+    SynchronizeType: 0
+    Name: VerticalVelocity
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
