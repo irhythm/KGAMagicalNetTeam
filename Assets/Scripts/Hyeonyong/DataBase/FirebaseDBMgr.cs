@@ -6,7 +6,20 @@ using System.Threading.Tasks;
 using System.Collections.Generic; //콜렉션에 담아서 한번에 보내려고 선언
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+//260113 최정욱 플레이어 색깔 커마 코드
+//using UnityEngine.Networking;
+using Photon.Pun;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
+public enum WizardColor
+{
+    Blue =1,
+    Red =2,
+    Green =3,
+    Yellow = 4,
+    Pink =5
+}
 
 public class FirebaseDBMgr : MonoBehaviour
 {
@@ -16,6 +29,11 @@ public class FirebaseDBMgr : MonoBehaviour
     [SerializeField] InputField moneyField;
     [SerializeField] InputField xpField;
     [SerializeField] InputField levelField;
+    
+    //260113 최정욱 플레이어 색깔 커마 코드
+    [SerializeField] WizardColor playerColor;
+    [SerializeField] Dropdown colorDropdown;
+
 
     const string Inven = "Inventory";
 
@@ -27,11 +45,100 @@ public class FirebaseDBMgr : MonoBehaviour
         {"딕셔너리테스트3", 6 },
     };
 
-    void Start()
+    IEnumerator Start()
     {
+        yield return new WaitUntil(() => FirebaseAuthManager.Instance != null);
+        //yield return new WaitUntil(() => FirebaseAuthManager.Instance.dbRef != null);
         this.dbRef = FirebaseAuthManager.Instance.dbRef;
+        if (dbRef == null)
+        {
+            Debug.Log("FirebaseDBMgr: dbRef가 null입니다!");
+            //yield break;
+            dbRef = FirebaseDatabase.DefaultInstance.RootReference;
+            if (dbRef == null)
+            {
+                Debug.Log("FirebaseDBMgr: DefaultInstance의 RootReference도 null입니다!");
+            }
+        }
+        //Debug.Log(dbRef)
         this.user = FirebaseAuthManager.Instance.user;
+        Debug.Log("FirebaseDBMgr에서 user ID: " + user.UserId);
+
     }
+
+
+    //260113 최정욱 플레이어 색깔 커마 코드
+    public void OnColorDropdownChanged(int index)
+    {
+        Debug.Log($"드롭다운 인덱스 변경 감지: {index}");
+
+        playerColor = (WizardColor)(index); // Dropdown 인덱스는 0부터 시작하므로 1을 더해줌
+
+        if (checkAndSetColor != null)
+        {
+            StopCoroutine(checkAndSetColor);
+        }
+        checkAndSetColor = StartCoroutine(GetAndCheckColor());
+
+        //Debug.Log($"선택된 플레이어 색깔: {playerColor}");
+        // 여기서 선택된 색깔에 따라 플레이어의 색깔을 변경하는 로직을 추가할 수 있습니다.
+    }
+
+    Coroutine checkAndSetColor;
+
+    IEnumerator GetAndCheckColor()
+    {
+        //if (user == null)
+        //{
+        //    Debug.LogWarning("사용자 정보가 없습니다. 색깔을 불러올 수 없습니다.");
+        //    yield break;
+        //}
+
+
+        
+        var dbTask = dbRef.Child("users").Child(user.UserId).Child("WizardColor").GetValueAsync();
+
+        yield return new WaitUntil(() => dbTask.IsCompleted);
+        if (dbTask.Exception != null)
+        {
+            Debug.LogWarning($"플레이어 색깔 불러오기 실패! 사유: {dbTask.Exception}");
+        }
+        //else if (dbTask.Result == null)
+        //{
+        //    Debug.Log("플레이어 색깔이 설정되지 않았습니다. 기본값으로 설정합니다.");
+        //    dbRef.Child("users").Child(user.UserId).Child("WizardColor").SetValueAsync(playerColor);
+        //}
+        else if (dbTask.Result.Value == null)
+        {
+            Debug.Log("플레이어 색깔이 비어있습니다. 기본값으로 설정합니다.");
+            dbRef.Child("users").Child(user.UserId).Child("WizardColor").SetValueAsync((int)playerColor);
+        }
+        else
+        {
+            if ((int)playerColor != Convert.ToInt32(dbTask.Result.Value))
+            {
+                Debug.Log($"플레이어 색깔이 DB와 다릅니다. DB값: {dbTask.Result.Value}, 로컬값: {(int)playerColor}. DB값으로 업데이트합니다.");
+                dbRef.Child("users").Child(user.UserId).Child("WizardColor").SetValueAsync((int)playerColor);
+                //playerColor = (WizardColor)Convert.ToInt32(dbTask.Result.Value);
+            }
+            else
+            {
+                Debug.Log("플레이어 색깔이 DB와 일치합니다.");
+            }
+            //playerColor = (WizardColor)Convert.ToInt32(dbTask.Result.Value);
+
+        }
+
+        Hashtable playerColorHashtable = new Hashtable();
+        playerColorHashtable["WizardColor"] = playerColor;
+        //{
+        //    { "WizardColor", (int)playerColor }
+        //};
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerColorHashtable);
+
+    }
+
+
 
     public void SaveInventoryandDict()
     {
