@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager Instance;
@@ -22,6 +23,74 @@ public class GameManager : MonoBehaviourPunCallbacks
     //PlayerInput playerInput;
     [Header("인풋 액션")]
     [SerializeField] private InputActionReference playerInput;
+    //260115 최정욱 인벤토리 UI 관련 추가
+    [SerializeField] List<InputActionReference> _inventoryInputActions; //0은 q, 1은 e
+    [SerializeField] GameObject _inventoryUI;
+    bool _isInventoryUIOn = false;
+    int _qOrE = 0; //0은 q, 1은 e
+
+    void OpenInventory(InputAction.CallbackContext context)
+    {
+        if (_inventoryUI == null)
+            return;
+        if (!_isInventoryUIOn)
+        {
+            if (context.action == _inventoryInputActions[0].action)
+            {
+                _qOrE = 0;
+            }
+            else if (context.action == _inventoryInputActions[1].action)
+            {
+                _qOrE = 1;
+            }
+            _isInventoryUIOn = !_isInventoryUIOn;
+            _inventoryUI.SetActive(_isInventoryUIOn);
+            PlayerManager.LocalPlayerInstance.GetComponent<PlayerCameraSetup>().cameraScript.SetControl(false);
+        }
+    }
+
+    void CloseInventory(InputAction.CallbackContext context)
+    {
+        if (_inventoryInputActions[_qOrE].action != context.action)
+        {
+            return;
+        }
+        _isInventoryUIOn = !_isInventoryUIOn;
+        _inventoryUI.SetActive(_isInventoryUIOn);
+        PlayerManager.LocalPlayerInstance.GetComponent<PlayerCameraSetup>().cameraScript.SetControl(true);
+        //if (EventSystem.current.IsPointerOverGameObject())
+        //{
+        //    PointerEventData mouseEventData = new PointerEventData(EventSystem.current);
+        //    if (Mouse.current != null)
+        //    {
+        //        mouseEventData.position = Mouse.current.position.ReadValue();
+        //    }
+
+        //    List<RaycastResult> pointerRaycastHits = new List<RaycastResult>();
+        //    EventSystem.current.RaycastAll(mouseEventData, pointerRaycastHits);
+
+        //    //if (pointerRaycastHits.Count > 0)
+        //    //{
+        //    //    for (int i = 0; i < pointerRaycastHits.Count; i++)
+        //    //    {
+        //    //        //Debug.Log("Hit UI: " + pointerRaycastHits[i].gameObject.name);
+        //    //        for (int j = 0; j < 10; j++)
+        //    //        {
+        //    //            if (pointerRaycastHits[i].gameObject == _quickSlotBox[j])
+        //    //            {
+        //    //                //_hoveredUIIndex = j;
+        //    //                return pointerRaycastHits[i].gameObject;
+        //    //            }
+        //    //        }
+
+        //    //    }
+
+        //    //    //return pointerRaycastHits[0].gameObject;
+        //    //}
+        //}
+    }
+    
+
 
     [SerializeField] GameObject gameSettingUI;
     bool onGameSettingUI=false;
@@ -48,6 +117,17 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         playerInput.action.Enable();
         playerInput.action.performed += OpenUI;
+
+        //260115 최정욱 인벤토리 UI 관련 추가
+        //_inventoryInputActions
+        _inventoryInputActions[0].action.Enable();
+        _inventoryInputActions[0].action.performed += OpenInventory;
+        _inventoryInputActions[1].action.Enable();
+        _inventoryInputActions[1].action.performed += OpenInventory;
+
+        _inventoryInputActions[0].action.canceled += CloseInventory;
+        _inventoryInputActions[1].action.canceled += CloseInventory;
+
     }
 
 
