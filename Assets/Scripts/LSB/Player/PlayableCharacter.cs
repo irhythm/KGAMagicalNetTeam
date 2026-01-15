@@ -29,6 +29,7 @@ public class PlayableCharacter : MonoBehaviourPun
     public ThirdPersonCamera GameCamera { get; private set; }
     public PlayerInventory Inventory { get; private set; }
     public PlayerMagicSystem MagicSystem { get; private set; }
+    public PlayerController playerController { get; private set; }
     #endregion
 
     #region 상태 머신
@@ -47,6 +48,7 @@ public class PlayableCharacter : MonoBehaviourPun
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
         MagicSystem = GetComponent<PlayerMagicSystem>();
+        playerController = GetComponent<PlayerController>();
 
         StateMachine = new StateMachine();
         MoveState = new PlayerMoveState(this, StateMachine);
