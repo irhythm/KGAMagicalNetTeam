@@ -417,7 +417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91175dcc15224463780e01a8a98b1b60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PhotonVoice::Photon.Voice.Unity.Recorder
-  voiceDetection: 0
+  voiceDetection: 1
   voiceDetectionThreshold: 0.01
   voiceDetectionDelayMs: 500
   interestGroup: 0
@@ -498,6 +498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerView
   playerName: {fileID: 0}
   playerHp: {fileID: 0}
+  voiceImage: {fileID: 0}
 --- !u!1001 &8488196711846185449
 PrefabInstance:
   m_ObjectHideFlags: 0

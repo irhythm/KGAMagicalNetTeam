@@ -22594,8 +22594,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerPrefab: {fileID: 7940719953895527930, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
-  playerInfoPrefab: {fileID: 2214901045480714207, guid: 3ac7a7d22cedf6948ac3603fcbdb0786, type: 3}
-  playerInfoPanel: {fileID: 788639308}
   playerInput: {fileID: 4999798944730601836, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   gameSettingUI: {fileID: 196490467}
   uiName: GameMenu
