@@ -64,13 +64,6 @@ public class PlayerInputHandler : MonoBehaviourPun
         GameManager.Instance.onCloseUI += EnableInputLogic;
     }
 
-    private void Update()
-    {
-        if (!photonView.IsMine) return;
-
-        HandleHoldLogic();
-    }
-
     private void LateUpdate()
     {
         if (!photonView.IsMine) return;
@@ -179,84 +172,6 @@ public class PlayerInputHandler : MonoBehaviourPun
         {
             _areInputsAllowed = true;
             if(_moveAction != null) _rawMoveInput = _moveAction.ReadValue<Vector2>();
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private void HandleHoldLogic()
-    {
-        if (_selectQAction.IsPressed())
-        {
-            if (!_isQHold)
-            {
-                _qPressTime += Time.deltaTime;
-                if (_qPressTime >= HOLD_SELECTTIME)
-                {
-                    _isQHold = true;
-                    OpenSelector(true);
-                }
-            }
-        }
-        else
-        {
-            if (_isQHold)
-            {
-                CloseSelector();
-                _isQHold = false;
-            }
-            _qPressTime = 0f;
-        }
-
-        if (_selectEAction.IsPressed())
-        {
-            if (!_isEHold)
-            {
-                _ePressTime += Time.deltaTime;
-                if (_ePressTime >= HOLD_SELECTTIME)
-                {
-                    _isEHold = true;
-                    OpenSelector(false);
-                }
-            }
-        }
-        else
-        {
-            if (_isEHold)
-            {
-                CloseSelector();
-                _isEHold = false;
-            }
-            _ePressTime = 0f;
-        }
-    }
-    private void OpenSelector(bool isLeft)
-    {
-        _player.MagicSelector.Open(isLeft);
-
-        if (_player.GameCamera != null)
-        {
-            _player.GameCamera.SetControl(false);
-        }
-    }
-
-    private void CloseSelector()
-    {
-        _player.MagicSelector.Close();
-
-        if (_player.GameCamera != null)
-        {
-            _player.GameCamera.SetControl(true);
         }
     }
 }

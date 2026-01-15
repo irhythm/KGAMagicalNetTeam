@@ -28,7 +28,6 @@ public class PlayableCharacter : MonoBehaviourPun
     public Animator Animator { get; private set; }
     public ThirdPersonCamera GameCamera { get; private set; }
     public PlayerInventory Inventory { get; private set; }
-    public MagicSelectorUI MagicSelector { get; private set; }
     #endregion
 
     #region 상태 머신
@@ -51,9 +50,6 @@ public class PlayableCharacter : MonoBehaviourPun
         MoveState = new PlayerMoveState(this, StateMachine);
         JumpState = new PlayerJumpState(this, StateMachine, "IsJumping");
         DodgeState = new PlayerDodgeState(this, StateMachine, "IsDodging");
-
-        MagicSelector = FindAnyObjectByType<MagicSelectorUI>();
-        if (MagicSelector != null) MagicSelector.Initialize(Inventory);
     }
 
     private void Start()
