@@ -1,9 +1,19 @@
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 public abstract class MagicBase
 {
-    protected MagicDataSO data; 
+    protected MagicDataSO data;
     protected float currentCooldown;
+
+    public MagicDataSO Data
+    {
+        get { return data; }
+    }
+    public float CurrentCooldown
+    {
+        get { return currentCooldown; }
+    }
 
     public MagicBase(MagicDataSO data)
     {

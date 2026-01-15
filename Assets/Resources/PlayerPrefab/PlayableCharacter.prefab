@@ -106,7 +106,7 @@ MonoBehaviour:
   playerView: {fileID: -6589114128582020185}
   playerInfoPrefab: {fileID: 2214901045480714207, guid: 3ac7a7d22cedf6948ac3603fcbdb0786, type: 3}
   myInfoPrefab: {fileID: 6991229508053554550, guid: 2df120cc2f933184785badc1852aa7f7, type: 3}
-  magicInfoPrefab: {fileID: 0}
+  magicInfoPrefab: {fileID: 5795538812667116341, guid: 7fa1153120801654b8c16ce8dc3b5550, type: 3}
   playerInfoPanel: {fileID: 0}
   myInfoPanel: {fileID: 0}
   magicInfoPanel: {fileID: 0}

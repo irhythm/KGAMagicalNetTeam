@@ -1,10 +1,13 @@
 using Photon.Pun;
 using Photon.Voice.PUN;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Profiling;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class PlayerController : MonoBehaviourPun, IDamageable
 {
@@ -15,7 +18,7 @@ public class PlayerController : MonoBehaviourPun, IDamageable
 
     private PlayableCharacter playableCharacter;
 
-    [SerializeField] private PlayerView playerView;
+    public PlayerView playerView;
 
 
     [SerializeField] GameObject playerInfoPrefab;
@@ -43,10 +46,13 @@ public class PlayerController : MonoBehaviourPun, IDamageable
         {
             if (myInfoPanel == null)
                 myInfoPanel = UIManager.Instance.myInfoPanel;
+            if(magicInfoPanel == null)
+                magicInfoPanel = UIManager.Instance.IconPanel;
             playerInfo = Instantiate(myInfoPrefab, myInfoPanel);
             SetMyInfo();
-            //magicInfo = Instantiate(magicInfoPrefab, magicInfoPanel);
-            //SetMagicInfo();
+            magicInfo = Instantiate(magicInfoPrefab, magicInfoPanel);
+            SetMagicInfo();
+            SetHandInfo();
 
             playerView.UpdatePlayerHP(1f);
         }
@@ -140,7 +146,6 @@ playerInfo.transform.GetChild(1).GetComponent<Image>()
     }
 
 
-    //public void SetMagicOnHand()
     public void SetMagicInfo()
     {
         //크기가 정해져 있어서 리스트나 큐 대신 배열 사용
@@ -152,6 +157,15 @@ playerInfo.transform.GetChild(1).GetComponent<Image>()
         }
         playerView.SetMagicInfo(magic);
     }
+
+    public void SetHandInfo()
+    {
+        GameObject[] hand = new GameObject[2];
+        hand[0] = magicInfo.transform.GetChild(0).gameObject;
+        hand[1] = magicInfo.transform.GetChild(1).gameObject;
+        playerView.SetMagicInfoOnHand(hand);
+    }
+
     public void CheckPlayerName(TextMeshProUGUI name)
     {
         if (name == null)
@@ -188,11 +202,6 @@ playerInfo.transform.GetChild(1).GetComponent<Image>()
 
     void Update()
     {
-        //if (pv.IsMine)
-        //{
-        //    playerView.CheckVoiceImage(pvv.IsRecording);
-        //}
-        //else
         if (!pv.IsMine)
         {
             playerView.CheckVoiceImage(pvv.IsSpeaking);
@@ -204,5 +213,36 @@ playerInfo.transform.GetChild(1).GetComponent<Image>()
     //    playerView.SetMagicIcon(magicData.itemImage, magicData.cooldown);
     //}
 
+    public void SetItem(InventoryDataSO item, bool isLeft)
+    {
+        playerView.SetIconOnHand(item, isLeft);
+    }
+
+    public void SetCoolTime(MagicBase magic, bool isLeft)
+    {
+        playerView.CheckCoolTimeOnHand(magic, isLeft);
+    }
+
+
+    public void SetMagicIcon(InventoryDataSO data, PlayableCharacter player)
+    {
+        if(data == null)
+            return;
+
+        MagicDataSO magicData = data as MagicDataSO;
+        if(magicData == null) 
+            return;
+
+        MagicBase targetLogic = player.Inventory.GetMagicInstance(magicData);
+
+        if (targetLogic == null)
+        {
+            targetLogic = magicData.CreateInstance();
+        }
+        if (targetLogic.CurrentCooldown <= 0)
+            return;
+        playerView.SetMagicIcon(targetLogic);
+
+    }
 
 }

@@ -63,6 +63,9 @@ public class PlayerMagicSystem : MonoBehaviourPun
         Debug.Log($"매직 시스템 {(isLeftHand ? "Left" : "Right")} 쿨다운 시작");
 
         photonView.RPC(nameof(RPC_CastMagic), RpcTarget.All, isLeftHand, spawnPos, dir);
+
+        //0115 플레이어 왼손, 오른손 마법 쿨타임 설정
+        _player.playerController.SetCoolTime(targetLogic, isLeftHand);
     }
 
     [PunRPC]
@@ -104,8 +107,19 @@ public class PlayerMagicSystem : MonoBehaviourPun
 
     public void EquipItem(InventoryDataSO item, bool isLeft)
     {
-        if (isLeft) LeftHandSlot = item;
-        else RightHandSlot = item;
+        if (isLeft)
+        {
+            _player.playerController.SetMagicIcon(LeftHandSlot, _player);
+            LeftHandSlot = item;
+        }
+        else
+        {
+            _player.playerController.SetMagicIcon(RightHandSlot, _player);
+            RightHandSlot = item;
+        }
+
+        //0115 플레이어 왼손, 오른손 아이템 아이콘 설정
+        _player.playerController.SetItem(item, isLeft);
 
         MagicBase targetLogic = null;
 
@@ -118,6 +132,9 @@ public class PlayerMagicSystem : MonoBehaviourPun
                 Debug.LogWarning($"[System] 인벤토리에 없는 마법을 장착 시도함: {item.itemName}. 새로 생성합니다.");
                 targetLogic = magicData.CreateInstance();
             }
+
+            //0115 플레이어 왼손, 오른손 마법 쿨타임 설정
+            _player.playerController.SetCoolTime(targetLogic, isLeft);
         }
 
         if (isLeft) _leftMagicLogic = targetLogic;
