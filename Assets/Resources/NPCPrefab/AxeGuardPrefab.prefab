@@ -5244,6 +5244,7 @@ GameObject:
   - component: {fileID: 7622269589513442559}
   - component: {fileID: 3924421272857549072}
   - component: {fileID: -1299878620693843792}
+  - component: {fileID: 8579746435630431890}
   m_Layer: 0
   m_Name: AxeGuardPrefab
   m_TagString: Untagged
@@ -5381,7 +5382,6 @@ MonoBehaviour:
   - {fileID: 1288307128011534361}
   - {fileID: 8313457511847103682}
   - {fileID: -1299878620693843792}
-  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -5484,6 +5484,18 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
+--- !u!114 &8579746435630431890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5133415269387751846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68026cdbf07d0ec4d997f33cb97974ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GuardDamageTester
 --- !u!1 &5180935114380997244
 GameObject:
   m_ObjectHideFlags: 0
