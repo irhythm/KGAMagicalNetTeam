@@ -12,16 +12,20 @@ public abstract class PlayerStateBase : IState
         this.stateMachine = stateMachine;
         if(animationNum != null )
             this.animationNum = Animator.StringToHash(animationNum);
+        else
+            this.animationNum = 0;
     }
 
     public virtual void Enter()
     {
-        player.Animator.SetBool(animationNum, true);
+        if(animationNum != 0)
+            player.Animator.SetBool(animationNum, true);
     }
 
     public virtual void Exit()
     {
-        player.Animator.SetBool(animationNum, false);
+        if (animationNum != 0)
+            player.Animator.SetBool(animationNum, false);
     }
 
     public virtual void Execute() { }

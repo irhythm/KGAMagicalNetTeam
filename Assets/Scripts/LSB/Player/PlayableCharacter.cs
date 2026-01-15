@@ -1,6 +1,5 @@
 using Photon.Pun;
 using UnityEngine;
-using static PlayerMoveState;
 
 public class PlayableCharacter : MonoBehaviourPun
 {
@@ -26,13 +25,15 @@ public class PlayableCharacter : MonoBehaviourPun
     public Rigidbody Rigidbody { get; private set; }
     public Animator Animator { get; private set; }
     public ThirdPersonCamera GameCamera { get; private set; }
+    public PlayerInventory Inventory { get; private set; }
+    public MagicSelectorUI MagicSelector { get; private set; }
     #endregion
 
     #region 상태 머신
     public StateMachine StateMachine { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
-    public PlayerDodgeState DodgeState { get; private set; } // [New]
+    public PlayerDodgeState DodgeState { get; private set; }
     #endregion
 
 
@@ -42,11 +43,15 @@ public class PlayableCharacter : MonoBehaviourPun
         InputHandler = GetComponent<PlayerInputHandler>();
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
+        Inventory = GetComponent<PlayerInventory>();
 
         StateMachine = new StateMachine();
         MoveState = new PlayerMoveState(this, StateMachine);
         JumpState = new PlayerJumpState(this, StateMachine, "IsJumping");
         DodgeState = new PlayerDodgeState(this, StateMachine, "IsDodging");
+
+        MagicSelector = FindAnyObjectByType<MagicSelectorUI>();
+        if (MagicSelector != null) MagicSelector.Initialize(Inventory);
     }
 
     private void Start()
