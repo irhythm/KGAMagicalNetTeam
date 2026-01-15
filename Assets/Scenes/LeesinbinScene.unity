@@ -124,7 +124,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7940719953895527930, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
   m_PrefabInstance: {fileID: 232072068}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &78061501
+--- !u!114 &78061520
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,16 +133,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 78061484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60dbabdb472c1924caf377a0cdcfa968, type: 3}
+  m_Script: {fileID: 11500000, guid: c9d788a10b5769341a328201909cded4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
-  LeftHandSlot: {fileID: 11400000, guid: b91348580d71b1c409113fa6aa4bfde6, type: 2}
-  RightHandSlot: {fileID: 11400000, guid: 13e2f5e62d65b2d46aa83a516d3e62b9, type: 2}
-  inventory:
-  - {fileID: 11400000, guid: b91348580d71b1c409113fa6aa4bfde6, type: 2}
-  - {fileID: 11400000, guid: 13e2f5e62d65b2d46aa83a516d3e62b9, type: 2}
-  - {fileID: 11400000, guid: 48147e71686493747b7f519149458785, type: 2}
-  - {fileID: 11400000, guid: 2e2764ed8a961954da1d8377529059f0, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMagicSystem
+  LeftHandSlot: {fileID: 11400000, guid: 2496b0d6652fa4344a6bfad6b5cab5fb, type: 2}
+  RightHandSlot: {fileID: 11400000, guid: 2496b0d6652fa4344a6bfad6b5cab5fb, type: 2}
+  leftSpawnPoint: {fileID: 655704612}
+  rightSpawnPoint: {fileID: 1445331660}
+  maxAimDistance: 50
+  minAimDistance: 2
+  aimLayerMask:
+    serializedVersion: 2
+    m_Bits: 191
 --- !u!1 &191356750
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,6 +433,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2058227398658256218, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2058227398658256218, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[8].Name
+      value: IsAttacking
+      objectReference: {fileID: 0}
+    - target: {fileID: 2058227398658256218, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[8].Type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2058227398658256218, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[9].Name
+      value: LeftHand
+      objectReference: {fileID: 0}
+    - target: {fileID: 2058227398658256218, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[9].Type
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2058227398658256218, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[10].Name
+      value: RightHand
+      objectReference: {fileID: 0}
+    - target: {fileID: 2058227398658256218, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
+      propertyPath: m_SynchronizeParameters.Array.data[10].Type
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 5016317772577129787, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
       propertyPath: sceneViewId
       value: 1
@@ -439,6 +469,14 @@ PrefabInstance:
       propertyPath: jumpForce
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 5159365338812574217, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
+      propertyPath: leftMagicPoint
+      value: 
+      objectReference: {fileID: 655704612}
+    - target: {fileID: 5159365338812574217, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
+      propertyPath: rightMagicPoint
+      value: 
+      objectReference: {fileID: 1445331660}
     - target: {fileID: 5159365338812574217, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
       propertyPath: groundLayer.m_Bits
       value: 8
@@ -493,7 +531,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7940719953895527930, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 78061501}
+      addedObject: {fileID: 78061520}
   m_SourcePrefab: {fileID: 100100000, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
 --- !u!1 &334251122
 GameObject:
@@ -684,6 +722,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &655704612 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 12994451976599241, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
+  m_PrefabInstance: {fileID: 232072068}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &900224172
 GameObject:
   m_ObjectHideFlags: 0
@@ -1217,6 +1260,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1445331660 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1860097665412997098, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
+  m_PrefabInstance: {fileID: 232072068}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1530148244
 GameObject:
   m_ObjectHideFlags: 0
