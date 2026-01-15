@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerJumpState : PlayerStateBase
 {
     private readonly int JumpType = Animator.StringToHash("JumpType");
-    private readonly int JumpTrigger = Animator.StringToHash("JumpTrigger");
     private readonly int VerticalVelue = Animator.StringToHash("VerticalVelocity");
 
     private float _initJumpTime;
@@ -22,7 +21,6 @@ public class PlayerJumpState : PlayerStateBase
         // 애니매이션 방향 설정
         var dir = player.GetMoveDir(input);
         player.Animator.SetInteger(JumpType, (int)dir);
-        player.Animator.SetTrigger(JumpTrigger);
 
         // 점프 방향 초기화
         Vector3 jumpDir = Vector3.zero;
