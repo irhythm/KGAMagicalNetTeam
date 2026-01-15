@@ -411,10 +411,6 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5159365338812574217, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
-      propertyPath: dodgeForce
-      value: 70
-      objectReference: {fileID: 0}
     - target: {fileID: 5251107426523682287, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -54,6 +54,8 @@ public class PlayableCharacter : MonoBehaviourPun
         MagicSystem = GetComponent<PlayerMagicSystem>();
         playerController = GetComponent<PlayerController>();
 
+        Inventory = new PlayerInventory();
+
         StateMachine = new StateMachine();
         MoveState = new PlayerMoveState(this, StateMachine);
         JumpState = new PlayerJumpState(this, StateMachine, "IsJumping");
@@ -79,6 +81,12 @@ public class PlayableCharacter : MonoBehaviourPun
     private void Update()
     {
         if (!photonView.IsMine) return;
+
+        if (Inventory != null)
+        {
+            Inventory.HandleCooldowns(Time.deltaTime);
+        }
+
         StateMachine.CurrentState.Execute();
     }
 
