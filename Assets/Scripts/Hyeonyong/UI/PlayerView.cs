@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,8 @@ public class PlayerView : MonoBehaviour
     [SerializeField] Image playerHp;
     [SerializeField] Image voiceImage;
     [SerializeField] GameObject[] icon;
+    [SerializeField] GameObject[] iconOnHand;
+    [SerializeField] float checkDuration = 0.1f;
     public void SetVoiceImage(Image photonVoiceImage)
     {
         voiceImage= photonVoiceImage;
@@ -46,6 +49,11 @@ public class PlayerView : MonoBehaviour
         icon = magic;
     }
 
+    public void SetMagicInfoOnHand(GameObject[] magic)
+    {
+        iconOnHand = magic;
+    }
+
     public GameObject GetMagicIcon()
     {
         foreach (var i in icon)
@@ -56,30 +64,54 @@ public class PlayerView : MonoBehaviour
         return null;
     }
 
-    public void SetMagicIcon(Sprite magicIcon, float coolDown)
-    {
-        GameObject magic = GetMagicIcon();
-        magic.GetComponent<Image>().sprite = magicIcon;
-        Image checkCoolDown = magic.transform.GetChild(0).GetComponent<Image>();
-        checkCoolDown.fillAmount = 1;
+    //public void SetIconOnHand(InventoryData data, bool isLeft)
+    //{
+    //    int num = 0;
+    //    if (isLeft)
+    //        num = 0;
+    //    else
+    //        num = 1;
+    //    iconOnHand[num].GetComponent<Image>().sprite = data.itemImage;
+    //    MagicData magic = data as MagicData;
+    //    if (magic != null)
+    //    {
+    //        iconOnHand[num].transform.GetChild(0).GetComponent<Image>().fillAmount = magic.cooldown;
+    //    }
+    //    else
+    //    {
+    //        iconOnHand[num].transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
+    //    }
+    //}
 
-        StartCoroutine(CheckCoolTime(magic, checkCoolDown,coolDown));
+    //public void SetMagicIcon(InventoryData data, Sprite magicIcon, float coolDown)
+    //{
+    //    MagicData magicData = data as MagicData;
+    //    if (magicData != null)
+    //    {
+    //        GameObject magic = GetMagicIcon();
+    //        magic.GetComponent<Image>().sprite = magicIcon;
+    //        Image checkCoolDown = magic.transform.GetChild(0).GetComponent<Image>();
+    //        checkCoolDown.fillAmount = 1;
 
+    //        StartCoroutine(CheckCoolTime(checkCoolDown, coolDown, magic));
+    //    }
+    //}
 
-    }
-
-    public IEnumerator CheckCoolTime(GameObject magic, Image checkCoolDown, float coolDown)
+    public IEnumerator CheckCoolTime(Image checkCoolDown, float coolDown, GameObject magicIcon=null)
     {
         float curCoolDown = coolDown;
         while (curCoolDown > 0)
         {
-            if (curCoolDown > 1f)
-                yield return CoroutineManager.waitForSeconds(1f);
+            if (curCoolDown > checkDuration)
+                yield return CoroutineManager.waitForSeconds(checkDuration);
             else
                 yield return CoroutineManager.waitForSeconds(curCoolDown);
-            curCoolDown -= 1f;
+            curCoolDown -= checkDuration;
             checkCoolDown.fillAmount = curCoolDown / coolDown;
         }
-        magic.SetActive(false);
+        if(magicIcon != null) 
+            {
+                magicIcon.SetActive(false);
+            }
     }
 }
