@@ -28,7 +28,7 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable
 
     //네트워크 동기화용 상태 인덱스, 애니에서도 쓸 듯?
     //전송은 정수로만
-    public enum AIStateID { Patrol, Alert, Action, Dead }
+    public enum AIStateID { Patrol, Alert, Action, Dead, Chase, Attack }
     public AIStateID currentNetworkState;
 
     protected virtual void Awake()
@@ -46,11 +46,11 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable
     protected virtual void Start()
     {
         //마스터클라이언트만 네비게이션 켜기
-        //if (!PhotonNetwork.IsMasterClient)
-        //{
-        //Agent.enabled = false;
-        //return;
-        //}
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            Agent.enabled = false;
+            return;
+        }
 
         Agent.enabled = true; //테스트용 이따가 삭제
 
@@ -72,19 +72,19 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable
     protected virtual void Update()
     {
         //마스터 클라이언트만 상태머신 돌리기
-        //if (PhotonNetwork.IsMasterClient)
-        //{
+        if (PhotonNetwork.IsMasterClient)
+        {
             stateMachine.CurrentState?.Execute();
-        //}
+        }
     }
 
     protected virtual void FixedUpdate()
     {
         //마찬가지
-        //if (PhotonNetwork.IsMasterClient)
-        //{
+        if (PhotonNetwork.IsMasterClient)
+        {
             stateMachine.CurrentState?.FixedExecute();
-        //}
+        }
     }
 
     //자식클래스 호출용
@@ -93,17 +93,18 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable
         stateMachine.ChangeState(newState);
     }
 
-    //네트워크/애니 클립용(애니 갱신 등) -> AIStateBase.Enter 시점
+    //네트워크/애니 클립용 -> AIStateBase.Enter 시점
     public void ChangeNetworkState(AIStateID newState)
     {
         currentNetworkState = newState;
         UpdateAnimationState(); //내 화면(마스터) 애니메이션 갱신
     }
 
-    protected void UpdateAnimationState()
+    //26.01.15 virtual 추가
+    protected virtual void UpdateAnimationState()
     {
         //SetInteger 상태변경
-        Anim.SetInteger("State", (int)currentNetworkState);
+        if(Anim) Anim.SetInteger("State", (int)currentNetworkState);
     }
 
     //마스터가 아닌 클라이언트가 상태를 받아오는데 쓸 메서드
