@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c2f446abc37684e8493224e9bd0847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
-  <bgmSource>k__BackingField: {fileID: 0}
+  <bgmSource>k__BackingField: {fileID: 8883738436854463360}
   soundPool: {fileID: 4076312559800173693}
   audioClipSO: {fileID: 11400000, guid: b99a1d38d9cb40d48b38c20a65ba2c67, type: 2}
 --- !u!1 &3944201385466019963

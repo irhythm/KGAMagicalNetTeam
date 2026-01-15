@@ -13,6 +13,4 @@ MonoBehaviour:
   m_Name: SoundSO
   m_EditorClassIdentifier: Assembly-CSharp::AudioClipSO
   <bgmClips>k__BackingField: []
-  <sfxClips>k__BackingField:
-  - {fileID: 8300000, guid: 2b242286740bf0f4f9dafd719b933a75, type: 3}
-  - {fileID: 8300000, guid: f2f7efa8345c07a45a5b55ba4b4110ac, type: 3}
+  <sfxClips>k__BackingField: []

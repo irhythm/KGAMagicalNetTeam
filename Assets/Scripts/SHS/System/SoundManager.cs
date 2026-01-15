@@ -41,7 +41,8 @@ public class SoundManager : Singleton<SoundManager>
         {
             foreach(var so in audioClipSO.bgmClips)
             {
-                bgmDic.Add(so.name, so);
+                if(so != null)
+                    bgmDic.Add(so.name, so);
             }
         }
 
@@ -50,7 +51,8 @@ public class SoundManager : Singleton<SoundManager>
         {
             foreach(var so in audioClipSO.sfxClips)
             {
-                sfxDic.Add(so.name, so);
+                if(so != null)
+                    sfxDic.Add(so.name, so);
             }
         }
     }
