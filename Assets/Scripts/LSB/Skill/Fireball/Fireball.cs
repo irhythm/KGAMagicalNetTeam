@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Fireball : MonoBehaviourPun
 {
-    private FireballSO fireballData;
+    [SerializeField] private FireballSO fireballData;
 
     private int shooterActorNumber;
 
@@ -77,11 +77,6 @@ public class Fireball : MonoBehaviourPun
         {
             PhotonNetwork.Instantiate("EffectPrefab/" + fireballData.explosionEffectPrefab.name, pos, Quaternion.identity);
         }
-    }
-
-    public void Init(FireballSO data)
-    {
-        fireballData = data;
     }
 
     public void SetShooterActorNumber(int actorNumber)
