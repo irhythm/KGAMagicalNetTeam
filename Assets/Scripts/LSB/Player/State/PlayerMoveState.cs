@@ -12,6 +12,7 @@ public class PlayerMoveState : PlayerStateBase
     private float RunMultiplier = 1.0f;    // Run 애니메이션 좌표
     private float SprintMultiplier = 1.5f; // Sprint 애니메이션 좌표
 
+
     
 
     // private float WalkSpeed = 2.0f;
@@ -123,7 +124,15 @@ public class PlayerMoveState : PlayerStateBase
 
             if (dir == PlayableCharacter.MoveDir.Left || dir == PlayableCharacter.MoveDir.Right)
             {
-                stateMachine.ChangeState(player.DodgeState);
+                if (player.CanDodge)
+                {
+                    player.LastDodgeTime = Time.time;
+                    stateMachine.ChangeState(player.DodgeState);
+                }
+                else
+                {
+                    return;
+                }
             }
             else
             {

@@ -3,9 +3,8 @@ using UnityEngine;
 public class PlayerDodgeState : PlayerStateBase
 {
     private readonly int JumpType = Animator.StringToHash("JumpType");
-    private readonly int JumpTrigger = Animator.StringToHash("JumpTrigger");
 
-    private float _dodgeDuration = 0.8f; // 회피 지속시간
+    private float _dodgeDuration = 0.15f; // 회피 지속시간
     private float _stateEnterTime; // 상태 진입시간
 
     public PlayerDodgeState(PlayableCharacter player, StateMachine stateMachine, string animationNum)
@@ -23,7 +22,6 @@ public class PlayerDodgeState : PlayerStateBase
         // 움직인 방향 계산하고 파라미터 변경
         var dir = player.GetMoveDir(input);
         player.Animator.SetInteger(JumpType, (int)dir);
-        player.Animator.SetTrigger(JumpTrigger);
 
         //힘 적용
         Vector3 moveDir = (dir == PlayableCharacter.MoveDir.Left ? -player.transform.right : player.transform.right);
