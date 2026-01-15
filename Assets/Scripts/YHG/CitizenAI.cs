@@ -91,8 +91,12 @@ public class CitizenAI : BaseAI
     public void OnEscapeSuccess()
     {
         if (isEscaped) return;
+        isEscaped = true;
         Debug.Log("시민 탈출 성공! (경비 스폰 시간 단축 페널티)");
         if (!PhotonNetwork.IsMasterClient) return;
+
+        Agent.enabled = false; //길찾기 끄기
+        this.enabled = false; //AI 끄기
 
         //GameManager 등 시간재는 애 -10초 
         if (GuardManager.instance != null)
