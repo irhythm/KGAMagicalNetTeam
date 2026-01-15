@@ -82,7 +82,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             }
             else
             {
-                roomTable["FirendlyFire"] = friendlyFire.isOn;
+                roomTable["FriendlyFire"] = friendlyFire.isOn;
                 
                 PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
 
@@ -99,14 +99,24 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     }
 
-
+    public void ChangeFriendlyFire()
+    {
+        roomTable["FriendlyFire"] = friendlyFire.isOn;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+    }
     public void StartGame()
     {
         if (PhotonNetwork.IsMasterClient == true)
         {
-            roomTable["FirendlyFire"] = friendlyFire.isOn;
-            PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+            //roomTable["FriendlyFire"] = friendlyFire.isOn;
+            //Debug.Log("현태 토글 : " + friendlyFire.isOn);
+            //PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
 
+
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("FriendlyFire", out object isCheck))
+            {
+                Debug.Log("아군 오사 판정 : "+(bool)isCheck);
+            }
 
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
@@ -250,7 +260,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             }
             else
             {
-                roomTable["FirendlyFire"] = friendlyFire.isOn;
+                roomTable["FriendlyFire"] = friendlyFire.isOn;
                 PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
             }
         }
@@ -289,7 +299,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             return;
 
 
-        roomTable["FirendlyFire"] = friendlyFire.isOn;
+        roomTable["FriendlyFire"] = friendlyFire.isOn;
         PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
         // 로컬 플레이어의 프로퍼티를 업데이트 (네트워크 전체에 동기화됨)
     }
