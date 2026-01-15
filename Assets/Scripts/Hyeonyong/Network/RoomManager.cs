@@ -83,6 +83,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             else
             {
                 roomTable["FirendlyFire"] = friendlyFire.isOn;
+                
                 PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
 
                 // 로컬 플레이어의 프로퍼티를 업데이트 (네트워크 전체에 동기화됨)
@@ -103,6 +104,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient == true)
         {
+            roomTable["FirendlyFire"] = friendlyFire.isOn;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+
+
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
         }
