@@ -7,6 +7,6 @@ public class FireballSO : MagicDataSO
 
     public override MagicBase CreateInstance()
     {
-        return new Fireball(this);
+        return new MagicFireball(this);
     }
 }

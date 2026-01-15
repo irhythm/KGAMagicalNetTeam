@@ -18,6 +18,8 @@ public class PlayerAttackState : PlayerStateBase
     {
         base.Enter();
 
+        GuardManager.instance.RegisterMagicNoise(player.transform.position);
+
         Vector2 input = player.InputHandler.MoveInput;
         player.Rigidbody.linearVelocity = Vector3.zero;
         player.InputHandler.OffPlayerInput();

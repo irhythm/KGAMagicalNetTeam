@@ -65,12 +65,12 @@ MonoBehaviour:
   maxHp: 100
   moveSpeed: 5
   rotationSpeed: 10
-  jumpForce: 15
+  jumpForce: 10
   dodgeForce: 70
   DodgeCooldown: 1.5
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 4294967295
   groundCheckDist: 0.1
 --- !u!114 &-6589114128582020185
 MonoBehaviour:
@@ -126,8 +126,8 @@ MonoBehaviour:
   RightHandSlot: {fileID: 11400000, guid: 2496b0d6652fa4344a6bfad6b5cab5fb, type: 2}
   leftSpawnPoint: {fileID: 12994451976599241}
   rightSpawnPoint: {fileID: 1860097665412997098}
-  maxAimDistance: 50
-  minAimDistance: 2
+  maxAimDistance: 100
+  minAimDistance: 50
   aimLayerMask:
     serializedVersion: 2
     m_Bits: 191
