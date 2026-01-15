@@ -31,15 +31,22 @@ public class ServerConnector : MonoBehaviourPunCallbacks
         // PhotonNetwork.JoinLobby();//로비 입장을 시키는 명령
         if (onTest)
         {
-            SceneManager.LoadScene("Lobby");
+            PhotonNetwork.JoinLobby();
         }
         else
         {
             SceneManager.LoadScene("Login");//싱글톤도 아니고 dontdestroy 아니면 씬 넘어갈 경우 해당 스크립트 파괴
         }
     }
-    //public override void OnJoinedLobby()
-    //{
-    //    Debug.Log("로비 입장 완료");
-    //}
+
+    public override void OnJoinedLobby()
+    {
+        PhotonNetwork.JoinRandomOrCreateRoom();
+    }
+
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("방 입장 및 룸 씬으로 전환 요청");
+        SceneManager.LoadScene("Room");
+    }
 }
