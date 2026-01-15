@@ -1,13 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New ItemDate", menuName = "Game/Item Data")]
-public class ItemData : ScriptableObject
+[CreateAssetMenu(fileName = "New ItemDate", menuName = "Game/ItemData")]
+public class ItemData : InventoryData
 {
-    public string itemId;           // 아이디
-    public string itemName;     // 이름
-    public Sprite itemImage;         // 이미지
-    public GameObject itemPrefab;   // 프리펩
-
-    [TextArea]
-    public string description;  // 설명
 }

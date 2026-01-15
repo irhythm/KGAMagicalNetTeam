@@ -3,36 +3,51 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
+    const int maximumInvenCount = 8;
+
+
     [Header("Slots")]
-    public ItemData LeftHandSlot;
-    public ItemData RightHandSlot;
+    public InventoryData LeftHandSlot;
+    public InventoryData RightHandSlot;
 
     [Header("Storage")]
-    [SerializeField] private List<ItemData> inventory = new List<ItemData>();
+    [SerializeField] private Dictionary<InventoryData, int> inventory = new Dictionary<InventoryData, int>();
 
-    public IReadOnlyList<ItemData> Inventory => inventory;
+    public IReadOnlyDictionary<InventoryData, int> Inventory => inventory;
 
     // 아이템 추가
-    public void AddItem(ItemData item)
+    public void AddItem(InventoryData item)
     {
-        if (inventory.Contains(item)) return;
-        if (inventory.Count >= 8)
+        if (inventory.ContainsKey(item))
         {
-            Debug.LogWarning("인벤토리가 가득 찼습니다");
+            inventory[item]++;
             return;
         }
-        inventory.Add(item);
+        if (inventory.Count >= maximumInvenCount)
+        {
+            Debug.Log("인벤토리 가득 참");
+            return;
+        }
+        inventory.Add(item, 1);
     }
 
     // 아이템 제거
-    public void RemoveItem(ItemData item)
+    public void RemoveItem(InventoryData item)
     {
-        if (inventory.Contains(item))
-            inventory.Remove(item);
+        if (inventory.ContainsKey(item))
+        {
+            inventory[item]--;
+            if (inventory[item] <= 0)
+            {
+                inventory.Remove(item);
+                return;
+            }
+            return;
+        }
     }
 
     // 왼손이면 true 오른손이면 false
-    public void EquipItem(ItemData item, bool isLeft)
+    public void EquipItem(InventoryData item, bool isLeft)
     {
         if (isLeft) LeftHandSlot = item;
         else RightHandSlot = item;
