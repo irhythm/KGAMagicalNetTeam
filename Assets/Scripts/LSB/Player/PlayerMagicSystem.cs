@@ -1,6 +1,7 @@
+using Photon.Pun;
 using UnityEngine;
 
-public class PlayerMagicSystem : MonoBehaviour
+public class PlayerMagicSystem : MonoBehaviourPun
 {
     [Header("Magic Settings")]
     public InventoryData LeftHandSlot;
@@ -24,19 +25,32 @@ public class PlayerMagicSystem : MonoBehaviour
 
     public void CastMagic(bool isLeftHand)
     {
+        if (!photonView.IsMine) return;
+
         InventoryData magic = isLeftHand ? LeftHandSlot : RightHandSlot;
         Transform spawnPoint = isLeftHand ? leftSpawnPoint : rightSpawnPoint;
 
-        if (magic == null || spawnPoint == null) return;
+        if (magic == null || !(magic is MagicData)) return;
 
         Vector3 Dir = GetDir(spawnPoint);
+        Vector3 spawnPos = spawnPoint.position;
 
         //TODO: ÄðÅ¸ÀÓ ·ÎÁ÷
-        if(magic is MagicData)
+
+        photonView.RPC(nameof(RPC_CastMagic), RpcTarget.All, isLeftHand, spawnPos, Dir);
+    }
+
+    [PunRPC]
+    private void RPC_CastMagic(bool isLeftHand, Vector3 spawnPos, Vector3 direction)
+    {
+        InventoryData magicInv = isLeftHand ? LeftHandSlot : RightHandSlot;
+
+        MagicData magic = magicInv as MagicData;
+
+        if (magic != null)
         {
-            (magic as MagicData)?.OnCast(spawnPoint.position, Dir, isLeftHand);
+            magic.OnCast(spawnPos, direction, isLeftHand);
         }
-        
     }
 
     private Vector3 GetDir(Transform spawnPoint)
