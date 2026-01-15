@@ -12,8 +12,9 @@ public class PlayerController : MonoBehaviourPun
     PhotonView pv;
     PhotonVoiceView pvv;
     Recorder recorder;
-    [SerializeField] float maxHp = 100f;
-    public PlayerModel playerModel;
+
+    private PlayableCharacter playableCharacter;
+
     [SerializeField] private PlayerView playerView;
 
 
@@ -34,8 +35,9 @@ public class PlayerController : MonoBehaviourPun
         pv = GetComponent<PhotonView>();
         pvv = GetComponent<PhotonVoiceView>();
 
-        playerModel = new PlayerModel(maxHp);
-        playerModel.Init();
+        playableCharacter = GetComponent<PlayableCharacter>();
+
+        SubscribeEvents();
 
         if (pv.IsMine)
         {
@@ -45,13 +47,17 @@ public class PlayerController : MonoBehaviourPun
             SetMyInfo();
             //magicInfo = Instantiate(magicInfoPrefab, magicInfoPanel);
             //SetMagicInfo();
+
+            playerView.UpdatePlayerHP(1f);
         }
         else
         {
-            if(playerInfoPanel==null)
+            if (playerInfoPanel == null)
                 playerInfoPanel = UIManager.Instance.playerInfoPanel;
             playerInfo = Instantiate(playerInfoPrefab, playerInfoPanel);
             SetPlayerInfo();
+
+            playerView.UpdatePlayerHP(1f);
         }
         SetPlayerName(pv.Owner.NickName);
 
@@ -60,6 +66,40 @@ public class PlayerController : MonoBehaviourPun
 
         //playerView.SetVoiceImage(speakerImage);
     }
+
+    // 구독 해제
+    private void OnDisable()
+    {
+        UnsubscribeEvents();
+        Destroy(playerInfo);
+    }
+
+    // 이벤트 구독 호출
+    private void SubscribeEvents()
+    {
+        if (playableCharacter != null)
+        {
+            playableCharacter.OnHpChanged += HandleHpChanged;
+            // playableCharacter.OnDie += HandleDie; // 이벤트 필요하면 여기에서 연결
+        }
+    }
+
+    // 구독 해제 호출
+    private void UnsubscribeEvents()
+    {
+        if (playableCharacter != null)
+        {
+            playableCharacter.OnHpChanged -= HandleHpChanged;
+            // playableCharacter.OnDie -= HandleDie; // 죽었을 때 뭐 할거면 구현해야할 듯?
+        }
+    }
+
+    // 업데이트시 호출
+    private void HandleHpChanged(float hpRatio)
+    {
+        playerView.UpdatePlayerHP(hpRatio);
+    }
+
 
     public void TestTakeDamage(InputAction.CallbackContext context)
     {
@@ -76,23 +116,10 @@ public class PlayerController : MonoBehaviourPun
     {
         if (!pv.IsMine)
             return;
-        pv.RPC(nameof(OnTakeDamageRPC), RpcTarget.All, 10f);
-    }
-    private void OnDisable()
-    {
-        Destroy(playerInfo);
-    }
 
-    [PunRPC]
-    public void OnTakeDamageRPC(float takeDamage)
-    {
-        bool isDie = false;
-        isDie = playerModel.TakeDamage(takeDamage);
-        playerView.UpdatePlayerHP(playerModel.CurHp / playerModel.MaxHp);
-        if (isDie)
-        {
-            Debug.Log("캐릭터 사망");
-        }
+        playableCharacter.OnAttacked(takeDamage);
+
+        // pv.RPC(nameof(OnTakeDamageRPC), RpcTarget.All, 10f);
     }
 
 
@@ -102,7 +129,8 @@ public class PlayerController : MonoBehaviourPun
         {
             if ((bool)isCheck)
             {
-                pv.RPC(nameof(OnTakeDamageRPC), RpcTarget.All, takeDamage);
+                playableCharacter.OnAttacked(takeDamage);
+                // pv.RPC(nameof(OnTakeDamageRPC), RpcTarget.All, takeDamage);
             }
         }
     }
@@ -159,9 +187,11 @@ playerInfo.transform.GetChild(1).GetComponent<Image>()
             Debug.Log("이미지 있음 : " + hp.fillAmount);
         }
     }
+
+    // 이벤트로 바꿔서 호출 이제 필요없을 듯?
     public void UpdatePlayerHp()
     {
-        playerView.UpdatePlayerHP(playerModel.CurHp / playerModel.MaxHp);
+        // playerView.UpdatePlayerHP(playerModel.CurHp / playerModel.MaxHp);
     }
 
     public void SetPlayerName(string name)
@@ -176,7 +206,7 @@ playerInfo.transform.GetChild(1).GetComponent<Image>()
         //    playerView.CheckVoiceImage(pvv.IsRecording);
         //}
         //else
-        if(!pv.IsMine)
+        if (!pv.IsMine)
         {
             playerView.CheckVoiceImage(pvv.IsSpeaking);
         }

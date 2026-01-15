@@ -1,15 +1,24 @@
 using Photon.Pun;
+using System;
 using UnityEngine;
 
 public class PlayableCharacter : MonoBehaviourPun
 {
+    // 구독할 이벤트 정의
+    public event Action<float> OnHpChanged; // 체력 변경하면 전달용
+    public event Action OnDie;              // 사망하면 호출용
+
+    // 모델
+    private PlayerModel _model;
+
     [Header("Settings")]
+    [SerializeField] private float maxHp = 100f; // 체력 인스펙터 노출
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float dodgeForce = 7f;
     public float DodgeCooldown = 1.5f;
-    
+
 
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
@@ -54,6 +63,10 @@ public class PlayableCharacter : MonoBehaviourPun
         MagicSystem = GetComponent<PlayerMagicSystem>();
         playerController = GetComponent<PlayerController>();
 
+        // 모델 초기화
+        _model = new PlayerModel(maxHp);
+        _model.Init();
+
         Inventory = new PlayerInventory();
 
         StateMachine = new StateMachine();
@@ -96,6 +109,28 @@ public class PlayableCharacter : MonoBehaviourPun
         StateMachine.CurrentState.FixedExecute();
     }
 
+
+    // 데미지 처리 로직 여기로 옮김
+    public void OnAttacked(float damage)
+    {
+        photonView.RPC(nameof(RPC_TakeDamage), RpcTarget.All, damage);
+    }
+
+    // 데미지 적용 이벤트 호출
+    [PunRPC]
+    public void RPC_TakeDamage(float damage)
+    {
+        bool isDie = _model.TakeDamage(damage);
+
+        // 데이터 변경 사실을 Presenter에게 알림
+        OnHpChanged?.Invoke(_model.CurHp / _model.MaxHp);
+
+        if (isDie)
+        {
+            OnDie?.Invoke();
+            Debug.Log("캐릭터 사망 (Logic)");
+        }
+    }
 
 
     /// <summary>
