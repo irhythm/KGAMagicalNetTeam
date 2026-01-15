@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerActionState : PlayerStateBase
 {
-    public PlayerActionState(PlayableCharacter player, StateMachine stateMachine, string animationNum)
-        : base(player, stateMachine, animationNum) { }
+    public PlayerActionState(PlayableCharacter player, StateMachine stateMachine)
+        : base(player, stateMachine) { }
 
     public override void Enter()
     {
