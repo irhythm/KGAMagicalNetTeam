@@ -66,8 +66,9 @@ public class PlayerController : MonoBehaviourPun
         if (!pv.IsMine)
             return;
 
+        TakeDamage(10f);
         //pv.RPC(nameof(OnTakeDamageRPC), RpcTarget.All, 10f);
-        pv.RPC(nameof(UsingMagic),RpcTarget.All);
+        //pv.RPC(nameof(UsingMagic),RpcTarget.All);
 
     }
 
