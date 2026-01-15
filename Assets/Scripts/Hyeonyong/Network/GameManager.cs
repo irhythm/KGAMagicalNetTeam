@@ -4,14 +4,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using TMPro;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager Instance;
     [SerializeField] GameObject playerPrefab;
+    //[SerializeField] GameObject playerInfoPrefab;
+    //[SerializeField] Transform playerInfoPanel;
 
     
 
@@ -50,12 +54,40 @@ public class GameManager : MonoBehaviourPunCallbacks
     IEnumerator SpawnPlayerWhenConnected() //네트워크 게임은, 라이프 사이클도 중요하고, 또 네트워크 지연까지 고려해야 함
     {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
-        PlayerManager.LocalPlayerInstance = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity, 0);
+        //PlayerManager.LocalPlayerInstance = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity, 0);
 
-        
+        GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity, 0);
+        PlayerManager.LocalPlayerInstance = player;
 
 
 
+        //UI라서 PhotonNetwork.Instantiate 안쓴다고 함
+        /*
+        GameObject playerInfo = PhotonNetwork.Instantiate(playerInfoPrefab.name, Vector3.zero,Quaternion.identity);
+        playerInfo.transform.SetParent(playerInfoPanel);
+
+
+
+        PlayerController playerController = player.GetComponent<PlayerController>();
+
+        playerController.SetPlayerInfo(
+            playerInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>(),
+            playerInfo.transform.GetChild(1).GetComponent<Image>()
+            );
+        playerController.SetPlayerName(PhotonNetwork.NickName);*/
+        //Player[] players = PhotonNetwork.PlayerList;//방 속 사람을 받아옴
+        //foreach (var p in players)
+        //{
+        //    GameObject playerInfo = Instantiate(playerInfoPrefab, playerInfoPanel);
+
+        //    PlayerController playerController = p.LocalPlayerInstance.GetComponent<PlayerController>();
+
+        //    playerController.SetPlayerInfo(
+        //        playerInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>(),
+        //        playerInfo.transform.GetChild(1).GetComponent<Image>()
+        //        );
+        //    playerController.SetPlayerName(PhotonNetwork.NickName);
+        //}
     }
 
     private void OnDisable()

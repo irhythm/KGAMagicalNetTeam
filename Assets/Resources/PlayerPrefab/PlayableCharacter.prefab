@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 4599102605680869238}
   - component: {fileID: -5163282422903754876}
   - component: {fileID: -6071281804930736318}
+  - component: {fileID: -6764062385647752728}
+  - component: {fileID: -6589114128582020185}
   m_Layer: 6
   m_Name: PlayableCharacter
   m_TagString: Untagged
@@ -464,6 +466,38 @@ MonoBehaviour:
     Max: 1000
     SpeedUpPerc: 5
   restartOnDeviceChange: 1
+--- !u!114 &-6764062385647752728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940719953895527930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce01f858a9814fe4d8322a121492791c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  testTakeDamageAction: {fileID: 0}
+  maxHp: 100
+  playerModel: {fileID: 0}
+  playerView: {fileID: -6589114128582020185}
+  playerInfoPrefab: {fileID: 2214901045480714207, guid: 3ac7a7d22cedf6948ac3603fcbdb0786, type: 3}
+  playerInfoPanel: {fileID: 0}
+--- !u!114 &-6589114128582020185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940719953895527930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a5f18a36410695478b3d5333d801bbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerView
+  playerName: {fileID: 0}
+  playerHp: {fileID: 0}
 --- !u!1001 &8488196711846185449
 PrefabInstance:
   m_ObjectHideFlags: 0

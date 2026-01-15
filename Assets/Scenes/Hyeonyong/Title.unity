@@ -2324,6 +2324,8 @@ MonoBehaviour:
   - {fileID: 1341163566}
   - {fileID: 78231490}
   escInput: {fileID: 4999798944730601836, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  resolutionDropDown: {fileID: 0}
+  playerInfoPanel: {fileID: 0}
 --- !u!4 &702415784
 Transform:
   m_ObjectHideFlags: 0

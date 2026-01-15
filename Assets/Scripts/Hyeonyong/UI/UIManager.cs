@@ -29,6 +29,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Dropdown languageDropDown;
     [SerializeField] GameObject[] Panels;
     [SerializeField] private InputActionReference escInput;
+
+    [SerializeField] TMP_Dropdown resolutionDropDown;
+
+
+    public Transform playerInfoPanel;
     private void Awake()
     {
         Instance = this;
@@ -158,6 +163,16 @@ public class UIManager : MonoBehaviour
                 //PlayerPrefs.SetInt("language", languageDropDown.value);
             }
             languageDropDown.onValueChanged.AddListener((value) => { PlayerPrefs.SetInt("language", value); });
+        }
+
+        if (resolutionDropDown != null)
+        {
+            if (PlayerPrefs.HasKey("resolution"))
+            {
+                resolutionDropDown.value = PlayerPrefs.GetInt("resolution");
+                //PlayerPrefs.SetInt("language", languageDropDown.value);
+            }
+            resolutionDropDown.onValueChanged.AddListener((value) => { PlayerPrefs.SetInt("resolution", value); });
         }
     }
 

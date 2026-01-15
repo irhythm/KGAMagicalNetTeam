@@ -12,6 +12,7 @@ using WebSocketSharp;
 public class ChattingManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject chatInput;
+    [SerializeField] GameObject chattingPanel;
     TMP_InputField chatInputField;
     [SerializeField] TextMeshProUGUI chattingText;
     string _myName;
@@ -25,6 +26,7 @@ public class ChattingManager : MonoBehaviourPunCallbacks
 
     [SerializeField] bool onReadyRoom=false;
 
+    Coroutine receiveCoroutine;
     public void Start()
     {
         Debug.Log("¹æ ÀÔÀå");
@@ -56,6 +58,7 @@ public class ChattingManager : MonoBehaviourPunCallbacks
             if (!onReadyRoom)
             {
                 GameManager.Instance.OpenUI(uiName);
+                chattingPanel.SetActive(true);
             }
             onChat = true;
             chatInput.SetActive(true);
@@ -81,19 +84,37 @@ public class ChattingManager : MonoBehaviourPunCallbacks
         onChat = false;
         if (!chatInputField.text.IsNullOrEmpty())
         {
-            string message = "\n" + _myName + ": " + chatInputField.text+" ";
+            string message = "\n" + _myName + ": " + chatInputField.text + " ";
             pv.RPC(nameof(SendChat), RpcTarget.All, message);
         }
         chatInputField.text = "";
         chatInput.SetActive(false);
-    }
 
+        if (receiveCoroutine == null)
+            chattingPanel.SetActive(false);
+    }
     [PunRPC]
     public void SendChat(string message)
     {
         if (string.IsNullOrEmpty(message))
+        {
             return;
+        }
         chattingText.text += message;
+        if (!onReadyRoom)
+        {
+            if(receiveCoroutine != null)
+                StopCoroutine(receiveCoroutine);
+            receiveCoroutine = StartCoroutine(ReceiveMessage());
+        }
+    }
+    IEnumerator ReceiveMessage()
+    {
+        chattingPanel.SetActive(true);
+        yield return CoroutineManager.waitForSeconds(3f);
+        yield return new WaitUntil(() => !onChat);
+        chattingPanel.SetActive(false);
+        receiveCoroutine = null;
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
