@@ -8,6 +8,8 @@ public class PlayableCharacter : MonoBehaviourPun
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float dodgeForce = 7f;
+    public float DodgeCooldown = 1.5f;
+    
 
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
@@ -20,6 +22,8 @@ public class PlayableCharacter : MonoBehaviourPun
     public float RotationSpeed => rotationSpeed;
     public float JumpForce => jumpForce;
     public float DodgeForce => dodgeForce;
+    public float LastDodgeTime { get; set; } = 0f;
+    public bool CanDodge => Time.time >= LastDodgeTime + DodgeCooldown;
     #endregion
 
     #region ÂüÁ¶
