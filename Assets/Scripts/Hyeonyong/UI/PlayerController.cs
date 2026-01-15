@@ -94,6 +94,19 @@ public class PlayerController : MonoBehaviourPun
         }
     }
 
+
+    public void TakeDamageByMagic(float takeDamage)
+    {
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("FriendlyFire", out object isCheck))
+        {
+            if ((bool)isCheck)
+            {
+                pv.RPC(nameof(OnTakeDamageRPC), RpcTarget.All, takeDamage);
+            }
+        }
+    }
+
+
     public void SetPlayerInfo()
     {
         playerView.SetPlayerInfo(
