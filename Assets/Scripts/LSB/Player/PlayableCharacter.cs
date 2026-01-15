@@ -46,7 +46,6 @@ public class PlayableCharacter : MonoBehaviourPun
         InputHandler = GetComponent<PlayerInputHandler>();
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
-        Inventory = GetComponent<PlayerInventory>();
         MagicSystem = GetComponent<PlayerMagicSystem>();
 
         StateMachine = new StateMachine();
