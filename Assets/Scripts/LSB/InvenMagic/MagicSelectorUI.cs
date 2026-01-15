@@ -38,8 +38,6 @@ public class MagicSelectorUI : MonoBehaviour
         RefreshUI();
         panelRoot.SetActive(true);
 
-        // 커서 제어는 PlayerInputHandler나 Camera에서 중앙 관리하는 것이 충돌이 적습니다.
-        // 여기서는 UI 로직만 처리합니다.
     }
 
     public void Close()
@@ -55,10 +53,8 @@ public class MagicSelectorUI : MonoBehaviour
         panelRoot.SetActive(false);
     }
 
-    // RefreshUI 함수는 이전 코드와 동일하므로 생략 (그대로 두시면 됩니다)
     private void RefreshUI()
     {
-        // ... (이전 답변의 RefreshUI 코드) ...
         foreach (Transform child in itemContainer) Destroy(child.gameObject);
         int count = _currentItems.Count;
         if (count == 0) return;
@@ -84,8 +80,7 @@ public class MagicSelectorUI : MonoBehaviour
 
     private void CalculateSelection()
     {
-        // [수정됨] Input System 방식으로 마우스 좌표 가져오기
-        if (Mouse.current == null) return; // 마우스가 연결 안 된 경우 방지
+        if (Mouse.current == null) return;
         Vector2 mousePos = Mouse.current.position.ReadValue();
 
         Vector2 center = new Vector2(Screen.width / 2, Screen.height / 2);

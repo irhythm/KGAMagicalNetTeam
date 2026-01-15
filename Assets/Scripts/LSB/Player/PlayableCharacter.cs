@@ -13,6 +13,8 @@ public class PlayableCharacter : MonoBehaviourPun
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDist = 0.1f;
 
+    public enum MoveDir { Front, Back, Left, Right }
+
     #region 프로퍼티
     public float MoveSpeed => moveSpeed;
     public float RotationSpeed => rotationSpeed;
@@ -83,7 +85,11 @@ public class PlayableCharacter : MonoBehaviourPun
 
 
 
-    public enum MoveDir { Front, Back, Left, Right }
+    /// <summary>
+    /// 움직이는 방향 구하는용도
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
     public MoveDir GetMoveDir(Vector2 input)
     {
         if (input.magnitude < 0.1f) return MoveDir.Front;
@@ -98,6 +104,10 @@ public class PlayableCharacter : MonoBehaviourPun
         }
     }
 
+    /// <summary>
+    /// 그라운드 체크
+    /// </summary>
+    /// <returns>땅인지</returns>
     public bool CheckIsGrounded()
     {
         return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, groundCheckDist + 0.1f, groundLayer);
