@@ -1,5 +1,4 @@
 using UnityEngine;
-using static PlayerJumpState;
 
 public class PlayerMoveState : PlayerStateBase
 {
@@ -74,21 +73,9 @@ public class PlayerMoveState : PlayerStateBase
         base.Execute();
 
         Vector2 input = player.InputHandler.MoveInput;
+        CheckSwitchState(input);
 
-        if (player.InputHandler.JumpTriggered)
-        {
-            var dir = player.GetMoveDir(input);
 
-            if (dir == PlayableCharacter.MoveDir.Left || dir == PlayableCharacter.MoveDir.Right)
-            {
-                stateMachine.ChangeState(player.DodgeState);
-            }
-            else
-            {
-                stateMachine.ChangeState(player.JumpState);
-            }
-            return;
-        }
 
         if (input.sqrMagnitude < 0.01f)
         {
@@ -125,5 +112,30 @@ public class PlayerMoveState : PlayerStateBase
         if (player.InputHandler.IsWalkInput) return player.MoveSpeed * 0.5f;
         if (player.InputHandler.IsSprintInput) return player.MoveSpeed * 1.5f;
         return player.MoveSpeed;
+    }
+
+
+    private void CheckSwitchState(Vector2 input)
+    {
+        if (player.InputHandler.JumpTriggered)
+        {
+            var dir = player.GetMoveDir(input);
+
+            if (dir == PlayableCharacter.MoveDir.Left || dir == PlayableCharacter.MoveDir.Right)
+            {
+                stateMachine.ChangeState(player.DodgeState);
+            }
+            else
+            {
+                stateMachine.ChangeState(player.JumpState);
+            }
+            return;
+        }
+
+        if(player.InputHandler.AttackLeftTriggered || player.InputHandler.AttackRightTriggered)
+        {
+            stateMachine.ChangeState(player.AttackState);
+            return;
+        }
     }
 }

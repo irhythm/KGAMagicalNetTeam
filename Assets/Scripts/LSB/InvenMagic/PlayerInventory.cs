@@ -1,17 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInventory : MonoBehaviour
+public class PlayerInventory
 {
     const int maximumInvenCount = 8;
 
-
-    [Header("Slots")]
-    public InventoryData LeftHandSlot;
-    public InventoryData RightHandSlot;
-
-    [Header("Storage")]
-    [SerializeField] private Dictionary<InventoryData, int> inventory = new Dictionary<InventoryData, int>();
+    private Dictionary<InventoryData, int> inventory = new Dictionary<InventoryData, int>();
 
     public IReadOnlyDictionary<InventoryData, int> Inventory => inventory;
 
@@ -44,14 +38,5 @@ public class PlayerInventory : MonoBehaviour
             }
             return;
         }
-    }
-
-    // øﬁº’¿Ã∏È true ø¿∏•º’¿Ã∏È false
-    public void EquipItem(InventoryData item, bool isLeft)
-    {
-        if (isLeft) LeftHandSlot = item;
-        else RightHandSlot = item;
-
-        Debug.Log($"{(isLeft ? "¡¬√¯(Q)" : "øÏ√¯(E)")} ΩΩ∑‘ ¿Â¬¯: {item.itemName}");
     }
 }
