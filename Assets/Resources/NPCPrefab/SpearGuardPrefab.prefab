@@ -3994,6 +3994,7 @@ GameObject:
   - component: {fileID: 7435266838583563808}
   - component: {fileID: 3502166940363671501}
   - component: {fileID: 1770675231588915151}
+  - component: {fileID: -7547308251479564252}
   m_Layer: 0
   m_Name: SpearGuardPrefab
   m_TagString: Untagged
@@ -4125,10 +4126,11 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   observableSearch: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 1808026982586512911}
+  - {fileID: 5965908490816788581}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -4204,6 +4206,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-7547308251479564252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944837968078040472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonAnimatorView
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters: []
+  m_SynchronizeLayers: []
 --- !u!1 &2984010739051097802
 GameObject:
   m_ObjectHideFlags: 0
