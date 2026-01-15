@@ -5,10 +5,15 @@ using System.Collections;
 public class GuardAI : BaseAI
 {
     [Header("경비 세팅")]
-    public float detectRadius = 15f;    // 15m 감지
-    public float attackRange = 1.5f;    // 공격 사거리
-    public float attackCooldown = 2.0f; // 공격 쿨타임
+    public float detectRadius = 15f;    //15m 감지
+    public float attackRange = 1.5f;    //공격 사거리
+    public float attackCooldown = 2.0f; //공격 쿨타임
 
+    [Header("공격 오조준 보정 (창병 50)")]
+    public float attackRotOffset = 0f;
+
+    [Header("루트 모션 사용 여부 (도끼병 체크)")]
+    public bool useRootMotion = false;
 
     //속도 설정 
     public float patrolSpeed = 3.5f;
@@ -40,7 +45,34 @@ public class GuardAI : BaseAI
 
     protected override void SetInitialState()
     {
-        //ChangeState(new GuardPatrolState(this, stateMachine));
+        ChangeState(new GuardPatrolState(this, stateMachine));
+    }
+
+    protected override void UpdateAnimationState()
+    {
+        //부모 기능 실행
+        base.UpdateAnimationState();
+
+        if (Anim == null) return;
+
+        //상태에 맞춰 Speed 주입
+        switch (currentNetworkState)
+        {
+            case AIStateID.Patrol:
+                Anim.SetFloat("Speed", 0.5f); 
+                break;
+            case AIStateID.Chase:
+                Anim.SetFloat("Speed", 1.0f); 
+                break;
+            case AIStateID.Attack:
+                Anim.SetFloat("Speed", 0f);
+                break;
+            case AIStateID.Dead: //랙돌이처리
+                break;
+            default:
+                Anim.SetFloat("Speed", 0f);
+                break;
+        }
     }
 
     public bool CheckEnemyNearby()
@@ -79,7 +111,6 @@ public class GuardAI : BaseAI
             Agent.enabled = false;
         }
 
-        //콜라이더 꺼두기(내일여쭤봐)
         Collider col = GetComponent<Collider>();
         if (col) col.enabled = false;
 
@@ -148,7 +179,18 @@ public class GuardAI : BaseAI
     public void AttackTarget()
     {
         if (targetPlayer == null) return;
+        photonView.RPC("RpcPlayAttackAnim", RpcTarget.All);
         //추후 타격 로직 추가
+    }
+
+    //모든 클라이언트에서 공격 애니메이션 실행
+    [PunRPC]
+    public void RpcPlayAttackAnim()
+    {
+        if (Anim != null)
+        {
+            Anim.SetTrigger("Attack");
+        }
     }
 
     //범위체크용
