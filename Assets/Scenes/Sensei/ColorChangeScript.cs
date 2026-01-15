@@ -19,17 +19,22 @@ public class ColorChangeScript : MonoBehaviourPunCallbacks
 
 
             int colorIndex = (int)PhotonNetwork.LocalPlayer.CustomProperties["WizardColor"] - 1;
+            if (colorIndex < 0 || colorIndex >= playerColors.Count)
+            {
+                colorIndex = 0; // 기본 색상 인덱스로 설정
+            }
             photonView.RPC("ChangeColor", RpcTarget.AllBuffered, colorIndex);
+        }
+        else
+        {
+            photonView.RPC("ChangeColor", RpcTarget.AllBuffered, 0);
         }
     }
 
     [PunRPC]
     public void ChangeColor(int colorIndex)
     {
-        if (colorIndex == 0)
-        {
-            return;
-        }
+       
         transform.GetChild(0).GetChild(0).GetComponent<Renderer>().material.color = playerColors[colorIndex];
         transform.GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = playerColors[colorIndex];
 
