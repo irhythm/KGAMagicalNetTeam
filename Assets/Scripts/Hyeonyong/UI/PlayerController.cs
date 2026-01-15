@@ -182,10 +182,10 @@ playerInfo.transform.GetChild(1).GetComponent<Image>()
         }
     }
 
-    public void UsingMagic(MagicDataSO magicData)
-    {
-        playerView.SetMagicIcon(magicData.itemImage, magicData.cooldown);
-    }
+    //public void UsingMagic(MagicDataSO magicData)
+    //{
+    //    playerView.SetMagicIcon(magicData.itemImage, magicData.cooldown);
+    //}
 
 
 }
