@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AxeGuardAni
+  m_Controller: {fileID: 9100000, guid: 5296f9fe04d426447a9609e861489fbf, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 9feee9c9caf63154a81a8c37c2616583, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 7c109ce15bb01ae48b1c4f12247a2a4f, type: 3}
