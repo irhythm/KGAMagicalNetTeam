@@ -30,6 +30,9 @@ public class GuardAI : BaseAI
     //최적화용 버퍼
     private Collider[] connectionBuffer = new Collider[1];
 
+    //최적화용 포톤뷰 캐싱
+    private PhotonView targetPv;
+
     //랙돌용 컴포넌트 캐싱
     private Rigidbody[] ragdollRigidbodies;
     private Collider[] ragdollColliders;
@@ -59,10 +62,10 @@ public class GuardAI : BaseAI
         switch (currentNetworkState)
         {
             case AIStateID.Patrol:
-                Anim.SetFloat("Speed", 0.5f); 
+                Anim.SetFloat("Speed", 0.5f);
                 break;
             case AIStateID.Chase:
-                Anim.SetFloat("Speed", 1.0f); 
+                Anim.SetFloat("Speed", 1.0f);
                 break;
             case AIStateID.Attack:
                 Anim.SetFloat("Speed", 0f);
@@ -80,10 +83,17 @@ public class GuardAI : BaseAI
         int count = Physics.OverlapSphereNonAlloc(transform.position, detectRadius, connectionBuffer, targetMask);
         if (count > 0)
         {
-            targetPlayer = connectionBuffer[0].transform;
+            Transform foundTarget = connectionBuffer[0].transform;
+            //최적화_타겟 바뀔때만 겟컴포넌트
+            if (targetPlayer != foundTarget)
+            {
+                targetPlayer = connectionBuffer[0].transform;
+                targetPv = targetPlayer.GetComponent<PhotonView>();
+            }
             return true;
         }
         targetPlayer = null;
+        targetPv = null;
         return false;
     }
 
@@ -187,7 +197,7 @@ public class GuardAI : BaseAI
     {
         //방장만 로직 실행
         if (!PhotonNetwork.IsMasterClient) return;
-        if (targetPlayer == null) return;
+        if (targetPlayer == null || targetPv == null) return;
 
         float distance = Vector3.Distance(transform.position, targetPlayer.position);
         float hitCheckRange = attackRange + 1.0f;
@@ -195,16 +205,7 @@ public class GuardAI : BaseAI
         //사거리 체크
         if (distance <= hitCheckRange)
         {
-            //플레이어 컨트롤러 가져오기
-            PlayerController targetPC = targetPlayer.GetComponent<PlayerController>();
-
-            if (targetPC != null)
-            {
-                //RPC를 직접 쏘지 않고 함수를 호출함
-                targetPC.TakeDamage(10f);
-
-                Debug.Log($"{targetPlayer.name}의 TakeDamage 함수 직접 호출");
-            }
+            targetPv.RPC("OnTakeDamageRPC", RpcTarget.All, (float)damage);
         }
     }
     //모든 클라이언트에서 공격 애니메이션 실행
