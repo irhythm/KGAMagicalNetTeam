@@ -4,8 +4,11 @@ using UnityEngine;
 public class PlayerMagicSystem : MonoBehaviourPun
 {
     [Header("Magic Settings")]
-    public InventoryData LeftHandSlot;
-    public InventoryData RightHandSlot;
+    public InventoryDataSO LeftHandSlot;
+    public InventoryDataSO RightHandSlot;
+
+    private MagicBase _leftMagicLogic;
+    private MagicBase _rightMagicLogic;
 
     [Header("Spawn Points")]
     public Transform leftSpawnPoint;
@@ -16,40 +19,60 @@ public class PlayerMagicSystem : MonoBehaviourPun
     [SerializeField] private float minAimDistance = 2f;
     [SerializeField] private LayerMask aimLayerMask;
 
+    private PlayableCharacter _player;
+
     private Camera _mainCamera;
 
     private void Start()
     {
+        _player = GetComponent<PlayableCharacter>();
         _mainCamera = Camera.main;
+        if (photonView.IsMine)
+        {
+            if (LeftHandSlot != null)
+            {
+                _player.Inventory.AddItem(LeftHandSlot);
+                EquipItem(LeftHandSlot, true);
+            }
+            if (RightHandSlot != null)
+            {
+                _player.Inventory.AddItem(RightHandSlot);
+                EquipItem(RightHandSlot, false);
+            }
+        }
+        else
+        {
+            if (LeftHandSlot is MagicDataSO leftData) _leftMagicLogic = leftData.CreateInstance();
+            if (RightHandSlot is MagicDataSO rightData) _rightMagicLogic = rightData.CreateInstance();
+        }
     }
 
     public void CastMagic(bool isLeftHand)
     {
         if (!photonView.IsMine) return;
 
-        InventoryData magic = isLeftHand ? LeftHandSlot : RightHandSlot;
+        MagicBase targetLogic = isLeftHand ? _leftMagicLogic : _rightMagicLogic;
         Transform spawnPoint = isLeftHand ? leftSpawnPoint : rightSpawnPoint;
 
-        if (magic == null || !(magic is MagicData)) return;
+        if (targetLogic == null || !targetLogic.CanCast()) return;
 
-        Vector3 Dir = GetDir(spawnPoint);
+        Vector3 dir = GetDir(spawnPoint);
         Vector3 spawnPos = spawnPoint.position;
 
-        //TODO: 쿨타임 로직
+        targetLogic.InitCooldown();
+        Debug.Log($"매직 시스템 {(isLeftHand ? "Left" : "Right")} 쿨다운 시작");
 
-        photonView.RPC(nameof(RPC_CastMagic), RpcTarget.All, isLeftHand, spawnPos, Dir);
+        photonView.RPC(nameof(RPC_CastMagic), RpcTarget.All, isLeftHand, spawnPos, dir);
     }
 
     [PunRPC]
     private void RPC_CastMagic(bool isLeftHand, Vector3 spawnPos, Vector3 direction)
     {
-        InventoryData magicInv = isLeftHand ? LeftHandSlot : RightHandSlot;
+        MagicBase targetLogic = isLeftHand ? _leftMagicLogic : _rightMagicLogic;
 
-        MagicData magic = magicInv as MagicData;
-
-        if (magic != null)
+        if (targetLogic != null)
         {
-            magic.OnCast(spawnPos, direction, isLeftHand);
+            targetLogic.OnCast(spawnPos, direction, isLeftHand);
         }
     }
 
@@ -79,11 +102,27 @@ public class PlayerMagicSystem : MonoBehaviourPun
         return (targetPoint - spawnPoint.position).normalized;
     }
 
-    public void EquipItem(InventoryData item, bool isLeft)
+    public void EquipItem(InventoryDataSO item, bool isLeft)
     {
         if (isLeft) LeftHandSlot = item;
         else RightHandSlot = item;
 
-        Debug.Log($"{(isLeft ? "좌측(Q)" : "우측(E)")} 슬롯 장착: {item.itemName}");
+        MagicBase targetLogic = null;
+
+        if (item is MagicDataSO magicData)
+        {
+            targetLogic = _player.Inventory.GetMagicInstance(magicData);
+
+            if (targetLogic == null)
+            {
+                Debug.LogWarning($"[System] 인벤토리에 없는 마법을 장착 시도함: {item.itemName}. 새로 생성합니다.");
+                targetLogic = magicData.CreateInstance();
+            }
+        }
+
+        if (isLeft) _leftMagicLogic = targetLogic;
+        else _rightMagicLogic = targetLogic;
+
+        Debug.Log($"{(isLeft ? "왼손" : "오른손")} 장착: {item?.itemName}");
     }
 }

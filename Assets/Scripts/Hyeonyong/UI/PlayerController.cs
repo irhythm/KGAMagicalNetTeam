@@ -169,7 +169,7 @@ playerInfo.transform.GetChild(1).GetComponent<Image>()
         }
     }
 
-    public void UsingMagic(MagicData magicData)
+    public void UsingMagic(MagicDataSO magicData)
     {
         playerView.SetMagicIcon(magicData.itemImage, magicData.cooldown);
     }

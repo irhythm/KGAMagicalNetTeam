@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TestMagic : MonoBehaviour
 {
-    MagicData data;
+    MagicDataSO data;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

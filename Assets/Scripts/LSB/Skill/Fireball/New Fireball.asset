@@ -19,4 +19,6 @@ MonoBehaviour:
   description: 
   isDisposable: 0
   magicDamage: 0
-  cooldown: 0
+  cooldown: 5
+  spawnOffset: {x: 0, y: 0, z: 0}
+  speed: 20

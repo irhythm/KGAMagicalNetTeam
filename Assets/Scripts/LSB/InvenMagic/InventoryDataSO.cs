@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InventoryData : ScriptableObject
+public class InventoryDataSO : ScriptableObject
 {
     public string itemId;           // 아이디
     public string itemName;         // 이름
