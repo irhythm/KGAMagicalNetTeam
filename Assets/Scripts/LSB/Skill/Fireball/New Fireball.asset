@@ -17,8 +17,10 @@ MonoBehaviour:
   itemImage: {fileID: 0}
   itemPrefab: {fileID: 3849062070049599827, guid: 0878129b6f3a0d64ea4728b382a5f1c5, type: 3}
   description: 
+  damage: 0
   isDisposable: 0
   magicDamage: 0
   cooldown: 5
   spawnOffset: {x: 0, y: 0, z: 0}
   speed: 20
+  explosionEffectPrefab: {fileID: 2171681095029567125, guid: 6a76d703b210225468effaff42ad5632, type: 3}
