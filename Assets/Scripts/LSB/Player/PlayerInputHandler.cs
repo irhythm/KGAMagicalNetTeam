@@ -5,31 +5,45 @@ using UnityEngine.InputSystem;
 public class PlayerInputHandler : MonoBehaviourPun
 {
     private PlayerInput _playerInput;
+    private PlayableCharacter _player;
 
     private Vector2 _rawMoveInput;
     private bool _areInputsAllowed = true;
 
-    #region Public Properties (State에서 접근)
+    
 
-    public Vector2 MoveInput => _areInputsAllowed ? _rawMoveInput : Vector2.zero;
-
-    public bool IsSprintInput { get; private set; }
-    public bool IsWalkInput { get; private set; }
-
-    public bool JumpTriggered { get; private set; }
-
-    public bool JumpButtonHeld { get; private set; }
-
-    #endregion
+    private float _qPressTime;
+    private float _ePressTime;
+    private bool _isQHold;
+    private bool _isEHold;
+    private const float HOLD_SELECTTIME = 0.5f;
 
     private InputAction _moveAction;
     private InputAction _jumpAction;
     private InputAction _walkAction;
     private InputAction _sprintAction;
+    private InputAction _selectQAction;
+    private InputAction _selectEAction;
+    private InputAction _attackLeftAction;
+    private InputAction _attackRightAction;
+
+
+    #region 프로퍼티
+    public Vector2 MoveInput => _areInputsAllowed ? _rawMoveInput : Vector2.zero;
+    public bool IsSprintInput { get; private set; }
+    public bool IsWalkInput { get; private set; }
+    public bool JumpTriggered { get; private set; }
+    public bool JumpButtonHeld { get; private set; }
+    public bool AttackLeftTriggered { get; private set; }
+    public bool AttackRightTriggered { get; private set; }
+    #endregion
+
+    
 
     private void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
+        _player = GetComponent<PlayableCharacter>();
     }
 
     private void OnEnable()
@@ -44,9 +58,17 @@ public class PlayerInputHandler : MonoBehaviourPun
         ConnectJump();
         ConnectWalk();
         ConnectSprint();
+        ConnectInputActions();
 
         GameManager.Instance.onOpenUI += DisableInputLogic;
         GameManager.Instance.onCloseUI += EnableInputLogic;
+    }
+
+    private void Update()
+    {
+        if (!photonView.IsMine) return;
+
+        HandleHoldLogic();
     }
 
     private void LateUpdate()
@@ -54,6 +76,8 @@ public class PlayerInputHandler : MonoBehaviourPun
         if (!photonView.IsMine) return;
 
         JumpTriggered = false;
+        AttackLeftTriggered = false;
+        AttackRightTriggered = false;
     }
 
     private void OnDisable()
@@ -116,6 +140,27 @@ public class PlayerInputHandler : MonoBehaviourPun
         _sprintAction.canceled += ctx => IsSprintInput = false;
     }
 
+    private void ConnectInputActions()
+    {
+        _selectQAction = _playerInput.actions["SelectQ"];
+        _selectEAction = _playerInput.actions["SelectE"];
+
+        _attackLeftAction = _playerInput.actions["AttackLeft"];
+        _attackRightAction = _playerInput.actions["AttackRight"];
+
+        _attackLeftAction.performed += ctx =>
+        {
+            if (_areInputsAllowed && !_isQHold && !_isEHold)
+                AttackLeftTriggered = true;
+        };
+
+        _attackRightAction.performed += ctx =>
+        {
+            if (_areInputsAllowed && !_isQHold && !_isEHold)
+                AttackRightTriggered = true;
+        };
+    }
+
     private void EnableInputLogic() => OnPlayerInput();
     private void DisableInputLogic() => OffPlayerInput();
 
@@ -134,6 +179,84 @@ public class PlayerInputHandler : MonoBehaviourPun
         {
             _areInputsAllowed = true;
             if(_moveAction != null) _rawMoveInput = _moveAction.ReadValue<Vector2>();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void HandleHoldLogic()
+    {
+        if (_selectQAction.IsPressed())
+        {
+            if (!_isQHold)
+            {
+                _qPressTime += Time.deltaTime;
+                if (_qPressTime >= HOLD_SELECTTIME)
+                {
+                    _isQHold = true;
+                    OpenSelector(true);
+                }
+            }
+        }
+        else
+        {
+            if (_isQHold)
+            {
+                CloseSelector();
+                _isQHold = false;
+            }
+            _qPressTime = 0f;
+        }
+
+        if (_selectEAction.IsPressed())
+        {
+            if (!_isEHold)
+            {
+                _ePressTime += Time.deltaTime;
+                if (_ePressTime >= HOLD_SELECTTIME)
+                {
+                    _isEHold = true;
+                    OpenSelector(false);
+                }
+            }
+        }
+        else
+        {
+            if (_isEHold)
+            {
+                CloseSelector();
+                _isEHold = false;
+            }
+            _ePressTime = 0f;
+        }
+    }
+    private void OpenSelector(bool isLeft)
+    {
+        _player.MagicSelector.Open(isLeft);
+
+        if (_player.GameCamera != null)
+        {
+            _player.GameCamera.SetControl(false);
+        }
+    }
+
+    private void CloseSelector()
+    {
+        _player.MagicSelector.Close();
+
+        if (_player.GameCamera != null)
+        {
+            _player.GameCamera.SetControl(true);
         }
     }
 }
