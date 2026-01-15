@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b12191d15ce9ee42b6f8d36923c329a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Fireball
+  fireballData: {fileID: 11400000, guid: 2496b0d6652fa4344a6bfad6b5cab5fb, type: 2}
 --- !u!2083052967 &2725744981544075678
 VisualEffect:
   m_ObjectHideFlags: 0
@@ -208,7 +209,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: -2393338398825914503}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

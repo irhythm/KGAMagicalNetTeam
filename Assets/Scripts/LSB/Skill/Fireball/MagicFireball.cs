@@ -18,7 +18,6 @@ public class MagicFireball : MagicBase
         {
             GameObject obj = PhotonNetwork.Instantiate("EffectPrefab/" + fireballData.itemPrefab.name, finalSpawnPos, Quaternion.LookRotation(direction));
             Fireball fireball = obj.GetComponent<Fireball>();
-            fireball.Init(fireballData);
             fireball.SetShooterActorNumber(shooterID);
         }
     }
