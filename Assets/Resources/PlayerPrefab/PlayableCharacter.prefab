@@ -478,12 +478,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce01f858a9814fe4d8322a121492791c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  testTakeDamageAction: {fileID: 0}
+  testTakeDamageAction: {fileID: -135069969608573499, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   maxHp: 100
   playerModel: {fileID: 0}
   playerView: {fileID: -6589114128582020185}
   playerInfoPrefab: {fileID: 2214901045480714207, guid: 3ac7a7d22cedf6948ac3603fcbdb0786, type: 3}
+  myInfoPrefab: {fileID: 6991229508053554550, guid: 2df120cc2f933184785badc1852aa7f7, type: 3}
   playerInfoPanel: {fileID: 0}
+  myInfoPanel: {fileID: 0}
 --- !u!114 &-6589114128582020185
 MonoBehaviour:
   m_ObjectHideFlags: 0

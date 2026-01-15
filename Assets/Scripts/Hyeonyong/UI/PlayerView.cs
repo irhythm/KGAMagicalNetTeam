@@ -24,7 +24,11 @@ public class PlayerView : MonoBehaviour
         playerName=name;
         playerHp = hp;
         voiceImage= voice;
-
+    }
+    public void SetMyInfo(TextMeshProUGUI name, Image hp)
+    {
+        playerName=name;
+        playerHp = hp;
     }
 
     public void SetPlayerName(string name)

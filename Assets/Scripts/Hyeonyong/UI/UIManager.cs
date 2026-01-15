@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
 
 
     public Transform playerInfoPanel;
+    public Transform myInfoPanel;
     private void Awake()
     {
         Instance = this;
