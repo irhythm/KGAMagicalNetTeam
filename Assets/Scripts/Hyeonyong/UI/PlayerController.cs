@@ -1,13 +1,17 @@
 using Photon.Pun;
+using Photon.Voice.PUN;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Profiling;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviourPun
 {
     [SerializeField] private InputActionReference testTakeDamageAction;
     PhotonView pv;
+    PhotonVoiceView pvv;
+    Recorder recorder;
     [SerializeField] float maxHp = 100f;
     public PlayerModel playerModel;
     [SerializeField] private PlayerView playerView;
@@ -16,10 +20,13 @@ public class PlayerController : MonoBehaviourPun
     [SerializeField] GameObject playerInfoPrefab;
     [SerializeField] Transform playerInfoPanel;
     GameObject playerInfo;
+
+    //[SerializeField] Image speakerImage;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         pv = GetComponent<PhotonView>();
+        pvv = GetComponent<PhotonVoiceView>();
 
         //if (!pv.IsMine)
         //    return;
@@ -31,12 +38,15 @@ public class PlayerController : MonoBehaviourPun
         playerInfo = Instantiate(playerInfoPrefab, playerInfoPanel);
         SetPlayerInfo(
     playerInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>(),
-    playerInfo.transform.GetChild(1).GetComponent<Image>()
+    playerInfo.transform.GetChild(1).GetComponent<Image>(),
+    playerInfo.transform.GetChild(2).GetComponent<Image>()
     );
         SetPlayerName(pv.Owner.NickName);
 
         testTakeDamageAction.action.Enable();
         testTakeDamageAction.action.performed += TestTakeDamage;
+
+        //playerView.SetVoiceImage(speakerImage);
     }
 
     public void TestTakeDamage(InputAction.CallbackContext context)
@@ -71,9 +81,9 @@ public class PlayerController : MonoBehaviourPun
         }
     }
 
-    public void SetPlayerInfo(TextMeshProUGUI name, Image hp)
+    public void SetPlayerInfo(TextMeshProUGUI name, Image hp, Image speaker)
     {
-        playerView.SetPlayerInfo(name, hp);
+        playerView.SetPlayerInfo(name, hp, speaker);
     }
     public void CheckPlayerName(TextMeshProUGUI name)
     {
@@ -105,5 +115,17 @@ public class PlayerController : MonoBehaviourPun
     public void SetPlayerName(string name)
     {
         playerView.SetPlayerName(name);
+    }
+
+    void Update()
+    {
+        if (pv.IsMine)
+        {
+            playerView.CheckVoiceImage(pvv.IsRecording);
+        }
+        else
+        {
+            playerView.CheckVoiceImage(pvv.IsSpeaking);
+        }
     }
 }

@@ -6,11 +6,24 @@ public class PlayerView : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI playerName;
     [SerializeField] Image playerHp;
+    [SerializeField] Image voiceImage;
 
-    public void SetPlayerInfo(TextMeshProUGUI name, Image hp)
+    public void SetVoiceImage(Image photonVoiceImage)
+    {
+        voiceImage= photonVoiceImage;
+        voiceImage.enabled= false;
+    }
+
+    public void CheckVoiceImage(bool check)
+    {
+        voiceImage.enabled = check;
+    }
+
+    public void SetPlayerInfo(TextMeshProUGUI name, Image hp, Image voice)
     {
         playerName=name;
         playerHp = hp;
+        voiceImage= voice;
 
     }
 
@@ -21,5 +34,10 @@ public class PlayerView : MonoBehaviour
     public void UpdatePlayerHP(float amount)
     {
         playerHp.fillAmount = amount;
+    }
+
+    public void OnVoiceImage()
+    {
+        
     }
 }
