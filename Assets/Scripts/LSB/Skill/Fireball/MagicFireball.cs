@@ -9,14 +9,16 @@ public class MagicFireball : MagicBase
         this.fireballData = data;
     }
 
-    public override void OnCast(Vector3 spawnPos, Vector3 direction, bool isLeftHand)
+    public override void OnCast(Vector3 spawnPos, Vector3 direction, bool isLeftHand, int shooterID)
     {
         Vector3 finalSpawnPos = spawnPos + fireballData.spawnOffset;
 
         if (fireballData.itemPrefab != null)
         {
             GameObject obj = GameObject.Instantiate(fireballData.itemPrefab, finalSpawnPos, Quaternion.LookRotation(direction));
-            obj.GetComponent<Fireball>().Init(fireballData);
+            Fireball fireball = obj.GetComponent<Fireball>();
+            fireball.Init(fireballData);
+            fireball.SetShooterActorNumber(shooterID);
         }
     }
 }

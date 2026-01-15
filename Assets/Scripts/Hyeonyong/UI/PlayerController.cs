@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Profiling;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviourPun
+public class PlayerController : MonoBehaviourPun, IDamageable
 {
     [SerializeField] private InputActionReference testTakeDamageAction;
     PhotonView pv;
@@ -120,19 +120,6 @@ public class PlayerController : MonoBehaviourPun
         playableCharacter.OnAttacked(takeDamage);
 
         // pv.RPC(nameof(OnTakeDamageRPC), RpcTarget.All, 10f);
-    }
-
-
-    public void TakeDamageByMagic(float takeDamage)
-    {
-        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("FriendlyFire", out object isCheck))
-        {
-            if ((bool)isCheck)
-            {
-                playableCharacter.OnAttacked(takeDamage);
-                // pv.RPC(nameof(OnTakeDamageRPC), RpcTarget.All, takeDamage);
-            }
-        }
     }
 
 

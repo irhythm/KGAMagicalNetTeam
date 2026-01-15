@@ -2,6 +2,7 @@ using UnityEngine;
 
 public abstract class MagicDataSO : InventoryDataSO
 {
+    public int damage;          // 물리 데미지
     public bool isDisposable;   // 일회용인지
     public int magicDamage;     // 마법 데미지
     public float cooldown;      // 쿨타운

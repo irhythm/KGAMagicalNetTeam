@@ -72,7 +72,7 @@ public class PlayerMagicSystem : MonoBehaviourPun
 
         if (targetLogic != null)
         {
-            targetLogic.OnCast(spawnPos, direction, isLeftHand);
+            targetLogic.OnCast(spawnPos, direction, isLeftHand, photonView.OwnerActorNr);
         }
     }
 

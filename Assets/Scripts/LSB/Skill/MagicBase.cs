@@ -32,5 +32,5 @@ public abstract class MagicBase
         currentCooldown = data.cooldown;
     }
 
-    public abstract void OnCast(Vector3 spawnPos, Vector3 direction, bool isLeftHand);
+    public abstract void OnCast(Vector3 spawnPos, Vector3 direction, bool isLeftHand, int shooterID);
 }
