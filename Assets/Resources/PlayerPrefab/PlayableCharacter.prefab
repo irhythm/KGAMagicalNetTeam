@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5251107426523682287}
+  - component: {fileID: 7414965327586905212}
+  - component: {fileID: 3596628229695618438}
   - component: {fileID: 6974702080980810718}
   - component: {fileID: 5159365338812574217}
   - component: {fileID: 6264066921911791175}
@@ -49,6 +51,48 @@ Transform:
   - {fileID: 8234436724202565122}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7414965327586905212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940719953895527930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9d788a10b5769341a328201909cded4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMagicSystem
+  LeftHandSlot: {fileID: 11400000, guid: 2496b0d6652fa4344a6bfad6b5cab5fb, type: 2}
+  RightHandSlot: {fileID: 11400000, guid: 2496b0d6652fa4344a6bfad6b5cab5fb, type: 2}
+  leftSpawnPoint: {fileID: 12994451976599241}
+  rightSpawnPoint: {fileID: 1860097665412997098}
+  maxAimDistance: 50
+  minAimDistance: 2
+  aimLayerMask:
+    serializedVersion: 2
+    m_Bits: 191
+--- !u!114 &3596628229695618438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940719953895527930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9d788a10b5769341a328201909cded4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMagicSystem
+  LeftHandSlot: {fileID: 11400000, guid: 2496b0d6652fa4344a6bfad6b5cab5fb, type: 2}
+  RightHandSlot: {fileID: 11400000, guid: 2496b0d6652fa4344a6bfad6b5cab5fb, type: 2}
+  leftSpawnPoint: {fileID: 12994451976599241}
+  rightSpawnPoint: {fileID: 1860097665412997098}
+  maxAimDistance: 50
+  minAimDistance: 2
+  aimLayerMask:
+    serializedVersion: 2
+    m_Bits: 191
 --- !u!114 &6974702080980810718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,7 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayableCharacter
   moveSpeed: 5
   rotationSpeed: 10
-  jumpForce: 5
+  jumpForce: 15
   dodgeForce: 7
   groundLayer:
     serializedVersion: 2
@@ -235,6 +279,15 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 0
     Name: VerticalVelocity
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsAttacking
+  - Type: 9
+    SynchronizeType: 0
+    Name: LeftHand
+  - Type: 9
+    SynchronizeType: 0
+    Name: RightHand
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -563,6 +616,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35c44a97c30e4e946a0f4d3310613b95, type: 3}
+--- !u!4 &12994451976599241 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -729007487329059040, guid: 35c44a97c30e4e946a0f4d3310613b95, type: 3}
+  m_PrefabInstance: {fileID: 8488196711846185449}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1860097665412997098 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7790177421927552515, guid: 35c44a97c30e4e946a0f4d3310613b95, type: 3}
+  m_PrefabInstance: {fileID: 8488196711846185449}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8234436724202565122 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 35c44a97c30e4e946a0f4d3310613b95, type: 3}

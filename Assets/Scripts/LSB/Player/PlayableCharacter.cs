@@ -28,6 +28,7 @@ public class PlayableCharacter : MonoBehaviourPun
     public Animator Animator { get; private set; }
     public ThirdPersonCamera GameCamera { get; private set; }
     public PlayerInventory Inventory { get; private set; }
+    public PlayerMagicSystem MagicSystem { get; private set; }
     #endregion
 
     #region 상태 머신
@@ -35,7 +36,7 @@ public class PlayableCharacter : MonoBehaviourPun
     public PlayerMoveState MoveState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerDodgeState DodgeState { get; private set; }
-    public PlayerActionState AttackState { get; private set; }
+    public PlayerAttackState AttackState { get; private set; }
     #endregion
 
 
@@ -45,13 +46,13 @@ public class PlayableCharacter : MonoBehaviourPun
         InputHandler = GetComponent<PlayerInputHandler>();
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
-        Inventory = GetComponent<PlayerInventory>();
+        MagicSystem = GetComponent<PlayerMagicSystem>();
 
         StateMachine = new StateMachine();
         MoveState = new PlayerMoveState(this, StateMachine);
         JumpState = new PlayerJumpState(this, StateMachine, "IsJumping");
         DodgeState = new PlayerDodgeState(this, StateMachine, "IsDodging");
-        AttackState = new PlayerActionState(this, StateMachine);
+        AttackState = new PlayerAttackState(this, StateMachine, "IsAttacking");
     }
 
     private void Start()

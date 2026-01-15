@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New InventoryData", menuName = "Game/InventoryData")]
 public class InventoryData : ScriptableObject
 {
     public string itemId;           // ¾ÆÀÌµð
