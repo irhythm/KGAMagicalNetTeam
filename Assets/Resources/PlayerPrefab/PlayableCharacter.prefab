@@ -277,34 +277,34 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: InputX
   - Type: 1
-    SynchronizeType: 2
+    SynchronizeType: 1
     Name: InputZ
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsMoveing
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsJumping
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsDodging
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: JumpTrigger
   - Type: 3
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: JumpType
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: VerticalVelocity
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: IsAttacking
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: LeftHand
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: RightHand
   m_SynchronizeLayers:
   - SynchronizeType: 1

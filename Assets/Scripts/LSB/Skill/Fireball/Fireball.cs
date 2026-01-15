@@ -25,7 +25,11 @@ public class Fireball : MonoBehaviourPun
         if (target == null)
         {
             PlayExplosionEffect(transform.position);
-            PhotonNetwork.Destroy(gameObject);
+            if (photonView.IsMine && gameObject != null)
+            {
+                PhotonNetwork.Destroy(gameObject);
+            }
+            
             return;
         }
 
@@ -57,7 +61,10 @@ public class Fireball : MonoBehaviourPun
 
         // 일단 맞으면 폭발 이펙트 재생하고 삭제함
         PlayExplosionEffect(transform.position);
-        PhotonNetwork.Destroy(gameObject);
+        if (photonView.IsMine && gameObject != null)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 
     // 오사 설정 켜져있나 확인
