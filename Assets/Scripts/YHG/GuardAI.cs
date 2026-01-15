@@ -183,6 +183,30 @@ public class GuardAI : BaseAI
         //추후 타격 로직 추가
     }
 
+    public void InflictDamage()
+    {
+        //방장만 로직 실행
+        if (!PhotonNetwork.IsMasterClient) return;
+        if (targetPlayer == null) return;
+
+        float distance = Vector3.Distance(transform.position, targetPlayer.position);
+        float hitCheckRange = attackRange + 1.0f;
+
+        //사거리 체크
+        if (distance <= hitCheckRange)
+        {
+            //플레이어 컨트롤러 가져오기
+            PlayerController targetPC = targetPlayer.GetComponent<PlayerController>();
+
+            if (targetPC != null)
+            {
+                //RPC를 직접 쏘지 않고 함수를 호출함
+                targetPC.TakeDamage(10f);
+
+                Debug.Log($"{targetPlayer.name}의 TakeDamage 함수 직접 호출");
+            }
+        }
+    }
     //모든 클라이언트에서 공격 애니메이션 실행
     [PunRPC]
     public void RpcPlayAttackAnim()

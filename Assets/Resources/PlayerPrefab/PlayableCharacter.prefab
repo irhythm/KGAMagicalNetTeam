@@ -99,6 +99,7 @@ MonoBehaviour:
   rotationSpeed: 10
   jumpForce: 15
   dodgeForce: 7
+  DodgeCooldown: 1.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
