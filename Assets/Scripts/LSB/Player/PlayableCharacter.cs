@@ -17,7 +17,7 @@ public class PlayableCharacter : MonoBehaviourPun
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float dodgeForce = 7f;
-    public float DodgeCooldown = 1.5f;
+    [SerializeField] private float DodgeCooldown = 1.5f;
 
 
     [Header("Ground Detection")]
