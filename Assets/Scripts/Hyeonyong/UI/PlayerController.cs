@@ -18,7 +18,10 @@ public class PlayerController : MonoBehaviourPun
 
 
     [SerializeField] GameObject playerInfoPrefab;
+    [SerializeField] GameObject myInfoPrefab;
+
     [SerializeField] Transform playerInfoPanel;
+    [SerializeField] Transform myInfoPanel;
     GameObject playerInfo;
 
     //[SerializeField] Image speakerImage;
@@ -34,13 +37,27 @@ public class PlayerController : MonoBehaviourPun
         playerModel.Init();
 
 
-        playerInfoPanel = UIManager.Instance.playerInfoPanel;
-        playerInfo = Instantiate(playerInfoPrefab, playerInfoPanel);
-        SetPlayerInfo(
-    playerInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>(),
-    playerInfo.transform.GetChild(1).GetComponent<Image>(),
-    playerInfo.transform.GetChild(2).GetComponent<Image>()
-    );
+        if (pv.IsMine)
+        {
+            if (myInfoPanel == null)
+                myInfoPanel = UIManager.Instance.myInfoPanel;
+            playerInfo = Instantiate(myInfoPrefab, myInfoPanel);
+            SetMyInfo(
+playerInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>(),
+playerInfo.transform.GetChild(1).GetComponent<Image>()
+);
+        }
+        else
+        {
+            if(playerInfoPanel==null)
+                playerInfoPanel = UIManager.Instance.playerInfoPanel;
+            playerInfo = Instantiate(playerInfoPrefab, playerInfoPanel);
+            SetPlayerInfo(
+        playerInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>(),
+        playerInfo.transform.GetChild(1).GetComponent<Image>(),
+        playerInfo.transform.GetChild(2).GetComponent<Image>()
+        );
+        }
         SetPlayerName(pv.Owner.NickName);
 
         testTakeDamageAction.action.Enable();
@@ -85,6 +102,10 @@ public class PlayerController : MonoBehaviourPun
     {
         playerView.SetPlayerInfo(name, hp, speaker);
     }
+    public void SetMyInfo(TextMeshProUGUI name, Image hp)
+    {
+        playerView.SetMyInfo(name, hp);
+    }
     public void CheckPlayerName(TextMeshProUGUI name)
     {
         if (name == null)
@@ -119,11 +140,12 @@ public class PlayerController : MonoBehaviourPun
 
     void Update()
     {
-        if (pv.IsMine)
-        {
-            playerView.CheckVoiceImage(pvv.IsRecording);
-        }
-        else
+        //if (pv.IsMine)
+        //{
+        //    playerView.CheckVoiceImage(pvv.IsRecording);
+        //}
+        //else
+        if(!pv.IsMine)
         {
             playerView.CheckVoiceImage(pvv.IsSpeaking);
         }
