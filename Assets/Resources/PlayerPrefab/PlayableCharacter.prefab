@@ -307,7 +307,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: RightHand
   m_SynchronizeLayers:
-  - SynchronizeType: 1
+  - SynchronizeType: 0
     LayerIndex: 0
 --- !u!114 &7488527903777639671
 MonoBehaviour:
