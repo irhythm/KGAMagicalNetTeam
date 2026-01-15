@@ -14,8 +14,8 @@ public class PlayerView : MonoBehaviour
     [SerializeField] float checkDuration = 0.1f;
     public void SetVoiceImage(Image photonVoiceImage)
     {
-        voiceImage= photonVoiceImage;
-        voiceImage.enabled= false;
+        voiceImage = photonVoiceImage;
+        voiceImage.enabled = false;
     }
 
     public void CheckVoiceImage(bool check)
@@ -25,13 +25,13 @@ public class PlayerView : MonoBehaviour
 
     public void SetPlayerInfo(TextMeshProUGUI name, Image hp, Image voice)
     {
-        playerName=name;
+        playerName = name;
         playerHp = hp;
-        voiceImage= voice;
+        voiceImage = voice;
     }
     public void SetMyInfo(TextMeshProUGUI name, Image hp)
     {
-        playerName=name;
+        playerName = name;
         playerHp = hp;
     }
 
@@ -97,7 +97,7 @@ public class PlayerView : MonoBehaviour
     //    }
     //}
 
-    public IEnumerator CheckCoolTime(Image checkCoolDown, float coolDown, GameObject magicIcon=null)
+    public IEnumerator CheckCoolTime(Image checkCoolDown, float coolDown, GameObject magicIcon = null)
     {
         float curCoolDown = coolDown;
         while (curCoolDown > 0)
@@ -109,9 +109,9 @@ public class PlayerView : MonoBehaviour
             curCoolDown -= checkDuration;
             checkCoolDown.fillAmount = curCoolDown / coolDown;
         }
-        if(magicIcon != null) 
-            {
-                magicIcon.SetActive(false);
-            }
+        if (magicIcon != null)
+        {
+            magicIcon.SetActive(false);
+        }
     }
 }

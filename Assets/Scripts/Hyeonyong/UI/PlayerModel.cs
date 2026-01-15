@@ -1,12 +1,11 @@
 using UnityEngine;
 
-public class PlayerModel : MonoBehaviour
+public class PlayerModel
 {
-    //플레이어 체력
-    [SerializeField] private float maxHp = 100;
+    private float maxHp = 100;
     public float MaxHp => maxHp;
 
-    [SerializeField] private float curHp;
+    private float curHp;
     public float CurHp => curHp;
 
     public PlayerModel(float maxHp)
