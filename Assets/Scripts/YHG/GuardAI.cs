@@ -208,6 +208,13 @@ public class GuardAI : BaseAI
             targetPv.RPC("OnTakeDamageRPC", RpcTarget.All, (float)damage);
         }
     }
+
+    //클립용
+    public void OnHit()
+    {
+        InflictDamage();
+    }
+
     //모든 클라이언트에서 공격 애니메이션 실행
     [PunRPC]
     public void RpcPlayAttackAnim()
