@@ -35,6 +35,7 @@ public class PlayableCharacter : MonoBehaviourPun
     public PlayerMoveState MoveState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerDodgeState DodgeState { get; private set; }
+    public PlayerActionState AttackState { get; private set; }
     #endregion
 
 
@@ -50,6 +51,7 @@ public class PlayableCharacter : MonoBehaviourPun
         MoveState = new PlayerMoveState(this, StateMachine);
         JumpState = new PlayerJumpState(this, StateMachine, "IsJumping");
         DodgeState = new PlayerDodgeState(this, StateMachine, "IsDodging");
+        AttackState = new PlayerActionState(this, StateMachine);
     }
 
     private void Start()
