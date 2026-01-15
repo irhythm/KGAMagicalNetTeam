@@ -62,13 +62,12 @@ public class PlayerMagicSystem : MonoBehaviourPun
         targetLogic.InitCooldown();
         Debug.Log($"매직 시스템 {(isLeftHand ? "Left" : "Right")} 쿨다운 시작");
 
-        photonView.RPC(nameof(RPC_CastMagic), RpcTarget.All, isLeftHand, spawnPos, dir);
+        RPC_CastMagic(isLeftHand, spawnPos, dir);
 
         //0115 플레이어 왼손, 오른손 마법 쿨타임 설정
         _player.playerController.SetCoolTime(targetLogic, isLeftHand);
     }
 
-    [PunRPC]
     private void RPC_CastMagic(bool isLeftHand, Vector3 spawnPos, Vector3 direction)
     {
         MagicBase targetLogic = isLeftHand ? _leftMagicLogic : _rightMagicLogic;
