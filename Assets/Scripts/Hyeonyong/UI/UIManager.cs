@@ -302,4 +302,9 @@ public class UIManager : MonoBehaviour
             return;
         checkUI[name] = false;
     }
+
+    public void ExitGame()
+    {
+        GameManager.Instance.ExitGame();
+    }
 }
