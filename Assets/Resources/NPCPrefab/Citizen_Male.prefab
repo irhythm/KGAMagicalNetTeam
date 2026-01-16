@@ -480,7 +480,7 @@ GameObject:
   - component: {fileID: -3819272656017013418}
   m_Layer: 7
   m_Name: Citizen_Male
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
