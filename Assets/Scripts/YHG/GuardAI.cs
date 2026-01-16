@@ -33,9 +33,9 @@ public class GuardAI : BaseAI
     //최적화용 포톤뷰 캐싱
     private PhotonView targetPv;
 
-    //랙돌용 컴포넌트 캐싱
-    private Rigidbody[] ragdollRigidbodies;
-    private Collider[] ragdollColliders;
+    [Header("정밀 판정용 무기 연결")]
+    public MeleeWeapon[] myWeapons;
+
 
     protected override void Awake()
     {
@@ -43,7 +43,15 @@ public class GuardAI : BaseAI
 
         maxHP = 1f;
         CurrentHP = maxHP;
-        InitRagdoll();
+
+        //무기에 데미지 주입
+        if (myWeapons != null)
+        {
+            foreach (var weapon in myWeapons)
+            {
+                if (weapon != null) weapon.SetDamage(damage);
+            }
+        }
     }
 
     protected override void SetInitialState()
@@ -97,95 +105,6 @@ public class GuardAI : BaseAI
         return false;
     }
 
-    //외부에서 RPC로 호출될 피격 함수, RPC 쏘는 게 맞는 지 고민.
-    [PunRPC]
-    public void TakeDamage(int damageAmount)
-    {
-        if (currentNetworkState == AIStateID.Dead) return;
-
-        CurrentHP -= damageAmount;
-
-        if (CurrentHP <= 0)
-        {
-            Die();
-        }
-    }
-
-    private void Die()
-    {
-        ChangeNetworkState(AIStateID.Dead);
-
-        if (Agent != null)
-        {
-            Agent.isStopped = true;
-            Agent.enabled = false;
-        }
-
-        Collider col = GetComponent<Collider>();
-        if (col) col.enabled = false;
-
-        if (Anim != null) Anim.enabled = false;
-        EnableRagdoll();
-
-        this.enabled = false;
-
-        //마스터클라만
-        if (PhotonNetwork.IsMasterClient)
-        {
-            StartCoroutine(CoDestroy());
-        }
-    }
-    //추후 오브젝트풀링?
-    IEnumerator CoDestroy()
-    {
-        yield return CoroutineManager.waitForSeconds(20f);
-        PhotonNetwork.Destroy(gameObject);
-    }
-
-    //랙돌 초기 설정
-    private void InitRagdoll()
-    {
-        ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
-        ragdollColliders = GetComponentsInChildren<Collider>();
-
-        foreach (Rigidbody rb in ragdollRigidbodies)
-        {
-            //본체는 제외
-            if (rb.gameObject != this.gameObject)
-            {
-                rb.isKinematic = true; //애니메이션을 따라가도록 고정
-                rb.useGravity = false;
-            }
-        }
-
-        foreach (Collider col in ragdollColliders)
-        {
-            if (col.gameObject != this.gameObject)
-            {
-                col.enabled = false; //평소에는 팔다리 콜라이더 끄기
-            }
-        }
-    }
-    //사망 시 랙돌 활성화
-    private void EnableRagdoll()
-    {
-        foreach (Rigidbody rb in ragdollRigidbodies)
-        {
-            if (rb.gameObject != this.gameObject)
-            {
-                rb.isKinematic = false; //물리 연산 시작
-                rb.useGravity = true;
-            }
-        }
-
-        foreach (Collider col in ragdollColliders)
-        {
-            if (col.gameObject != this.gameObject)
-            {
-                col.enabled = true; //충돌체 켜기
-            }
-        }
-    }
     public void AttackTarget()
     {
         if (targetPlayer == null) return;
@@ -205,16 +124,9 @@ public class GuardAI : BaseAI
         //사거리 체크
         if (distance <= hitCheckRange)
         {
-            targetPv.RPC("OnTakeDamageRPC", RpcTarget.All, (float)damage);
+            targetPv.RPC("RPC_TakeDamage", RpcTarget.All, (float)damage);
         }
     }
-
-    //클립용
-    public void OnHit()
-    {
-        InflictDamage();
-    }
-
     //모든 클라이언트에서 공격 애니메이션 실행
     [PunRPC]
     public void RpcPlayAttackAnim()
@@ -224,6 +136,28 @@ public class GuardAI : BaseAI
             Anim.SetTrigger("Attack");
         }
     }
+
+    //클립용
+    public void OnHit()
+    {
+        if (myWeapons == null) return;
+        foreach (var weapon in myWeapons)
+        {
+            if (weapon != null) weapon.EnableHitbox();
+        }
+    }
+
+    //클립용2
+    public void OnHitEnd()
+    {
+        if (myWeapons == null) return;
+        foreach (var weapon in myWeapons)
+        {
+            if (weapon != null) weapon.DisableHitbox();
+        }
+    }
+
+
 
     //범위체크용
     private void OnDrawGizmosSelected()

@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
+using System.Collections;
 
 /* 
 모든 AI의 부모가 되는 추상 클래스
 경비/시민이 가져야 할 공통 로직 공유
+
+01.16 랙돌/피격/사망 공유
 
 마스터클라이언트가 소유권을 가지고
 모든 AI의 판단과 이동 연산은
 마스터클라이언트 한 명만 수행, 나머지 클라이언트는 그 위치값만 받아 동기화
 */
 
-public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable
+public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamageable
 {
     [Header("Base Settings")]
     public float moveSpeed = 3.5f;
@@ -31,6 +34,11 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable
     public enum AIStateID { Patrol, Alert, Action, Dead, Chase, Attack }
     public AIStateID currentNetworkState;
 
+    //랙돌용 컴포넌트 캐싱 01.16 이관
+    private Rigidbody[] ragdollRigidbodies;
+    private Collider[] ragdollColliders;
+
+
     protected virtual void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
@@ -41,6 +49,8 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable
         CurrentHP = maxHP;
 
         stateMachine = new StateMachine(); //상태머신 생성
+
+        InitRagdoll(); //랙돌 통합
     }
 
     protected virtual void Start()
@@ -125,6 +135,100 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable
             {
                 currentNetworkState = recvState;
                 UpdateAnimationState(); //상태에 맞게 애니메이션 갱신
+            }
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        photonView.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+    }
+
+    [PunRPC]
+    public virtual void RPC_TakeDamage(float damageAmount)
+    {
+        if (currentNetworkState == AIStateID.Dead) return;
+
+        CurrentHP -= damageAmount;
+
+
+        if (CurrentHP <= 0)
+        {
+            Die();
+        }
+    }
+    private void Die()
+    {
+        ChangeNetworkState(AIStateID.Dead);
+
+        if (Agent != null)
+        {
+            Agent.isStopped = true;
+            Agent.enabled = false;
+        }
+
+        Collider col = GetComponent<Collider>();
+        if (col) col.enabled = false;
+
+        if (Anim != null) Anim.enabled = false;
+        EnableRagdoll();
+
+        this.enabled = false;
+
+        //마스터클라만
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(CoDestroy());
+        }
+    }
+    //추후 오브젝트풀링?
+    IEnumerator CoDestroy()
+    {
+        yield return CoroutineManager.waitForSeconds(20f);
+        PhotonNetwork.Destroy(gameObject);
+    }
+
+    //랙돌 초기 설정
+    private void InitRagdoll()
+    {
+        ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
+        ragdollColliders = GetComponentsInChildren<Collider>();
+
+        foreach (Rigidbody rb in ragdollRigidbodies)
+        {
+            //본체는 제외
+            if (rb.gameObject != this.gameObject)
+            {
+                rb.isKinematic = true; //애니메이션을 따라가도록 고정
+                rb.useGravity = false;
+            }
+        }
+
+        foreach (Collider col in ragdollColliders)
+        {
+            if (col.gameObject != this.gameObject)
+            {
+                col.enabled = false; //평소에는 팔다리 콜라이더 끄기
+            }
+        }
+    }
+    //사망 시 랙돌 활성화
+    private void EnableRagdoll()
+    {
+        foreach (Rigidbody rb in ragdollRigidbodies)
+        {
+            if (rb.gameObject != this.gameObject)
+            {
+                rb.isKinematic = false; //물리 연산 시작
+                rb.useGravity = true;
+            }
+        }
+
+        foreach (Collider col in ragdollColliders)
+        {
+            if (col.gameObject != this.gameObject)
+            {
+                col.enabled = true; //충돌체 켜기
             }
         }
     }
