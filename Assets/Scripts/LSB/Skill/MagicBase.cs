@@ -1,4 +1,3 @@
-using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 public abstract class MagicBase
@@ -33,7 +32,7 @@ public abstract class MagicBase
 
     public bool CanCast()
     {
-        Debug.Log($"ÇöÀç Äð´Ù¿î: {currentCooldown}");
+        Debug.Log($"í˜„ìž¬ ì¿¨ë‹¤ìš´: {currentCooldown}");
         return currentCooldown <= 0;
     }
 

@@ -1,13 +1,10 @@
 using Photon.Pun;
 using Photon.Voice.PUN;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Profiling;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class PlayerController : MonoBehaviourPun, IDamageable
 {
@@ -73,34 +70,34 @@ public class PlayerController : MonoBehaviourPun, IDamageable
         //playerView.SetVoiceImage(speakerImage);
     }
 
-    // ±¸µ¶ ÇØÁ¦
+    // êµ¬ë… í•´ì œ
     private void OnDisable()
     {
         UnsubscribeEvents();
         Destroy(playerInfo);
     }
 
-    // ÀÌº¥Æ® ±¸µ¶ È£Ãâ
+    // ì´ë²¤íŠ¸ êµ¬ë… í˜¸ì¶œ
     private void SubscribeEvents()
     {
         if (playableCharacter != null)
         {
             playableCharacter.OnHpChanged += HandleHpChanged;
-            // playableCharacter.OnDie += HandleDie; // ÀÌº¥Æ® ÇÊ¿äÇÏ¸é ¿©±â¿¡¼­ ¿¬°á
+            // playableCharacter.OnDie += HandleDie; // ì´ë²¤íŠ¸ í•„ìš”í•˜ë©´ ì—¬ê¸°ì—ì„œ ì—°ê²°
         }
     }
 
-    // ±¸µ¶ ÇØÁ¦ È£Ãâ
+    // êµ¬ë… í•´ì œ í˜¸ì¶œ
     private void UnsubscribeEvents()
     {
         if (playableCharacter != null)
         {
             playableCharacter.OnHpChanged -= HandleHpChanged;
-            // playableCharacter.OnDie -= HandleDie; // Á×¾úÀ» ¶§ ¹¹ ÇÒ°Å¸é ±¸ÇöÇØ¾ßÇÒ µí?
+            // playableCharacter.OnDie -= HandleDie; // ì£½ì—ˆì„ ë•Œ ë­ í• ê±°ë©´ êµ¬í˜„í•´ì•¼í•  ë“¯?
         }
     }
 
-    // ¾÷µ¥ÀÌÆ®½Ã È£Ãâ
+    // ì—…ë°ì´íŠ¸ì‹œ í˜¸ì¶œ
     private void HandleHpChanged(float hpRatio)
     {
         playerView.UpdatePlayerHP(hpRatio);
@@ -148,7 +145,7 @@ playerInfo.transform.GetChild(1).GetComponent<Image>()
 
     public void SetMagicInfo()
     {
-        //Å©±â°¡ Á¤ÇØÁ® ÀÖ¾î¼­ ¸®½ºÆ®³ª Å¥ ´ë½Å ¹è¿­ »ç¿ë
+        //í¬ê¸°ê°€ ì •í•´ì ¸ ìˆì–´ì„œ ë¦¬ìŠ¤íŠ¸ë‚˜ í ëŒ€ì‹  ë°°ì—´ ì‚¬ìš©
         int count = magicInfo.transform.GetChild(2).childCount;
         GameObject[] magic = new GameObject[count];
         for (int i = 0; i < count; i++)
@@ -170,26 +167,26 @@ playerInfo.transform.GetChild(1).GetComponent<Image>()
     {
         if (name == null)
         {
-            Debug.Log("ÀÌ¸§ ¾øÀ½");
+            Debug.Log("ì´ë¦„ ì—†ìŒ");
         }
         else
         {
-            Debug.Log("ÀÌ¸§ ÀÖÀ½ : " + name.text);
+            Debug.Log("ì´ë¦„ ìˆìŒ : " + name.text);
         }
     }
     public void CheckPlayerImage(Image hp)
     {
         if (hp == null)
         {
-            Debug.Log("ÀÌ¹ÌÁö ¾øÀ½");
+            Debug.Log("ì´ë¯¸ì§€ ì—†ìŒ");
         }
         else
         {
-            Debug.Log("ÀÌ¹ÌÁö ÀÖÀ½ : " + hp.fillAmount);
+            Debug.Log("ì´ë¯¸ì§€ ìˆìŒ : " + hp.fillAmount);
         }
     }
 
-    // ÀÌº¥Æ®·Î ¹Ù²ã¼­ È£Ãâ ÀÌÁ¦ ÇÊ¿ä¾øÀ» µí?
+    // ì´ë²¤íŠ¸ë¡œ ë°”ê¿”ì„œ í˜¸ì¶œ ì´ì œ í•„ìš”ì—†ì„ ë“¯?
     public void UpdatePlayerHp()
     {
         // playerView.UpdatePlayerHP(playerModel.CurHp / playerModel.MaxHp);
