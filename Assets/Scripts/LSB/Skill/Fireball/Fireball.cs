@@ -7,6 +7,8 @@ public class Fireball : MonoBehaviourPun
 
     private int shooterActorNumber;
 
+    private bool hasExploded = false;
+
     private void Start()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -20,15 +22,13 @@ public class Fireball : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
+        if (hasExploded) return;
+
         IDamageable target = other.GetComponent<IDamageable>();
 
         if (target == null)
         {
             PlayExplosionEffect(transform.position);
-            if (photonView.IsMine && gameObject != null)
-            {
-                PhotonNetwork.Destroy(gameObject);
-            }
             
             return;
         }
@@ -61,10 +61,6 @@ public class Fireball : MonoBehaviourPun
 
         // 일단 맞으면 폭발 이펙트 재생하고 삭제함
         PlayExplosionEffect(transform.position);
-        if (photonView.IsMine && gameObject != null)
-        {
-            PhotonNetwork.Destroy(gameObject);
-        }
     }
 
     // 오사 설정 켜져있나 확인
@@ -80,9 +76,14 @@ public class Fireball : MonoBehaviourPun
     // 폭발 이펙트 재생용
     private void PlayExplosionEffect(Vector3 pos)
     {
+        if (hasExploded) return;
+
+        hasExploded = true;
+
         if (fireballData.explosionEffectPrefab != null)
         {
             PhotonNetwork.Instantiate("EffectPrefab/" + fireballData.explosionEffectPrefab.name, pos, Quaternion.identity);
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 
