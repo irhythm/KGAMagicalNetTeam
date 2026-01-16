@@ -4079,7 +4079,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GuardAI
   moveSpeed: 3.5
-  rotSpeed: 120
+  rotSpeed: 700
   maxHP: 1
   currentNetworkState: 0
   detectRadius: 15
@@ -4146,7 +4146,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 2944837968078040472}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
