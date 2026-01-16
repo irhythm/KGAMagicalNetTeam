@@ -122,7 +122,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
         if (propertiesThatChanged.ContainsKey("OnStore"))
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
+            if (PhotonNetwork.IsMasterClient == true)
+            {
+                PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
+            }
         }
     }
 
