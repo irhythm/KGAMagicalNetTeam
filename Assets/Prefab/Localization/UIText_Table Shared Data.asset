@@ -10,35 +10,35 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: UITable Shared Data
+  m_Name: UIText_Table Shared Data
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
-  m_TableCollectionName: UITable
-  m_TableCollectionNameGuidString: 368fdebf38391c347a1a909319c180b2
+  m_TableCollectionName: UIText_Table
+  m_TableCollectionNameGuidString: f49f87b47a53af64794a237b74e76e2c
   m_Entries:
-  - m_Id: 314353987584
-    m_Key: GameStart
+  - m_Id: 10149507072
+    m_Key: StartGame
     m_Metadata:
       m_Items: []
-  - m_Id: 594873233408
+  - m_Id: 12020166656
     m_Key: Control
     m_Metadata:
       m_Items: []
-  - m_Id: 597209460736
+  - m_Id: 13597224960
     m_Key: Option
     m_Metadata:
       m_Items: []
-  - m_Id: 599063343104
+  - m_Id: 15002316800
     m_Key: Quit
     m_Metadata:
       m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
-    rid: 579319800039997734
+    rid: 579319845140562008
   references:
     version: 2
     RefIds:
-    - rid: 579319800039997734
+    - rid: 579319845140562008
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
       data:
-        m_CustomEpoch: 1768361513417
+        m_CustomEpoch: 1768524174222

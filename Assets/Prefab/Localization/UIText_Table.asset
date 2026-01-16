@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
-  m_Name: UITable
+  m_Name: UIText_Table
   m_EditorClassIdentifier: Unity.Localization.Editor::UnityEditor.Localization.StringTableCollection
-  m_SharedTableData: {fileID: 11400000, guid: 368fdebf38391c347a1a909319c180b2, type: 2}
+  m_SharedTableData: {fileID: 11400000, guid: f49f87b47a53af64794a237b74e76e2c, type: 2}
   m_Tables:
-  - {fileID: 11400000, guid: 26267486ff65d9f428d19feeabbe61b7, type: 2}
-  - {fileID: 11400000, guid: fe3ed0d9477d9784fa7ced926f3f1cbe, type: 2}
+  - {fileID: 11400000, guid: 69c9bd2f8589cb34c92b92ba9edb70f6, type: 2}
+  - {fileID: 11400000, guid: 8a437074149bdac47b7e2f85d7651d17, type: 2}
+  - {fileID: 11400000, guid: be417cba58d82bc4c8a62585a8c400da, type: 2}
   m_Extensions: []
   m_Group: String Table
   references:

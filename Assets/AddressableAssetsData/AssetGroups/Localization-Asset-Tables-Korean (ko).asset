@@ -15,8 +15,8 @@ MonoBehaviour:
   m_GroupName: Localization-Asset-Tables-Korean (ko)
   m_GUID: 99a50d414856a7040aaecf1967ab4e3b
   m_SerializeEntries:
-  - m_GUID: 70356b340ad258a4485724cc9117a514
-    m_Address: Font Table_ko
+  - m_GUID: b08bd0ab9d20bee4db139d3f8e1a8014
+    m_Address: Font_Table_ko
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ko

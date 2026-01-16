@@ -10,49 +10,51 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: Font Table Shared Data
+  m_Name: Font_Table Shared Data
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
-  m_TableCollectionName: Font Table
-  m_TableCollectionNameGuidString: 8de5569ace95a9f4ca8d0da428a91c31
+  m_TableCollectionName: Font_Table
+  m_TableCollectionNameGuidString: 0cc230c7fe8ab5a44aeab57b6b89af88
   m_Entries:
-  - m_Id: 10644434944
+  - m_Id: 6114586624
     m_Key: Font Asset
     m_Metadata:
       m_Items: []
-  - m_Id: 12989050880
+  - m_Id: 8660529152
     m_Key: Material Preset
     m_Metadata:
       m_Items: []
   m_Metadata:
     m_Items:
-    - rid: 579319823027142916
-    - rid: 579319823027142917
+    - rid: 579319845140562010
+    - rid: 579319845140562011
   m_KeyGenerator:
-    rid: 579319823027142915
+    rid: 579319845140562009
   references:
     version: 2
     RefIds:
-    - rid: 579319823027142915
+    - rid: 579319845140562009
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
       data:
-        m_CustomEpoch: 1768442757877
-    - rid: 579319823027142916
+        m_CustomEpoch: 1768524353160
+    - rid: 579319845140562010
       type: {class: AssetTypeMetadata, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
         m_Entries:
-        - m_KeyId: 10644434944
+        - m_KeyId: 6114586624
           m_TableCodes:
           - ko
           - en
+          - ja
         m_TypeString: TMPro.TMP_FontAsset, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
-    - rid: 579319823027142917
+    - rid: 579319845140562011
       type: {class: AssetTypeMetadata, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
         m_Entries:
-        - m_KeyId: 12989050880
+        - m_KeyId: 8660529152
           m_TableCodes:
           - ko
           - en
+          - ja
         m_TypeString: UnityEngine.Material, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null

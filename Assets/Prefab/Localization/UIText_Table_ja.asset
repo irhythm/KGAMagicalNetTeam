@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: UITable_en
+  m_Name: UIText_Table_ja
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
   m_LocaleId:
-    m_Code: en
-  m_SharedData: {fileID: 11400000, guid: 368fdebf38391c347a1a909319c180b2, type: 2}
+    m_Code: ja
+  m_SharedData: {fileID: 11400000, guid: f49f87b47a53af64794a237b74e76e2c, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 314353987584
-    m_Localized: Start Game
+  - m_Id: 10149507072
+    m_Localized: "\u30B2\u30FC\u30E0\u958B\u59CB"
     m_Metadata:
       m_Items: []
-  - m_Id: 594873233408
-    m_Localized: Controls
+  - m_Id: 12020166656
+    m_Localized: "\u64CD\u4F5C\u65B9\u6CD5"
     m_Metadata:
       m_Items: []
-  - m_Id: 597209460736
-    m_Localized: Options
+  - m_Id: 13597224960
+    m_Localized: "\u8A2D\u5B9A"
     m_Metadata:
       m_Items: []
-  - m_Id: 599063343104
-    m_Localized: Quit Game
+  - m_Id: 15002316800
+    m_Localized: "\u30B2\u30FC\u30E0\u7D42\u4E86"
     m_Metadata:
       m_Items: []
   references:

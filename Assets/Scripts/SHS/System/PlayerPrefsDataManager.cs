@@ -36,12 +36,12 @@ public static class PlayerPrefsDataManager
             string language;
 
             // 오타 위험 등을 방지하기 위해 잘못된 값이거나 지정되지 않은 경우일 경우 기본값으로 한국어 지정
-            switch (value)
+            switch (value.ToLower())
             {
                 case "ko":
                 //case "ja":    // 아직 일본어는 추가 x → 폰트가 일본어는 지원하지 않기 때문
                 case "en":
-                    language = value;
+                    language = value.ToLower();
                     break;
                 default:
                     language = "ko";

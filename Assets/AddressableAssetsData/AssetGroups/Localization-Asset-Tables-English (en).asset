@@ -15,8 +15,8 @@ MonoBehaviour:
   m_GroupName: Localization-Asset-Tables-English (en)
   m_GUID: baa33f8cef03d9f479bd75427efbf88a
   m_SerializeEntries:
-  - m_GUID: c4a4f2d45bc94be4aaf08bb7da1d32e2
-    m_Address: Font Table_en
+  - m_GUID: 47ffa77194d04e34a8777c112eb8ca9c
+    m_Address: Font_Table_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en
