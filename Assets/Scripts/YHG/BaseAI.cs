@@ -161,9 +161,13 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamag
     {
         ChangeNetworkState(AIStateID.Dead);
 
-        if (Agent != null)
+        if (Agent != null && Agent.isActiveAndEnabled && Agent.isOnNavMesh)
         {
             Agent.isStopped = true;
+        }
+
+        if (Agent != null)
+        {
             Agent.enabled = false;
         }
 
