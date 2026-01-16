@@ -56,11 +56,11 @@ public class PlayerView : MonoBehaviour
     public void SetMagicInfoOnHand(GameObject[] magic)
     {
         iconOnHand = magic;
-        leftHandIcon = magic[0].GetComponent<Image>();
-        rightHandIcon = magic[1].GetComponent<Image>();
+        leftHandIcon = magic[0].transform.GetChild(0).GetComponent<Image>();
+        rightHandIcon = magic[1].transform.GetChild(0).GetComponent<Image>();
 
-        leftHandIconCoolTime = magic[0].transform.GetChild(0).GetComponent<Image>();
-        rightHandIconCoolTime = magic[1].transform.GetChild(0).GetComponent<Image>();
+        leftHandIconCoolTime = magic[0].transform.GetChild(0).GetChild(0).GetComponent<Image>();
+        rightHandIconCoolTime = magic[1].transform.GetChild(0).GetChild(0).GetComponent<Image>();
     }
 
     public GameObject GetMagicIcon()
@@ -109,8 +109,8 @@ public class PlayerView : MonoBehaviour
     public void SetMagicIcon(MagicBase magic)
     {
         GameObject magicIcon = GetMagicIcon();
-        magicIcon.GetComponent<Image>().sprite = magic.Data.itemImage;
-        Image coolTimeImage = magicIcon.transform.GetChild(0).GetComponent<Image>();
+        magicIcon.transform.GetChild(0).GetComponent<Image>().sprite = magic.Data.itemImage;
+        Image coolTimeImage = magicIcon.transform.GetChild(0).GetChild(0).GetComponent<Image>();
 
         float curCoolTime = magic.CurrentCooldown;
         float maxCoolTime = magic.Data.cooldown;
