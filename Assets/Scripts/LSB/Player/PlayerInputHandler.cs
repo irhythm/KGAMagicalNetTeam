@@ -26,7 +26,7 @@ public class PlayerInputHandler : MonoBehaviourPun
     private InputAction _selectEAction;
     private InputAction _attackLeftAction;
     private InputAction _attackRightAction;
-
+    private InputAction _transformAction;
 
     #region 프로퍼티
     public Vector2 MoveInput => _areInputsAllowed ? _rawMoveInput : Vector2.zero;
@@ -58,7 +58,9 @@ public class PlayerInputHandler : MonoBehaviourPun
         ConnectJump();
         ConnectWalk();
         ConnectSprint();
-        ConnectInputActions();
+        ConnectMagicSelectInput();
+        ConnetAttackInput();
+        ConnetTransformationInput();
 
         GameManager.Instance.onOpenUI += DisableInputLogic;
         GameManager.Instance.onCloseUI += EnableInputLogic;
@@ -133,16 +135,20 @@ public class PlayerInputHandler : MonoBehaviourPun
         _sprintAction.canceled += ctx => IsSprintInput = false;
     }
 
-    private void ConnectInputActions()
+    private void ConnectMagicSelectInput()
     {
         _selectQAction = _playerInput.actions["SelectQ"];
         _selectEAction = _playerInput.actions["SelectE"];
+    }
 
+    private void ConnetAttackInput()
+    {
         _attackLeftAction = _playerInput.actions["AttackLeft"];
         _attackRightAction = _playerInput.actions["AttackRight"];
 
         _attackLeftAction.performed += ctx =>
         {
+            if (!_player.TransformationController.IsWizard || _player.TransformationController.IsTransforming) return;
             if (_areInputsAllowed && !_isQHold && !_isEHold)
                 AttackLeftTriggered = true;
         };
@@ -152,6 +158,22 @@ public class PlayerInputHandler : MonoBehaviourPun
             if (_areInputsAllowed && !_isQHold && !_isEHold)
                 AttackRightTriggered = true;
         };
+    }
+
+    private void ConnetTransformationInput()
+    {
+        _transformAction = _playerInput.actions["Transformation"];
+        _transformAction.started += ctx =>
+        {
+            if (_areInputsAllowed)
+                _player.TransformationController.HandleTransformInput(true);
+        };
+        _transformAction.canceled += ctx =>
+        {
+            if (_areInputsAllowed)
+                _player.TransformationController.HandleTransformInput(false);
+        };
+
     }
 
     private void EnableInputLogic() => OnPlayerInput();
@@ -172,6 +194,23 @@ public class PlayerInputHandler : MonoBehaviourPun
         {
             _areInputsAllowed = true;
             if(_moveAction != null) _rawMoveInput = _moveAction.ReadValue<Vector2>();
+        }
+    }
+
+    public void ChangeTransformInput()
+    {
+        if (photonView.IsMine)
+        {
+            if(_player.TransformationController.IsWizard)
+            {
+                _attackLeftAction.Enable();
+                _attackRightAction.Enable();
+            }
+            else
+            {
+                _attackLeftAction.Disable();
+                _attackRightAction.Disable();
+            }
         }
     }
 }
