@@ -41,7 +41,10 @@ public class ChattingManager : MonoBehaviourPunCallbacks
         //playerInput.actions["Enter"].performed += SendControl;
 
     }
-
+    private void OnDisable()
+    {
+        playerInput.action.performed -= SendControl;
+    }
     public override void OnLeftRoom()
     {
         //playerInput.actions["Enter"].performed -= SendControl;

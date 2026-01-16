@@ -67,7 +67,7 @@ public class PlayerView : MonoBehaviour
     {
         foreach (var i in icon)
         {
-            if (i.activeSelf)
+            if (!i.activeSelf)
                 return i;
         }
         return null;
@@ -75,6 +75,22 @@ public class PlayerView : MonoBehaviour
 
     public void SetIconOnHand(InventoryDataSO data, bool isLeft)
     {
+        //260116 손 비우기 용 코드 최정욱
+        if (data == null)
+        {
+            if (isLeft)
+            {
+                leftHandIcon.sprite = null;
+                leftHandIconCoolTime.fillAmount = 0;
+            }
+            else
+            {
+                rightHandIcon.sprite = null;
+                rightHandIconCoolTime.fillAmount = 0;
+            }
+            return;
+        }
+
         if (data.itemImage == null)
             return;
         if (isLeft)
