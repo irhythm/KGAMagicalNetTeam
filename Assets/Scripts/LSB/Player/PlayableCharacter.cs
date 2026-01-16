@@ -43,6 +43,7 @@ public class PlayableCharacter : MonoBehaviourPun
     public PlayerInventory Inventory { get; private set; }
     public PlayerMagicSystem MagicSystem { get; private set; }
     public PlayerController playerController { get; private set; }
+    public PlayerTransformationController TransformationController { get; private set; }
     #endregion
 
     #region 상태 머신
@@ -59,9 +60,9 @@ public class PlayableCharacter : MonoBehaviourPun
     {
         InputHandler = GetComponent<PlayerInputHandler>();
         Rigidbody = GetComponent<Rigidbody>();
-        Animator = GetComponent<Animator>();
         MagicSystem = GetComponent<PlayerMagicSystem>();
         playerController = GetComponent<PlayerController>();
+        TransformationController = GetComponent<PlayerTransformationController>();
 
         // 모델 초기화
         _model = new PlayerModel(maxHp);
@@ -159,5 +160,10 @@ public class PlayableCharacter : MonoBehaviourPun
     public bool CheckIsGrounded()
     {
         return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, groundCheckDist + 0.1f, groundLayer);
+    }
+
+    public void SetAnimator(Animator newAnimator)
+    {
+        this.Animator = newAnimator;
     }
 }
