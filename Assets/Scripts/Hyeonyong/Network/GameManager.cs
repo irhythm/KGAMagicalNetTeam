@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
-public class GameManager : MonoBehaviourPunCallbacks
+public class GameManager : PhotonSingleton<GameManager>
 {
     public static GameManager Instance;
     [SerializeField] GameObject playerPrefab;
@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
 
+        Debug.Log("플레이어 소환");
         GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity, 0);
         PlayerManager.LocalPlayerInstance = player;
 
@@ -48,7 +49,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             //해당 코드는 플레이어가 소환될 때마다 실행되어야 함(매번 살아나니까 룸 내의 플레이어 수 만큼 초기화)
             //참고로 해당 코드는 플레이어가 disable(나갈 경우) 때도 실행되어야 함
-            roomTable["PlayerCount"] = PhotonNetwork.CountOfPlayersInRooms;
+            roomTable["PlayerCount"] = PhotonNetwork.CurrentRoom.PlayerCount;
             PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
         }
     }
@@ -102,6 +103,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.Log("클리어 인원 수를 가져오지 못함");
         }
+        Debug.Log($"인원 {player}/{maxPlayer} ");
         if (player >= maxPlayer)
         {
             if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("GameRound", out object round))
@@ -121,12 +123,14 @@ public class GameManager : MonoBehaviourPunCallbacks
                             PhotonNetwork.LoadLevel("GameMapOne");
                             roomTable["OnStore"] = false;
                             roomTable["GameRound"] = curRound;
+                            Debug.Log("플레이어 소환 시도");
                             StartCoroutine(SpawnPlayer());
                         }
                         else
                         {
                             PhotonNetwork.LoadLevel("StoreMapSensei");
                             roomTable["OnStore"] = true;
+                            Debug.Log("플레이어 소환 시도");
                             StartCoroutine(SpawnPlayer());
                         }
                     }
@@ -151,13 +155,15 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private IEnumerator SpawnPlayer()
     {
+        Debug.Log("플레이어 소환 시도 코루틴 진입");
         while (PhotonNetwork.LevelLoadingProgress < 1f)
         {
+            Debug.Log("플레이어 소환 시도 코루틴 ");
             yield return null;
         }
 
         yield return null;
-
+        Debug.Log("플레이어 소환 직전");
         StartCoroutine(SpawnPlayerWhenConnected());
     }
 
