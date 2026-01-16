@@ -39,6 +39,7 @@ public class PhotonSingleton<T> : MonoBehaviourPunCallbacks where T : MonoBehavi
             if (_instance != this)
 
             {
+                gameObject.SetActive(false);
                 Destroy(gameObject);
             }
 

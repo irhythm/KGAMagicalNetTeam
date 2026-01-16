@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Unity.VisualScripting;
 public class GameManager : PhotonSingleton<GameManager>
 {
     public static GameManager Instance;
@@ -22,18 +23,29 @@ public class GameManager : PhotonSingleton<GameManager>
 
     Hashtable roomTable = new Hashtable();
 
-    PhotonView pv;
+    //PhotonView pv;
 
     void Start()//씬이 너무 빨리 불러와져서 스타트가 room 들어가기 전에 호출되는 것이 문제임
     {
-        pv=GetComponent<PhotonView>();
+        //pv=GetComponent<PhotonView>();
         Instance = this;//실체도 없고 그냥 스크립트로만 존재해서 간단히 제작
         if (PlayerManager.LocalPlayerInstance == null)//플레이어 매니저가 이미 플레이어 정보를 들고있을 경우 패스
         {
             StartCoroutine(SpawnPlayerWhenConnected());
         }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.AutomaticallySyncScene = true;
+        }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
     IEnumerator SpawnPlayerWhenConnected() //네트워크 게임은, 라이프 사이클도 중요하고, 또 네트워크 지연까지 고려해야 함
     {
@@ -131,7 +143,7 @@ public class GameManager : PhotonSingleton<GameManager>
                             roomTable["OnStore"] = false;
                             roomTable["GameRound"] = curRound;
                         Debug.Log("플레이어 소환 시도");
-                            pv.RPC(nameof(SpawnPlayerRPC), RpcTarget.All);
+                            //pv.RPC(nameof(SpawnPlayerRPC), RpcTarget.All);
                         }
                         //StartCoroutine(SpawnPlayer());
                     }
@@ -142,7 +154,7 @@ public class GameManager : PhotonSingleton<GameManager>
                             PhotonNetwork.LoadLevel("StoreMapSensei");
                             roomTable["OnStore"] = true;
                             Debug.Log("플레이어 소환 시도");
-                            pv.RPC(nameof(SpawnPlayerRPC), RpcTarget.All);
+                            //pv.RPC(nameof(SpawnPlayerRPC), RpcTarget.All);
                         }
                         //StartCoroutine(SpawnPlayer());
                     }
@@ -154,9 +166,12 @@ public class GameManager : PhotonSingleton<GameManager>
             }
             else
             {
-                //모든 라운드를 소비하였으므로 Win
-                PhotonNetwork.LoadLevel("Win");
-                ResetCustomProperty();
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    //모든 라운드를 소비하였으므로 Win
+                    PhotonNetwork.LoadLevel("Win");
+                    ResetCustomProperty();
+                }
             }
         }
         else
@@ -165,25 +180,34 @@ public class GameManager : PhotonSingleton<GameManager>
         }
     }
 
-    [PunRPC]
-    private void SpawnPlayerRPC()
-    {
-        StartCoroutine(SpawnPlayer());
-    }
+    //[PunRPC]
+    //private void SpawnPlayerRPC()
+    //{
+    //    StartCoroutine(SpawnPlayer());
+    //}
 
-    private IEnumerator SpawnPlayer()
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("플레이어 소환 시도 코루틴 진입");
-        while (PhotonNetwork.LevelLoadingProgress < 1f)
+        if (scene.buildIndex >= 4 && scene.buildIndex <= SceneManager.sceneCountInBuildSettings-2)
         {
-            Debug.Log("플레이어 소환 시도 코루틴 ");
-            yield return null;
+            StartCoroutine(SpawnPlayerWhenConnected());
         }
-
-        yield return null;
-        Debug.Log("플레이어 소환 직전");
-        StartCoroutine(SpawnPlayerWhenConnected());
     }
+    
+
+    //private IEnumerator SpawnPlayer()
+    //{
+    //    Debug.Log("플레이어 소환 시도 코루틴 진입");
+    //    while (PhotonNetwork.LevelLoadingProgress < 1f)
+    //    {
+    //        Debug.Log("플레이어 소환 시도 코루틴 ");
+    //        yield return null;
+    //    }
+
+    //    yield return null;
+    //    Debug.Log("플레이어 소환 직전");
+    //    //StartCoroutine(SpawnPlayerWhenConnected());
+    //}
 
     public void ResetCustomProperty()
     {
@@ -196,6 +220,14 @@ public class GameManager : PhotonSingleton<GameManager>
             roomTable[key] = null;
         }
         PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.AutomaticallySyncScene = true;
+        }
     }
 
 }
