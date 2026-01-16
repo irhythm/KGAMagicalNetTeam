@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 각 씬에 배치할 씬 관리 클래스
@@ -9,17 +10,14 @@ public class BaseSceneChanger : MonoBehaviour
 {
     [Header("씬 배경음")]
     [SerializeField] protected AudioClip bgmAudioClip;
-    [SerializeField] private bool isBgmPlaying;
+    [SerializeField] protected bool isBgmPlaying;
 
     [Header("로딩창 유무")]
-    [SerializeField] private bool hasLoading;
+    [SerializeField] protected bool hasLoading;
 
     protected virtual void Start()
     {
-        if(isBgmPlaying)
-        {
-            SoundManager.Instance.PlayBGM(bgmAudioClip);
-        }
+        EnterScene();
     }
 
     /// <summary>
@@ -36,21 +34,14 @@ public class BaseSceneChanger : MonoBehaviour
     /// <summary>
     /// 해당 씬을 벗어날 때 실행할 것들
     /// </summary>
-    protected virtual void ExitScene()
-    {
-        if(hasLoading)
-        {
+    protected virtual void ExitScene() { }
 
-        }
-    }
+    protected virtual void OnEnable() { }
 
-    protected virtual void OnEnable()
-    {
-        
-    }
+    protected virtual void OnDisable() { }
 
-    protected virtual void OnDisable()
+    protected virtual void OnDestroy()
     {
-        
+        ExitScene();
     }
 }
