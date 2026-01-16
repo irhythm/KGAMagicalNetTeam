@@ -11,6 +11,11 @@ public class PlayerInventory
 
     public IReadOnlyDictionary<InventoryDataSO, int> Inventory => inventory;
 
+
+    
+    
+
+
     public void HandleCooldowns(float deltaTime)
     {
         foreach (var magic in activeMagics.Values)
@@ -36,6 +41,7 @@ public class PlayerInventory
         if (inventory.ContainsKey(item))
         {
             inventory[item]++;
+            
         }
         else
         {
@@ -56,6 +62,8 @@ public class PlayerInventory
                 }
             }
         }
+        //260116 최정욱 intentorywheel 관련추가
+        GameManager.Instance.InventoryWheel.UpdateWheelInventory();
     }
 
     // 아이템 제거
@@ -75,5 +83,7 @@ public class PlayerInventory
                 return;
             }
         }
+        //260116 최정욱 intentorywheel 관련추가
+        GameManager.Instance.InventoryWheel.UpdateWheelInventory();
     }
 }

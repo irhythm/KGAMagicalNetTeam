@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMagicSystem
   LeftHandSlot: {fileID: 11400000, guid: 2496b0d6652fa4344a6bfad6b5cab5fb, type: 2}
-  RightHandSlot: {fileID: 11400000, guid: 2496b0d6652fa4344a6bfad6b5cab5fb, type: 2}
+  RightHandSlot: {fileID: 0}
   leftSpawnPoint: {fileID: 12994451976599241}
   rightSpawnPoint: {fileID: 1860097665412997098}
   maxAimDistance: 100

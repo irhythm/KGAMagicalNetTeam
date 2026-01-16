@@ -1,0 +1,240 @@
+using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+public class InventoryWheelLogic : MonoBehaviour
+{
+    //[SerializeField] List<Transform> _wheelSlotPositions; // 인벤토리 휠 슬롯들
+    [SerializeField] List<Image> _wheelSlots; // 인벤토리 휠 슬롯들에 들어갈 아이템들
+    [SerializeField] List<TextMeshProUGUI> _wheelSlotCounts; // 인벤토리 휠 슬롯들에 들어갈 아이템 갯수들
+
+    //260115 최정욱 인벤토리 UI 관련 추가
+    [Header("인벤토리 UI Sensei")]
+    [SerializeField] List<InputActionReference> _inventoryInputActions; //0은 q, 1은 e
+    [SerializeField] GameObject _inventoryUI;
+    [SerializeField] InventoryWheelLogic _inventoryWheelLogic;
+    public InventoryWheelLogic InventoryWheel => _inventoryWheelLogic;
+    bool _isInventoryUIOn = false;
+    public bool IsInventoryUIOn => _isInventoryUIOn;
+
+    int _qOrE = 0; //0은 q, 1은 e
+
+    void OpenInventory(InputAction.CallbackContext context)
+    {
+        if (_inventoryUI == null)
+            return;
+        if (!_isInventoryUIOn)
+        {
+            if (context.action == _inventoryInputActions[0].action)
+            {
+                _qOrE = 0;
+            }
+            else if (context.action == _inventoryInputActions[1].action)
+            {
+                _qOrE = 1;
+            }
+            _isInventoryUIOn = !_isInventoryUIOn;
+            _inventoryUI.SetActive(_isInventoryUIOn);
+            PlayerManager.LocalPlayerInstance.GetComponent<PlayerCameraSetup>().cameraScript.SetControl(false);
+        }
+    }
+
+
+
+    void Start()
+    {
+        //260115 최정욱 인벤토리 UI 관련 추가
+        //_inventoryInputActions
+        _inventoryInputActions[0].action.Enable();
+        _inventoryInputActions[0].action.performed += OpenInventory;
+        _inventoryInputActions[1].action.Enable();
+        _inventoryInputActions[1].action.performed += OpenInventory;
+
+        _inventoryInputActions[0].action.canceled += CloseInventory;
+        _inventoryInputActions[1].action.canceled += CloseInventory;
+    }
+
+
+    void OnDestroy()
+    {
+        //260115 최정욱 인벤토리 UI 관련 추가
+        //_inventoryInputActions
+        _inventoryInputActions[0].action.performed -= OpenInventory;
+        _inventoryInputActions[1].action.performed -= OpenInventory;
+        _inventoryInputActions[0].action.canceled -= CloseInventory;
+        _inventoryInputActions[1].action.canceled -= CloseInventory;
+    }
+    void CloseInventory(InputAction.CallbackContext context)
+    {
+        if (_inventoryInputActions[_qOrE].action != context.action)
+        {
+            return;
+        }
+        if (_inventoryWheelLogic != null)
+        {
+            switch (_qOrE)
+            {
+                case 0:
+                    if (_inventoryWheelLogic.HoveredItem == null)
+                    {
+                        break;
+                    }
+                    PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
+                    //_inventoryWheelLogic.SelectCurrentSlotByQ();
+                    break;
+                case 1:
+                    if (_inventoryWheelLogic.HoveredItem == null)
+                    {
+                        break;
+                    }
+                    PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
+                    //_inventoryWheelLogic.SelectCurrentSlotByE();
+                    break;
+            }
+        }
+        _isInventoryUIOn = !_isInventoryUIOn;
+        _inventoryUI.SetActive(_isInventoryUIOn);
+        PlayerManager.LocalPlayerInstance.GetComponent<PlayerCameraSetup>().cameraScript.SetControl(true);
+        //if (EventSystem.current.IsPointerOverGameObject())
+        //{
+        //    PointerEventData mouseEventData = new PointerEventData(EventSystem.current);
+        //    if (Mouse.current != null)
+        //    {
+        //        mouseEventData.position = Mouse.current.position.ReadValue();
+        //    }
+
+        //    List<RaycastResult> pointerRaycastHits = new List<RaycastResult>();
+        //    EventSystem.current.RaycastAll(mouseEventData, pointerRaycastHits);
+
+        //    //if (pointerRaycastHits.Count > 0)
+        //    //{
+        //    //    for (int i = 0; i < pointerRaycastHits.Count; i++)
+        //    //    {
+        //    //        //Debug.Log("Hit UI: " + pointerRaycastHits[i].gameObject.name);
+        //    //        for (int j = 0; j < 10; j++)
+        //    //        {
+        //    //            if (pointerRaycastHits[i].gameObject == _quickSlotBox[j])
+        //    //            {
+        //    //                //_hoveredUIIndex = j;
+        //    //                return pointerRaycastHits[i].gameObject;
+        //    //            }
+        //    //        }
+
+        //    //    }
+
+        //    //    //return pointerRaycastHits[0].gameObject;
+        //    //}
+        //}
+    }
+
+
+    //더 정교한 인벤토리 휠을 위해 나중에 수정 필요
+    public void UpdateWheelInventory()
+    {
+        //_wheelSlots.Clear();
+        for (int i = 0; i<_wheelSlots.Count; i++)
+        {
+            if (_wheelSlots[i].sprite != null)
+            {
+                _wheelSlots[i].gameObject.SetActive(false);
+                _wheelSlotCounts[i].text = "";
+
+                _wheelSlots[i].sprite = null;
+            }
+        }
+
+
+        int index = 0;
+        foreach (var item in PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().Inventory.Inventory)
+        {
+            _wheelSlots[index].gameObject.SetActive(true);
+            _wheelSlots[index].sprite = item.Key.itemImage;
+            _wheelSlotCounts[index].text = item.Value.ToString();
+
+
+        }
+    }
+
+
+
+   
+
+    //public Inventor
+    public InventoryDataSO HoveredItem;
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!IsInventoryUIOn)
+        {
+            HoveredItem = null;
+            return;
+        }
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            PointerEventData mouseEventData = new PointerEventData(EventSystem.current);
+            if (Mouse.current != null)
+            {
+                mouseEventData.position = Mouse.current.position.ReadValue();
+            }
+
+            List<RaycastResult> pointerRaycastHits = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(mouseEventData, pointerRaycastHits);
+            //foreach (var hit in pointerRaycastHits)
+            //{
+            //    Debug.Log("Hit UI CHECCCKK: " + hit.gameObject.name);
+            //}
+
+            if (pointerRaycastHits.Count > 0)
+            {
+                int index = 0;
+                //Debug.Log("Hit UI: " + pointerRaycastHits[0].gameObject.name);
+                //if (pointerRaycastHits.Count > 1)
+                //{
+                //    Debug.Log("Hit UI: " + pointerRaycastHits[1].gameObject.name);
+                //}
+                //if (pointerRaycastHits.Count > 2)
+                //{
+                //    Debug.Log("Hit UI: " + pointerRaycastHits[2].gameObject.name);
+                //}
+                if (pointerRaycastHits[index].gameObject.GetComponent<Image>() == null)
+                {
+                    index++;
+                }
+
+                if (pointerRaycastHits[index].gameObject.GetComponent<Image>().sprite != null)
+                {
+                    foreach (var item in PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().Inventory.Inventory)
+                    {
+                        if (item.Key.itemImage == pointerRaycastHits[index].gameObject.GetComponent<Image>().sprite)
+                        {
+                            HoveredItem = item.Key;
+                            return;
+                        }
+                    }
+                }
+                //for (int i = 0; i < pointerRaycastHits.Count; i++)
+                //{
+                //    //Debug.Log("Hit UI: " + pointerRaycastHits[i].gameObject.name);
+                //    for (int j = 0; j < 10; j++)
+                //    {
+                //        if (pointerRaycastHits[i].gameObject == _quickSlotBox[j])
+                //        {
+                //            //_hoveredUIIndex = j;
+                //            return pointerRaycastHits[i].gameObject;
+                //        }
+                //    }
+
+                //}
+
+                //return pointerRaycastHits[0].gameObject;
+            }
+        }
+        else
+        {
+            HoveredItem = null;
+        }
+    }
+}
