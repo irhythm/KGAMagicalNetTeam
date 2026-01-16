@@ -4095,6 +4095,8 @@ MonoBehaviour:
     m_Bits: 64
   targetPlayer: {fileID: 0}
   lastAttackTime: 0
+  myWeapons:
+  - {fileID: 836460066492709213}
 --- !u!114 &5965908490816788581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4132,7 +4134,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 1808026982586512911}
   - {fileID: 5965908490816788581}
-  sceneViewId: 4
+  sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!195 &7435266838583563808
@@ -10452,8 +10454,52 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6852805937674264954, guid: 6db645130985f654895e4942c7d8a16a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 836460066492709213}
+    - targetCorrespondingSourceObject: {fileID: 6852805937674264954, guid: 6db645130985f654895e4942c7d8a16a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7280861526346603638}
   m_SourcePrefab: {fileID: 100100000, guid: 6db645130985f654895e4942c7d8a16a, type: 3}
+--- !u!1 &7199937742997065835 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6852805937674264954, guid: 6db645130985f654895e4942c7d8a16a, type: 3}
+  m_PrefabInstance: {fileID: 4391396165313605905}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &836460066492709213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7199937742997065835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c129a0b6dfb3b554d9f1046d264da0fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeWeapon
+--- !u!65 &7280861526346603638
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7199937742997065835}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5132055, y: 0.81370354, z: 0.36090901}
+  m_Center: {x: -0.24340399, y: 1.9101505, z: 0.04620306}
 --- !u!4 &7539168259123497681 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6075881592049597376, guid: 6db645130985f654895e4942c7d8a16a, type: 3}

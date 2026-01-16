@@ -3798,8 +3798,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CitizenAI
   moveSpeed: 3.5
   rotSpeed: 120
-  maxHP: 100
-  currentNetworkState: 1
+  maxHP: 1
+  currentNetworkState: 0
   patrolRange: 5
   detectRadius: 15
   runSpeed: 6
