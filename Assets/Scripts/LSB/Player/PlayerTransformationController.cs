@@ -27,6 +27,7 @@ public class PlayerTransformationController : MonoBehaviourPun
     private void Awake()
     {
         player = GetComponent<PlayableCharacter>();
+        player.RemoveLayer();
         civilianModel.SetActive(true);
         wizardModel.SetActive(false);
         currentAnimator = civilianModel.GetComponent<Animator>();
@@ -91,6 +92,8 @@ public class PlayerTransformationController : MonoBehaviourPun
             player.SetAnimator(currentAnimator);
         }
 
+        GuardManager.instance.NotifyPlayerTransform();
+        player.ChangePlayerLayer();
         Debug.Log("마법사로 변신 완료!");
     }
 }
