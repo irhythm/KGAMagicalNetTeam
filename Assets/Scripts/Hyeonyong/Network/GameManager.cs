@@ -22,10 +22,13 @@ public class GameManager : PhotonSingleton<GameManager>
 
     Hashtable roomTable = new Hashtable();
 
+    PhotonView pv;
+
     void Start()//씬이 너무 빨리 불러와져서 스타트가 room 들어가기 전에 호출되는 것이 문제임
     {
+        pv=GetComponent<PhotonView>();
         Instance = this;//실체도 없고 그냥 스크립트로만 존재해서 간단히 제작
-        if (PlayerManager.LocalPlayerInstance==null)//플레이어 매니저가 이미 플레이어 정보를 들고있을 경우 패스
+        if (PlayerManager.LocalPlayerInstance == null)//플레이어 매니저가 이미 플레이어 정보를 들고있을 경우 패스
         {
             StartCoroutine(SpawnPlayerWhenConnected());
         }
@@ -98,59 +101,74 @@ public class GameManager : PhotonSingleton<GameManager>
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("PlayerCount", out object count))
         {
             maxPlayer = (int)count;
+            //maxPlayer = 2;
         }
         else
         {
             Debug.Log("클리어 인원 수를 가져오지 못함");
         }
         Debug.Log($"인원 {player}/{maxPlayer} ");
-        if (player >= maxPlayer)
-        {
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("GameRound", out object round))
-            {
-                int curRound = (int)round;
-                curRound--;
+        if (player < maxPlayer)
+            return;
 
-                //PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
-                if (curRound > 0)
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("GameRound", out object round))
+        {
+            int curRound = (int)round;
+            curRound--;
+
+            //PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+            if (curRound > 0)
+            {
+                if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("OnStore", out object onStore))
                 {
-                    if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("OnStore", out object onStore))
+                    bool checkStore = (bool)onStore;
+                    if (checkStore)
                     {
-                        bool checkStore = (bool)onStore;
-                        if (checkStore)
+                        if (PhotonNetwork.IsMasterClient)
                         {
                             //게임씬으로 이동
                             PhotonNetwork.LoadLevel("GameMapOne");
                             roomTable["OnStore"] = false;
                             roomTable["GameRound"] = curRound;
-                            Debug.Log("플레이어 소환 시도");
-                            StartCoroutine(SpawnPlayer());
+                        Debug.Log("플레이어 소환 시도");
+                            pv.RPC(nameof(SpawnPlayerRPC), RpcTarget.All);
                         }
-                        else
+                        //StartCoroutine(SpawnPlayer());
+                    }
+                    else
+                    {
+                        if (PhotonNetwork.IsMasterClient)
                         {
                             PhotonNetwork.LoadLevel("StoreMapSensei");
                             roomTable["OnStore"] = true;
                             Debug.Log("플레이어 소환 시도");
-                            StartCoroutine(SpawnPlayer());
+                            pv.RPC(nameof(SpawnPlayerRPC), RpcTarget.All);
                         }
-                    }
-                    else
-                    {
-                        Debug.Log("상점 여부를 가져오지 못함");
+                        //StartCoroutine(SpawnPlayer());
                     }
                 }
                 else
                 {
-                    //모든 라운드를 소비하였으므로 Win
-                    PhotonNetwork.LoadLevel("Win");
-                    ResetCustomProperty();
+                    Debug.Log("상점 여부를 가져오지 못함");
                 }
             }
             else
             {
-                Debug.Log("라운드 정보를 가져오지 못함");
+                //모든 라운드를 소비하였으므로 Win
+                PhotonNetwork.LoadLevel("Win");
+                ResetCustomProperty();
             }
         }
+        else
+        {
+            Debug.Log("라운드 정보를 가져오지 못함");
+        }
+    }
+
+    [PunRPC]
+    private void SpawnPlayerRPC()
+    {
+        StartCoroutine(SpawnPlayer());
     }
 
     private IEnumerator SpawnPlayer()
