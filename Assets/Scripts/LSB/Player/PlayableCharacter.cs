@@ -166,4 +166,14 @@ public class PlayableCharacter : MonoBehaviourPun
     {
         this.Animator = newAnimator;
     }
+
+    public void ChangePlayerLayer()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Player");
+    }
+
+    public void RemoveLayer()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Default");
+    }
 }
