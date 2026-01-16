@@ -68,8 +68,8 @@ public class ThirdPersonCamera : MonoBehaviour
         if (lookAction != null) lookAction.action.Disable();
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.onOpenUI -= CheckDisable;
-            GameManager.Instance.onCloseUI -= CheckEnable;
+            UIManager.Instance.onOpenUI -= CheckDisable;
+            UIManager.Instance.onCloseUI -= CheckEnable;
         }
     }
 
@@ -77,8 +77,8 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         yield return new WaitUntil(() => FindAnyObjectByType(typeof(GameManager)));
         
-        GameManager.Instance.onOpenUI += CheckDisable;
-        GameManager.Instance.onCloseUI += CheckEnable;
+        UIManager.Instance.onOpenUI += CheckDisable;
+        UIManager.Instance.onCloseUI += CheckEnable;
     }
     private void CheckEnable() => SetControl(true);
     private void CheckDisable() => SetControl(false);

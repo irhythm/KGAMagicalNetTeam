@@ -11,35 +11,17 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager Instance;
     [SerializeField] GameObject playerPrefab;
-    //[SerializeField] GameObject playerInfoPrefab;
-    //[SerializeField] Transform playerInfoPanel;
 
     [SerializeField] InventoryWheelLogic _inventoryWheelLogic;
     public InventoryWheelLogic InventoryWheel => _inventoryWheelLogic;
 
+    Hashtable roomTable = new Hashtable();
 
-    //PlayerInput playerInput;
-    [Header("인풋 액션")]
-    [SerializeField] private InputActionReference playerInput;
-
-    
-
-
-    [SerializeField] GameObject gameSettingUI;
-    bool onGameSettingUI=false;
-
-    public Action onOpenUI;
-    public Action onCloseUI;
-
-    Dictionary<string, bool> checkUI = new Dictionary<string, bool>();
-
-
-    [SerializeField] string uiName = "GameMenu";
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()//씬이 너무 빨리 불러와져서 스타트가 room 들어가기 전에 호출되는 것이 문제임
     {
         Instance = this;//실체도 없고 그냥 스크립트로만 존재해서 간단히 제작
@@ -47,63 +29,30 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             StartCoroutine(SpawnPlayerWhenConnected());
         }
-        //playerInput = GetComponent<PlayerInput>();
-        //playerInput.actions["Exit"].performed += OpenUI;
-
-        AddUI(uiName);
-
-        playerInput.action.Enable();
-        playerInput.action.performed += OpenUI;
-
-
-
     }
 
 
     IEnumerator SpawnPlayerWhenConnected() //네트워크 게임은, 라이프 사이클도 중요하고, 또 네트워크 지연까지 고려해야 함
     {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
-        //PlayerManager.LocalPlayerInstance = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity, 0);
 
         GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity, 0);
         PlayerManager.LocalPlayerInstance = player;
 
-
-
-        //UI라서 PhotonNetwork.Instantiate 안쓴다고 함
-        /*
-        GameObject playerInfo = PhotonNetwork.Instantiate(playerInfoPrefab.name, Vector3.zero,Quaternion.identity);
-        playerInfo.transform.SetParent(playerInfoPanel);
-
-
-
-        PlayerController playerController = player.GetComponent<PlayerController>();
-
-        playerController.SetPlayerInfo(
-            playerInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>(),
-            playerInfo.transform.GetChild(1).GetComponent<Image>()
-            );
-        playerController.SetPlayerName(PhotonNetwork.NickName);*/
-        //Player[] players = PhotonNetwork.PlayerList;//방 속 사람을 받아옴
-        //foreach (var p in players)
-        //{
-        //    GameObject playerInfo = Instantiate(playerInfoPrefab, playerInfoPanel);
-
-        //    PlayerController playerController = p.LocalPlayerInstance.GetComponent<PlayerController>();
-
-        //    playerController.SetPlayerInfo(
-        //        playerInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>(),
-        //        playerInfo.transform.GetChild(1).GetComponent<Image>()
-        //        );
-        //    playerController.SetPlayerName(PhotonNetwork.NickName);
-        //}
+        CheckInGamePlayer();
     }
 
-    private void OnDisable()
+    public void CheckInGamePlayer()
     {
-        //playerInput.actions["Exit"].performed -= OpenUI;
-        playerInput.action.Disable();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            //해당 코드는 플레이어가 소환될 때마다 실행되어야 함(매번 살아나니까 룸 내의 플레이어 수 만큼 초기화)
+            //참고로 해당 코드는 플레이어가 disable(나갈 경우) 때도 실행되어야 함
+            roomTable["PlayerCount"] = PhotonNetwork.CountOfPlayersInRooms;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+        }
     }
+
     public override void OnLeftRoom()
     {
         SceneManager.LoadScene(1);
@@ -127,66 +76,102 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    IEnumerator Winner()
-    {
-        yield return new WaitForSeconds(3f);
-        PhotonNetwork.LoadLevel("RoomScene");//네트워크 상에서 씬 바꾸는 것
-    }
-
     public void ExitGame()
     {
         LeaveRoom();
         SceneManager.LoadSceneAsync("Lobby");
     }
 
-    private void OpenUI(InputAction.CallbackContext context)
+    public void CheckDie()
     {
-        Debug.Log("esc 입력");
-        onGameSettingUI = !onGameSettingUI;
-        gameSettingUI.SetActive(onGameSettingUI);
-
-        if (onGameSettingUI)
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("PlayerCount", out object count))
         {
-            OpenUI(uiName);
+            roomTable["PlayerCount"] = (int)count - 1;
+        }
+        PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+    }
+
+    public void CheckRoundClear(int player)
+    {
+        int maxPlayer = 0;
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("PlayerCount", out object count))
+        {
+            maxPlayer = (int)count;
         }
         else
         {
-            CloseUI(uiName);
+            Debug.Log("클리어 인원 수를 가져오지 못함");
         }
-    }
-
-    public void OpenUI(string uiName)
-    {
-        Debug.Log("UI 열림");
-        checkUI[uiName] = true;
-        onOpenUI.Invoke();
-    }
-
-    public void CloseUI(string name)
-    {
-        checkUI[name] = false;
-        if (!CheckUiClose())
-            return;
-        Debug.Log("UI 닫힘");
-        onCloseUI.Invoke();
-    }
-
-    public bool CheckUiClose()
-    {
-        foreach (var c in checkUI)
+        if (player >= maxPlayer)
         {
-            if (c.Value)
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("GameRound", out object round))
             {
-                return false;
+                int curRound = (int)round;
+                curRound--;
+
+                //PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+                if (curRound > 0)
+                {
+                    if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("OnStore", out object onStore))
+                    {
+                        bool checkStore = (bool)onStore;
+                        if (checkStore)
+                        {
+                            //게임씬으로 이동
+                            PhotonNetwork.LoadLevel("GameMapOne");
+                            roomTable["OnStore"] = false;
+                            roomTable["GameRound"] = curRound;
+                            StartCoroutine(SpawnPlayer());
+                        }
+                        else
+                        {
+                            PhotonNetwork.LoadLevel("StoreMapSensei");
+                            roomTable["OnStore"] = true;
+                            StartCoroutine(SpawnPlayer());
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("상점 여부를 가져오지 못함");
+                    }
+                }
+                else
+                {
+                    //모든 라운드를 소비하였으므로 Win
+                    PhotonNetwork.LoadLevel("Win");
+                    ResetCustomProperty();
+                }
+            }
+            else
+            {
+                Debug.Log("라운드 정보를 가져오지 못함");
             }
         }
-        return true;
     }
-    public void AddUI(string name)
+
+    private IEnumerator SpawnPlayer()
     {
-        if (checkUI.ContainsKey(name))
+        while (PhotonNetwork.LevelLoadingProgress < 1f)
+        {
+            yield return null;
+        }
+
+        yield return null;
+
+        StartCoroutine(SpawnPlayerWhenConnected());
+    }
+
+    public void ResetCustomProperty()
+    {
+        //마스터가 커스텀 프로퍼티 목록들 초기화
+        if (!PhotonNetwork.IsMasterClient)
             return;
-        checkUI[name] = false;
+        //어차피 플레이어 커스텀 프로퍼티는 씬 이동시 roommanager에서 초기화된다 그러므로 room만 초기화
+        foreach (var key in roomTable.Keys)
+        {
+            roomTable[key] = null;
+        }
+        PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
     }
 
 }

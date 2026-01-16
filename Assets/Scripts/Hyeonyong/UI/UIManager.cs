@@ -1,4 +1,7 @@
 using Photon.Voice.PUN;
+using System;
+using System.Collections.Generic;
+using System.Xml.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -36,6 +39,18 @@ public class UIManager : MonoBehaviour
     public Transform playerInfoPanel;
     public Transform myInfoPanel;
     public Transform IconPanel;
+
+    [SerializeField] GameObject gameSettingUI;
+    bool onGameSettingUI = false;
+
+    public Action onOpenUI;
+    public Action onCloseUI;
+
+    Dictionary<string, bool> checkUI = new Dictionary<string, bool>();
+
+
+    [SerializeField] string uiName = "GameMenu";
+
     private void Awake()
     {
         Instance = this;
@@ -44,6 +59,13 @@ public class UIManager : MonoBehaviour
             return;
         escInput.action.Enable();
         escInput.action.performed += ClosePanels;
+    }
+    private void Start()
+    {
+        AddUI(uiName);
+
+        escInput.action.Enable();
+        escInput.action.performed += OpenUI;
     }
     private void OnDisable()
     {
@@ -226,5 +248,58 @@ public class UIManager : MonoBehaviour
         }
 
         //다른 값들이 먼저 지워져서 문제인 것으로 추정
+    }
+
+    private void OpenUI(InputAction.CallbackContext context)
+    {
+        if (gameSettingUI != null)
+        {
+            Debug.Log("esc 입력");
+            onGameSettingUI = !onGameSettingUI;
+            gameSettingUI.SetActive(onGameSettingUI);
+
+            if (onGameSettingUI)
+            {
+                OpenUI(uiName);
+            }
+            else
+            {
+                CloseUI(uiName);
+            }
+        }
+    }
+
+    public void OpenUI(string uiName)
+    {
+        Debug.Log("UI 열림");
+        checkUI[uiName] = true;
+        onOpenUI.Invoke();
+    }
+
+    public void CloseUI(string name)
+    {
+        checkUI[name] = false;
+        if (!CheckUiClose())
+            return;
+        Debug.Log("UI 닫힘");
+        onCloseUI.Invoke();
+    }
+
+    public bool CheckUiClose()
+    {
+        foreach (var c in checkUI)
+        {
+            if (c.Value)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public void AddUI(string name)
+    {
+        if (checkUI.ContainsKey(name))
+            return;
+        checkUI[name] = false;
     }
 }
