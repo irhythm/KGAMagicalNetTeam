@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,12 +17,19 @@ public class GuardManager : MonoBehaviourPunCallbacks
     [Header("스폰 세팅")]
     public Transform[] spawnPoints;
     [Header("경비 프리팹은 무조건 Resources에 넣어둬야함")]
-    public GameObject guardPrefab;
+    public List<GameObject> guardPrefabs;
     public float spawnInterval = 60f;
 
     //타이머
     public float Timer { get; private set; } = 0f;
     public bool IsTimerRunning { get; private set; } = false; //타이머 작동 여부
+
+
+    //UI 갱신을 위한 옵저버 이벤트
+    public event Action<string> OnTimerSecondChanged;
+
+    //최적화_지난 프레임의 초
+    private int lastSecond = -1;
 
     //스폰
     private float nextSpawnTargetTime = 60f; //첫 스폰 1분 대기
@@ -50,15 +58,19 @@ public class GuardManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
-        {
-            NotifyPlayerTransform();
-        }
-
         if (!IsTimerRunning) return;
 
         //클라이언트 시간 각자 흐르게(어차피 그거없잖아 그거 난입)
         Timer += Time.deltaTime;
+
+        //매 프레임 x, 초가 바뀔때만 이벤트 발송하여 최적화
+        int currentSecond = Mathf.FloorToInt(Timer);
+        if (currentSecond != lastSecond)
+        {
+            lastSecond = currentSecond;
+            //현재 포맷된 시간 전달(일단은 타이머만)
+            OnTimerSecondChanged?.Invoke(GetFormattedTime());
+        }
         if (PhotonNetwork.IsMasterClient)
         {
             if (Timer >= nextSpawnTargetTime)
@@ -129,14 +141,15 @@ public class GuardManager : MonoBehaviourPunCallbacks
         {
             for (int i = 0; i < spawnCountPerPoint; i++)
             {
-                Vector3 offset = new Vector3(Random.Range(-6f, 6f), 0, Random.Range(-6f, 6f)); //근처 랜덤 소환
+                Vector3 offset = new Vector3(UnityEngine.Random.Range(-6f, 6f), 0, UnityEngine.Random.Range(-6f, 6f)); //근처 랜덤 소환
                 Vector3 spawnPos = point.position + offset;
                 if (UnityEngine.AI.NavMesh.SamplePosition(spawnPos, out UnityEngine.AI.NavMeshHit hit, 10f, UnityEngine.AI.NavMesh.AllAreas))
                 {
-                    PhotonNetwork.InstantiateRoomObject(
-guardPrefab.name,
-point.position + offset,
-Quaternion.identity); //룸 오브젝트로 소환
+                    //리스트에서 랜덤으로 하나 뽑기
+                    int randomIndex = UnityEngine.Random.Range(0, guardPrefabs.Count);
+                    string prefabName = guardPrefabs[randomIndex].name;
+                    string selectedPrefabName = "NPCPrefab/" + prefabName;
+                    PhotonNetwork.InstantiateRoomObject(selectedPrefabName, point.position + offset, Quaternion.identity); //룸 오브젝트로 소환
                 }
 
             }
@@ -176,9 +189,15 @@ Quaternion.identity); //룸 오브젝트로 소환
             float minDistSqr = float.MaxValue;
             bool found = false;
 
+            //26.01.16 수정, 마법 소음 추적 로직 고도화
+            //이미 해당 소음 위치 근처라면 그 소음은 무시함
+            float ignoreRangeSqr = 2.0f * 2.0f;
+
             foreach (var noise in magicNoises)
             {
                 float d = (noise.position - guardPos).sqrMagnitude; //똑같이
+                if (d < ignoreRangeSqr) continue;
+
                 if (d < minDistSqr)
                 {
                     minDistSqr = d;
