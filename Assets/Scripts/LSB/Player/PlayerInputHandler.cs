@@ -62,8 +62,8 @@ public class PlayerInputHandler : MonoBehaviourPun
         ConnetAttackInput();
         ConnetTransformationInput();
 
-        GameManager.Instance.onOpenUI += DisableInputLogic;
-        GameManager.Instance.onCloseUI += EnableInputLogic;
+        UIManager.Instance.onOpenUI += DisableInputLogic;
+        UIManager.Instance.onCloseUI += EnableInputLogic;
     }
 
     private void LateUpdate()
@@ -81,10 +81,10 @@ public class PlayerInputHandler : MonoBehaviourPun
 
         ResetInputs();
 
-        if (GameManager.Instance != null)
+        if (UIManager.Instance != null)
         {
-            GameManager.Instance.onOpenUI -= DisableInputLogic;
-            GameManager.Instance.onCloseUI -= EnableInputLogic;
+            UIManager.Instance.onOpenUI -= DisableInputLogic;
+            UIManager.Instance.onCloseUI -= EnableInputLogic;
         }
     }
 

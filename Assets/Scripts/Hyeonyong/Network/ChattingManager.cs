@@ -57,7 +57,7 @@ public class ChattingManager : MonoBehaviourPunCallbacks
         {
             if (!onReadyRoom)
             {
-                GameManager.Instance.OpenUI(uiName);
+                UIManager.Instance.OpenUI(uiName);
                 chattingPanel.SetActive(true);
             }
             onChat = true;
@@ -69,7 +69,7 @@ public class ChattingManager : MonoBehaviourPunCallbacks
         {
             if (!onReadyRoom)
             {
-                GameManager.Instance.CloseUI(uiName);
+                UIManager.Instance.CloseUI(uiName);
             }
             StartCoroutine(SendMyMessage());
         }
@@ -126,6 +126,6 @@ public class ChattingManager : MonoBehaviourPunCallbacks
     IEnumerator CheckGameManager()
     {
         yield return new WaitUntil(() => FindAnyObjectByType(typeof(GameManager)));
-        GameManager.Instance.AddUI(uiName);
+        UIManager.Instance.AddUI(uiName);
     }
 }

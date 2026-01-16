@@ -10,11 +10,6 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
-    /// <summary>
-    /// onJointRoom() : 방 참가 성공
-    /// OnJoinRandomFailed() : 랜덤 방 참가 실패(대부분 방이 없음) => 방 생성 필요
-    /// OnCreatedRoom() : 방 생성 성공(방장이 됨)
-    /// </summary>
     [SerializeField] Button StartBtn;
     [SerializeField] Button ReadyBtn;
     [SerializeField] Toggle checkHiddenRoom;
@@ -37,8 +32,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
         yield return null;
         InitReady();
 
-
-        //yield return new WaitUntil(() => PhotonNetwork.IsConnectedAndReady);//방에 연결 및 준비되었는지
         Player[] players = PhotonNetwork.PlayerList;//방 속 사람을 받아옴
         foreach (var p in players)
         {
@@ -70,8 +63,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
                 }
             }
         }
+
+        checkHiddenRoom.isOn = !PhotonNetwork.CurrentRoom.IsVisible;
         if (PhotonNetwork.IsMasterClient)
         {
+            PhotonNetwork.CurrentRoom.IsOpen = true;
             StartBtn.gameObject.SetActive(true);
             checkHiddenRoom.gameObject.SetActive(true);
             friendlyFire.gameObject.SetActive(true);
@@ -87,16 +83,17 @@ public class RoomManager : MonoBehaviourPunCallbacks
                 PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
 
                 // 로컬 플레이어의 프로퍼티를 업데이트 (네트워크 전체에 동기화됨)
-
             }
 
+            //라운드는 기본으로 2 라운드 이후 해당 값이 깎이는 형식으로 진행
+            roomTable["GameRound"] = 2;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
         }
         else
         {
             ReadyBtn.gameObject.SetActive(true);
             checkHiddenRoom.gameObject.SetActive(false);
         }
-
     }
 
     public void ChangeFriendlyFire()
@@ -104,20 +101,26 @@ public class RoomManager : MonoBehaviourPunCallbacks
         roomTable["FriendlyFire"] = friendlyFire.isOn;
         PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
     }
+
+    //나중에 값 받아올 것 대비 제작
+    public void CheckGameRound()
+    {
+        roomTable["GameRound"] = 2;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+    }
+
     public void StartGame()
     {
         if (PhotonNetwork.IsMasterClient == true)
         {
-            //roomTable["FriendlyFire"] = friendlyFire.isOn;
-            //Debug.Log("현태 토글 : " + friendlyFire.isOn);
-            //PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
-
-
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("FriendlyFire", out object isCheck))
-            {
-                Debug.Log("아군 오사 판정 : "+(bool)isCheck);
-            }
-
+            roomTable["OnStore"] = false;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+        }
+    }
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+        if (propertiesThatChanged.ContainsKey("OnStore"))
+        {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
         }
@@ -290,7 +293,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     public void ChangeRoomToHidden()
     {
-        PhotonNetwork.CurrentRoom.IsVisible = checkHiddenRoom.isOn;
+        PhotonNetwork.CurrentRoom.IsVisible = !checkHiddenRoom.isOn;
     }
 
     public void CheckFiredlyFire()
