@@ -76,7 +76,7 @@ public class GuardManager : MonoBehaviourPunCallbacks
             if (Timer >= nextSpawnTargetTime)
             {
                 SpawnWave();
-                nextSpawnTargetTime += 60f; //또60초
+                nextSpawnTargetTime += spawnInterval;
             }
         }
     }
@@ -280,8 +280,8 @@ public class GuardManager : MonoBehaviourPunCallbacks
         IsTimerRunning = true;
         Timer = 0f;
 
-        //초기화= 첫 스폰까지 60초
-        nextSpawnTargetTime = 60f;
+        //스폰 인터벌만큼 대기
+        nextSpawnTargetTime = spawnInterval;
         currentWave = 0;
     }
 
