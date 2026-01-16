@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ba4fd9965c014414580e8c4f7d524d76
+    m_Address: Japanese (ja)
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bbbcd083f4939ba46914c2b5b2427276
     m_Address: English (en)
     m_ReadOnly: 1

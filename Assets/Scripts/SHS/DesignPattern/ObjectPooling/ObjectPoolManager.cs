@@ -1,6 +1,14 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
+/// <summary>
+/// 오브젝트 풀
+/// Get(): 풀에서 오브젝트 꺼내기
+/// Release(T Object): 풀에 오브젝트 넣기
+/// Clear(): 풀의 모든 객체를 제거하고 초기화
+/// CountActive() / CountInactive(): 현재 사용 중인 오브젝트 / 쉬고 있는 오브젝트의 수 확인
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public abstract class ObjectPoolManager<T> : MonoBehaviour where T : Component
 {
     // 오브젝트를 담을 풀

@@ -15,8 +15,20 @@ MonoBehaviour:
   m_GroupName: Localization-Assets-Shared
   m_GUID: 1a9e5825fd2291f4a912d664fb7a5b2d
   m_SerializeEntries:
-  - m_GUID: 368fdebf38391c347a1a909319c180b2
-    m_Address: Assets/Prefab/Localization/UITable Shared Data.asset
+  - m_GUID: 0cc230c7fe8ab5a44aeab57b6b89af88
+    m_Address: Assets/Prefab/Localization/Font_Table Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5cbc55d6a71e78847921981ef6fa9060
+    m_Address: NanumGgeuTeuMeoRiCe SDF
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    - Locale-ko
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f49f87b47a53af64794a237b74e76e2c
+    m_Address: Assets/Prefab/Localization/UIText_Table Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
