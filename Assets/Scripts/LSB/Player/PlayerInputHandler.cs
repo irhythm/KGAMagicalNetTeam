@@ -155,6 +155,7 @@ public class PlayerInputHandler : MonoBehaviourPun
 
         _attackRightAction.performed += ctx =>
         {
+            if (!_player.TransformationController.IsWizard || _player.TransformationController.IsTransforming) return;
             if (_areInputsAllowed && !_isQHold && !_isEHold)
                 AttackRightTriggered = true;
         };
@@ -194,23 +195,6 @@ public class PlayerInputHandler : MonoBehaviourPun
         {
             _areInputsAllowed = true;
             if(_moveAction != null) _rawMoveInput = _moveAction.ReadValue<Vector2>();
-        }
-    }
-
-    public void ChangeTransformInput()
-    {
-        if (photonView.IsMine)
-        {
-            if(_player.TransformationController.IsWizard)
-            {
-                _attackLeftAction.Enable();
-                _attackRightAction.Enable();
-            }
-            else
-            {
-                _attackLeftAction.Disable();
-                _attackRightAction.Disable();
-            }
         }
     }
 }
