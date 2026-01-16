@@ -4629,6 +4629,8 @@ MonoBehaviour:
   playerInfoPanel: {fileID: 788639308}
   myInfoPanel: {fileID: 1935912572}
   IconPanel: {fileID: 1550674111}
+  gameSettingUI: {fileID: 196490467}
+  uiName: GameMenu
 --- !u!4 &235416756
 Transform:
   m_ObjectHideFlags: 0
@@ -21953,6 +21955,72 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9069115365609054727, guid: 60f79905accf3b24fa0114b941f1aac0, type: 3}
   m_PrefabInstance: {fileID: 1264445529}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1265615403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1265615404}
+  - component: {fileID: 1265615405}
+  - component: {fileID: 1265615406}
+  m_Layer: 0
+  m_Name: CheckClear
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1265615404
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265615403}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: -1.78}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1332188646}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1265615405
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265615403}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.999999, y: 2.9188297, z: 4.999999}
+  m_Center: {x: 0, y: 0.95941484, z: 0}
+--- !u!114 &1265615406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265615403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57aa089fceb96834c8964bd10a519708, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CheckClear
 --- !u!1001 &1267006961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23432,9 +23500,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4057992075610740243, guid: 2a002c714f14b934faa10b3db24dce55, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1265615404}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a002c714f14b934faa10b3db24dce55, type: 3}
+--- !u!4 &1332188646 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4057992075610740243, guid: 2a002c714f14b934faa10b3db24dce55, type: 3}
+  m_PrefabInstance: {fileID: 1332188645}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1349325203
 GameObject:
   m_ObjectHideFlags: 0
@@ -24123,9 +24199,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerPrefab: {fileID: 7940719953895527930, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
   _inventoryWheelLogic: {fileID: 316702598}
-  playerInput: {fileID: 4999798944730601836, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  gameSettingUI: {fileID: 196490467}
-  uiName: GameMenu
 --- !u!4 &1373324415
 Transform:
   m_ObjectHideFlags: 0
