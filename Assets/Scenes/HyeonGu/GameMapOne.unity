@@ -25789,7 +25789,7 @@ MonoBehaviour:
   guardPrefabs:
   - {fileID: 5133415269387751846, guid: b8b47a31ddabe5140acb4424e01d7ef9, type: 3}
   - {fileID: 2944837968078040472, guid: 95871b3330128e34f931a93718196fbd, type: 3}
-  spawnInterval: 5
+  spawnInterval: 30
 --- !u!4 &1463418897
 Transform:
   m_ObjectHideFlags: 0
