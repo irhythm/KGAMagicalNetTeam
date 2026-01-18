@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1505301276128175785}
+  - component: {fileID: -1836599372104859531}
   - component: {fileID: 525762749849385877}
   - component: {fileID: 9201915271507726046}
   - component: {fileID: 6590204714854854573}
@@ -35,6 +36,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-1836599372104859531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2171681095029567125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b156fdc714a3e474386ab2f5a1176edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireballExplode
 --- !u!33 &525762749849385877
 MeshFilter:
   m_ObjectHideFlags: 0

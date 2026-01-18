@@ -86,10 +86,7 @@ public class GameManager : PhotonSingleton<GameManager>
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log(otherPlayer.NickName + "님이 게임을 떠났습니다.");
-        if (PhotonNetwork.CountOfPlayersInRooms == 1)
-        {
-            Debug.Log("[승리] 현재 플레이어 수 : " + PhotonNetwork.CountOfPlayersInRooms);
-        }
+        CheckInGamePlayer();
     }
 
     public void ExitGame()

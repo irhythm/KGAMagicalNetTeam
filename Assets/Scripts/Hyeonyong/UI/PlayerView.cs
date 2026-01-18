@@ -16,6 +16,9 @@ public class PlayerView : MonoBehaviour
     Image leftHandIconCoolTime;
     Image rightHandIcon;
     Image rightHandIconCoolTime;
+
+    Coroutine leftHandIconCoolTimeCoroutine;
+    Coroutine rightHandIconCoolTimeCoroutine;
     public void SetVoiceImage(Image photonVoiceImage)
     {
         voiceImage = photonVoiceImage;
@@ -56,11 +59,11 @@ public class PlayerView : MonoBehaviour
     public void SetMagicInfoOnHand(GameObject[] magic)
     {
         iconOnHand = magic;
-        leftHandIcon = magic[0].GetComponent<Image>();
-        rightHandIcon = magic[1].GetComponent<Image>();
+        leftHandIcon = magic[0].transform.GetChild(0).GetComponent<Image>();
+        rightHandIcon = magic[1].transform.GetChild(0).GetComponent<Image>();
 
-        leftHandIconCoolTime = magic[0].transform.GetChild(0).GetComponent<Image>();
-        rightHandIconCoolTime = magic[1].transform.GetChild(0).GetComponent<Image>();
+        leftHandIconCoolTime = magic[0].transform.GetChild(0).GetChild(0).GetComponent<Image>();
+        rightHandIconCoolTime = magic[1].transform.GetChild(0).GetChild(0).GetComponent<Image>();
     }
 
     public GameObject GetMagicIcon()
@@ -75,6 +78,12 @@ public class PlayerView : MonoBehaviour
 
     public void SetIconOnHand(InventoryDataSO data, bool isLeft)
     {
+        if (isLeft && leftHandIconCoolTimeCoroutine != null)
+        { StopCoroutine(leftHandIconCoolTimeCoroutine); }
+        else if (!isLeft && rightHandIconCoolTimeCoroutine != null)
+        {
+            StopCoroutine(rightHandIconCoolTimeCoroutine);
+        }
         //260116 손 비우기 용 코드 최정욱
         if (data == null)
         {
@@ -91,6 +100,7 @@ public class PlayerView : MonoBehaviour
             return;
         }
 
+
         if (data.itemImage == null)
             return;
         if (isLeft)
@@ -103,7 +113,7 @@ public class PlayerView : MonoBehaviour
             rightHandIcon.sprite = data.itemImage;
             rightHandIconCoolTime.fillAmount = 0;
         }
-            //iconOnHand[num].GetComponent<Image>().sprite = data.itemImage;
+        //iconOnHand[num].GetComponent<Image>().sprite = data.itemImage;
 
     }
     public void CheckCoolTimeOnHand(MagicBase magic, bool isLeft)
@@ -118,21 +128,26 @@ public class PlayerView : MonoBehaviour
             coolTimeIcon = rightHandIconCoolTime;
 
         coolTimeIcon.fillAmount = curCoolTime / maxCoolTime;
-        StartCoroutine(CheckCoolTimeOnHand(coolTimeIcon, curCoolTime, maxCoolTime));
+
+        if (isLeft)
+            leftHandIconCoolTimeCoroutine = StartCoroutine(CheckCoolTimeOnHand(coolTimeIcon, curCoolTime, maxCoolTime));
+        else
+            rightHandIconCoolTimeCoroutine = StartCoroutine(CheckCoolTimeOnHand(coolTimeIcon, curCoolTime, maxCoolTime));
+
     }
 
 
     public void SetMagicIcon(MagicBase magic)
     {
         GameObject magicIcon = GetMagicIcon();
-        magicIcon.GetComponent<Image>().sprite = magic.Data.itemImage;
-        Image coolTimeImage = magicIcon.transform.GetChild(0).GetComponent<Image>();
+        magicIcon.transform.GetChild(0).GetComponent<Image>().sprite = magic.Data.itemImage;
+        Image coolTimeImage = magicIcon.transform.GetChild(0).GetChild(0).GetComponent<Image>();
 
         float curCoolTime = magic.CurrentCooldown;
         float maxCoolTime = magic.Data.cooldown;
         coolTimeImage.fillAmount = curCoolTime / maxCoolTime;
         magicIcon.SetActive(true);
-        StartCoroutine(CheckCoolTimeOnInventory(coolTimeImage,curCoolTime,maxCoolTime, magicIcon));        
+        StartCoroutine(CheckCoolTimeOnInventory(coolTimeImage, curCoolTime, maxCoolTime, magicIcon));
     }
 
 
