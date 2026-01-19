@@ -7,41 +7,34 @@ public class PlayerInventory
 
     private Dictionary<InventoryDataSO, int> inventory = new Dictionary<InventoryDataSO, int>();
 
-    private Dictionary<MagicDataSO, MagicBase> activeMagics = new Dictionary<MagicDataSO, MagicBase>();
+    private Dictionary<ActionItemDataSO, ActionBase> activeActions = new Dictionary<ActionItemDataSO, ActionBase>();
 
     public IReadOnlyDictionary<InventoryDataSO, int> Inventory => inventory;
 
-
-    
-    
-
-
     public void HandleCooldowns(float deltaTime)
     {
-        foreach (var magic in activeMagics.Values)
+        foreach (var action in activeActions.Values)
         {
-            magic.Tick(deltaTime);
+            action.Tick(deltaTime);
         }
     }
 
-    public MagicBase GetMagicInstance(MagicDataSO data)
+    public ActionBase GetActionInstance(ActionItemDataSO data)
     {
         if (data == null) return null;
 
-        if (activeMagics.TryGetValue(data, out MagicBase instance))
+        if (activeActions.TryGetValue(data, out ActionBase instance))
         {
             return instance;
         }
         return null;
     }
 
-    // 아이템 추가
     public void AddItem(InventoryDataSO item)
     {
         if (inventory.ContainsKey(item))
         {
             inventory[item]++;
-            
         }
         else
         {
@@ -52,21 +45,21 @@ public class PlayerInventory
             }
             inventory.Add(item, 1);
 
-            if (item is MagicDataSO magicData)
+            if (item is ActionItemDataSO actionData)
             {
-                if (!activeMagics.ContainsKey(magicData))
+                if (!activeActions.ContainsKey(actionData))
                 {
-                    MagicBase newMagic = magicData.CreateInstance();
-                    activeMagics.Add(magicData, newMagic);
-                    Debug.Log($"인벤토리 {item.itemName} 생성됨");
+                    ActionBase newAction = actionData.CreateInstance();
+                    activeActions.Add(actionData, newAction);
+                    Debug.Log($"인벤토리 {item.itemName} 액션 생성됨");
                 }
             }
         }
-        //260116 최정욱 intentorywheel 관련추가
-        GameManager.Instance.InventoryWheel.UpdateWheelInventory();
+
+        if (GameManager.Instance != null && GameManager.Instance.InventoryWheel != null)
+            GameManager.Instance.InventoryWheel.UpdateWheelInventory();
     }
 
-    // 아이템 제거
     public void RemoveItem(InventoryDataSO item)
     {
         if (inventory.ContainsKey(item))
@@ -76,14 +69,14 @@ public class PlayerInventory
             {
                 inventory.Remove(item);
 
-                if (item is MagicDataSO magicData && activeMagics.ContainsKey(magicData))
+                if (item is ActionItemDataSO actionData && activeActions.ContainsKey(actionData))
                 {
-                    activeMagics.Remove(magicData);
+                    activeActions.Remove(actionData);
                 }
                 return;
             }
         }
-        //260116 최정욱 intentorywheel 관련추가
-        GameManager.Instance.InventoryWheel.UpdateWheelInventory();
+        if (GameManager.Instance != null && GameManager.Instance.InventoryWheel != null)
+            GameManager.Instance.InventoryWheel.UpdateWheelInventory();
     }
 }

@@ -23,6 +23,10 @@ public class PlayableCharacter : MonoBehaviourPun
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDist = 0.1f;
 
+    [Header("Transformation")]
+    [SerializeField] private GameObject civilianModel;
+    [SerializeField] private GameObject wizardModel;
+
     public enum MoveDir { Front, Back, Left, Right }
 
     #region 프로퍼티
@@ -32,6 +36,8 @@ public class PlayableCharacter : MonoBehaviourPun
     public float DodgeForce => dodgeForce;
     public float LastDodgeTime { get; set; } = 0f;
     public bool CanDodge => Time.time >= LastDodgeTime + DodgeCooldown;
+    public GameObject CivilianModel => civilianModel;
+    public GameObject WizardModel => wizardModel;
     #endregion
 
     #region 참조
@@ -180,10 +186,10 @@ public class PlayableCharacter : MonoBehaviourPun
         // 이동 상태일때만 공격 가능
         if (!(StateMachine.CurrentState is PlayerMoveState)) return;
 
-        MagicBase magic = MagicSystem.GetMagic(isLeftHand);
+        ActionBase magic = MagicSystem.GetAction(isLeftHand);
 
         // 마법 쿨타임중인지 확인
-        if (MagicSystem.IsMagicReady(isLeftHand))
+        if (MagicSystem.IsActionReady(isLeftHand))
         {
             // 공격 상태로 전환
             var attackState = AttackState as PlayerAttackState;

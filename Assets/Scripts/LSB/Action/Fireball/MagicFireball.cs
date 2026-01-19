@@ -1,7 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class MagicFireball : MagicBase
+public class MagicFireball : MagicAction
 {
     private FireballSO fireballData;
 
@@ -18,7 +18,10 @@ public class MagicFireball : MagicBase
         {
             GameObject obj = PhotonNetwork.Instantiate("EffectPrefab/" + fireballData.itemPrefab.name, finalSpawnPos, Quaternion.LookRotation(direction));
             Fireball fireball = obj.GetComponent<Fireball>();
-            fireball.SetShooterActorNumber(shooterID);
+            if (fireball != null)
+            {
+                fireball.SetShooterActorNumber(shooterID);
+            }
         }
     }
 }
