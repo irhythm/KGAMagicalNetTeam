@@ -25,6 +25,8 @@ public class GameManager : PhotonSingleton<GameManager>
 
     //PhotonView pv;
 
+    [SerializeField] int needMoneyCount = 5;
+
     void Start()//씬이 너무 빨리 불러와져서 스타트가 room 들어가기 전에 호출되는 것이 문제임
     {
         //pv=GetComponent<PhotonView>();
@@ -51,11 +53,121 @@ public class GameManager : PhotonSingleton<GameManager>
     {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
 
-        Debug.Log("플레이어 소환");
         GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity, 0);
         PlayerManager.LocalPlayerInstance = player;
 
         CheckInGamePlayer();
+
+        yield return new WaitUntil(() => UIManager.Instance != null);
+        InitMoneyCountAndStore();
+    }
+
+    //다음 씬을 넘어갈수 있는지 확인하는 코드
+    public bool CheckMoneyCount()
+    {
+        //현재 씬이 상점 씬이면 재화 체크 필요 없음
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("OnStore", out object onStore))
+        {
+            bool checkStore = (bool)onStore;
+            if (checkStore)
+                return true;
+        }
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("MoneyCount", out object count))
+        {
+            int curMoneyCount = (int)count;
+            if (curMoneyCount >= needMoneyCount)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //게임 라운드 넘어갈 경우 해당 팀 재화를 일정 수 만큼 깎는 코드 (상점씬에서는 재화를 깎지 않아야 함) <- 해당 코드는 플레이어 소환 전에 실행
+    public void InitMoneyCountAndStore()
+    {
+
+
+        int result = -1;
+
+        //해당 씬은 씬을 넘어가고 나서 발동함 <- 그러므로 게임 -> 상점 (발동) 상점 -> 게임 (발동 X) 즉 현재 상점씬이어야 발동 근데 룸 프로퍼티가 업데이트가 꼬여서인지 현재 상점씬 아닐 경우에 발동함
+        //보니까 씬을 넘어가고 나서 커스텀 프로퍼티를 변경함 이로 인해 꼬임 현상 발동
+        //그냥 여기서 스토어도 같이 초기화 시키자
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("MoneyCount", out object count))
+        {
+            Debug.Log("팀 재화 받아옴");
+            result = (int)count;
+
+        }
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("OnStore", out object onStore))
+        {
+            bool checkStore = (bool)onStore;
+            Debug.Log("현재 상점 : "+checkStore);
+            if (!checkStore)
+            {
+                //처음 시작했을 때 대비용
+                if (result >= needMoneyCount)
+                {
+                    result = result - needMoneyCount;
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        roomTable["MoneyCount"] = result;
+                        PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+                    }
+                }
+            }
+            roomTable["OnStore"] = !checkStore;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+        }
+        else 
+        {
+            Debug.Log("상점 여부 지정");
+            roomTable["OnStore"] = false;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+        }
+
+
+        if (UIManager.Instance.moneyCount != null)
+        {
+            UIManager.Instance.moneyCount.text = result + "";
+            Debug.Log("팀 재화 표시");
+        }
+        else
+        {
+            Debug.Log("팀 재화 표시 실패");
+
+        }
+    }
+
+    public void PlusMoneyCount()
+    {
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("MoneyCount", out object count))
+        {
+            int curMoneyCount = (int)count + 1;
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                roomTable["MoneyCount"] = curMoneyCount;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+            }
+        }
+    }
+
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+        if (propertiesThatChanged.ContainsKey("MoneyCount"))
+        {
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("MoneyCount", out object count))
+            {
+                if (UIManager.Instance.moneyCount != null)
+                {
+                    UIManager.Instance.moneyCount.text = (int)count + "";
+                }
+            }
+        }
     }
 
     public void CheckInGamePlayer()
@@ -106,11 +218,16 @@ public class GameManager : PhotonSingleton<GameManager>
 
     public void CheckRoundClear(int player)
     {
+        if (!CheckMoneyCount())
+        {
+            Debug.Log("재화량을 충족시키지 못함");
+            return;
+        }
+       
         int maxPlayer = 0;
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("PlayerCount", out object count))
         {
             maxPlayer = (int)count;
-            //maxPlayer = 2;
         }
         else
         {
@@ -137,23 +254,17 @@ public class GameManager : PhotonSingleton<GameManager>
                         {
                             //게임씬으로 이동
                             PhotonNetwork.LoadLevel("GameMapOne");
-                            roomTable["OnStore"] = false;
+                            //StartCoroutine(InitMoneyCountAndStore());
                             roomTable["GameRound"] = curRound;
-                        Debug.Log("플레이어 소환 시도");
-                            //pv.RPC(nameof(SpawnPlayerRPC), RpcTarget.All);
                         }
-                        //StartCoroutine(SpawnPlayer());
                     }
                     else
                     {
                         if (PhotonNetwork.IsMasterClient)
                         {
                             PhotonNetwork.LoadLevel("StoreMapSensei");
-                            roomTable["OnStore"] = true;
-                            Debug.Log("플레이어 소환 시도");
-                            //pv.RPC(nameof(SpawnPlayerRPC), RpcTarget.All);
+                            //StartCoroutine(InitMoneyCountAndStore());
                         }
-                        //StartCoroutine(SpawnPlayer());
                     }
                 }
                 else
@@ -177,12 +288,6 @@ public class GameManager : PhotonSingleton<GameManager>
         }
     }
 
-    //[PunRPC]
-    //private void SpawnPlayerRPC()
-    //{
-    //    StartCoroutine(SpawnPlayer());
-    //}
-
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.buildIndex >= 4 && scene.buildIndex <= SceneManager.sceneCountInBuildSettings-2)
@@ -190,21 +295,6 @@ public class GameManager : PhotonSingleton<GameManager>
             StartCoroutine(SpawnPlayerWhenConnected());
         }
     }
-    
-
-    //private IEnumerator SpawnPlayer()
-    //{
-    //    Debug.Log("플레이어 소환 시도 코루틴 진입");
-    //    while (PhotonNetwork.LevelLoadingProgress < 1f)
-    //    {
-    //        Debug.Log("플레이어 소환 시도 코루틴 ");
-    //        yield return null;
-    //    }
-
-    //    yield return null;
-    //    Debug.Log("플레이어 소환 직전");
-    //    //StartCoroutine(SpawnPlayerWhenConnected());
-    //}
 
     public void ResetCustomProperty()
     {
@@ -212,10 +302,13 @@ public class GameManager : PhotonSingleton<GameManager>
         if (!PhotonNetwork.IsMasterClient)
             return;
         //어차피 플레이어 커스텀 프로퍼티는 씬 이동시 roommanager에서 초기화된다 그러므로 room만 초기화
-        foreach (var key in roomTable.Keys)
-        {
-            roomTable[key] = null;
-        }
+        //foreach (var key in roomTable.Keys)
+        //{
+        //    roomTable.Remove(key);
+        //} // <- 해당 방식으로 초기화가 정상적으로 이루어지지 않음
+        roomTable["MoneyCount"] = 0;
+        roomTable["OnStore"] = true;
+        roomTable["GameRound"] = 2;
         PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
     }
 
