@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviourPun, IDamageable
             PlayerMagicSystem magicSystem = GetComponent<PlayerMagicSystem>();
             if (magicSystem != null)
             {
-                //playerView.BindMagicSystem(magicSystem, playableCharacter);
+                playerView.BindMagicSystem(magicSystem, playableCharacter);
             }
         }
         else
