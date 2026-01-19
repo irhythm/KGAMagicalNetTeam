@@ -11,7 +11,11 @@ public enum Soundtype
 
 public class SoundManager : Singleton<SoundManager>
 {
+    [Header("브금을 재생할 오디오 소스")]
     [field: SerializeField] public AudioSource bgmSource { get; private set; }
+
+    [Header("효과음을 재생할 오디오 소스 프리팹")]
+    [SerializeField] private AudioSource sfxSource;
 
     [Header("사운드 풀")]
     [SerializeField] private SoundPool soundPool;
@@ -70,7 +74,7 @@ public class SoundManager : Singleton<SoundManager>
     /// <param name="clip"> 재생할 오디오 클립 </param>
     public void PlaySFX(AudioClip clip)
     {
-        AudioSource source = soundPool.pool.Get();
+        AudioSource source = soundPool.Get(sfxSource);
 
         if (source == null) return;
 
@@ -86,7 +90,7 @@ public class SoundManager : Singleton<SoundManager>
     /// <param name="pos"> 재생시킬 위치 </param>
     public void PlaySFX(AudioClip clip, float spatialAmount, float maxDistance, Vector3 pos)
     {
-        AudioSource source = soundPool.pool.Get();
+        AudioSource source = soundPool.Get(sfxSource);
 
         if (source == null) return;
 
@@ -105,7 +109,7 @@ public class SoundManager : Singleton<SoundManager>
 
     public void PlaySFX(string sfxName)
     {
-        AudioSource source = soundPool.pool.Get();
+        AudioSource source = soundPool.Get(sfxSource);
 
         if (source == null || !sfxDic.TryGetValue(sfxName, out var clip)) return;
 
@@ -120,7 +124,7 @@ public class SoundManager : Singleton<SoundManager>
     /// <param name="pos"> 재생시킬 위치 </param>
     public void PlaySFX(string sfxName, float spatialAmount, float maxDistance, Vector3 pos)
     {
-        AudioSource source = soundPool.pool.Get();
+        AudioSource source = soundPool.Get(sfxSource);
 
         if (source == null || !sfxDic.TryGetValue(sfxName, out var clip)) return;
 
@@ -197,7 +201,7 @@ public class SoundManager : Singleton<SoundManager>
             {
                 if (!sfxList[i].isPlaying)
                 {
-                    soundPool.pool.Release(sfxList[i]);
+                    soundPool.Release(sfxList[i]);
                     sfxList.RemoveAt(i);
                 }
             }
