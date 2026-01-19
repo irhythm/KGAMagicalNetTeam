@@ -169,9 +169,11 @@ public class SoundManager : Singleton<SoundManager>
         {
             case Soundtype.BGM:
                 SetVolume("BGM", volume);
+                PlayerPrefsDataManager.BgmVolume = volume;
                 break;
             case Soundtype.SFX:
                 SetVolume("SFX", volume);
+                PlayerPrefsDataManager.SFXVolume = volume;
                 break;
         }
     }
