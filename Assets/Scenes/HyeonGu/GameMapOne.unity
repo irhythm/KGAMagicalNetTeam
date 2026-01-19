@@ -3394,6 +3394,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coin_Gold_Skull (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 8262163734282227047, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: sceneViewId
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 26.514
@@ -10377,6 +10381,7 @@ Transform:
   - {fileID: 1551208440}
   - {fileID: 170264716}
   - {fileID: 915183785}
+  - {fileID: 1895413918}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &537981113
@@ -12429,6 +12434,10 @@ PrefabInstance:
     - target: {fileID: 8148542576127889976, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_Name
       value: Coin_Gold_Skull (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262163734282227047, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: sceneViewId
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14820,6 +14829,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coin_Gold_Skull (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8262163734282227047, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: sceneViewId
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 33.910004
@@ -15067,6 +15080,10 @@ PrefabInstance:
     - target: {fileID: 8148542576127889976, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_Name
       value: Coin_Gold_Skull (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262163734282227047, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: sceneViewId
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16505,6 +16522,10 @@ PrefabInstance:
     - target: {fileID: 8148542576127889976, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_Name
       value: Coin_Gold_Skull (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262163734282227047, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: sceneViewId
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -18966,6 +18987,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coin_Gold_Skull (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8262163734282227047, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: sceneViewId
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 41.920002
@@ -19213,6 +19238,10 @@ PrefabInstance:
     - target: {fileID: 8148542576127889976, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_Name
       value: Coin_Gold_Skull (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262163734282227047, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: sceneViewId
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -24939,6 +24968,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coin_Gold_Skull
       objectReference: {fileID: 0}
+    - target: {fileID: 8262163734282227047, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: sceneViewId
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 52.425003
@@ -27072,6 +27105,10 @@ PrefabInstance:
     - target: {fileID: 8148542576127889976, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_Name
       value: Coin_Gold_Skull (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262163734282227047, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: sceneViewId
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -31486,6 +31523,72 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 1a3fb4564f76cb0458fa7dcfd90c5a3d, type: 3}
   m_PrefabInstance: {fileID: 1893010121}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1895413917
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 536635070}
+    m_Modifications:
+    - target: {fileID: 8148542576127889976, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: m_Name
+      value: Coin_Gold_Skull (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262163734282227047, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: sceneViewId
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 93.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 78.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.49999994
+      objectReference: {fileID: 0}
+    - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.86602545
+      objectReference: {fileID: 0}
+    - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+--- !u!4 &1895413918 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+  m_PrefabInstance: {fileID: 1895413917}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1901086768
 GameObject:
   m_ObjectHideFlags: 0
@@ -33566,6 +33669,10 @@ PrefabInstance:
     - target: {fileID: 8148542576127889976, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_Name
       value: Coin_Gold_Skull (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8262163734282227047, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
+      propertyPath: sceneViewId
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 8817662005672380546, guid: c5c10042025ed0c44acf7665f60ac1d5, type: 3}
       propertyPath: m_LocalPosition.x

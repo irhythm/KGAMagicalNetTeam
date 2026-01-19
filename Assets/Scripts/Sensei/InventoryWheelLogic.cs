@@ -117,6 +117,12 @@ public class InventoryWheelLogic : MonoBehaviour
                             PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
                             break;
                         }
+                        else if (HoveredItem.itemName == PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot.itemName)
+                        {
+                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
+                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(null, false);
+                            
+                        }
                         //PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
                     }
                     else if (HoveredItem.itemName == PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
@@ -170,8 +176,14 @@ public class InventoryWheelLogic : MonoBehaviour
                             PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
                             break;
                         }
+                        else if (HoveredItem.itemName == PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
+                        {
+                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
+                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(null, true);
+                            break;
+                        }
 
-                       // PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
+                        // PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
                     }
                     
                     else if (HoveredItem.itemName == PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot.itemName)
@@ -242,7 +254,7 @@ public class InventoryWheelLogic : MonoBehaviour
             _wheelSlots[index].gameObject.SetActive(true);
             _wheelSlots[index].sprite = item.Key.itemImage;
             _wheelSlotCounts[index].text = item.Value.ToString();
-
+            index++;
 
         }
     }
