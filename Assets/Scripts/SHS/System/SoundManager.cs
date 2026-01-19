@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public enum Soundtype
@@ -11,6 +12,9 @@ public enum Soundtype
 
 public class SoundManager : Singleton<SoundManager>
 {
+    [Header("오디오 믹서")]
+    [field: SerializeField] public AudioMixer MasterAudioMixer { get; private set; }
+
     [Header("브금을 재생할 오디오 소스")]
     [field: SerializeField] public AudioSource bgmSource { get; private set; }
 
@@ -159,19 +163,22 @@ public class SoundManager : Singleton<SoundManager>
     #region 오디오 소스 설정
     public void SetSoundVolume(Soundtype type, float volume)
     {
+        if (MasterAudioMixer == null) return;
+
         switch(type)
         {
             case Soundtype.BGM:
-                SetVolume(bgmSource, volume);
+                SetVolume("BGM", volume);
+                break;
+            case Soundtype.SFX:
+                SetVolume("SFX", volume);
                 break;
         }
     }
 
-    private void SetVolume(AudioSource source, float volume)
+    private void SetVolume(string mixerParam, float volume)
     {
-        if (source == null) return;
-
-        source.volume = volume;
+        MasterAudioMixer.SetFloat(mixerParam, Mathf.Log10(volume) * 20);
     }
     #endregion
 
