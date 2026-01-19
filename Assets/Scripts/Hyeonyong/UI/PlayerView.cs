@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +24,8 @@ public class PlayerView : MonoBehaviour
 
     private PlayerMagicSystem _boundSystem;
     private PlayableCharacter _player;
+
+    List<ActionBase> _actionCooltimeList =new List<ActionBase>();
 
     public void SetVoiceImage(Image photonVoiceImage)
     {
@@ -123,14 +127,31 @@ public class PlayerView : MonoBehaviour
         _boundSystem.OnInventoryCooldownCheck -= HandleInventoryCooldownCheck;
     }
 
-    private void HandleInventoryCooldownCheck(InventoryDataSO data)
+    private void HandleInventoryCooldownCheck(InventoryDataSO data, InventoryDataSO newData)
     {
         if (data == null || _player == null) return;
 
         ActionItemDataSO actionData = data as ActionItemDataSO;
         if (actionData == null) return;
 
+        ActionItemDataSO leftHandMagicData = _boundSystem.LeftHandSlot as ActionItemDataSO;
+        ActionItemDataSO rightHandMagicData = _boundSystem.RightHandSlot as ActionItemDataSO;
+
         ActionBase targetLogic = _player.Inventory.GetActionInstance(actionData);
+
+        //0119 액션 아이템 손 바꿔서 들기 or 중복생성 방지를 위해 추가
+        if (leftHandMagicData != null &&
+    targetLogic == _player.Inventory.GetActionInstance(leftHandMagicData))
+            return;
+        if (rightHandMagicData != null &&
+            targetLogic == _player.Inventory.GetActionInstance(rightHandMagicData))
+            return;
+
+        if (_actionCooltimeList.Contains(targetLogic))
+            return;
+        _actionCooltimeList.Add(targetLogic);
+
+
 
         if (targetLogic != null && targetLogic.CurrentCooldown > 0)
         {
@@ -227,7 +248,7 @@ public class PlayerView : MonoBehaviour
         float maxCoolTime = action.BaseData.cooldown;
         coolTimeImage.fillAmount = curCoolTime / maxCoolTime;
         magicIcon.SetActive(true);
-        StartCoroutine(CheckCoolTimeOnInventory(coolTimeImage, curCoolTime, maxCoolTime, magicIcon));
+        StartCoroutine(CheckCoolTimeOnInventory(coolTimeImage, curCoolTime, maxCoolTime, magicIcon, action));
     }
 
     public IEnumerator CheckCoolTimeOnHand(Image checkCoolDown, float curCoolTime, float maxCoolTime)
@@ -243,7 +264,7 @@ public class PlayerView : MonoBehaviour
         }
     }
 
-    public IEnumerator CheckCoolTimeOnInventory(Image checkCoolDown, float curCoolTime, float maxCoolTime, GameObject magicIcon)
+    public IEnumerator CheckCoolTimeOnInventory(Image checkCoolDown, float curCoolTime, float maxCoolTime, GameObject magicIcon, ActionBase action)
     {
         while (curCoolTime > 0)
         {
@@ -254,6 +275,8 @@ public class PlayerView : MonoBehaviour
             curCoolTime -= checkDuration;
             checkCoolDown.fillAmount = curCoolTime / maxCoolTime;
         }
+
+        _actionCooltimeList.Remove(action);
         if (magicIcon != null)
         {
             magicIcon.SetActive(false);

@@ -25,7 +25,7 @@ public class PlayerMagicSystem : MonoBehaviourPun
 
     public event Action<InventoryDataSO, bool> OnHandItemChanged;
     public event Action<ActionBase, bool> OnHandCooldownStarted;
-    public event Action<InventoryDataSO> OnInventoryCooldownCheck;
+    public event Action<InventoryDataSO, InventoryDataSO> OnInventoryCooldownCheck;
 
     private void Start()
     {
@@ -122,7 +122,7 @@ public class PlayerMagicSystem : MonoBehaviourPun
         InventoryDataSO oldItem = isLeft ? LeftHandSlot : RightHandSlot;
         if (oldItem != null)
         {
-            OnInventoryCooldownCheck?.Invoke(oldItem);
+            OnInventoryCooldownCheck?.Invoke(oldItem, item);
         }
 
         if (isLeft) LeftHandSlot = item;
