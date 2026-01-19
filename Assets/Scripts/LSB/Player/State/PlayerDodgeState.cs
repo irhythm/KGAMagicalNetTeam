@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class PlayerDodgeState : PlayerStateBase
 {
-    private readonly int JumpType = Animator.StringToHash("JumpType");
-
-    private float _dodgeDuration = 0.15f; // 회피 지속시간
-    private float _stateEnterTime; // 상태 진입시간
+    private float _dodgeDuration = 0.2f;
+    private float _stateEnterTime;
 
     public PlayerDodgeState(PlayableCharacter player, StateMachine stateMachine, string animationNum)
         : base(player, stateMachine, animationNum) { }
@@ -14,26 +12,44 @@ public class PlayerDodgeState : PlayerStateBase
     {
         base.Enter();
 
-        // 입력 차단하고 시작 시간 초기화
-        Vector2 input = player.InputHandler.MoveInput;
         player.InputHandler.OffPlayerInput();
         _stateEnterTime = Time.time;
 
-        // 움직인 방향 계산하고 파라미터 변경
-        var dir = player.GetMoveDir(input);
-        player.Animator.SetInteger(JumpType, (int)dir);
+        Vector2 input = player.InputHandler.MoveInput;
+        Vector3 dodgeDir = Vector3.zero;
 
-        //힘 적용
-        Vector3 moveDir = (dir == PlayableCharacter.MoveDir.Left ? -player.transform.right : player.transform.right);
-        Vector3 force = moveDir * player.DodgeForce;
+        if (input.sqrMagnitude > 0.01f)
+        {
+            Vector3 camForward = Camera.main.transform.forward;
+            Vector3 camRight = Camera.main.transform.right;
+            camForward.y = 0;
+            camRight.y = 0;
+            camForward.Normalize();
+            camRight.Normalize();
+
+            dodgeDir = (camForward * input.y + camRight * input.x).normalized;
+        }
+        else
+        {
+            dodgeDir = player.transform.forward;
+        }
+
+        if (dodgeDir != Vector3.zero)
+        {
+            player.transform.rotation = Quaternion.LookRotation(dodgeDir);
+        }
+
+        player.Animator.SetInteger(player.HashDodgeType, 0);
+
         player.Rigidbody.linearVelocity = Vector3.zero;
-        player.Rigidbody.AddForce(force, ForceMode.Impulse);
+        player.Rigidbody.AddForce(dodgeDir * player.DodgeForce, ForceMode.Impulse);
     }
 
     public override void Execute()
     {
         base.Execute();
 
+        // 지속 시간이 지나면 이동 상태로 복귀
         if (Time.time >= _stateEnterTime + _dodgeDuration)
         {
             player.Rigidbody.linearVelocity = Vector3.zero;
@@ -43,6 +59,8 @@ public class PlayerDodgeState : PlayerStateBase
 
     public override void Exit()
     {
-        base.Exit(); 
+        base.Exit();
+
+        player.InputHandler.OnPlayerInput();
     }
 }

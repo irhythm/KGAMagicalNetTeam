@@ -19,7 +19,6 @@ public class PlayableCharacter : MonoBehaviourPun
     [SerializeField] private float dodgeForce = 7f;
     [SerializeField] private float DodgeCooldown = 1.5f;
 
-
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDist = 0.1f;
@@ -54,7 +53,20 @@ public class PlayableCharacter : MonoBehaviourPun
     public PlayerAttackState AttackState { get; private set; }
     #endregion
 
+    #region 애니메이션
+    public readonly int HashSpeed = Animator.StringToHash("Speed");
+    public readonly int HashVerticalVelocity = Animator.StringToHash("VerticalVelocity");
+    public readonly int HashAttackTrigger = Animator.StringToHash("AttackTrigger");
+    public readonly int HashAttackID = Animator.StringToHash("AttackID");
+    public readonly int HashJumpType = Animator.StringToHash("JumpType");
+    public readonly int HashDodgeType = Animator.StringToHash("DodgeType");
+    public readonly int HashTransform = Animator.StringToHash("Transform");
 
+    public void UpdateMoveAnimation(float currentSpeed)
+    {
+        Animator.SetFloat(HashSpeed, currentSpeed, 0.1f, Time.deltaTime);
+    }
+    #endregion
 
     private void Awake()
     {
@@ -74,7 +86,7 @@ public class PlayableCharacter : MonoBehaviourPun
         MoveState = new PlayerMoveState(this, StateMachine);
         JumpState = new PlayerJumpState(this, StateMachine, "IsJumping");
         DodgeState = new PlayerDodgeState(this, StateMachine, "IsDodging");
-        AttackState = new PlayerAttackState(this, StateMachine, "IsAttacking");
+        AttackState = new PlayerAttackState(this, StateMachine);
     }
 
     private void Start()
@@ -88,7 +100,19 @@ public class PlayableCharacter : MonoBehaviourPun
                 camScript.SetTarget(this.transform);
             }
 
+            // 인풋 이벤트 구독
+            SubscribeInputEvents();
+
             StateMachine.InitState(MoveState);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (photonView.IsMine)
+        {
+            // 메모리 누수 방지용 구독 해제
+            UnsubscribeInputEvents();
         }
     }
 
@@ -110,35 +134,94 @@ public class PlayableCharacter : MonoBehaviourPun
         StateMachine.CurrentState.FixedExecute();
     }
 
+    private void SubscribeInputEvents()
+    {
+        if (InputHandler == null) return;
+        InputHandler.OnJumpEvent += HandleJump;
+        InputHandler.OnAttackEvent += HandleAttack;
+        InputHandler.OnTransformEvent += HandleTransformation;
+    }
 
-    // 데미지 처리 로직 여기로 옮김
+    private void UnsubscribeInputEvents()
+    {
+        if (InputHandler == null) return;
+        InputHandler.OnJumpEvent -= HandleJump;
+        InputHandler.OnAttackEvent -= HandleAttack;
+        InputHandler.OnTransformEvent -= HandleTransformation;
+    }
+
+    // 점프/회피 이벤트
+    private void HandleJump()
+    {
+        // 이동 상태일때만 점프/회피 가능
+        if (StateMachine.CurrentState is PlayerMoveState)
+        {
+            Vector2 input = InputHandler.MoveInput;
+            MoveDir dir = GetMoveDir(input);
+
+            // 좌우 이동 중이면 회피
+            if (dir == MoveDir.Left || dir == MoveDir.Right)
+            {
+                if (CanDodge)
+                {
+                    LastDodgeTime = Time.time;
+                    StateMachine.ChangeState(DodgeState);
+                }
+            }
+            else
+            {
+                StateMachine.ChangeState(JumpState);
+            }
+        }
+    }
+
+    private void HandleAttack(bool isLeftHand)
+    {
+        // 이동 상태일때만 공격 가능
+        if (!(StateMachine.CurrentState is PlayerMoveState)) return;
+
+        MagicBase magic = MagicSystem.GetMagic(isLeftHand);
+
+        // 마법 쿨타임중인지 확인
+        if (MagicSystem.IsMagicReady(isLeftHand))
+        {
+            // 공격 상태로 전환
+            var attackState = AttackState as PlayerAttackState;
+            if (attackState != null)
+            {
+                attackState.Init(isLeftHand, magic);
+                StateMachine.ChangeState(AttackState);
+            }
+        }
+        else
+        {
+            Debug.Log("쿨타임 중이라 공격 불가");
+        }
+    }
+
+    private void HandleTransformation(bool isPressed)
+    {
+        TransformationController.HandleTransformInput(isPressed);
+    }
+
     public void OnAttacked(float damage)
     {
         photonView.RPC(nameof(RPC_TakeDamage), RpcTarget.All, damage);
     }
 
-    // 데미지 적용 이벤트 호출
     [PunRPC]
     public void RPC_TakeDamage(float damage)
     {
         bool isDie = _model.TakeDamage(damage);
-
-        // 데이터 변경 사실을 Presenter에게 알림
         OnHpChanged?.Invoke(_model.CurHp / _model.MaxHp);
 
         if (isDie)
         {
             OnDie?.Invoke();
-            Debug.Log("캐릭터 사망 (Logic)");
+            Debug.Log("캐릭터 사망");
         }
     }
 
-
-    /// <summary>
-    /// 움직이는 방향 구하는용도
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
     public MoveDir GetMoveDir(Vector2 input)
     {
         if (input.magnitude < 0.1f) return MoveDir.Front;
@@ -153,10 +236,6 @@ public class PlayableCharacter : MonoBehaviourPun
         }
     }
 
-    /// <summary>
-    /// 그라운드 체크
-    /// </summary>
-    /// <returns>땅인지</returns>
     public bool CheckIsGrounded()
     {
         return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, groundCheckDist + 0.1f, groundLayer);
@@ -177,3 +256,184 @@ public class PlayableCharacter : MonoBehaviourPun
         gameObject.layer = LayerMask.NameToLayer("Default");
     }
 }
+#region 레거시 코드
+//using Photon.Pun;
+//using System;
+//using UnityEngine;
+
+//public class PlayableCharacter : MonoBehaviourPun
+//{
+//    // 구독할 이벤트 정의
+//    public event Action<float> OnHpChanged; // 체력 변경하면 전달용
+//    public event Action OnDie;              // 사망하면 호출용
+
+//    // 모델
+//    private PlayerModel _model;
+
+//    [Header("Settings")]
+//    [SerializeField] private float maxHp = 100f; // 체력 인스펙터 노출
+//    [SerializeField] private float moveSpeed = 5f;
+//    [SerializeField] private float rotationSpeed = 10f;
+//    [SerializeField] private float jumpForce = 5f;
+//    [SerializeField] private float dodgeForce = 7f;
+//    [SerializeField] private float DodgeCooldown = 1.5f;
+
+
+//    [Header("Ground Detection")]
+//    [SerializeField] private LayerMask groundLayer;
+//    [SerializeField] private float groundCheckDist = 0.1f;
+
+//    public enum MoveDir { Front, Back, Left, Right }
+
+//    #region 프로퍼티
+//    public float MoveSpeed => moveSpeed;
+//    public float RotationSpeed => rotationSpeed;
+//    public float JumpForce => jumpForce;
+//    public float DodgeForce => dodgeForce;
+//    public float LastDodgeTime { get; set; } = 0f;
+//    public bool CanDodge => Time.time >= LastDodgeTime + DodgeCooldown;
+//    #endregion
+
+//    #region 참조
+//    public PlayerInputHandler InputHandler { get; private set; }
+//    public Rigidbody Rigidbody { get; private set; }
+//    public Animator Animator { get; private set; }
+//    public ThirdPersonCamera GameCamera { get; private set; }
+//    public PlayerInventory Inventory { get; private set; }
+//    public PlayerMagicSystem MagicSystem { get; private set; }
+//    public PlayerController playerController { get; private set; }
+//    public PlayerTransformationController TransformationController { get; private set; }
+//    #endregion
+
+//    #region 상태 머신
+//    public StateMachine StateMachine { get; private set; }
+//    public PlayerMoveState MoveState { get; private set; }
+//    public PlayerJumpState JumpState { get; private set; }
+//    public PlayerDodgeState DodgeState { get; private set; }
+//    public PlayerAttackState AttackState { get; private set; }
+//    #endregion
+
+
+
+//    private void Awake()
+//    {
+//        InputHandler = GetComponent<PlayerInputHandler>();
+//        Rigidbody = GetComponent<Rigidbody>();
+//        MagicSystem = GetComponent<PlayerMagicSystem>();
+//        playerController = GetComponent<PlayerController>();
+//        TransformationController = GetComponent<PlayerTransformationController>();
+
+//        // 모델 초기화
+//        _model = new PlayerModel(maxHp);
+//        _model.Init();
+
+//        Inventory = new PlayerInventory();
+
+//        StateMachine = new StateMachine();
+//        MoveState = new PlayerMoveState(this, StateMachine);
+//        JumpState = new PlayerJumpState(this, StateMachine, "IsJumping");
+//        DodgeState = new PlayerDodgeState(this, StateMachine, "IsDodging");
+//        AttackState = new PlayerAttackState(this, StateMachine, "IsAttacking");
+//    }
+
+//    private void Start()
+//    {
+//        if (photonView.IsMine)
+//        {
+//            var camScript = FindAnyObjectByType<ThirdPersonCamera>();
+//            if (camScript != null)
+//            {
+//                GameCamera = camScript;
+//                camScript.SetTarget(this.transform);
+//            }
+
+//            StateMachine.InitState(MoveState);
+//        }
+//    }
+
+//    private void Update()
+//    {
+//        if (!photonView.IsMine) return;
+
+//        if (Inventory != null)
+//        {
+//            Inventory.HandleCooldowns(Time.deltaTime);
+//        }
+
+//        StateMachine.CurrentState.Execute();
+//    }
+
+//    private void FixedUpdate()
+//    {
+//        if (!photonView.IsMine) return;
+//        StateMachine.CurrentState.FixedExecute();
+//    }
+
+
+//    // 데미지 처리 로직 여기로 옮김
+//    public void OnAttacked(float damage)
+//    {
+//        photonView.RPC(nameof(RPC_TakeDamage), RpcTarget.All, damage);
+//    }
+
+//    // 데미지 적용 이벤트 호출
+//    [PunRPC]
+//    public void RPC_TakeDamage(float damage)
+//    {
+//        bool isDie = _model.TakeDamage(damage);
+
+//        // 데이터 변경 사실을 Presenter에게 알림
+//        OnHpChanged?.Invoke(_model.CurHp / _model.MaxHp);
+
+//        if (isDie)
+//        {
+//            OnDie?.Invoke();
+//            Debug.Log("캐릭터 사망 (Logic)");
+//        }
+//    }
+
+
+//    /// <summary>
+//    /// 움직이는 방향 구하는용도
+//    /// </summary>
+//    /// <param name="input"></param>
+//    /// <returns></returns>
+//    public MoveDir GetMoveDir(Vector2 input)
+//    {
+//        if (input.magnitude < 0.1f) return MoveDir.Front;
+
+//        if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
+//        {
+//            return input.x > 0 ? MoveDir.Right : MoveDir.Left;
+//        }
+//        else
+//        {
+//            return input.y > 0 ? MoveDir.Front : MoveDir.Back;
+//        }
+//    }
+
+//    /// <summary>
+//    /// 그라운드 체크
+//    /// </summary>
+//    /// <returns>땅인지</returns>
+//    public bool CheckIsGrounded()
+//    {
+//        return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, groundCheckDist + 0.1f, groundLayer);
+//    }
+
+//    public void SetAnimator(Animator newAnimator)
+//    {
+//        this.Animator = newAnimator;
+//    }
+
+//    public void ChangePlayerLayer()
+//    {
+//        gameObject.layer = LayerMask.NameToLayer("Player");
+//    }
+
+//    public void RemoveLayer()
+//    {
+//        gameObject.layer = LayerMask.NameToLayer("Default");
+//    }
+//}
+#endregion
