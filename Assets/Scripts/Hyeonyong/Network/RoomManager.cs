@@ -86,8 +86,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
             }
 
             //라운드는 기본으로 2 라운드 이후 해당 값이 깎이는 형식으로 진행
-            roomTable["GameRound"] = 2;
-            PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+            //roomTable["GameRound"] = 2;
+            //PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+            InitGameRound();
+
+            InitMoneyCount();
         }
         else
         {
@@ -103,17 +106,23 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
 
     //나중에 값 받아올 것 대비 제작
-    public void CheckGameRound()
+    public void InitGameRound()
     {
         roomTable["GameRound"] = 2;
         PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
     }
 
+    //팀 재화 초기화 코드
+    public void InitMoneyCount()
+    {
+        roomTable["MoneyCount"] = 0;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+    }
     public void StartGame()
     {
         if (PhotonNetwork.IsMasterClient == true)
         {
-            roomTable["OnStore"] = false;
+            roomTable["OnStore"] = true;
             PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
         }
     }

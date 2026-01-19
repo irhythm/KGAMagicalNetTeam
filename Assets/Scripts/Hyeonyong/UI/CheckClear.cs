@@ -8,11 +8,17 @@ public class CheckClear : MonoBehaviour
     {
         //if (!PhotonNetwork.IsMasterClient)
         //    return;
-        if(!other.CompareTag("Player"))
-            return;
-        Debug.Log("플레이어가 들어왔다");
-        curPlayerEnter++;
-        GameManager.Instance.CheckRoundClear(curPlayerEnter);
+
+
+        if (other.CompareTag("Player"))
+        {
+            curPlayerEnter++;
+            GameManager.Instance.CheckRoundClear(curPlayerEnter);
+        }
+        else if (other.CompareTag("Money"))
+        {
+            GameManager.Instance.PlusMoneyCount();
+        }
     }
     private void OnTriggerExit(Collider other)
     {
@@ -22,6 +28,6 @@ public class CheckClear : MonoBehaviour
             return;
         Debug.Log("플레이어가 나갔다");
         curPlayerEnter--;
-        GameManager.Instance.CheckRoundClear(curPlayerEnter);
+        //GameManager.Instance.CheckRoundClear(curPlayerEnter);
     }
 }

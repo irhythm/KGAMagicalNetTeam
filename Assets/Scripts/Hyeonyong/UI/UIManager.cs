@@ -39,6 +39,7 @@ public class UIManager : MonoBehaviour
     public Transform playerInfoPanel;
     public Transform myInfoPanel;
     public Transform IconPanel;
+    public TextMeshProUGUI moneyCount;
 
     [SerializeField] GameObject gameSettingUI;
     bool onGameSettingUI = false;

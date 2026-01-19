@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviourPun, IDamageable
     public void TestTakeDamage(InputAction.CallbackContext context)
     {
         if (!pv.IsMine) return;
-        TakeDamage(10f);
+        GameManager.Instance.PlusMoneyCount();
     }
 
     public void TakeDamage(float takeDamage)
