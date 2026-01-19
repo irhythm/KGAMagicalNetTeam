@@ -15,6 +15,8 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Unity.VisualScripting;
 public class GameManager : PhotonSingleton<GameManager>
 {
+    public GameObject LocalPlayer { get; set; }
+
     public static GameManager Instance;
     [SerializeField] GameObject playerPrefab;
 

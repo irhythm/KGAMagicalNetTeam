@@ -22,8 +22,13 @@ public class InventoryWheelLogic : MonoBehaviour
 
     int _qOrE = 0; //0은 q, 1은 e
 
+
+
+    //public GameObject ourPlayerReference;
+
     void OpenInventory(bool left)
     {
+        Debug.Log("인벤토리 열림");
         if (_inventoryUI == null)
             return;
         if (!_isInventoryUIOn)
@@ -38,7 +43,7 @@ public class InventoryWheelLogic : MonoBehaviour
             }
             _isInventoryUIOn = !_isInventoryUIOn;
             _inventoryUI.SetActive(_isInventoryUIOn);
-            PlayerManager.LocalPlayerInstance.GetComponent<PlayerCameraSetup>().cameraScript.SetControl(false);
+            GameManager.Instance.LocalPlayer.GetComponent<PlayerCameraSetup>().cameraScript.SetControl(false);
         }
     }
 
@@ -46,9 +51,15 @@ public class InventoryWheelLogic : MonoBehaviour
 
     IEnumerator Start()
     {
-        yield return new WaitUntil(() => PlayerManager.LocalPlayerInstance != null && PlayerManager.LocalPlayerInstance.GetComponent<PlayerInputHandler>() != null);
-        PlayerManager.LocalPlayerInstance.GetComponent<PlayerInputHandler>().OnSelectQorEEvent += OpenInventory;
-        PlayerManager.LocalPlayerInstance.GetComponent<PlayerInputHandler>().OnDeselectQorEEvent += CloseInventory;
+        yield return new WaitUntil(() => GameManager.Instance != null && GameManager.Instance.LocalPlayer != null);
+        yield return new WaitUntil(() => GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>() != null);
+
+        //yield return new WaitUntil(() => ourPlayerReference != null && ourPlayerReference.GetComponent<PlayerInputHandler>() != null);
+
+        GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnSelectQorEEvent += OpenInventory;
+        
+        Debug.Log("인벤토리 휠 로직 스타트에서 플레이어 레퍼런스 할당됨");
+        GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnDeselectQorEEvent += CloseInventory;
         //260115 최정욱 인벤토리 UI 관련 추가
         //_inventoryInputActions
         //_inventoryInputActions[0].action.Enable();
@@ -65,8 +76,8 @@ public class InventoryWheelLogic : MonoBehaviour
     void OnDestroy()
     {
 
-        PlayerManager.LocalPlayerInstance.GetComponent<PlayerInputHandler>().OnSelectQorEEvent -= OpenInventory;
-        PlayerManager.LocalPlayerInstance.GetComponent<PlayerInputHandler>().OnDeselectQorEEvent -= CloseInventory;
+        GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnSelectQorEEvent -= OpenInventory;
+        GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnDeselectQorEEvent -= CloseInventory;
 
         //260115 최정욱 인벤토리 UI 관련 추가
         //_inventoryInputActions
@@ -101,51 +112,51 @@ public class InventoryWheelLogic : MonoBehaviour
                     {
                         break;
                     }
-                    if (PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot == null)
+                    if (GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot == null)
                     {
-                        if (PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot == null)
+                        if (GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot == null)
                         {
 
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
                             break;
                         }
 
 
 
-                        else if (HoveredItem.itemName != PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot.itemName)
+                        else if (HoveredItem.itemName != GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot.itemName)
 
                         {
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
                             break;
                         }
-                        else if (HoveredItem.itemName == PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot.itemName)
+                        else if (HoveredItem.itemName == GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot.itemName)
                         {
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(null, false);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(null, false);
                             break;
                         }
                     }
-                    else if (HoveredItem.itemName != PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
+                    else if (HoveredItem.itemName != GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
                     {
-                        if (PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot == null)
+                        if (GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot == null)
                         {
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
                             break;
                         }
-                        else if (HoveredItem.itemName != PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot.itemName)
+                        else if (HoveredItem.itemName != GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot.itemName)
                         {
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
                             break;
                         }
-                        else if (HoveredItem.itemName == PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot.itemName)
+                        else if (HoveredItem.itemName == GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot.itemName)
                         {
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(null, false);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(null, false);
                             
                         }
                         //PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
                     }
-                    else if (HoveredItem.itemName == PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
+                    else if (HoveredItem.itemName == GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
                     {
                         break;
                         //PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, true);
@@ -161,52 +172,52 @@ public class InventoryWheelLogic : MonoBehaviour
                     {
                         break;
                     }
-                    if (PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot == null)
+                    if (GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot == null)
                     {
                         Debug.Log("E 장착 One");
-                        if (PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot == null)
+                        if (GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot == null)
                         {
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
                             break;
                         }
-                        else if (HoveredItem.itemName != PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
+                        else if (HoveredItem.itemName != GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
                         {
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
                             Debug.Log("E 장착 Two");
                             break;
                         }
-                        else if (HoveredItem.itemName == PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
+                        else if (HoveredItem.itemName == GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
                         {
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(null, true);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(null, true);
                             break;
                         }
                         //PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
                         //break;
                     }
-                    else if (HoveredItem.itemName != PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot.itemName)
+                    else if (HoveredItem.itemName != GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot.itemName)
                     {
-                        if (PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot == null)
+                        if (GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot == null)
                         {
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
                             break;
                         }
-                        else if (HoveredItem.itemName != PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
+                        else if (HoveredItem.itemName != GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
                         {
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
                             break;
                         }
-                        else if (HoveredItem.itemName == PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
+                        else if (HoveredItem.itemName == GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
                         {
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
-                            PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(null, true);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
+                            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(null, true);
                             break;
                         }
 
                         // PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
                     }
                     
-                    else if (HoveredItem.itemName == PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot.itemName)
+                    else if (HoveredItem.itemName == GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot.itemName)
                     {
                         break;
                         //break;
@@ -218,7 +229,7 @@ public class InventoryWheelLogic : MonoBehaviour
         }
         _isInventoryUIOn = !_isInventoryUIOn;
         _inventoryUI.SetActive(_isInventoryUIOn);
-        PlayerManager.LocalPlayerInstance.GetComponent<PlayerCameraSetup>().cameraScript.SetControl(true);
+        GameManager.Instance.LocalPlayer.GetComponent<PlayerCameraSetup>().cameraScript.SetControl(true);
         //if (EventSystem.current.IsPointerOverGameObject())
         //{
         //    PointerEventData mouseEventData = new PointerEventData(EventSystem.current);
@@ -269,7 +280,7 @@ public class InventoryWheelLogic : MonoBehaviour
 
 
         int index = 0;
-        foreach (var item in PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().Inventory.Inventory)
+        foreach (var item in GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.Inventory)
         {
             _wheelSlots[index].gameObject.SetActive(true);
             _wheelSlots[index].sprite = item.Key.itemImage;
@@ -330,7 +341,7 @@ public class InventoryWheelLogic : MonoBehaviour
 
                 if (pointerRaycastHits[index].gameObject.GetComponent<Image>() != null && pointerRaycastHits[index].gameObject.GetComponent<Image>().sprite != null)
                 {
-                    foreach (var item in PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().Inventory.Inventory)
+                    foreach (var item in GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.Inventory)
                     {
                         if (item.Key.itemImage == pointerRaycastHits[index].gameObject.GetComponent<Image>().sprite)
                         {

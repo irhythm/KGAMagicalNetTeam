@@ -93,6 +93,15 @@ public class PlayableCharacter : MonoBehaviourPun
         JumpState = new PlayerJumpState(this, StateMachine, "IsJumping");
         DodgeState = new PlayerDodgeState(this, StateMachine, "IsDodging");
         AttackState = new PlayerAttackState(this, StateMachine);
+
+
+
+        //260119 최정욱 local player 인스턴스 저장
+        if (photonView.IsMine)
+        {
+            GameManager.Instance.LocalPlayer = gameObject;
+        }
+
     }
 
     private void Start()

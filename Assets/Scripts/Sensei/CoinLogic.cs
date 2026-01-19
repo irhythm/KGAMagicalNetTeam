@@ -12,7 +12,8 @@ public class CoinLogic : MonoBehaviour
     {
      
         //InputSystem.actions.FindActionMap("Player").FindAction("Interact").performed += PickupCoin;
-        PlayerManager.LocalPlayerInstance.GetComponent<PlayerInputHandler>().OnInteractEvent += PickupCoin;
+        Debug.Log(GetComponent<PlayerInputHandler>());
+        GetComponent<PlayerInputHandler>().OnInteractEvent += PickupCoin;
 
     }
 
@@ -55,7 +56,7 @@ public class CoinLogic : MonoBehaviour
 
             if (hit.transform.gameObject.GetComponent<CoinItself>() != null)
             {
-                PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().Inventory.AddItem(hit.transform.gameObject.GetComponent<CoinItself>().CoinData);
+                GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.AddItem(hit.transform.gameObject.GetComponent<CoinItself>().CoinData);
                 hit.transform.gameObject.GetComponent<CoinItself>().RequestDestroy();
                 Debug.Log("Coin Picked Up! Really");
             }
