@@ -112,15 +112,15 @@ public class PlayerController : MonoBehaviourPun, IDamageable
     {
         playerView.SetPlayerInfo(
             playerInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>(),
-            playerInfo.transform.GetChild(1).GetComponent<Image>(),
-            playerInfo.transform.GetChild(2).GetComponent<Image>()
+            playerInfo.transform.GetChild(2).GetComponent<Image>(),
+            playerInfo.transform.GetChild(3).GetComponent<Image>()
         );
     }
     public void SetMyInfo()
     {
         playerView.SetMyInfo(
             playerInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>(),
-            playerInfo.transform.GetChild(1).GetComponent<Image>()
+            playerInfo.transform.GetChild(2).GetComponent<Image>()
         );
     }
 
