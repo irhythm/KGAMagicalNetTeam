@@ -4,6 +4,6 @@ public class CoinSO : ItemDataSO
 {
     public override ActionBase CreateInstance()
     {
-        return new ItemCoin();
+        return new ItemCoin(this);
     }
 }

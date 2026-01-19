@@ -1,16 +1,13 @@
 using UnityEngine;
 
-public class ItemCoin : MonoBehaviour
+public class ItemCoin : ItemAction
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public ItemCoin(ItemDataSO data) : base(data)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnUse(Vector3 spawnPos, Vector3 direction, bool isLeftHand, int shooterID)
     {
-        
+        throw new System.NotImplementedException();
     }
 }
