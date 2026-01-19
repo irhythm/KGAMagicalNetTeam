@@ -109,10 +109,10 @@ public class PlayerView : MonoBehaviour
     {
         if (data == null || _player == null) return;
 
-        MagicDataSO magicData = data as MagicDataSO;
-        if (magicData == null) return;
+        ActionItemDataSO actionData = data as ActionItemDataSO;
+        if (actionData == null) return;
 
-        MagicBase targetLogic = _player.Inventory.GetMagicInstance(magicData);
+        ActionBase targetLogic = _player.Inventory.GetActionInstance(actionData);
 
         if (targetLogic != null && targetLogic.CurrentCooldown > 0)
         {
@@ -172,12 +172,12 @@ public class PlayerView : MonoBehaviour
         }
     }
 
-    public void CheckCoolTimeOnHand(MagicBase magic, bool isLeft)
+    public void CheckCoolTimeOnHand(ActionBase action, bool isLeft)
     {
-        if (magic == null) return;
+        if (action == null) return;
 
-        float curCoolTime = magic.CurrentCooldown;
-        float maxCoolTime = magic.Data.cooldown;
+        float curCoolTime = action.CurrentCooldown;
+        float maxCoolTime = action.BaseData.cooldown;
 
         Image coolTimeIcon = null;
         if (isLeft)
@@ -193,16 +193,16 @@ public class PlayerView : MonoBehaviour
             rightHandIconCoolTimeCoroutine = StartCoroutine(CheckCoolTimeOnHand(coolTimeIcon, curCoolTime, maxCoolTime));
     }
 
-    public void SetMagicIcon(MagicBase magic)
+    public void SetMagicIcon(ActionBase action)
     {
         GameObject magicIcon = GetMagicIcon();
         if (magicIcon == null) return;
 
-        magicIcon.transform.GetChild(0).GetComponent<Image>().sprite = magic.Data.itemImage;
+        magicIcon.transform.GetChild(0).GetComponent<Image>().sprite = action.BaseData.itemImage;
         Image coolTimeImage = magicIcon.transform.GetChild(0).GetChild(0).GetComponent<Image>();
 
-        float curCoolTime = magic.CurrentCooldown;
-        float maxCoolTime = magic.Data.cooldown;
+        float curCoolTime = action.CurrentCooldown;
+        float maxCoolTime = action.BaseData.cooldown;
         coolTimeImage.fillAmount = curCoolTime / maxCoolTime;
         magicIcon.SetActive(true);
         StartCoroutine(CheckCoolTimeOnInventory(coolTimeImage, curCoolTime, maxCoolTime, magicIcon));

@@ -186,10 +186,10 @@ public class PlayableCharacter : MonoBehaviourPun
         // 이동 상태일때만 공격 가능
         if (!(StateMachine.CurrentState is PlayerMoveState)) return;
 
-        MagicBase magic = MagicSystem.GetMagic(isLeftHand);
+        ActionBase magic = MagicSystem.GetAction(isLeftHand);
 
         // 마법 쿨타임중인지 확인
-        if (MagicSystem.IsMagicReady(isLeftHand))
+        if (MagicSystem.IsActionReady(isLeftHand))
         {
             // 공격 상태로 전환
             var attackState = AttackState as PlayerAttackState;

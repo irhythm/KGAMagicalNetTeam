@@ -2,9 +2,9 @@ using UnityEngine;
 
 public abstract class ActionItemDataSO : InventoryDataSO
 {
-    [Header("Action Common")]
+    [Header("Action Setting")]
     public float cooldown;
     public bool isDisposable;
 
-    public abstract ActionBase CreateActionInstance();
+    public abstract ActionBase CreateInstance();
 }
