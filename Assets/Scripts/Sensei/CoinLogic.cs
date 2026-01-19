@@ -11,14 +11,14 @@ public class CoinLogic : MonoBehaviour
     void Start()
     {
      
-        InputSystem.actions.FindActionMap("Player").FindAction("Interact").performed += PickupCoin;
-
+        //InputSystem.actions.FindActionMap("Player").FindAction("Interact").performed += PickupCoin;
+        PlayerManager.LocalPlayerInstance.GetComponent<PlayerInputHandler>().OnInteractEvent += PickupCoin;
 
     }
 
     void OnDestroy()
     {
-        InputSystem.actions.FindActionMap("Player").FindAction("Interact").performed -= PickupCoin;
+       // InputSystem.actions.FindActionMap("Player").FindAction("Interact").performed -= PickupCoin;
     }
 
     private Vector3 _debugRayStart;
@@ -33,7 +33,7 @@ public class CoinLogic : MonoBehaviour
 
 
 
-    void PickupCoin(InputAction.CallbackContext context)
+    void PickupCoin()
     {
         _debugRayStart = Camera.main.transform.position;
         _debugRayEnd = _debugRayStart + Camera.main.transform.forward * _pickupRange;

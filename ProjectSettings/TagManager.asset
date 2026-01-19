@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ExitPoint
   - Enemy
+  - Money
   layers:
   - Default
   - TransparentFX

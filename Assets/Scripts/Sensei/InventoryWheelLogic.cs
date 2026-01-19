@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using System.Collections;
 public class InventoryWheelLogic : MonoBehaviour
 {
     //[SerializeField] List<Transform> _wheelSlotPositions; // 인벤토리 휠 슬롯들
@@ -21,17 +22,17 @@ public class InventoryWheelLogic : MonoBehaviour
 
     int _qOrE = 0; //0은 q, 1은 e
 
-    void OpenInventory(InputAction.CallbackContext context)
+    void OpenInventory(bool left)
     {
         if (_inventoryUI == null)
             return;
         if (!_isInventoryUIOn)
         {
-            if (context.action == _inventoryInputActions[0].action)
+            if (left)
             {
                 _qOrE = 0;
             }
-            else if (context.action == _inventoryInputActions[1].action)
+            else if (!left)
             {
                 _qOrE = 1;
             }
@@ -43,32 +44,51 @@ public class InventoryWheelLogic : MonoBehaviour
 
 
 
-    void Start()
+    IEnumerator Start()
     {
+        yield return new WaitUntil(() => PlayerManager.LocalPlayerInstance != null && PlayerManager.LocalPlayerInstance.GetComponent<PlayerInputHandler>() != null);
+        PlayerManager.LocalPlayerInstance.GetComponent<PlayerInputHandler>().OnSelectQorEEvent += OpenInventory;
+        PlayerManager.LocalPlayerInstance.GetComponent<PlayerInputHandler>().OnDeselectQorEEvent += CloseInventory;
         //260115 최정욱 인벤토리 UI 관련 추가
         //_inventoryInputActions
-        _inventoryInputActions[0].action.Enable();
-        _inventoryInputActions[0].action.performed += OpenInventory;
-        _inventoryInputActions[1].action.Enable();
-        _inventoryInputActions[1].action.performed += OpenInventory;
+        //_inventoryInputActions[0].action.Enable();
+        //_inventoryInputActions[0].action.performed += OpenInventory;
+        //_inventoryInputActions[1].action.Enable();
+        //_inventoryInputActions[1].action.performed += OpenInventory;
 
-        _inventoryInputActions[0].action.canceled += CloseInventory;
-        _inventoryInputActions[1].action.canceled += CloseInventory;
+        //_inventoryInputActions[0].action.canceled += CloseInventory;
+        //_inventoryInputActions[1].action.canceled += CloseInventory;
     }
 
+   
 
     void OnDestroy()
     {
+
+        PlayerManager.LocalPlayerInstance.GetComponent<PlayerInputHandler>().OnSelectQorEEvent -= OpenInventory;
+        PlayerManager.LocalPlayerInstance.GetComponent<PlayerInputHandler>().OnDeselectQorEEvent -= CloseInventory;
+
         //260115 최정욱 인벤토리 UI 관련 추가
         //_inventoryInputActions
-        _inventoryInputActions[0].action.performed -= OpenInventory;
-        _inventoryInputActions[1].action.performed -= OpenInventory;
-        _inventoryInputActions[0].action.canceled -= CloseInventory;
-        _inventoryInputActions[1].action.canceled -= CloseInventory;
+        //_inventoryInputActions[0].action.performed -= OpenInventory;
+        //_inventoryInputActions[1].action.performed -= OpenInventory;
+        //_inventoryInputActions[0].action.canceled -= CloseInventory;
+        //_inventoryInputActions[1].action.canceled -= CloseInventory;
     }
-    void CloseInventory(InputAction.CallbackContext context)
+    void CloseInventory(bool left)
     {
-        if (_inventoryInputActions[_qOrE].action != context.action)
+        int temp;
+
+        if (left)
+        {
+            temp = 0;
+        }
+        else
+        {
+            temp = 1;
+        }
+
+        if (_qOrE != temp)
         {
             return;
         }
