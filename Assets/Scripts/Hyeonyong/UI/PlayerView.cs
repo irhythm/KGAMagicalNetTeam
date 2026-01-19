@@ -67,6 +67,24 @@ public class PlayerView : MonoBehaviour
         iconOnHand = magic;
         leftHandIcon = magic[0].transform.GetChild(0).GetComponent<Image>();
         rightHandIcon = magic[1].transform.GetChild(0).GetComponent<Image>();
+        
+        //260119 √÷¡§øÌ
+        //if (PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot == null)
+        //{
+        //    leftHandIcon.color = new Color(1, 1, 1, 0);
+        //}
+        //else
+        //{
+        //    leftHandIcon.color = new Color(1, 1, 1, 1);
+        //}
+        //if (PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot == null)
+        //{
+        //    rightHandIcon.color = new Color(1, 1, 1, 0);
+        //}
+        //else
+        //{
+        //    rightHandIcon.color = new Color(1, 1, 1, 1);
+        //}
 
         leftHandIconCoolTime = magic[0].transform.GetChild(0).GetChild(0).GetComponent<Image>();
         rightHandIconCoolTime = magic[1].transform.GetChild(0).GetChild(0).GetComponent<Image>();
@@ -147,11 +165,13 @@ public class PlayerView : MonoBehaviour
             if (isLeft)
             {
                 leftHandIcon.sprite = null;
+                leftHandIcon.color = new Color(1, 1, 1, 0);
                 leftHandIconCoolTime.fillAmount = 0;
             }
             else
             {
                 rightHandIcon.sprite = null;
+                rightHandIcon.color = new Color(1, 1, 1, 0);
                 rightHandIconCoolTime.fillAmount = 0;
             }
             return;
@@ -163,11 +183,13 @@ public class PlayerView : MonoBehaviour
         if (isLeft)
         {
             leftHandIcon.sprite = data.itemImage;
+            leftHandIcon.color = new Color(1, 1, 1, 1);
             leftHandIconCoolTime.fillAmount = 0;
         }
         else
         {
             rightHandIcon.sprite = data.itemImage;
+            rightHandIcon.color = new Color(1, 1, 1, 1);
             rightHandIconCoolTime.fillAmount = 0;
         }
     }
