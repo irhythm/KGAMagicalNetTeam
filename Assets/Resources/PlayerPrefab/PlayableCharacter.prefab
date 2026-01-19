@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 4599102605680869238}
   - component: {fileID: -5163282422903754876}
   - component: {fileID: -6071281804930736318}
+  - component: {fileID: 7306091583133949098}
   m_Layer: 6
   m_Name: PlayableCharacter
   m_TagString: Player
@@ -481,6 +482,19 @@ MonoBehaviour:
     Max: 1000
     SpeedUpPerc: 5
   restartOnDeviceChange: 1
+--- !u!114 &7306091583133949098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940719953895527930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ceeefd5e0525584c9fe663c3180742b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoinLogic
+  _pickupRange: 10
 --- !u!1001 &317560795834362853
 PrefabInstance:
   m_ObjectHideFlags: 0

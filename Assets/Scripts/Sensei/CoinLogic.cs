@@ -1,8 +1,10 @@
+using Photon.Pun;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 public class CoinLogic : MonoBehaviour
 {
-    //[SerializeField] 
+    [SerializeField] float _pickupRange = 10f;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,27 +21,53 @@ public class CoinLogic : MonoBehaviour
         InputSystem.actions.FindActionMap("Player").FindAction("Interact").performed -= PickupCoin;
     }
 
-    void PickupCoin(InputAction.CallbackContext context)
+    private Vector3 _debugRayStart;
+    private Vector3 _debugRayEnd;
+
+    private void OnDrawGizmos()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 5f))
-        {
-            if (hit.transform.gameObject.GetComponent<CoinItself>() != null)
-            {
-                //CollectCoin();
-            }
-        }
-        //EventSystem.Screen
-        Debug.Log("Coin Picked Up!");
-        // Add coin to player's inventory or increase coin count
-        // Example: playerInventory.AddCoins(1);
-        Destroy(gameObject); // Remove the coin from the scene
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(_debugRayStart, _debugRayEnd);
+        Gizmos.DrawSphere(_debugRayEnd, 0.1f);
     }
 
-    // Update is called once per frame
-    void Update()
+
+
+    void PickupCoin(InputAction.CallbackContext context)
     {
+        _debugRayStart = Camera.main.transform.position;
+        _debugRayEnd = _debugRayStart + Camera.main.transform.forward * _pickupRange;
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit[] hits = Physics.RaycastAll(ray, _pickupRange);
+        int index = 0;
+        foreach (var hit in hits)
+        {
+            index++;
+            if (index >3)
+            {
+                Debug.Log("Too many hits, breaking out of loop.");
+                break;
+            }
+
+            Debug.Log("Raycast Hit All: " + hit.transform.name);
+
+
+
+            if (hit.transform.gameObject.GetComponent<CoinItself>() != null)
+            {
+                PlayerManager.LocalPlayerInstance.GetComponent<PlayableCharacter>().Inventory.AddItem(hit.transform.gameObject.GetComponent<CoinItself>().CoinData);
+                hit.transform.gameObject.GetComponent<CoinItself>().RequestDestroy();
+                Debug.Log("Coin Picked Up! Really");
+            }
+
+
+        }
+        //EventSystem.Screen
+        Debug.Log("Interaction F Clicked");
         
+        // Add coin to player's inventory or increase coin count
+        // Example: playerInventory.AddCoins(1);
+        //Destroy(gameObject); // Remove the coin from the scene
     }
+
 }
