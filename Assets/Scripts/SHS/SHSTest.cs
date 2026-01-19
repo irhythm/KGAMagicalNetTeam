@@ -7,8 +7,6 @@ public class SHSTest : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private string animParam;
 
-    [SerializeField] private Slider slider;
-
     private void Update()
     {
         if (animator == null) return;
@@ -17,10 +15,5 @@ public class SHSTest : MonoBehaviour
         {
             animator.SetTrigger(animParam);
         }
-    }
-
-    public void OnValueChanged_VolumeSlider()
-    {
-        SoundManager.Instance.SetSoundVolume(Soundtype.BGM, slider.value);
     }
 }
