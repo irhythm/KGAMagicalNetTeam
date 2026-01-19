@@ -26,12 +26,16 @@ public class PlayerInputHandler : MonoBehaviourPun
     private InputAction _attackLeftAction;
     private InputAction _attackRightAction;
     private InputAction _transformAction;
+    private InputAction _interactAction;
 
     #region 이벤트 정의
     public event Action<Vector2> OnMoveEvent;   // 이동
     public event Action OnJumpEvent;            // 점프
     public event Action<bool> OnAttackEvent;    // 공격
     public event Action<bool> OnTransformEvent; // 변신
+    public event Action<bool> OnSelectQorEEvent;        // Q 또는 E선택
+    public event Action<bool> OnDeselectQorEEvent;        // Q 또는 E 선택해제
+    public event Action OnInteractEvent;        
     #endregion
 
     #region 프로퍼티
@@ -39,6 +43,8 @@ public class PlayerInputHandler : MonoBehaviourPun
     public bool IsSprintInput { get; private set; }
     public bool IsWalkInput { get; private set; }
     public bool JumpButtonHeld { get; private set; }
+
+    public bool IsInteractClicked { get; private set; }
     #endregion
 
     private void Awake()
@@ -62,6 +68,9 @@ public class PlayerInputHandler : MonoBehaviourPun
         ConnectMagicSelectInput();
         ConnetAttackInput();
         ConnetTransformationInput();
+        ConnectEInput();
+        ConnectQInput();
+        ConnectInteractInput();
 
         UIManager.Instance.onOpenUI += DisableInputLogic;
         UIManager.Instance.onCloseUI += EnableInputLogic;
@@ -80,13 +89,81 @@ public class PlayerInputHandler : MonoBehaviourPun
         }
     }
 
+
     private void ResetInputs()
     {
         _rawMoveInput = Vector2.zero;
         IsSprintInput = false;
         IsWalkInput = false;
         JumpButtonHeld = false;
+
+
     }
+
+
+
+    void ConnectInteractInput()
+    {
+        _interactAction = _playerInput.actions["Interact"];
+        _interactAction.performed += ctx =>
+        {
+            if (_areInputsAllowed)
+            {
+                IsInteractClicked = true;
+            }
+            
+        };
+        _interactAction.performed += InteractAction;
+        _interactAction.canceled += ctx =>
+        {
+            if (_areInputsAllowed)
+            {
+                IsInteractClicked = false;
+            }
+            };
+
+    }
+
+    void InteractAction(InputAction.CallbackContext ctx)
+    {
+        if (_areInputsAllowed)
+        {
+            if (ctx.performed)
+            {
+                OnInteractEvent?.Invoke();
+            }
+        }
+    }
+
+
+
+
+    private void ConnectQInput()
+    {
+        _selectQAction = _playerInput.actions["SelectQ"];
+        _selectQAction.performed += ctx => QorEActionEvent(true);
+        _selectQAction.canceled += ctx => QorEDeselectActionEvent(true);
+
+    }
+    private void ConnectEInput()
+    {
+        _selectEAction = _playerInput.actions["SelectE"];
+        _selectEAction.performed += ctx => QorEActionEvent(false);
+        _selectEAction.canceled += ctx => QorEDeselectActionEvent(false);
+    }
+
+    void QorEActionEvent(bool isHold)
+    {
+        //_isQHold = isHold;
+        OnSelectQorEEvent?.Invoke(isHold);
+    }
+
+    void QorEDeselectActionEvent(bool isHold)
+    {
+        //_isEHold = isHold;
+        OnDeselectQorEEvent?.Invoke(isHold);
+    }
+
 
     private void ConnectMove()
     {
