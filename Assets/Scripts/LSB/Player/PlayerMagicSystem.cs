@@ -85,13 +85,15 @@ public class PlayerMagicSystem : MonoBehaviourPun
             targetLogic.OnCast(spawnPos, direction, isLeftHand, photonView.OwnerActorNr);
         }
     }
-
+    public MagicBase GetMagic(bool isLeftHand)
+    {
+        return isLeftHand ? _leftMagicLogic : _rightMagicLogic;
+    }
     // 마법이 준비 되어있는지 확인용 메서드
     public bool IsMagicReady(bool isLeftHand)
     {
-        MagicBase targetLogic = isLeftHand ? _leftMagicLogic : _rightMagicLogic;
-        if (targetLogic == null) return false;
-        return targetLogic.CanCast();
+        var magic = GetMagic(isLeftHand);
+        return magic != null && magic.CanCast();
     }
 
     private Vector3 GetDir(Transform spawnPoint)

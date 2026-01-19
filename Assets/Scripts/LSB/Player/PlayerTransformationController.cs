@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class PlayerTransformationController : MonoBehaviourPun
 {
-    
-
     [Header("Transformation")]
     [SerializeField] private GameObject civilianModel;
     [SerializeField] private GameObject wizardModel;
@@ -16,12 +14,9 @@ public class PlayerTransformationController : MonoBehaviourPun
     private PlayableCharacter player;
 
     public bool IsWizard { get; private set; } = false;
-
-    // 변신 중인지
     public bool IsTransforming { get; private set; } = false;
 
     private Coroutine transformCoroutine;
-
     private Animator currentAnimator;
 
     private void Awake()
@@ -56,10 +51,28 @@ public class PlayerTransformationController : MonoBehaviourPun
             {
                 StopCoroutine(transformCoroutine);
                 transformCoroutine = null;
-                IsTransforming = false;
-                Debug.Log("변신 취소");
+                CancelTransformation();
             }
         }
+    }
+
+    private void CancelTransformation()
+    {
+        IsTransforming = false;
+        Debug.Log("변신 취소");
+
+        
+
+        if (currentAnimator != null)
+            currentAnimator.applyRootMotion = false;
+
+        civilianModel.transform.localRotation = Quaternion.identity;
+        civilianModel.transform.localPosition = Vector3.zero;
+
+        if (player.InputHandler != null)
+            player.InputHandler.OnPlayerInput();
+
+        currentAnimator.SetBool(player.HashTransform, false);
     }
 
     private IEnumerator TransformationRoutine()
@@ -67,12 +80,30 @@ public class PlayerTransformationController : MonoBehaviourPun
         IsTransforming = true;
         Debug.Log("변신 시전 중...");
 
-        yield return new WaitForSeconds(transformDuration);
+        if (player.InputHandler != null)
+            player.InputHandler.OffPlayerInput();
+
+        if (currentAnimator != null)
+        {
+            currentAnimator.SetBool(player.HashTransform, true);
+            currentAnimator.applyRootMotion = true;
+        }
+
+        yield return CoroutineManager.waitForSeconds(transformDuration);
+
+        if (currentAnimator != null)
+            currentAnimator.applyRootMotion = false;
+
+        civilianModel.transform.localRotation = Quaternion.identity;
+        civilianModel.transform.localPosition = Vector3.zero;
 
         photonView.RPC(nameof(RPC_TransformToWizard), RpcTarget.All);
 
         IsTransforming = false;
         transformCoroutine = null;
+
+        if (player.InputHandler != null)
+            player.InputHandler.OnPlayerInput();
     }
 
     [PunRPC]

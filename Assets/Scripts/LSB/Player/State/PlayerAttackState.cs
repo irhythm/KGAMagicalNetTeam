@@ -2,69 +2,91 @@ using UnityEngine;
 
 public class PlayerAttackState : PlayerStateBase
 {
-    private readonly int LeftHand = Animator.StringToHash("LeftHand");
-    private readonly int RightHand = Animator.StringToHash("RightHand");
+    public PlayerAttackState(PlayableCharacter player, StateMachine stateMachine)
+        : base(player, stateMachine) { }
 
-    public PlayerAttackState(PlayableCharacter player, StateMachine stateMachine, string animationNum)
-        : base(player, stateMachine, animationNum) { }
+    private const float AnimDuration = 0.8f;
 
-    private const float _LeftAnimDuration = 0.8f; // 왼손 공격 지속시간
-    private const float _RightAnimDuration = 0.8f; // 오른손 공격 지속시간
-    private float _stateEnterTime; // 상태 진입시간
+    private bool _isLeftHand;
+    private MagicBase _currentMagic;
+    private float _finishTime;
 
-    private bool isLeft;
+    public void Init(bool isLeftHand, MagicBase magic)
+    {
+        this._isLeftHand = isLeftHand;
+        this._currentMagic = magic;
+    }
 
     public override void Enter()
     {
         base.Enter();
 
-        GuardManager.instance.RegisterMagicNoise(player.transform.position);
-
-        Vector2 input = player.InputHandler.MoveInput;
-        player.Rigidbody.linearVelocity = Vector3.zero;
-        player.InputHandler.OffPlayerInput();
-        _stateEnterTime = Time.time;
-
-        if (player.InputHandler.AttackLeftTriggered)
+        if (_currentMagic == null || _currentMagic.Data == null)
         {
-            isLeft = true;
-            player.Animator.SetTrigger(LeftHand);
-        }
-        else if(player.InputHandler.AttackRightTriggered)
-        {
-            isLeft = false;
-            player.Animator.SetTrigger(RightHand);
+            stateMachine.ChangeState(player.MoveState);
+            return;
         }
 
-        player.MagicSystem.CastMagic(isLeft);
-    }
 
-    public override void FixedExecute()
-    {
-        base.FixedExecute();
+        int attackID = _isLeftHand ? 0 : 1;
+
+        if (player.HashAttackID != 0)
+            player.Animator.SetInteger(player.HashAttackID, attackID);
+
+        if (player.HashAttackTrigger != 0)
+            player.Animator.SetTrigger(player.HashAttackTrigger);
+
+
+        player.MagicSystem.CastMagic(_isLeftHand);
+
+        _finishTime = Time.time + AnimDuration;
     }
 
     public override void Execute()
     {
         base.Execute();
 
-        if(isLeft)
+        if (Camera.main != null)
         {
-            if (Time.time >= _stateEnterTime + _LeftAnimDuration)
+            Vector3 aimDir = Camera.main.transform.forward;
+            aimDir.y = 0;
+            if (aimDir != Vector3.zero)
             {
-                player.Rigidbody.linearVelocity = Vector3.zero;
-                stateMachine.ChangeState(player.MoveState);
+                player.transform.rotation = Quaternion.LookRotation(aimDir);
             }
-            return;
         }
-        else
+
+        Vector2 input = player.InputHandler.MoveInput;
+        Vector3 moveDir = Vector3.zero;
+
+        if (input.sqrMagnitude > 0.01f && Camera.main != null)
         {
-            if (Time.time >= _stateEnterTime + _RightAnimDuration)
-            {
-                player.Rigidbody.linearVelocity = Vector3.zero;
-                stateMachine.ChangeState(player.MoveState);
-            }
-            return;
+            Vector3 camForward = Camera.main.transform.forward;
+            Vector3 camRight = Camera.main.transform.right;
+            camForward.y = 0;
+            camRight.y = 0;
+            camForward.Normalize();
+            camRight.Normalize();
+
+            moveDir = (camForward * input.y + camRight * input.x).normalized;
+        }
+
+        float attackMoveSpeed = player.MoveSpeed * 0.5f;
+
+        player.Rigidbody.linearVelocity = new Vector3(
+            moveDir.x * attackMoveSpeed,
+            player.Rigidbody.linearVelocity.y,
+            moveDir.z * attackMoveSpeed
+        );
+
+        if (input.sqrMagnitude > 0.01f)
+            player.UpdateMoveAnimation(0.5f); // 걷기 모션
+        else
+            player.UpdateMoveAnimation(0f);   // 정지
+
+        if (Time.time >= _finishTime)
+        {
+            stateMachine.ChangeState(player.MoveState);
         }
     }
 }
