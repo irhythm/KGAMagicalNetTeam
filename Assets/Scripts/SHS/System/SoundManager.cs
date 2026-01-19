@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public enum Soundtype
@@ -11,7 +12,14 @@ public enum Soundtype
 
 public class SoundManager : Singleton<SoundManager>
 {
+    [Header("오디오 믹서")]
+    [field: SerializeField] public AudioMixer MasterAudioMixer { get; private set; }
+
+    [Header("브금을 재생할 오디오 소스")]
     [field: SerializeField] public AudioSource bgmSource { get; private set; }
+
+    [Header("효과음을 재생할 오디오 소스 프리팹")]
+    [SerializeField] private AudioSource sfxSource;
 
     [Header("사운드 풀")]
     [SerializeField] private SoundPool soundPool;
@@ -70,7 +78,7 @@ public class SoundManager : Singleton<SoundManager>
     /// <param name="clip"> 재생할 오디오 클립 </param>
     public void PlaySFX(AudioClip clip)
     {
-        AudioSource source = soundPool.pool.Get();
+        AudioSource source = soundPool.Get(sfxSource);
 
         if (source == null) return;
 
@@ -86,7 +94,7 @@ public class SoundManager : Singleton<SoundManager>
     /// <param name="pos"> 재생시킬 위치 </param>
     public void PlaySFX(AudioClip clip, float spatialAmount, float maxDistance, Vector3 pos)
     {
-        AudioSource source = soundPool.pool.Get();
+        AudioSource source = soundPool.Get(sfxSource);
 
         if (source == null) return;
 
@@ -105,7 +113,7 @@ public class SoundManager : Singleton<SoundManager>
 
     public void PlaySFX(string sfxName)
     {
-        AudioSource source = soundPool.pool.Get();
+        AudioSource source = soundPool.Get(sfxSource);
 
         if (source == null || !sfxDic.TryGetValue(sfxName, out var clip)) return;
 
@@ -120,7 +128,7 @@ public class SoundManager : Singleton<SoundManager>
     /// <param name="pos"> 재생시킬 위치 </param>
     public void PlaySFX(string sfxName, float spatialAmount, float maxDistance, Vector3 pos)
     {
-        AudioSource source = soundPool.pool.Get();
+        AudioSource source = soundPool.Get(sfxSource);
 
         if (source == null || !sfxDic.TryGetValue(sfxName, out var clip)) return;
 
@@ -155,19 +163,22 @@ public class SoundManager : Singleton<SoundManager>
     #region 오디오 소스 설정
     public void SetSoundVolume(Soundtype type, float volume)
     {
+        if (MasterAudioMixer == null) return;
+
         switch(type)
         {
             case Soundtype.BGM:
-                SetVolume(bgmSource, volume);
+                SetVolume("BGM", volume);
+                break;
+            case Soundtype.SFX:
+                SetVolume("SFX", volume);
                 break;
         }
     }
 
-    private void SetVolume(AudioSource source, float volume)
+    private void SetVolume(string mixerParam, float volume)
     {
-        if (source == null) return;
-
-        source.volume = volume;
+        MasterAudioMixer.SetFloat(mixerParam, Mathf.Log10(volume) * 20);
     }
     #endregion
 
@@ -197,7 +208,7 @@ public class SoundManager : Singleton<SoundManager>
             {
                 if (!sfxList[i].isPlaying)
                 {
-                    soundPool.pool.Release(sfxList[i]);
+                    soundPool.Release(sfxList[i]);
                     sfxList.RemoveAt(i);
                 }
             }

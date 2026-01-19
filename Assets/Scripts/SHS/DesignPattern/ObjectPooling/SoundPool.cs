@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public sealed class SoundPool : ObjectPoolManager<AudioSource>
+public sealed class SoundPool : SinglePoolManager<AudioSource>
 {
     protected override void DisablePoolObject(AudioSource obj)
     {

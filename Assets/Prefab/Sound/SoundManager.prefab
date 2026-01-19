@@ -46,7 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c2f446abc37684e8493224e9bd0847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
+  <MasterAudioMixer>k__BackingField: {fileID: 24100000, guid: 77dd2b2cba52fae48a091294a4b69b29, type: 2}
   <bgmSource>k__BackingField: {fileID: 8883738436854463360}
+  sfxSource: {fileID: 5921257623955727483, guid: 70112f5a677766248b79eb098cc8b299, type: 3}
   soundPool: {fileID: 4076312559800173693}
   audioClipSO: {fileID: 11400000, guid: b99a1d38d9cb40d48b38c20a65ba2c67, type: 2}
 --- !u!1 &3944201385466019963
@@ -90,7 +92,7 @@ AudioSource:
   m_GameObject: {fileID: 3944201385466019963}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8313523634963789979, guid: 77dd2b2cba52fae48a091294a4b69b29, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -222,6 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14d7781eb3461446abc7b614a3b8438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundPool
-  prefab: {fileID: 5921257623955727483, guid: 70112f5a677766248b79eb098cc8b299, type: 3}
   initSize: 4
   maxSize: 50
+  initCount: 0
+  data: {fileID: 0}
