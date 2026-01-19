@@ -84,11 +84,29 @@ public class GameManager : PhotonSingleton<GameManager>
         return false;
     }
 
+    public void UseTeamMoney(int moneyCount)
+    {
+        int result = CurTeamMoney() - moneyCount;
+        roomTable["MoneyCount"] = result;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+    }
+
+    public int CurTeamMoney()
+    {
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("MoneyCount", out object count))
+        {
+            return (int)count;
+        }
+        else
+        {
+            Debug.Log("불러오기 실패");
+            return -1;
+        }
+    }
+
     //게임 라운드 넘어갈 경우 해당 팀 재화를 일정 수 만큼 깎는 코드 (상점씬에서는 재화를 깎지 않아야 함) <- 해당 코드는 플레이어 소환 전에 실행
     public void InitMoneyCountAndStore()
     {
-
-
         int result = -1;
 
         //해당 씬은 씬을 넘어가고 나서 발동함 <- 그러므로 게임 -> 상점 (발동) 상점 -> 게임 (발동 X) 즉 현재 상점씬이어야 발동 근데 룸 프로퍼티가 업데이트가 꼬여서인지 현재 상점씬 아닐 경우에 발동함
