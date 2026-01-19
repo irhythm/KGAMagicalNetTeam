@@ -23,6 +23,10 @@ public class PlayableCharacter : MonoBehaviourPun
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDist = 0.1f;
 
+    [Header("Transformation")]
+    [SerializeField] private GameObject civilianModel;
+    [SerializeField] private GameObject wizardModel;
+
     public enum MoveDir { Front, Back, Left, Right }
 
     #region 프로퍼티
@@ -32,6 +36,8 @@ public class PlayableCharacter : MonoBehaviourPun
     public float DodgeForce => dodgeForce;
     public float LastDodgeTime { get; set; } = 0f;
     public bool CanDodge => Time.time >= LastDodgeTime + DodgeCooldown;
+    public GameObject CivilianModel => civilianModel;
+    public GameObject WizardModel => wizardModel;
     #endregion
 
     #region 참조

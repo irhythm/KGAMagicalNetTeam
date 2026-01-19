@@ -6,8 +6,6 @@ using UnityEngine;
 public class PlayerTransformationController : MonoBehaviourPun
 {
     [Header("Transformation")]
-    [SerializeField] private GameObject civilianModel;
-    [SerializeField] private GameObject wizardModel;
     [SerializeField] private ParticleSystem transformEffect;
     [SerializeField] private float transformDuration = 3.0f;
 
@@ -23,9 +21,9 @@ public class PlayerTransformationController : MonoBehaviourPun
     {
         player = GetComponent<PlayableCharacter>();
         player.RemoveLayer();
-        civilianModel.SetActive(true);
-        wizardModel.SetActive(false);
-        currentAnimator = civilianModel.GetComponent<Animator>();
+        player.CivilianModel.SetActive(true);
+        player.WizardModel.SetActive(false);
+        currentAnimator = player.CivilianModel.GetComponent<Animator>();
         IsWizard = false;
 
         if (player != null)
@@ -66,8 +64,8 @@ public class PlayerTransformationController : MonoBehaviourPun
         if (currentAnimator != null)
             currentAnimator.applyRootMotion = false;
 
-        civilianModel.transform.localRotation = Quaternion.identity;
-        civilianModel.transform.localPosition = Vector3.zero;
+        player.CivilianModel.transform.localRotation = Quaternion.identity;
+        player.CivilianModel.transform.localPosition = Vector3.zero;
 
         if (player.InputHandler != null)
             player.InputHandler.OnPlayerInput();
@@ -94,8 +92,8 @@ public class PlayerTransformationController : MonoBehaviourPun
         if (currentAnimator != null)
             currentAnimator.applyRootMotion = false;
 
-        civilianModel.transform.localRotation = Quaternion.identity;
-        civilianModel.transform.localPosition = Vector3.zero;
+        player.CivilianModel.transform.localRotation = Quaternion.identity;
+        player.CivilianModel.transform.localPosition = Vector3.zero;
 
         photonView.RPC(nameof(RPC_TransformToWizard), RpcTarget.All);
 
@@ -111,10 +109,10 @@ public class PlayerTransformationController : MonoBehaviourPun
     {
         IsWizard = true;
 
-        civilianModel.SetActive(false);
-        wizardModel.SetActive(true);
+        player.CivilianModel.SetActive(false);
+        player.WizardModel.SetActive(true);
 
-        currentAnimator = wizardModel.GetComponent<Animator>();
+        currentAnimator = player.WizardModel.GetComponent<Animator>();
 
         if (transformEffect != null) transformEffect.Play();
 
