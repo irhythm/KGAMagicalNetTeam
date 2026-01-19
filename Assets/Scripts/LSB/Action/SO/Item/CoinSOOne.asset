@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fdf9c001b395f343a73cf283983011c, type: 3}
+  m_Name: CoinSOOne
+  m_EditorClassIdentifier: Assembly-CSharp::CoinSO
+  itemId: 
+  itemName: coin
+  itemImage: {fileID: 21300000, guid: d8951fdf19a100e4ab2f268b389348ba, type: 3}
+  itemPrefab: {fileID: 8148542576127889976, guid: 6bed6741c1f92d1459e9f8f04dc87ecd, type: 3}
+  description: 
+  cooldown: 0
+  isDisposable: 0
+  maxStackSize: 2147483647
