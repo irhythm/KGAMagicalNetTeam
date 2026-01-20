@@ -27,6 +27,8 @@ GameObject:
   - component: {fileID: -5163282422903754876}
   - component: {fileID: -6071281804930736318}
   - component: {fileID: 7306091583133949098}
+  - component: {fileID: 3537390183694864578}
+  - component: {fileID: -6708908734006990876}
   m_Layer: 6
   m_Name: PlayableCharacter
   m_TagString: Player
@@ -495,6 +497,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoinLogic
   _pickupRange: 10
+--- !u!114 &3537390183694864578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940719953895527930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0565ead1fbf8ee349bc315d18f9930ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSoundHandler
+--- !u!114 &-6708908734006990876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940719953895527930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3986deb98168394684c41606a9495af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonVoice::Photon.Voice.Unity.UtilityScripts.MicAmplifier
+  amplificationFactor: 1
 --- !u!1001 &317560795834362853
 PrefabInstance:
   m_ObjectHideFlags: 0

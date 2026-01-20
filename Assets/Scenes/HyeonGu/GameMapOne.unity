@@ -5763,6 +5763,11 @@ MonoBehaviour:
   IconPanel: {fileID: 1550674111}
   moneyCount: {fileID: 1750556870}
   gameSettingUI: {fileID: 196490467}
+  onGame: 1
+  settingUIGameObject:
+  - {fileID: 1611563477}
+  - {fileID: 739301744}
+  - {fileID: 994819676}
   uiName: GameMenu
 --- !u!4 &235416756
 Transform:

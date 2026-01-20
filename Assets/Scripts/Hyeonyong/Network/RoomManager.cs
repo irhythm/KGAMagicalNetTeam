@@ -134,6 +134,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
             if (PhotonNetwork.IsMasterClient == true)
             {
                 PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
+                //LoadingManager.Instance.LoadScene("GameMapOne");
+
             }
         }
     }

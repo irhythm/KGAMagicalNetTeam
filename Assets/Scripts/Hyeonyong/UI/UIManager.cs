@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Slider bgmSound;
     [SerializeField] Slider effectSound;
     [SerializeField] Slider voiceChatSound;
-    public Slider VoiceChatSound => VoiceChatSound;
+    public Slider VoiceChatSound => voiceChatSound;
     [SerializeField] Slider micSound;
     public Slider MicSound => micSound;
     [SerializeField] TMP_Dropdown graphicQualityDropDown;
@@ -52,6 +52,9 @@ public class UIManager : MonoBehaviour
     public Action onOpenUI;
     public Action onCloseUI;
 
+    [SerializeField] bool onGame=false;
+    [SerializeField] GameObject[] settingUIGameObject;
+
     Dictionary<string, bool> checkUI = new Dictionary<string, bool>();
 
 
@@ -65,42 +68,28 @@ public class UIManager : MonoBehaviour
             return;
         escInput.action.Enable();
         escInput.action.performed += ClosePanels;
+        escInput.action.performed += OpenUI;
     }
     private void Start()
     {
         AddUI(uiName);
 
-        if (escInput != null)
-        {
-            escInput.action.Enable();
-            escInput.action.performed += OpenUI;
-        }
+        //if (escInput != null)
+        //{
+        //    escInput.action.Enable();
+        //    escInput.action.performed += OpenUI;
+        //}
     }
     private void OnDisable()
     {
         if (escInput != null)
         {
             escInput.action.performed -= ClosePanels;
+            escInput.action.performed -= OpenUI;
         }
     }
 
     public void ClosePanels(InputAction.CallbackContext context)
-    {
-        if (Panels.Length <= 0)
-        {
-            return;
-        }
-
-        foreach (var panel in Panels)
-        {
-            if (panel.activeSelf)
-            {
-                panel.SetActive(false);
-            }
-        }
-    }
-
-    public void ClosePanelsForUI()
     {
         if (Panels.Length <= 0)
         {
@@ -251,7 +240,36 @@ public class UIManager : MonoBehaviour
     {
         if (gameSettingUI != null)
         {
+            if (onGame)
+            {
+                foreach (GameObject ui in settingUIGameObject)
+                {
+                    if (ui.activeSelf)
+                    {
+                        ui.gameObject.SetActive(false);
+                        return;
+                    }
+                }
+            }
+
             Debug.Log("esc ют╥б");
+            onGameSettingUI = !onGameSettingUI;
+            gameSettingUI.SetActive(onGameSettingUI);
+
+            if (onGameSettingUI)
+            {
+                OpenUI(uiName);
+            }
+            else
+            {
+                CloseUI(uiName);
+            }
+        }
+    }
+    public void OpenUIForUI()
+    {
+        if (gameSettingUI != null)
+        {
             onGameSettingUI = !onGameSettingUI;
             gameSettingUI.SetActive(onGameSettingUI);
 
