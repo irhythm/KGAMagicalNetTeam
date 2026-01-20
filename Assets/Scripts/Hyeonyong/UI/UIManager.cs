@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class UIManager : MonoBehaviour
 {
@@ -47,6 +48,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private InputActionReference escInput;
 
     [SerializeField] TMP_Dropdown resolutionDropDown;
+
+    [SerializeField] ThirdPersonCamera thirdPersonCamera;
 
 
     public Transform playerInfoPanel;
@@ -212,7 +215,14 @@ public class UIManager : MonoBehaviour
         if (mouseSensivitySlider != null)
         {
             mouseSensivitySlider.onValueChanged.AddListener((value) => 
-            { PlayerPrefsDataManager.MouseSensitivity = value; });
+            { PlayerPrefsDataManager.MouseSensitivity = value;
+
+                if (thirdPersonCamera != null)
+                {
+                    thirdPersonCamera.Sensitivity = value;
+                }
+            
+            });
             mouseSensivitySlider.value = PlayerPrefsDataManager.MouseSensitivity;
         }
 
@@ -221,6 +231,11 @@ public class UIManager : MonoBehaviour
             checkMouseXInvert.onValueChanged.AddListener((isOn) =>
             {
                 PlayerPrefsDataManager.MouseXInvert = isOn;
+
+                if (thirdPersonCamera != null)
+                {
+                    thirdPersonCamera.InvertX = isOn;
+                }
             });
             checkMouseXInvert.isOn = PlayerPrefsDataManager.MouseXInvert;
         }
@@ -229,6 +244,10 @@ public class UIManager : MonoBehaviour
             checkMouseYInvert.onValueChanged.AddListener((isOn) =>
             {
                 PlayerPrefsDataManager.MouseYInvert = isOn;
+                if (thirdPersonCamera != null)
+                {
+                    thirdPersonCamera.InvertY = isOn;
+                }
             });
             checkMouseYInvert.isOn = PlayerPrefsDataManager.MouseYInvert;
         }

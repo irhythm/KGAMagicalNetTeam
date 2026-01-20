@@ -5998,6 +5998,7 @@ MonoBehaviour:
   Panels: []
   escInput: {fileID: 4999798944730601836, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   resolutionDropDown: {fileID: 0}
+  thirdPersonCamera: {fileID: 264007602}
   playerInfoPanel: {fileID: 788639308}
   myInfoPanel: {fileID: 1935912572}
   IconPanel: {fileID: 1550674111}
