@@ -2177,7 +2177,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6fe73668abcf1448ebf929aad64bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ServerConnector
-  onTest: 1
+  onTest: 0
+  titleAudio: {fileID: 8300000, guid: d35e9e1d6f876ce4c95f1eb8177f15ab, type: 3}
 --- !u!4 &318443349
 Transform:
   m_ObjectHideFlags: 0
@@ -3302,6 +3303,7 @@ MonoBehaviour:
   - {fileID: 78231490}
   escInput: {fileID: 4999798944730601836, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   resolutionDropDown: {fileID: 0}
+  thirdPersonCamera: {fileID: 0}
   playerInfoPanel: {fileID: 0}
   myInfoPanel: {fileID: 0}
   IconPanel: {fileID: 0}
@@ -6016,6 +6018,10 @@ PrefabInstance:
     - target: {fileID: 3242459279853808420, guid: a6af4c9f789e06147a677d8dbe1ad079, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883738436854463360, guid: a6af4c9f789e06147a677d8dbe1ad079, type: 3}
+      propertyPath: m_Resource
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

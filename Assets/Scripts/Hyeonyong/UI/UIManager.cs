@@ -84,12 +84,6 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         AddUI(uiName);
-
-        //if (escInput != null)
-        //{
-        //    escInput.action.Enable();
-        //    escInput.action.performed += OpenUI;
-        //}
     }
     private void OnDisable()
     {
@@ -116,31 +110,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void SetPlayerMic()
-    {
-        
-    }
-
-    //public void SetVoiceChatSound(AudioSource playerVoiceSound)
-    //{
-    //    voiceChatSound = playerVoiceSound;
-    //    LoadVoiceChatSound();
-    //}
-
-    //public void LoadVoiceChatSound()
-    //{
-    //    if (voiceChatSound != null && PlayerPrefs.HasKey("VoiceChatVolume"))
-    //    {
-    //        voiceChatSound.volume = PlayerPrefs.GetFloat("VoiceChatVolume");
-    //    }
-    //}
-
     private IEnumerator LoadData()
     {
         yield return new WaitUntil(() => SoundManager.Instance != null);
         if (emailInput != null)
         {
-            emailInput.onValueChanged.AddListener((value) => 
+            emailInput.onEndEdit.AddListener((value) =>
             { PlayerPrefsDataManager.LoginId = value; });
             emailInput.text = PlayerPrefsDataManager.LoginId;
             emailInput.ActivateInputField();
@@ -149,13 +124,27 @@ public class UIManager : MonoBehaviour
         if (bgmSound != null)
         {
             bgmSound.onValueChanged.AddListener((value) => 
-            { SoundManager.Instance.SetSoundVolume(Soundtype.BGM, bgmSound.value); });
+            { 
+                SoundManager.Instance.SetSoundVolume(Soundtype.BGM, bgmSound.value);
+                if (bgmSoundMute != null)
+                {
+                    bgmSoundMute.isOn=false;
+                }
+            });
             bgmSound.value = PlayerPrefsDataManager.BgmVolume;
         }
         if (bgmSoundMute != null)
         {
             bgmSoundMute.onValueChanged.AddListener((isOn) =>
             {
+                if (isOn)
+                {
+                    SoundManager.Instance.SetSoundVolume(Soundtype.BGM, 0.00001f, true);
+                }
+                else
+                {
+                    SoundManager.Instance.SetSoundVolume(Soundtype.BGM, bgmSound.value, true);
+                }
                 PlayerPrefsDataManager.BgmVolumeMute = isOn;
             });
             bgmSoundMute.isOn = PlayerPrefsDataManager.BgmVolumeMute;
@@ -164,13 +153,27 @@ public class UIManager : MonoBehaviour
         if (sfxSound != null)
         {
             sfxSound.onValueChanged.AddListener((value) =>
-            { SoundManager.Instance.SetSoundVolume(Soundtype.SFX, sfxSound.value); });
+            { 
+                SoundManager.Instance.SetSoundVolume(Soundtype.SFX, sfxSound.value);
+                if (sfxSoundMute != null)
+                {
+                    sfxSoundMute.isOn = false;
+                }
+            });
             sfxSound.value = PlayerPrefsDataManager.SFXVolume;
         }
         if (sfxSoundMute != null)
         {
             sfxSoundMute.onValueChanged.AddListener((isOn) =>
             {
+                if (isOn)
+                {
+                    SoundManager.Instance.SetSoundVolume(Soundtype.SFX, 0.00001f, true);
+                }
+                else
+                {
+                    SoundManager.Instance.SetSoundVolume(Soundtype.SFX, sfxSound.value, true);
+                }
                 PlayerPrefsDataManager.SFXVolumeMute = isOn;
             });
             sfxSoundMute.isOn = PlayerPrefsDataManager.SFXVolumeMute;
@@ -178,7 +181,14 @@ public class UIManager : MonoBehaviour
 
         if (voiceChatSound != null)
         {
-            voiceChatSound.onValueChanged.AddListener((value) => { PlayerPrefsDataManager.PlayerVoice = value; });
+            voiceChatSound.onValueChanged.AddListener((value) => 
+            { 
+                PlayerPrefsDataManager.PlayerVoice = value;
+                if (voiceChatSoundMute != null)
+                {
+                    voiceChatSoundMute.isOn = false;
+                }
+            });
             voiceChatSound.value = PlayerPrefsDataManager.PlayerVoice;
         }
         if (voiceChatSoundMute != null)
@@ -193,7 +203,14 @@ public class UIManager : MonoBehaviour
         if (micSound != null)
         {
            
-            micSound.onValueChanged.AddListener((value) => { PlayerPrefsDataManager.PlayerMic = value; });
+            micSound.onValueChanged.AddListener((value) => 
+            { 
+                PlayerPrefsDataManager.PlayerMic = value;
+                if (micSoundMute != null)
+                {
+                    micSoundMute.isOn = false;
+                }
+            });
             micSound.value = PlayerPrefsDataManager.PlayerMic;
         }
         if (micSoundMute != null)

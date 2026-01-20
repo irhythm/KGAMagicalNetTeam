@@ -1,13 +1,19 @@
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
-public class ServerConnector : MonoBehaviourPunCallbacks
+public class TitleManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] bool onTest = false;
+    [SerializeField] AudioClip titleAudio;
     private void Awake()
     {
         //호스트가 씬 이동시 클라이언트도 같이 이동
        PhotonNetwork.AutomaticallySyncScene=true;
+    }
+
+    private void Start()
+    {
+        SoundManager.Instance.PlayBGM(titleAudio);
     }
 
     //버튼 연결을 위해 우리가 만든 메서드임 OnConnectToServer아님

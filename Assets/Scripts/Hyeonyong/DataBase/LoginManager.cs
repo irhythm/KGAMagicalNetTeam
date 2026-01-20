@@ -14,6 +14,9 @@ public class LoginManager : MonoBehaviour
     PlayerInput playerInput;
     [SerializeField] TMP_InputField[] inputField;
     [SerializeField] Button[] playGameBtns;
+
+    [SerializeField] AudioClip loginAudio;
+
     int curIndex = -1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,6 +27,8 @@ public class LoginManager : MonoBehaviour
         enterInput.action.Enable();
         enterInput.action.performed += EnterGame;
         //playerInput.actions["Tab"].performed += NextTab;
+
+        SoundManager.Instance.PlayBGM(loginAudio);
     }
     private void OnDisable()
     {

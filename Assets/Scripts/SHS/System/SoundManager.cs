@@ -161,7 +161,7 @@ public class SoundManager : Singleton<SoundManager>
     #endregion
 
     #region 오디오 소스 설정
-    public void SetSoundVolume(Soundtype type, float volume)
+    public void SetSoundVolume(Soundtype type, float volume, bool mute = false)
     {
         if (MasterAudioMixer == null) return;
 
@@ -169,11 +169,13 @@ public class SoundManager : Singleton<SoundManager>
         {
             case Soundtype.BGM:
                 SetVolume("BGM", volume);
-                PlayerPrefsDataManager.BgmVolume = volume;
+                if (!mute)
+                    PlayerPrefsDataManager.BgmVolume = volume;
                 break;
             case Soundtype.SFX:
                 SetVolume("SFX", volume);
-                PlayerPrefsDataManager.SFXVolume = volume;
+                if (!mute)
+                    PlayerPrefsDataManager.SFXVolume = volume;
                 break;
         }
     }
