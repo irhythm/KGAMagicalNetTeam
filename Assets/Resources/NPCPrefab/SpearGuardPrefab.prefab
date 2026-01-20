@@ -3988,14 +3988,17 @@ GameObject:
   m_Component:
   - component: {fileID: 930621594751782181}
   - component: {fileID: 4480880827994165295}
-  - component: {fileID: 1808026982586512911}
-  - component: {fileID: 5965908490816788581}
-  - component: {fileID: 3768445575235341513}
   - component: {fileID: 7435266838583563808}
   - component: {fileID: 3502166940363671501}
   - component: {fileID: 1770675231588915151}
+  - component: {fileID: 1808026982586512911}
+  - component: {fileID: 3768445575235341513}
   - component: {fileID: -7547308251479564252}
-  - component: {fileID: 7276348073117009337}
+  - component: {fileID: 5965908490816788581}
+  - component: {fileID: -8621884906568948696}
+  - component: {fileID: -7987059646202741180}
+  - component: {fileID: 4675546244630594114}
+  - component: {fileID: -4753240230543733631}
   m_Layer: 0
   m_Name: SpearGuardPrefab
   m_TagString: Enemy
@@ -4066,77 +4069,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1808026982586512911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2944837968078040472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5afddf1ab67e7dc4d964c8f9d4386d7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GuardAI
-  moveSpeed: 3.5
-  rotSpeed: 700
-  maxHP: 1
-  currentNetworkState: 0
-  detectRadius: 15
-  attackRange: 1.5
-  attackCooldown: 2
-  attackRotOffset: 50
-  useRootMotion: 0
-  patrolSpeed: 3.5
-  runSpeed: 6
-  damage: 1
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 64
-  targetPlayer: {fileID: 0}
-  lastAttackTime: 0
-  myWeapons:
-  - {fileID: 2792500669146000992}
---- !u!114 &5965908490816788581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2944837968078040472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonTransformView
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 0
---- !u!114 &3768445575235341513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2944837968078040472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonView
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 1
-  observableSearch: 0
-  ObservedComponents:
-  - {fileID: 1808026982586512911}
-  - {fileID: 5965908490816788581}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!195 &7435266838583563808
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4190,7 +4122,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2944837968078040472}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 70
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -4207,8 +4139,63 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1808026982586512911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944837968078040472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5afddf1ab67e7dc4d964c8f9d4386d7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GuardAI
+  moveSpeed: 3.5
+  rotSpeed: 700
+  maxHP: 1
+  currentNetworkState: 0
+  detectRadius: 15
+  attackRange: 1.5
+  attackCooldown: 2
+  attackRotOffset: 50
+  useRootMotion: 0
+  patrolSpeed: 3.5
+  runSpeed: 6
+  damage: 1
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  targetPlayer: {fileID: 0}
+  lastAttackTime: 0
+  myWeapons:
+  - {fileID: 2792500669146000992}
+--- !u!114 &3768445575235341513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944837968078040472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonView
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 1
+  observableSearch: 0
+  ObservedComponents:
+  - {fileID: 1808026982586512911}
+  - {fileID: 5965908490816788581}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!114 &-7547308251479564252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4236,7 +4223,7 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
---- !u!114 &7276348073117009337
+--- !u!114 &5965908490816788581
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4245,9 +4232,71 @@ MonoBehaviour:
   m_GameObject: {fileID: 2944837968078040472}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68026cdbf07d0ec4d997f33cb97974ee, type: 3}
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GuardDamageTester
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonTransformView
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 0
+--- !u!114 &-8621884906568948696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944837968078040472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1ef5403e41c36d41ab1ffd466f4cd31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HumanoidRagdollCharacter
+--- !u!114 &-7987059646202741180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944837968078040472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54a414c866f957a4ca021e66c7908c7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BzKovSoft.RagdollTemplate.Scripts.Charachter.BzRagdoll
+  _animationGetUpFromBelly: GetUp.GetUpFromBelly
+  _animationGetUpFromBack: GetUp.GetUpFromBack
+--- !u!114 &4675546244630594114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944837968078040472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1ff260f7cd5a174194cb095fc05efc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HumanoidRagdollController
+  bzRagdoll: {fileID: -7987059646202741180}
+  animator: {fileID: 4480880827994165295}
+  agent: {fileID: 7435266838583563808}
+  knockDownDuration: 3
+  getUpAnimationDuration: 3.5
+  baseAI: {fileID: 1808026982586512911}
+--- !u!114 &-4753240230543733631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944837968078040472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d62096f8d0728414784e4d33617fd03f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SimpleRagdollTester
+  targetController: {fileID: 0}
+  pushPower: 50
 --- !u!1 &2984010739051097802
 GameObject:
   m_ObjectHideFlags: 0

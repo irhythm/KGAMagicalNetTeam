@@ -38,6 +38,8 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamag
     private Rigidbody[] ragdollRigidbodies;
     private Collider[] ragdollColliders;
 
+    //01.19 래그돌 체킹
+    public bool IsKnockedDown { get; set; } = false;
 
     protected virtual void Awake()
     {
@@ -81,6 +83,9 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamag
 
     protected virtual void Update()
     {
+        //래그돌 상태면 AI 회로 끊어버리기
+        if (IsKnockedDown) return;
+
         //마스터 클라이언트만 상태머신 돌리기
         if (PhotonNetwork.IsMasterClient)
         {
@@ -90,6 +95,9 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamag
 
     protected virtual void FixedUpdate()
     {
+        //물리 업데이트도 멈춤
+        if (IsKnockedDown) return;
+
         //마찬가지
         if (PhotonNetwork.IsMasterClient)
         {
@@ -207,14 +215,6 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamag
                 rb.useGravity = false;
             }
         }
-
-        foreach (Collider col in ragdollColliders)
-        {
-            if (col.gameObject != this.gameObject)
-            {
-                col.enabled = false; //평소에는 팔다리 콜라이더 끄기
-            }
-        }
     }
     //사망 시 랙돌 활성화
     private void EnableRagdoll()
@@ -233,6 +233,7 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamag
             if (col.gameObject != this.gameObject)
             {
                 col.enabled = true; //충돌체 켜기
+                col.isTrigger = false;
             }
         }
     }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.UI.GridLayoutGroup;
 //경비 순찰상태, 매니저통신 지원요청 오면 뛰어가고 없으면 배회
 public class GuardPatrolState : AIStateBase
 {
@@ -55,6 +56,10 @@ public class GuardPatrolState : AIStateBase
 
     private void DecideDestination()
     {
+        if (guard.Agent == null || !guard.Agent.isActiveAndEnabled || !guard.Agent.isOnNavMesh)
+        {
+            return;
+        }
         //GuardManager가 없으면 랜덤 이동
         if (GuardManager.instance == null)
         {
