@@ -40,8 +40,6 @@ public class GuardAI : BaseAI
     protected override void Awake()
     {
         base.Awake();
-
-        maxHP = 1f;
         CurrentHP = maxHP;
 
         //무기에 데미지 주입

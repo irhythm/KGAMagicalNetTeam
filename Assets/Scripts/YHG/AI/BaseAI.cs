@@ -39,7 +39,25 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamag
     private Collider[] ragdollColliders;
 
     //01.19 래그돌 체킹
-    public bool IsKnockedDown { get; set; } = false;
+    private bool _isKnockedDown = false;
+    public bool IsKnockedDown
+    {
+        get => _isKnockedDown;
+        set
+        {
+            _isKnockedDown = value;
+            if (_isKnockedDown)
+            {
+                //눕는 순간 모든 AI 끄기
+                if (Agent != null && Agent.isActiveAndEnabled)
+                {
+                    Agent.isStopped = true; //이동 정지
+                    Agent.ResetPath();      //목적지 삭제
+                    Agent.enabled = false;  //컴포넌트 끄기
+                }
+            }
+        }
+    }
 
     protected virtual void Awake()
     {
@@ -172,6 +190,7 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamag
         if (Agent != null && Agent.isActiveAndEnabled && Agent.isOnNavMesh)
         {
             Agent.isStopped = true;
+            Agent.ResetPath();
         }
 
         if (Agent != null)
