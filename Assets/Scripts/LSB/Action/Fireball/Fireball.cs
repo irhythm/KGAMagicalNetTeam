@@ -6,7 +6,6 @@ public class Fireball : MonoBehaviourPun
     [SerializeField] private FireballSO fireballData;
 
     private int shooterActorNumber;
-
     private bool hasExploded = false;
 
     private void Start()
@@ -20,71 +19,96 @@ public class Fireball : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
+        // 쏜 사람만 충돌 감지 수행
         if (!photonView.IsMine) return;
 
-        if (hasExploded) return;
-
-        IDamageable target = other.GetComponent<IDamageable>();
-
-        if (target == null)
+        // 나 자신은 무시
+        PhotonView targetView = other.GetComponent<PhotonView>();
+        if (targetView != null && targetView.OwnerActorNr == shooterActorNumber)
         {
-            PlayExplosionEffect(transform.position);
-            
-            return;
-        }
-
-        bool applyDamage = true;
-
-        if (other.CompareTag("Player"))
-        {
-            PhotonView targetPlayerView = other.GetComponent<PhotonView>();
-
-            // 내가 쏜거면 무시
-            if (targetPlayerView != null && targetPlayerView.OwnerActorNr == shooterActorNumber)
-            {
-                Debug.Log("내가 쏜거 내가 맞음");
+            if(other.CompareTag("Player"))
                 return;
-            }
-
-            if (!IsFriendlyFireOn())
-            {
-                applyDamage = false; // 오사 꺼져 있으면 데미지 없음
-            }
         }
 
-        // 오사 켜져있으면 데미지 적용
-        if (applyDamage)
-        {
-            target.TakeDamage(fireballData.damage);
-            Debug.Log("아군 오사 했음");
-        }
+        if (hasExploded) return;
+        hasExploded = true;
 
-        // 일단 맞으면 폭발 이펙트 재생하고 삭제함
-        PlayExplosionEffect(transform.position);
+        photonView.RPC(nameof(RPC_ExplodeProcess), RpcTarget.All, transform.position);
+
+        // 투사체 제거
+        PhotonNetwork.Destroy(gameObject);
     }
 
-    // 오사 설정 켜져있나 확인
+    [PunRPC]
+    private void RPC_ExplodeProcess(Vector3 explosionPos)
+    {
+        if (fireballData.explosionEffectPrefab != null)
+        {
+            Instantiate(fireballData.explosionEffectPrefab, explosionPos, Quaternion.identity);
+        }
+
+        Collider[] colliders = Physics.OverlapSphere(explosionPos, fireballData.explosionRadius, fireballData.explosionLayer);
+        Debug.Log($"Explosion hit {colliders.Length} colliders.");
+
+        foreach (Collider hit in colliders)
+        {
+            Rigidbody rb = hit.GetComponent<Rigidbody>();
+            PhotonView targetView = hit.GetComponent<PhotonView>();
+            ChunkNode chunkNode = hit.GetComponent<ChunkNode>(); // [추가] 청크 노드 가져오기
+
+            if (chunkNode != null)
+            {
+                float distance = Vector3.Distance(explosionPos, hit.ClosestPoint(explosionPos));
+                float impactFactor = 1f - Mathf.Clamp01(distance / fireballData.explosionRadius);
+                float effectiveForce = fireballData.explosionForce * impactFactor;
+
+                chunkNode.ApplyExplosionForce(
+                    effectiveForce,
+                    fireballData.explosionForce,
+                    explosionPos,
+                    fireballData.explosionRadius,
+                    fireballData.explosionUpward
+                );
+            }
+            if (targetView != null)
+            {
+                if (!targetView.IsMine) continue;
+
+                if (targetView.OwnerActorNr == shooterActorNumber)
+                {
+                    if (hit.CompareTag("Player"))
+                    {
+                        continue;
+                    }
+                }
+
+                if (hit.CompareTag("Player") && !IsFriendlyFireOn()) continue;
+            }
+
+            if (rb != null && !rb.isKinematic)
+            {
+                rb.AddExplosionForce(fireballData.explosionForce, explosionPos, fireballData.explosionRadius, fireballData.explosionUpward, ForceMode.Impulse);
+            }
+
+            if (targetView != null && targetView.IsMine)
+            {
+                IDamageable target = hit.GetComponent<IDamageable>();
+                if (target != null)
+                {
+                    target.TakeDamage(fireballData.damage);
+                }
+            }
+        }
+    }
+
     private bool IsFriendlyFireOn()
     {
-        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("FriendlyFire", out object isFF))
+        if (PhotonNetwork.CurrentRoom != null &&
+            PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("FriendlyFire", out object isFF))
         {
             return (bool)isFF;
         }
         return false;
-    }
-
-    // 폭발 이펙트 재생용
-    private void PlayExplosionEffect(Vector3 pos)
-    {
-        if (hasExploded) return;
-
-        hasExploded = true;
-
-        if (fireballData.explosionEffectPrefab != null)
-        {
-            PhotonNetwork.Instantiate("EffectPrefab/" + fireballData.explosionEffectPrefab.name, pos, Quaternion.identity);
-            PhotonNetwork.Destroy(gameObject);
-        }
     }
 
     public void SetShooterActorNumber(int actorNumber)

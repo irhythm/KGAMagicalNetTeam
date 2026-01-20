@@ -28,10 +28,8 @@ public class ChunkNode : MonoBehaviour
         RefreshNeighboursArray();
     }
 
-    // [추가] 물리 조인트가 없으므로 직접 충돌을 감지해야 합니다.
     private void OnCollisionEnter(Collision collision)
     {
-        // 이미 떨어져 나온 상태라면 무시
         if (!rb.isKinematic) return;
 
         // 충격량이 한계치를 넘으면 연결 해제
@@ -63,7 +61,7 @@ public class ChunkNode : MonoBehaviour
         {
             _neighbours.Remove(chunkNode);
             RefreshNeighboursArray();
-            HasBrokenLinks = true; // 그래프 매니저에게 "재검사 필요" 신호 보냄
+            HasBrokenLinks = true; // 그래프 매니저에게 재검사 신호 보냄
         }
     }
 
@@ -77,7 +75,7 @@ public class ChunkNode : MonoBehaviour
 
     public void Unfreeze()
     {
-        // 진짜 앵커(벽/바닥)는 절대 떨어지지 않음
+        // 앵커는 절대 떨어지지 않음
         if (IsIndestructible) return;
 
         if (rb != null && rb.isKinematic)
@@ -86,7 +84,7 @@ public class ChunkNode : MonoBehaviour
             rb.useGravity = true;
             rb.gameObject.layer = LayerMask.NameToLayer("Default");
 
-            // 내가 떨어지면 이웃들과의 관계를 끊음 -> 이웃들이 "어? 내 옆이 사라졌네?" 하고 GraphManager가 작동함
+            // 내가 떨어지면 이웃들과의 관계를 끊음
             foreach (var neighbor in _neighbours)
             {
                 if (neighbor != null) neighbor.RemoveNeighbour(this);
@@ -108,8 +106,34 @@ public class ChunkNode : MonoBehaviour
             rb.isKinematic = true;
             rb.useGravity = false;
             // "FrozenChunks" 레이어가 없다면 Default나 다른 레이어 사용
-            int layer = LayerMask.NameToLayer("FrozenChunks");
+            int layer = LayerMask.NameToLayer("Default");
             if (layer != -1) rb.gameObject.layer = layer;
+        }
+    }
+
+    public void ApplyExplosionForce(float impactForce, float explosionForce, Vector3 explosionPos, float explosionRadius, float upwardModifier)
+    {
+        // 이미 깨져있는지 확인
+        if (!IsFrozen)
+        {
+            // 이미 깨진 조각이면 그냥 힘만 다시 줌
+            if (rb != null)
+            {
+                rb.AddExplosionForce(explosionForce, explosionPos, explosionRadius, upwardModifier, ForceMode.Impulse);
+            }
+            return;
+        }
+
+        // 안 깨진 조각이라면 내구도 체크
+        if (impactForce > BreakForce)
+        {
+            Unfreeze();
+
+            // 해제 직후 힘 전달
+            if (rb != null)
+            {
+                rb.AddExplosionForce(explosionForce, explosionPos, explosionRadius, upwardModifier, ForceMode.Impulse);
+            }
         }
     }
 }
