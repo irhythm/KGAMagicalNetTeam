@@ -17,10 +17,16 @@ MonoBehaviour:
   itemImage: {fileID: 695775810, guid: 080cb6d98b00c2645b2c41df5f69bc78, type: 3}
   itemPrefab: {fileID: 3849062070049599827, guid: 0878129b6f3a0d64ea4728b382a5f1c5, type: 3}
   description: 
-  damage: 5
-  isDisposable: 0
-  magicDamage: 5
   cooldown: 5
+  isDisposable: 0
+  damage: 5
   spawnOffset: {x: 0, y: 0, z: 0}
+  knockbackForce: 0
   speed: 20
   explosionEffectPrefab: {fileID: 2171681095029567125, guid: 6a76d703b210225468effaff42ad5632, type: 3}
+  explosionRadius: 5
+  explosionForce: 200
+  explosionUpward: 1
+  explosionLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
