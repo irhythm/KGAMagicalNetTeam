@@ -3899,8 +3899,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a414c866f957a4ca021e66c7908c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BzKovSoft.RagdollTemplate.Scripts.Charachter.BzRagdoll
-  _animationGetUpFromBelly: GetUp.GetUpFromBelly
-  _animationGetUpFromBack: GetUp.GetUpFromBack
+  _animationGetUpFromBelly: standing_up_from_belly
+  _animationGetUpFromBack: standing_up_from_back
 --- !u!114 &4654346704534276059
 MonoBehaviour:
   m_ObjectHideFlags: 0
