@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using TMPro;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 
-public class Loading : Singleton<Loading>
+public class LoadingManager : Singleton<LoadingManager>
 {
     #region 필드
     [Header("로딩창 오브젝트")]
@@ -36,7 +37,13 @@ public class Loading : Singleton<Loading>
     [Range(0.5f, 0.9f)]
     [SerializeField] private float fakeStartPer;
 
+    [Header("포톤 뷰 컴포넌트")]
+    [SerializeField] private PhotonView photonView;
+
+    private Coroutine loadSceneCoroutine;
+
     private string loadSceneName;           // 다음 씬 이름을 받을 변수
+    private int readyCount = 0;             // 현재 씬에서 다음 씬으로 이동 완료 인원수
     #endregion
 
     protected override void Awake()
@@ -50,9 +57,21 @@ public class Loading : Singleton<Loading>
         SetBackground();
         SetTip();
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
         loadSceneName = sceneName;
-        StartCoroutine(LoadSceneProcess());
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC(nameof(StartLoadSceneProcess), RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void StartLoadSceneProcess()
+    {
+        if (loadSceneCoroutine != null) return;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        loadSceneCoroutine = StartCoroutine(LoadSceneProcess());
     }
 
     private IEnumerator LoadSceneProcess()
@@ -89,9 +108,33 @@ public class Loading : Singleton<Loading>
     {
         if (scene.name == loadSceneName)
         {
-            loadingObj.SetActive(false);
+            photonView.RPC(nameof(RPC_Ready), RpcTarget.All);
+            Debug.Log("온씬 로디드 실행");
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            Debug.Log("온씬 로디드 콜백 메서드 제거");
         }
+    }
+
+    [PunRPC]
+    private void RPC_Ready()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        readyCount++;
+
+        if(readyCount >= PhotonNetwork.CurrentRoom.PlayerCount)
+        {
+            Debug.Log($"readyCount: {readyCount}");
+            Debug.Log($"playerCount: {PhotonNetwork.CurrentRoom.PlayerCount}");
+            photonView.RPC(nameof(RPC_StartScene), RpcTarget.All);
+            readyCount = 0;
+        }
+    }
+
+    [PunRPC]
+    private void RPC_StartScene()
+    {
+        loadingObj.SetActive(false);
     }
 
     private void SetBackground()
