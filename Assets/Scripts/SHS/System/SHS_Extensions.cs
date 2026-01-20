@@ -6,7 +6,7 @@ public enum DirectionType
     Backward
 }
 
-public static class Extension
+public static class SHS_Extensions
 {
     public static bool IsTargetInDirection(this Transform myTrans, Transform target, DirectionType type, float angle)
     {

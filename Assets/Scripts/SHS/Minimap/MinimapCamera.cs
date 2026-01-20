@@ -6,6 +6,19 @@ public class MinimapCamera : MonoBehaviour
 
     [SerializeField] private float yOffset;
 
+    private void Awake()
+    {
+        if (FollowTarget == null)
+        {
+            var player = FindAnyObjectByType<PlayableCharacter>();
+
+            if(player != null)
+            {
+                FollowTarget = player.transform;
+            }
+        }
+    }
+
     private void LateUpdate()
     {
         if (FollowTarget != null)

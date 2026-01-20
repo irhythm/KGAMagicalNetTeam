@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 
-public class Loading : Singleton<Loading>
+public class LoadingManager : Singleton<LoadingManager>
 {
     #region 필드
     [Header("로딩창 오브젝트")]
@@ -70,6 +70,7 @@ public class Loading : Singleton<Loading>
     {
         if (loadSceneCoroutine != null) return;
 
+        SceneManager.sceneLoaded += OnSceneLoaded;
         loadSceneCoroutine = StartCoroutine(LoadSceneProcess());
     }
 
@@ -108,8 +109,9 @@ public class Loading : Singleton<Loading>
         if (scene.name == loadSceneName)
         {
             photonView.RPC(nameof(RPC_Ready), RpcTarget.All);
-
+            Debug.Log("온씬 로디드 실행");
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            Debug.Log("온씬 로디드 콜백 메서드 제거");
         }
     }
 
@@ -122,6 +124,8 @@ public class Loading : Singleton<Loading>
 
         if(readyCount >= PhotonNetwork.CurrentRoom.PlayerCount)
         {
+            Debug.Log($"readyCount: {readyCount}");
+            Debug.Log($"playerCount: {PhotonNetwork.CurrentRoom.PlayerCount}");
             photonView.RPC(nameof(RPC_StartScene), RpcTarget.All);
             readyCount = 0;
         }

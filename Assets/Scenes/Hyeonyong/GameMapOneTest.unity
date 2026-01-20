@@ -14086,6 +14086,7 @@ MonoBehaviour:
   playerInfoPanel: {fileID: 682843712}
   myInfoPanel: {fileID: 1066890095}
   IconPanel: {fileID: 0}
+  moneyCount: {fileID: 0}
   gameSettingUI: {fileID: 0}
   uiName: GameMenu
 --- !u!4 &908334160
@@ -22582,7 +22583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GuardManager
   spawnPoints:
   - {fileID: 1545992978}
-  guardPrefab: {fileID: 521767000252039710, guid: bd8c71f97fd876d4493ffca1fe4a57d0, type: 3}
+  guardPrefabs: []
   spawnInterval: 60
 --- !u!4 &1377799443
 Transform:
@@ -29688,6 +29689,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerPrefab: {fileID: 7940719953895527930, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
   _inventoryWheelLogic: {fileID: 0}
+  needMoneyCount: 5
 --- !u!4 &1857665154
 Transform:
   m_ObjectHideFlags: 0
