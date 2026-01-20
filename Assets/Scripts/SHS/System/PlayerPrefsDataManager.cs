@@ -19,6 +19,11 @@ public static class PlayerPrefsDataManager
     public const string KEY_MouseYInvert= "MouseYInvert";  // 마우스 Y 반전
     public const string KEY_PlayerVoice= "PlayerVoice";  // 음성 채팅 사운드
     public const string KEY_PlayerMic= "PlayerMic";  // 음성 채팅 사운드
+
+    public const string KEY_BGMVOLUME_MUTE = "BGMVolumeMute";
+    public const string KEY_SFXVOLUME_MUTE = "SFXVolumeMute";
+    public const string KEY_PlayerVoice_MUTE = "PlayerVoiceMute";
+    public const string KEY_PlayerMic_MUTE = "PlayerMicMute";
     
     #endregion
 
@@ -145,6 +150,59 @@ public static class PlayerPrefsDataManager
         {
             float mic = Mathf.Clamp(value, 0f, 3f);
             PlayerPrefs.SetFloat(KEY_PlayerMic, mic);
+        }
+    }
+
+    public static bool BgmVolumeMute
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(KEY_BGMVOLUME_MUTE, 0) == 1 ? true : false;
+        }
+        set
+        {
+            int num = value == true ? 1 : 0;
+            PlayerPrefs.SetInt(KEY_BGMVOLUME_MUTE, num);
+        }
+    }
+
+    public static bool SFXVolumeMute
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(KEY_SFXVOLUME_MUTE, 0) == 1 ? true : false;
+        }
+        set
+        {
+            int num = value == true ? 1 : 0;
+            PlayerPrefs.SetInt(KEY_SFXVOLUME_MUTE, num);
+        }
+    }
+
+
+    public static bool PlayerVoiceMute
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(KEY_PlayerVoice_MUTE, 0) == 1 ? true : false;
+        }
+        set
+        {
+            int num = value == true ? 1 : 0;
+            PlayerPrefs.SetInt(KEY_PlayerVoice_MUTE, num);
+        }
+    }
+
+    public static bool PlayerMicMute
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(KEY_PlayerMic_MUTE, 0) == 1 ? true : false;
+        }
+        set
+        {
+            int num = value == true ? 1 : 0;
+            PlayerPrefs.SetInt(KEY_PlayerMic_MUTE, num);
         }
     }
 }

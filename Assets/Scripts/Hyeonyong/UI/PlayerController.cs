@@ -154,6 +154,10 @@ public class PlayerController : MonoBehaviourPun, IDamageable
         {
             playerView.CheckVoiceImage(pvv.IsSpeaking);
         }
+        //else
+        //{
+        //    playerView.CheckVoiceImage(pvv.IsRecording);
+        //}
     }
 }
 #region 레거시 코드

@@ -46,6 +46,16 @@ public class PlayerSoundHandler : MonoBehaviour
         {
             SetVoiceSound(value);
         });
+        UIManager.Instance.VoiceChatSoundMute.onValueChanged.AddListener(isOn =>
+        {
+            SetVoiceMute(isOn);
+        });
+        UIManager.Instance.MicSoundMute.onValueChanged.AddListener(isOn =>
+        {
+            SetMicMute(isOn);
+        });
+        UIManager.Instance.VoiceChatSoundMute.isOn = PlayerPrefsDataManager.PlayerVoiceMute;
+        UIManager.Instance.MicSoundMute.isOn = PlayerPrefsDataManager.PlayerMicMute;
 
     }
 
@@ -82,6 +92,25 @@ public class PlayerSoundHandler : MonoBehaviour
                 //        continue;
                 source.volume = value;
             }
+        }
+    }
+
+    private void SetVoiceMute(bool check)
+    {
+        foreach (AudioSource source in otherPlayerAudio)
+        {
+            source.mute = check;
+        }
+    }
+    private void SetMicMute(bool check)
+    {
+        if (check)
+        {
+            mic.AmplificationFactor = 0;
+        }
+        else
+        {
+            mic.AmplificationFactor = UIManager.Instance.MicSound.value;
         }
     }
 }
