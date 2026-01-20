@@ -1,5 +1,6 @@
 using Photon.Voice.PUN;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using TMPro;
@@ -26,9 +27,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] Slider bgmSound;
     [SerializeField] Slider effectSound;
     [SerializeField] Slider voiceChatSound;
+    public Slider VoiceChatSound => VoiceChatSound;
+    [SerializeField] Slider micSound;
+    public Slider MicSound => micSound;
     [SerializeField] TMP_Dropdown graphicQualityDropDown;
     [SerializeField] Slider mouseSensivitySlider;
-    [SerializeField] Toggle checkXYInversion;
+    [SerializeField] Toggle checkMouseXInvert;
+    [SerializeField] Toggle checkMouseYInvert;
     [SerializeField] TMP_Dropdown languageDropDown;
     [SerializeField] GameObject[] Panels;
     [SerializeField] private InputActionReference escInput;
@@ -55,8 +60,8 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        LoadData();
-        if(escInput==null)
+        StartCoroutine(LoadData());
+        if (escInput == null)
             return;
         escInput.action.Enable();
         escInput.action.performed += ClosePanels;
@@ -65,15 +70,21 @@ public class UIManager : MonoBehaviour
     {
         AddUI(uiName);
 
-        escInput.action.Enable();
-        escInput.action.performed += OpenUI;
+        if (escInput != null)
+        {
+            escInput.action.Enable();
+            escInput.action.performed += OpenUI;
+        }
     }
     private void OnDisable()
     {
-        escInput.action.performed -= ClosePanels;
+        if (escInput != null)
+        {
+            escInput.action.performed -= ClosePanels;
+        }
     }
 
-    private void ClosePanels(InputAction.CallbackContext context)
+    public void ClosePanels(InputAction.CallbackContext context)
     {
         if (Panels.Length <= 0)
         {
@@ -88,8 +99,27 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-    
 
+    public void ClosePanelsForUI()
+    {
+        if (Panels.Length <= 0)
+        {
+            return;
+        }
+
+        foreach (var panel in Panels)
+        {
+            if (panel.activeSelf)
+            {
+                panel.SetActive(false);
+            }
+        }
+    }
+
+    public void SetPlayerMic()
+    {
+        
+    }
 
     //public void SetVoiceChatSound(AudioSource playerVoiceSound)
     //{
@@ -104,151 +134,117 @@ public class UIManager : MonoBehaviour
     //        voiceChatSound.volume = PlayerPrefs.GetFloat("VoiceChatVolume");
     //    }
     //}
-    private void LoadData()
+
+    private IEnumerator LoadData()
     {
+        yield return new WaitUntil(() => SoundManager.Instance != null);
         if (emailInput != null)
         {
-            if (PlayerPrefs.HasKey("Email"))
-            {
-                emailInput.text = PlayerPrefs.GetString("Email");
-            }
-            emailInput.onValueChanged.AddListener((value) => { PlayerPrefs.SetString("Email", value); });
+            emailInput.onValueChanged.AddListener((value) => 
+            { PlayerPrefsDataManager.LoginId = value; });
+            emailInput.text = PlayerPrefsDataManager.LoginId;
+            emailInput.ActivateInputField();
         }
 
         if (bgmSound != null)
         {
-            if (PlayerPrefs.HasKey("BGMVolume"))
-            {
-                bgmSound.value = PlayerPrefs.GetFloat("BGMVolume");
-            }
-            bgmSound.onValueChanged.AddListener((value) => { PlayerPrefs.SetFloat("BGMVolume", value); });
+            bgmSound.onValueChanged.AddListener((value) => 
+            { SoundManager.Instance.SetSoundVolume(Soundtype.BGM, bgmSound.value); });
+            bgmSound.value = PlayerPrefsDataManager.BgmVolume;
         }
 
         if (effectSound != null)
         {
-            if (PlayerPrefs.HasKey("EffectVolume"))
-            {
-                effectSound.value = PlayerPrefs.GetFloat("EffectVolume");
-                //PlayerPrefs.SetFloat("EffectVolume", effectSound.value);
-            }
-            effectSound.onValueChanged.AddListener((value) => { PlayerPrefs.SetFloat("EffectVolume", value); });
+            effectSound.onValueChanged.AddListener((value) =>
+            { SoundManager.Instance.SetSoundVolume(Soundtype.SFX, effectSound.value); });
+            effectSound.value = PlayerPrefsDataManager.SFXVolume;
         }
 
         if (voiceChatSound != null)
         {
-            if (PlayerPrefs.HasKey("VoiceChatVolume"))
-            {
-                voiceChatSound.value = PlayerPrefs.GetFloat("VoiceChatVolume");
-                //PlayerPrefs.SetFloat("VoiceChatVolume", voiceChatSound.value);
-            }
-            voiceChatSound.onValueChanged.AddListener((value) => { PlayerPrefs.SetFloat("VoiceChatVolume", value); });
+            voiceChatSound.onValueChanged.AddListener((value) => { PlayerPrefsDataManager.PlayerVoice = value; });
+            voiceChatSound.value = PlayerPrefsDataManager.PlayerVoice;
+        }
+        if (micSound != null)
+        {
+           
+            micSound.onValueChanged.AddListener((value) => { PlayerPrefsDataManager.PlayerMic = value; });
+            micSound.value = PlayerPrefsDataManager.PlayerMic;
         }
 
         if (graphicQualityDropDown != null)
         {
-            if (PlayerPrefs.HasKey("GraphicQuality"))
-            {
-                graphicQualityDropDown.value = PlayerPrefs.GetInt("GraphicQuality");
-                //PlayerPrefs.SetInt("GraphicQuality", graphicQualityDropDown.value);
-            }
-            graphicQualityDropDown.onValueChanged.AddListener((value) => { PlayerPrefs.SetInt("GraphicQuality", value); });
+            graphicQualityDropDown.onValueChanged.AddListener((value) => 
+            { PlayerPrefsDataManager.GraphicQuality = value; });
+            graphicQualityDropDown.value = PlayerPrefsDataManager.GraphicQuality;
         }
 
         if (mouseSensivitySlider != null)
         {
-            if (PlayerPrefs.HasKey("MouseSensivity"))
-            {
-                mouseSensivitySlider.value = PlayerPrefs.GetFloat("MouseSensivity");
-                mouseSensivitySlider.onValueChanged.AddListener((value) => { PlayerPrefs.SetFloat("MouseSensivity", value); });
-                //PlayerPrefs.SetFloat("MouseSensivity", mouseSensivitySlider.value);
-            }
+            mouseSensivitySlider.onValueChanged.AddListener((value) => 
+            { PlayerPrefsDataManager.MouseSensitivity = value; });
+            mouseSensivitySlider.value = PlayerPrefsDataManager.MouseSensitivity;
         }
-        if (checkXYInversion != null)
-        {
-            if (PlayerPrefs.HasKey("XYInversion"))
-            {
-                checkXYInversion.isOn = PlayerPrefs.GetInt("XYInversion") == 1 ? true : false;
 
-                //int num = checkXYInversion.isOn == true ? 1 : 0;
-                //PlayerPrefs.SetInt("XYInversion", num);
-            }
-            checkXYInversion.onValueChanged.AddListener((isOn) =>
+        if (checkMouseXInvert != null)
+        {
+            checkMouseXInvert.onValueChanged.AddListener((isOn) =>
             {
-                int num = checkXYInversion.isOn == true ? 1 : 0;
-                PlayerPrefs.SetInt("XYInversion", num);
+                PlayerPrefsDataManager.MouseXInvert = isOn;
             });
+            checkMouseXInvert.isOn = PlayerPrefsDataManager.MouseXInvert;
+        }
+        if (checkMouseYInvert != null)
+        {
+            checkMouseYInvert.onValueChanged.AddListener((isOn) =>
+            {
+                PlayerPrefsDataManager.MouseYInvert = isOn;
+            });
+            checkMouseYInvert.isOn = PlayerPrefsDataManager.MouseYInvert;
         }
 
 
         if (languageDropDown != null)
         {
-            if (PlayerPrefs.HasKey("language"))
+            languageDropDown.onValueChanged.AddListener((value) =>
             {
-                languageDropDown.value = PlayerPrefs.GetInt("language");
-                //PlayerPrefs.SetInt("language", languageDropDown.value);
+                switch (value)
+                {
+                    case 0:
+                        PlayerPrefsDataManager.Language = "ko";
+                        break;
+                    case 1:
+                        PlayerPrefsDataManager.Language = "en";
+                        break;
+                    case 2:
+                        PlayerPrefsDataManager.Language = "ja";
+                        break;
+                }
+            });
+            switch (PlayerPrefsDataManager.Language)
+            {
+                case "ko":
+                    languageDropDown.value = 0;
+                    break;
+                case "en":
+                    languageDropDown.value = 1;
+                    break;
+                case "ja":
+                    languageDropDown.value = 2;
+                    break;
             }
-            languageDropDown.onValueChanged.AddListener((value) => { PlayerPrefs.SetInt("language", value); });
+
         }
 
         if (resolutionDropDown != null)
         {
+            resolutionDropDown.onValueChanged.AddListener((value) => { PlayerPrefs.SetInt("resolution", value); });
             if (PlayerPrefs.HasKey("resolution"))
             {
                 resolutionDropDown.value = PlayerPrefs.GetInt("resolution");
                 //PlayerPrefs.SetInt("language", languageDropDown.value);
             }
-            resolutionDropDown.onValueChanged.AddListener((value) => { PlayerPrefs.SetInt("resolution", value); });
         }
-    }
-
-    public void SaveData()
-    {
-        if (emailInput != null)
-        {
-            PlayerPrefs.SetString("Email", emailInput.text);
-        }
-        Debug.Log("email");
-
-        if (bgmSound != null)
-        {
-            PlayerPrefs.SetFloat("BGMVolume", bgmSound.value);
-        }
-        Debug.Log("BGM");
-        if (effectSound != null)
-        {
-            PlayerPrefs.SetFloat("EffectVolume", effectSound.value);
-        }
-        Debug.Log("이펙트");
-        Debug.Log("Voice");
-        if (voiceChatSound != null)
-        {
-            PlayerPrefs.SetFloat("VoiceChatVolume", voiceChatSound.value);
-        }
-        Debug.Log("퀄리티");
-        if (graphicQualityDropDown != null)
-        {
-            Debug.Log("저장하는 값 : " + graphicQualityDropDown.value);
-            PlayerPrefs.SetInt("GraphicQuality", graphicQualityDropDown.value);
-        }
-        Debug.Log("감도");
-        if (mouseSensivitySlider != null)
-        {
-            PlayerPrefs.SetFloat("MouseSensivity", mouseSensivitySlider.value);
-        }
-
-        Debug.Log("좌우 반전");
-        if (checkXYInversion != null)
-        {
-            int num = checkXYInversion.isOn == true ? 1 : 0;
-            PlayerPrefs.SetInt("XYInversion", num);
-        }
-        Debug.Log("언어");
-        if (languageDropDown != null)
-        {
-            PlayerPrefs.SetInt("language", languageDropDown.value);
-        }
-
-        //다른 값들이 먼저 지워져서 문제인 것으로 추정
     }
 
     private void OpenUI(InputAction.CallbackContext context)
@@ -269,7 +265,6 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-
     public void OpenUI(string uiName)
     {
         Debug.Log("UI 열림");

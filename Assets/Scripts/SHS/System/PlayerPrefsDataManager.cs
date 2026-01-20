@@ -14,6 +14,12 @@ public static class PlayerPrefsDataManager
     public const string KEY_GRAPHICQUALITY = "GraphicQuality";      // 그래픽 품질 설정 키
     public const string KEY_RESOLUTIONWIDTH = "ResolutionWidth";    // 가로 해상도 수치 키
     public const string KEY_RESOLUTIONHEIGHT = "ResolutionHeight";  // 세로 해상도 수치 키
+    public const string KEY_MouseSensivity = "MouseSensitivity";  // 마우스 감도 키
+    public const string KEY_MouseXInvert= "MouseXInvert";  // 마우스 X 반전
+    public const string KEY_MouseYInvert= "MouseYInvert";  // 마우스 Y 반전
+    public const string KEY_PlayerVoice= "PlayerVoice";  // 음성 채팅 사운드
+    public const string KEY_PlayerMic= "PlayerMic";  // 음성 채팅 사운드
+    
     #endregion
 
     public static string LoginId
@@ -82,6 +88,63 @@ public static class PlayerPrefsDataManager
         {
             int index = Mathf.Clamp(value, 0, QualitySettings.names.Length - 1);
             PlayerPrefs.SetInt(KEY_GRAPHICQUALITY, index);
+        }
+    }
+
+    public static float MouseSensitivity
+    {
+        get { return PlayerPrefs.GetFloat(KEY_MouseSensivity, 50f); }
+
+        set
+        {
+            float sensitive = Mathf.Clamp(value, 0f, 100f);
+            PlayerPrefs.SetFloat (KEY_MouseSensivity, sensitive);
+        }
+    }
+
+    public static bool MouseXInvert
+    {
+        get 
+        {      
+            return PlayerPrefs.GetInt(KEY_MouseXInvert, 0) == 1 ? true : false;
+        }
+        set
+        {
+            int num = value == true ? 1 : 0;
+            PlayerPrefs.SetInt(KEY_MouseXInvert, num);
+        }
+    }
+    public static bool MouseYInvert
+    {
+        get 
+        {      
+            return PlayerPrefs.GetInt(KEY_MouseYInvert, 0) == 1 ? true : false;
+        }
+        set
+        {
+            int num = value == true ? 1 : 0;
+            PlayerPrefs.SetInt(KEY_MouseYInvert, num);
+        }
+    }
+
+    public static float PlayerVoice
+    {
+        get { return PlayerPrefs.GetFloat(KEY_PlayerVoice, 1f); }
+
+        set
+        {
+            float voice = Mathf.Clamp(value, 0f, 1f);
+            PlayerPrefs.SetFloat(KEY_PlayerVoice, voice);
+        }
+    }
+    public static float PlayerMic
+    {
+        get { return PlayerPrefs.GetFloat(KEY_PlayerMic, 1f); }
+
+        set
+        {
+            float mic = Mathf.Clamp(value, 0f, 3f);
+            PlayerPrefs.SetFloat(KEY_PlayerMic, mic);
         }
     }
 }
