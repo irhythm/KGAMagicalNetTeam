@@ -39,7 +39,7 @@ public class SimpleRagdollTester : MonoBehaviour
         Vector3 finalForce = backwardDir * pushPower;
 
         //전달
-        targetController.ApplyRagdoll(finalForce, transform.position);
+        targetController.ApplyRagdoll(finalForce);
     }
 
 

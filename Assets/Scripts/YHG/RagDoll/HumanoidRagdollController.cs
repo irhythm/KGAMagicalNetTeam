@@ -1,8 +1,9 @@
+using BzKovSoft.RagdollTemplate.Scripts.Charachter;
+using ExitGames.Client.Photon.StructWrapping;
+using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using Photon.Pun;
-using BzKovSoft.RagdollTemplate.Scripts.Charachter;
-using System.Collections;
 
 [RequireComponent(typeof(PhotonView))]
 [RequireComponent(typeof(BzRagdoll))]
@@ -14,8 +15,8 @@ public class HumanoidRagdollController : MonoBehaviourPun
     [SerializeField] private NavMeshAgent agent;
 
     [Header("설정값")]
-    [SerializeField] private float knockDownDuration = 3.0f; //최소 기절 시간
-    [SerializeField] private float getUpAnimationDuration = 3.5f; //일어나는 애니메이션 길이
+    [SerializeField] private float knockDownDuration = 1.5f; //최소 기절 시간
+    [SerializeField] private float getUpAnimationDuration = 2.3f; //일어나는 애니메이션 길이
 
     //BaseAI 연결 일단 얘도 임시긴함
     [SerializeField] private BaseAI baseAI;
@@ -45,7 +46,7 @@ public class HumanoidRagdollController : MonoBehaviourPun
     }
 
     //외부용 피격 메서드
-    public void ApplyRagdoll(Vector3 force, Vector3 hitPoint)
+    public void ApplyRagdoll(Vector3 force)
     {
         if (isRagdollActive) return; 
         //이미 다운된 상태면 무시 (누워있어도 계속 날아가게 처리?? 일단 보류)
@@ -53,7 +54,7 @@ public class HumanoidRagdollController : MonoBehaviourPun
 
         photonView.RPC(nameof(RpcActivateRagdoll), RpcTarget.All, force);
     }
-
+     
     //피격 RPC
     [PunRPC]
     private void RpcActivateRagdoll(Vector3 force)
@@ -129,19 +130,21 @@ public class HumanoidRagdollController : MonoBehaviourPun
 
     private IEnumerator CoGetUpProcess(Vector3 pos)
     {
-        //위치 동기화
-        //래그돌 상태에선 Root가 엉뚱한 위치에 존재할 수 있으므로 방장이 정해준 위치로 강제이동
-        transform.position = pos;
-
         //래그돌 해제 -> 기상 애니메이션 블렌딩 시작
         bzRagdoll.IsRagdolled = false;
 
         //애니메이션 재생 대기
         yield return CoroutineManager.waitForSeconds(getUpAnimationDuration);
 
+        if (animator != null)
+        {
+            animator.enabled = true;
+        }
+
+
         if ((agent != null))
         {
-            agent.Warp(transform.position);//위치재설정
+            agent.Warp(pos);//위치재설정
             agent.enabled = true;
         }
 
@@ -150,5 +153,4 @@ public class HumanoidRagdollController : MonoBehaviourPun
 
         isRagdollActive = false;
     }
-
 }
