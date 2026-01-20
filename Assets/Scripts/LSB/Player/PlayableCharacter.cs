@@ -28,8 +28,8 @@ public class PlayableCharacter : MonoBehaviourPun
     [SerializeField] private GameObject wizardModel;
 
     [Header("MapIcon")]
-    [SerializeField] private MapIcon localPlayerIcon;
-    [SerializeField] private MapIcon remotePlayerIcon;
+    [SerializeField] private MapIcon playerIcon;
+    [SerializeField] private MapIcon teamIcon;
 
     public enum MoveDir { Front, Back, Left, Right }
 
@@ -85,8 +85,6 @@ public class PlayableCharacter : MonoBehaviourPun
         MagicSystem = GetComponent<PlayerMagicSystem>();
         playerController = GetComponent<PlayerController>();
         TransformationController = GetComponent<PlayerTransformationController>();
-        localPlayerIcon = GetComponent<MapIcon>();
-        remotePlayerIcon = GetComponent<MapIcon>();
 
         // 모델 초기화
         _model = new PlayerModel(maxHp);
@@ -119,12 +117,12 @@ public class PlayableCharacter : MonoBehaviourPun
             }
 
             // 플레이어 자신일 때 플레이어 아이콘을 활성화
-            localPlayerIcon.enabled = true;
+            playerIcon.gameObject.SetActive(true);
         }
         else
         {
             // 다른 팀원일 때 팀원 아이콘 활성화
-            remotePlayerIcon.enabled = true;
+            teamIcon.gameObject.SetActive(true);
         }
     }
 
