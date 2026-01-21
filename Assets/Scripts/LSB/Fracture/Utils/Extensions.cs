@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
+/// <summary>
+/// 벡터 연산, 메쉬 부피 계산, 바운드 박스 계산 등 수학적 유틸리티를 제공하는 확장 클래스입니다.
+/// </summary>
 public static class Extensions
 {
+    // 기본 확장 메서드
+
     public static Color SetAlpha(this Color color, float value)
     {
         return new Color(color.r, color.g, color.b, value);
@@ -31,6 +35,8 @@ public static class Extensions
     {
         return GetOrAddComponent(go, typeof(T)) as T;
     }
+
+    // Vector3 확장 메서드
 
     public static Vector3 SetX(this Vector3 vector3, float x)
     {
@@ -60,6 +66,8 @@ public static class Extensions
         return new Vector3(x, y, z);
     }
 
+    // Mesh 부피(Volume) 계산
+
     private static float SignedVolumeOfTriangle(Vector3 p1, Vector3 p2, Vector3 p3)
     {
         float v321 = p3.x * p2.y * p1.z;
@@ -86,17 +94,19 @@ public static class Extensions
         return Mathf.Abs(volume);
     }
 
+    // Bounds(경계) 계산 및 변환
+
     public static Vector3[] GetVertices(this Bounds bounds) => new[]
     {
-            new Vector3(bounds.center.x, bounds.center.y, bounds.center.z) + new Vector3(-bounds.extents.x, -bounds.extents.y, -bounds.extents.z),
-            new Vector3(bounds.center.x, bounds.center.y, bounds.center.z) + new Vector3(bounds.extents.x, -bounds.extents.y, -bounds.extents.z),
-            new Vector3(bounds.center.x, bounds.center.y, bounds.center.z) + new Vector3(-bounds.extents.x, -bounds.extents.y, bounds.extents.z),
-            new Vector3(bounds.center.x, bounds.center.y, bounds.center.z) + new Vector3(bounds.extents.x, -bounds.extents.y, bounds.extents.z),
-            new Vector3(bounds.center.x, bounds.center.y, bounds.center.z) + new Vector3(-bounds.extents.x, bounds.extents.y, -bounds.extents.z),
-            new Vector3(bounds.center.x, bounds.center.y, bounds.center.z) + new Vector3(bounds.extents.x, bounds.extents.y, -bounds.extents.z),
-            new Vector3(bounds.center.x, bounds.center.y, bounds.center.z) + new Vector3(-bounds.extents.x, bounds.extents.y, bounds.extents.z),
-            new Vector3(bounds.center.x, bounds.center.y, bounds.center.z) + new Vector3(bounds.extents.x, bounds.extents.y, bounds.extents.z),
-        };
+        bounds.center + new Vector3(-bounds.extents.x, -bounds.extents.y, -bounds.extents.z),
+        bounds.center + new Vector3(bounds.extents.x, -bounds.extents.y, -bounds.extents.z),
+        bounds.center + new Vector3(-bounds.extents.x, -bounds.extents.y, bounds.extents.z),
+        bounds.center + new Vector3(bounds.extents.x, -bounds.extents.y, bounds.extents.z),
+        bounds.center + new Vector3(-bounds.extents.x, bounds.extents.y, -bounds.extents.z),
+        bounds.center + new Vector3(bounds.extents.x, bounds.extents.y, -bounds.extents.z),
+        bounds.center + new Vector3(-bounds.extents.x, bounds.extents.y, bounds.extents.z),
+        bounds.center + new Vector3(bounds.extents.x, bounds.extents.y, bounds.extents.z),
+    };
 
     public static Vector3 Min(this Vector3 vectorA, Vector3 vectorB)
     {
@@ -140,29 +150,33 @@ public static class Extensions
             .ToBounds();
     }
 
+    // 프리팹 베이킹 오류 해결을 위해 isSharedMesh 파라미터 및 안전장치 추가
     public static Bounds GetCompositeMeshBounds(this GameObject go, bool includeInactive = false, bool isSharedMesh = false)
     {
-        var bounds = go.GetComponentsInChildren<MeshFilter>(includeInactive)
-            .Select(mf =>
-            {
-                var mesh = isSharedMesh ? mf.sharedMesh : mf.mesh;
-                var localBound = mf.transform.TransformBounds(go.transform, mesh.bounds);
-                return localBound;
-            })
-            .Where(b => b.size != Vector3.zero)
-            .ToArray();
+        var meshFilters = go.GetComponentsInChildren<MeshFilter>(includeInactive);
+        if (meshFilters.Length == 0) return new Bounds();
 
-        if (bounds.Length == 0)
-            return new Bounds();
+        var boundsList = new List<Bounds>();
 
-        if (bounds.Length == 1)
-            return bounds[0];
-
-        var compositeBounds = bounds[0];
-
-        for (var i = 1; i < bounds.Length; i++)
+        foreach (var mf in meshFilters)
         {
-            compositeBounds.Encapsulate(bounds[i]);
+            var mesh = isSharedMesh ? mf.sharedMesh : mf.mesh;
+
+            if (mesh == null) continue;
+
+            var localBound = mf.transform.TransformBounds(go.transform, mesh.bounds);
+            if (localBound.size != Vector3.zero)
+            {
+                boundsList.Add(localBound);
+            }
+        }
+
+        if (boundsList.Count == 0) return new Bounds();
+
+        var compositeBounds = boundsList[0];
+        for (int i = 1; i < boundsList.Count; i++)
+        {
+            compositeBounds.Encapsulate(boundsList[i]);
         }
 
         return compositeBounds;

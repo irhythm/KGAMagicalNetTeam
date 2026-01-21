@@ -1,48 +1,78 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 개별 파편(Chunk)의 상태와 이웃 관계를 관리하는 클래스입니다.
+/// </summary>
 public class ChunkNode : MonoBehaviour
 {
+    // 프리팹 저장용 이웃 배열
+    [SerializeField] public ChunkNode[] neighbours;
+
+    // 런타임 로직용 이웃 집합 (빠른 검색용 HashSet)
     private HashSet<ChunkNode> _neighbours = new HashSet<ChunkNode>();
+
+    // 외부 공개용 프로퍼티
     public ChunkNode[] NeighboursArray { get; private set; } = new ChunkNode[0];
 
     private Rigidbody rb;
+    public bool IsIndestructible { get; set; } = false; // 땅에 붙은 고정 노드 여부
+    public float BreakForce { get; set; } = 50f;        // 견딜 수 있는 힘
 
-    // [수정] 단순히 Kinematic인 것과 '진짜 고정된 땅'을 구분합니다.
-    public bool IsIndestructible { get; set; } = false;
+    // 연결이 끊어졌음을 매니저에게 알리는 플래그
+    public bool HasBrokenLinks { get; private set; } = false;
 
-    // [추가] 외부 충격에 견디는 힘 (기본값 설정, 필요시 Fracture.cs에서 주입)
-    public float BreakForce { get; set; } = 50f;
-
-    public bool HasBrokenLinks { get; private set; }
+    // 현재 고정되어 있는가? (Kinematic 상태)
     public bool IsFrozen => rb != null && rb.isKinematic;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
 
+    /// <summary>
+    /// 초기화 함수. 저장된 이웃 데이터를 HashSet으로 복구합니다.
+    /// </summary>
     public void Setup()
     {
         if (rb == null) rb = GetComponent<Rigidbody>();
-        Freeze();
+
+        // 저장된 배열 데이터가 있는데 HashSet이 비어있다면 복구
+        if (neighbours != null && neighbours.Length > 0 && _neighbours.Count == 0)
+        {
+            _neighbours = new HashSet<ChunkNode>(neighbours);
+            _neighbours.RemoveWhere(n => n == null); // null 정리
+        }
+
+        Freeze(); // 초기엔 고정
         RefreshNeighboursArray();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    /// <summary>
+    /// 현재의 HashSet 이웃 정보를 배열로 변환해 저장합니다.
+    /// </summary>
+    public void SyncNeighboursToArray()
     {
-        if (!rb.isKinematic) return;
-
-        // 충격량이 한계치를 넘으면 연결 해제
-        if (collision.impulse.magnitude > BreakForce)
-        {
-            Unfreeze(); // 나 자신을 떨어뜨림 -> 이웃들에게 전파됨
-        }
+        _neighbours.RemoveWhere(n => n == null);
+        neighbours = new ChunkNode[_neighbours.Count];
+        _neighbours.CopyTo(neighbours);
     }
 
-    // 폭발 등으로 직접 데미지를 줄 때 호출할 함수
-    public void ApplyImpact(float force)
+    /// <summary>
+    /// 끊어진 링크 정보를 정리하고 플래그를 초기화합니다.
+    /// </summary>
+    public void CleanBrokenLinks()
     {
-        if (force > BreakForce) Unfreeze();
+        // 사라지거나 떨어진(Unfrozen) 이웃을 제거
+        int removedCount = _neighbours.RemoveWhere(n => n == null || !n.IsFrozen);
+
+        if (removedCount > 0)
+        {
+            RefreshNeighboursArray();
+            SyncNeighboursToArray();
+        }
+
+        HasBrokenLinks = false;
     }
 
     public void AddNeighbour(ChunkNode node)
@@ -61,7 +91,7 @@ public class ChunkNode : MonoBehaviour
         {
             _neighbours.Remove(chunkNode);
             RefreshNeighboursArray();
-            HasBrokenLinks = true; // 그래프 매니저에게 재검사 신호 보냄
+            HasBrokenLinks = true; // 링크 끊어짐 알림
         }
     }
 
@@ -71,12 +101,12 @@ public class ChunkNode : MonoBehaviour
         _neighbours.CopyTo(NeighboursArray);
     }
 
-    public void CleanBrokenLinks() => HasBrokenLinks = false;
-
+    /// <summary>
+    /// 파편을 물리화하여 떨어뜨립니다. (Kinematic 해제)
+    /// </summary>
     public void Unfreeze()
     {
-        // 앵커는 절대 떨어지지 않음
-        if (IsIndestructible) return;
+        if (IsIndestructible) return; // 고정된 앵커라면 떨어지지 않음
 
         if (rb != null && rb.isKinematic)
         {
@@ -84,11 +114,15 @@ public class ChunkNode : MonoBehaviour
             rb.useGravity = true;
             rb.gameObject.layer = LayerMask.NameToLayer("Default");
 
-            // 내가 떨어지면 이웃들과의 관계를 끊음
+            // 자신이 떨어지면 이웃들도 재검사 대상이 됨
             foreach (var neighbor in _neighbours)
             {
-                if (neighbor != null) neighbor.RemoveNeighbour(this);
+                if (neighbor != null)
+                {
+                    neighbor.RemoveNeighbour(this);
+                }
             }
+
             _neighbours.Clear();
             RefreshNeighboursArray();
         }
@@ -105,35 +139,6 @@ public class ChunkNode : MonoBehaviour
             }
             rb.isKinematic = true;
             rb.useGravity = false;
-            // "FrozenChunks" 레이어가 없다면 Default나 다른 레이어 사용
-            int layer = LayerMask.NameToLayer("Default");
-            if (layer != -1) rb.gameObject.layer = layer;
-        }
-    }
-
-    public void ApplyExplosionForce(float impactForce, float explosionForce, Vector3 explosionPos, float explosionRadius, float upwardModifier)
-    {
-        // 이미 깨져있는지 확인
-        if (!IsFrozen)
-        {
-            // 이미 깨진 조각이면 그냥 힘만 다시 줌
-            if (rb != null)
-            {
-                rb.AddExplosionForce(explosionForce, explosionPos, explosionRadius, upwardModifier, ForceMode.Impulse);
-            }
-            return;
-        }
-
-        // 안 깨진 조각이라면 내구도 체크
-        if (impactForce > BreakForce)
-        {
-            Unfreeze();
-
-            // 해제 직후 힘 전달
-            if (rb != null)
-            {
-                rb.AddExplosionForce(explosionForce, explosionPos, explosionRadius, upwardModifier, ForceMode.Impulse);
-            }
         }
     }
 }
