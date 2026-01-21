@@ -58,7 +58,7 @@ public class GameManager : PhotonSingleton<GameManager>
 
         GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity, 0);
 
-        //260121 다른 
+        //260121 다른 사람 변신 상태 유지
         Player[] players = PhotonNetwork.PlayerList;//방 속 사람을 받아옴
 
         PlayerTransformationController[] checkWizard = GameObject.FindObjectsByType<PlayerTransformationController>(FindObjectsSortMode.None);
@@ -67,20 +67,36 @@ public class GameManager : PhotonSingleton<GameManager>
             PlayerTransformationController myCheckWizard = null;
             foreach (PlayerTransformationController playerTransformationController in checkWizard)
             {
-                if (playerTransformationController.GetComponent<PhotonView>().OwnerActorNr == p.ActorNumber)
+                PhotonView pv = playerTransformationController.GetComponent<PhotonView>();
+                if (pv.IsMine)
+                    continue;
+
+                if (pv.OwnerActorNr == p.ActorNumber)
                 {
+                    Debug.Log("트랜스폼 컨트롤러 찾았다.");
                     myCheckWizard = playerTransformationController;
                     break;
                 }
             }
+
+            Debug.Log("트랜스폼 컨트롤러  p값 기반 받아오기 시도.");
 
             if (p.CustomProperties.TryGetValue("ISWIZARD", out object isWizard))
             {
                 //myCheckWizard?.
                 if ((bool)isWizard)
                 {
+                    Debug.Log("트랜스폼 컨트롤러 값을 받아 실행한다");
                     myCheckWizard?.TransformToWizard();
                 }
+                else
+                {
+                    Debug.Log("트랜스폼 컨트롤러 값이 False 이다");
+                }
+            }
+            else
+            {
+                Debug.Log("트랜스폼 컨트롤러 받지 못했다");
             }
         }
         playerTable["ISWIZARD"] = false;
