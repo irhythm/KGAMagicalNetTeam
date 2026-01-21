@@ -9,9 +9,8 @@ public class PlayerTransformationController : MonoBehaviourPun
     [SerializeField] private ParticleSystem transformEffect;
     [SerializeField] private float transformDuration = 3.0f;
 
-    private PlayableCharacter player;
+    private PlayableCharacter playableCharater;
 
-    public const string PLAYER_ISWIZARD = "ISWIZARD";
     public bool IsWizard { get; private set; } = false;
     public bool IsTransforming { get; private set; } = false;
 
@@ -20,16 +19,16 @@ public class PlayerTransformationController : MonoBehaviourPun
 
     private void Awake()
     {
-        player = GetComponent<PlayableCharacter>();
-        player.RemoveLayer();
-        player.CivilianModel.SetActive(true);
-        player.WizardModel.SetActive(false);
-        currentAnimator = player.CivilianModel.GetComponent<Animator>();
+        playableCharater = GetComponent<PlayableCharacter>();
+        playableCharater.RemoveLayer();
+        playableCharater.CivilianModel.SetActive(true);
+        playableCharater.WizardModel.SetActive(false);
+        currentAnimator = playableCharater.CivilianModel.GetComponent<Animator>();
         IsWizard = false;
 
-        if (player != null)
+        if (playableCharater != null)
         {
-            player.SetAnimator(currentAnimator);
+            playableCharater.SetAnimator(currentAnimator);
         }
     }
 
@@ -65,13 +64,13 @@ public class PlayerTransformationController : MonoBehaviourPun
         if (currentAnimator != null)
             currentAnimator.applyRootMotion = false;
 
-        player.CivilianModel.transform.localRotation = Quaternion.identity;
-        player.CivilianModel.transform.localPosition = Vector3.zero;
+        playableCharater.CivilianModel.transform.localRotation = Quaternion.identity;
+        playableCharater.CivilianModel.transform.localPosition = Vector3.zero;
 
-        if (player.InputHandler != null)
-            player.InputHandler.OnPlayerInput();
+        if (playableCharater.InputHandler != null)
+            playableCharater.InputHandler.OnPlayerInput();
 
-        currentAnimator.SetBool(player.HashTransform, false);
+        currentAnimator.SetBool(playableCharater.HashTransform, false);
     }
 
     private IEnumerator TransformationRoutine()
@@ -79,12 +78,12 @@ public class PlayerTransformationController : MonoBehaviourPun
         IsTransforming = true;
         Debug.Log("변신 시전 중...");
 
-        if (player.InputHandler != null)
-            player.InputHandler.OffPlayerInput();
+        if (playableCharater.InputHandler != null)
+            playableCharater.InputHandler.OffPlayerInput();
 
         if (currentAnimator != null)
         {
-            currentAnimator.SetBool(player.HashTransform, true);
+            currentAnimator.SetBool(playableCharater.HashTransform, true);
             currentAnimator.applyRootMotion = true;
         }
 
@@ -93,19 +92,19 @@ public class PlayerTransformationController : MonoBehaviourPun
         if (currentAnimator != null)
             currentAnimator.applyRootMotion = false;
 
-        player.CivilianModel.transform.localRotation = Quaternion.identity;
-        player.CivilianModel.transform.localPosition = Vector3.zero;
+        playableCharater.CivilianModel.transform.localRotation = Quaternion.identity;
+        playableCharater.CivilianModel.transform.localPosition = Vector3.zero;
 
         photonView.RPC(nameof(RPC_TransformToWizard), RpcTarget.All);
 
-        Hashtable props = new Hashtable();
-        props[PLAYER_ISWIZARD] = true;
+
+        PhotonNetwork.LocalPlayer.SetProps(NetworkProperties.PLAYER_ISWIZARD, true);
 
         IsTransforming = false;
         transformCoroutine = null;
 
-        if (player.InputHandler != null)
-            player.InputHandler.OnPlayerInput();
+        if (playableCharater.InputHandler != null)
+            playableCharater.InputHandler.OnPlayerInput();
     }
 
     [PunRPC]
@@ -118,20 +117,20 @@ public class PlayerTransformationController : MonoBehaviourPun
     {
         IsWizard = true;
 
-        player.CivilianModel.SetActive(false);
-        player.WizardModel.SetActive(true);
+        playableCharater.CivilianModel.SetActive(false);
+        playableCharater.WizardModel.SetActive(true);
 
-        currentAnimator = player.WizardModel.GetComponent<Animator>();
+        currentAnimator = playableCharater.WizardModel.GetComponent<Animator>();
 
         if (transformEffect != null) transformEffect.Play();
 
-        if (player != null)
+        if (playableCharater != null)
         {
-            player.SetAnimator(currentAnimator);
+            playableCharater.SetAnimator(currentAnimator);
         }
 
         GuardManager.instance?.NotifyPlayerTransform();
-        player.ChangePlayerLayer();
+        playableCharater.ChangePlayerLayer();
         Debug.Log("마법사로 변신 완료!");
     }
 }
