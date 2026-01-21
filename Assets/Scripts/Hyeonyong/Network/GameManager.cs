@@ -24,6 +24,7 @@ public class GameManager : PhotonSingleton<GameManager>
     public InventoryWheelLogic InventoryWheel => _inventoryWheelLogic;
 
     Hashtable roomTable = new Hashtable();
+    Hashtable playerTable = new Hashtable();
 
     //PhotonView pv;
 
@@ -56,6 +57,36 @@ public class GameManager : PhotonSingleton<GameManager>
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
 
         GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity, 0);
+
+        //260121 다른 
+        Player[] players = PhotonNetwork.PlayerList;//방 속 사람을 받아옴
+
+        PlayerTransformationController[] checkWizard = GameObject.FindObjectsByType<PlayerTransformationController>(FindObjectsSortMode.None);
+        foreach (var p in players)
+        {
+            PlayerTransformationController myCheckWizard = null;
+            foreach (PlayerTransformationController playerTransformationController in checkWizard)
+            {
+                if (playerTransformationController.GetComponent<PhotonView>().OwnerActorNr == p.ActorNumber) ;
+                {
+                    myCheckWizard = playerTransformationController;
+                    break;
+                }
+            }
+
+            if (p.CustomProperties.TryGetValue("ISWIZARD", out object isWizard))
+            {
+                //myCheckWizard?.
+                if ((bool)isWizard)
+                {
+                    myCheckWizard?.TransformToWizard();
+                }
+            }
+        }
+        playerTable["ISWIZARD"] = false;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerTable);
+
+
         PlayerManager.LocalPlayerInstance = player;
 
         CheckInGamePlayer();
