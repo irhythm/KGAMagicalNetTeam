@@ -4,7 +4,9 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
-
+/// <summary>
+/// 파괴 시 고정될 면을 설정하는 플래그 Enum (예: 바닥, 벽면)
+/// </summary>
 [Flags]
 public enum Anchor
 {
@@ -17,6 +19,7 @@ public enum Anchor
     Back = 32
 }
 
+// 에디터에서 Enum을 여러 개 선택할 수 있게 그려주는 드로어
 #if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(Anchor))]
 public class AnchorDrawer : PropertyDrawer

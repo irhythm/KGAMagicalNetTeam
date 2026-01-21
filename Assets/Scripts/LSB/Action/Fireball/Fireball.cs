@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Fireball : MonoBehaviourPun
 {
+    [Header("Settings")]
     [SerializeField] private FireballSO fireballData;
 
     private int shooterActorNumber;
@@ -19,15 +20,12 @@ public class Fireball : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        // 쏜 사람만 충돌 감지 수행
         if (!photonView.IsMine) return;
 
-        // 나 자신은 무시
         PhotonView targetView = other.GetComponent<PhotonView>();
         if (targetView != null && targetView.OwnerActorNr == shooterActorNumber)
         {
-            if(other.CompareTag("Player"))
-                return;
+            return;
         }
 
         if (hasExploded) return;
@@ -35,7 +33,6 @@ public class Fireball : MonoBehaviourPun
 
         photonView.RPC(nameof(RPC_ExplodeProcess), RpcTarget.All, transform.position);
 
-        // 투사체 제거
         PhotonNetwork.Destroy(gameObject);
     }
 
@@ -48,45 +45,35 @@ public class Fireball : MonoBehaviourPun
         }
 
         Collider[] colliders = Physics.OverlapSphere(explosionPos, fireballData.explosionRadius, fireballData.explosionLayer);
-        Debug.Log($"Explosion hit {colliders.Length} colliders.");
 
         foreach (Collider hit in colliders)
         {
+            DestructibleWall wall = hit.GetComponentInParent<DestructibleWall>();
+            if (wall != null)
+            {
+                wall.OnHit(explosionPos, fireballData.explosionForce, fireballData.explosionRadius, fireballData.explosionUpward);
+
+                continue;
+            }
+
             Rigidbody rb = hit.GetComponent<Rigidbody>();
             PhotonView targetView = hit.GetComponent<PhotonView>();
-            ChunkNode chunkNode = hit.GetComponent<ChunkNode>(); // [추가] 청크 노드 가져오기
 
-            if (chunkNode != null)
-            {
-                float distance = Vector3.Distance(explosionPos, hit.ClosestPoint(explosionPos));
-                float impactFactor = 1f - Mathf.Clamp01(distance / fireballData.explosionRadius);
-                float effectiveForce = fireballData.explosionForce * impactFactor;
-
-                chunkNode.ApplyExplosionForce(
-                    effectiveForce,
-                    fireballData.explosionForce,
-                    explosionPos,
-                    fireballData.explosionRadius,
-                    fireballData.explosionUpward
-                );
-            }
             if (targetView != null)
             {
                 if (!targetView.IsMine) continue;
 
-                if (targetView.OwnerActorNr == shooterActorNumber)
-                {
-                    if (hit.CompareTag("Player"))
-                    {
-                        continue;
-                    }
-                }
+                if (targetView.OwnerActorNr == shooterActorNumber && hit.CompareTag("Player")) continue;
 
                 if (hit.CompareTag("Player") && !IsFriendlyFireOn()) continue;
             }
 
-            if (rb != null && !rb.isKinematic)
+            if (rb != null)
             {
+                var agent = hit.GetComponent<UnityEngine.AI.NavMeshAgent>();
+                if (agent != null && agent.enabled) agent.enabled = false;
+
+                rb.isKinematic = false;
                 rb.AddExplosionForce(fireballData.explosionForce, explosionPos, fireballData.explosionRadius, fireballData.explosionUpward, ForceMode.Impulse);
             }
 
@@ -114,5 +101,14 @@ public class Fireball : MonoBehaviourPun
     public void SetShooterActorNumber(int actorNumber)
     {
         shooterActorNumber = actorNumber;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (fireballData != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, fireballData.explosionRadius);
+        }
     }
 }

@@ -76,6 +76,7 @@ public class PlayerMagicSystem : MonoBehaviourPun
 
         if (targetAction is MagicAction magic)
         {
+            GuardManager.instance.RegisterMagicNoise(transform.position);
             magic.OnCast(spawnPos, direction, isLeftHand, photonView.OwnerActorNr);
         }
     }
