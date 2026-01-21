@@ -110,4 +110,32 @@ public class CitizenAI : BaseAI
             PhotonNetwork.Destroy(gameObject);
         }
     }
+
+    //시민이 랙돌 피격 끝나고 일어날 때의 상태 전환(강제 enter)
+
+    public override void OnRecoverFromKnockdown()
+    {
+        //IsKnockedDown = false
+        base.OnRecoverFromKnockdown();
+
+        //상태 재시작해서 엔터 다시 호출
+        switch (currentNetworkState)
+        {
+            case AIStateID.Patrol:
+                ChangeState(new CitizenPatrolState(this, stateMachine));
+                break;
+
+            case AIStateID.Alert:
+                ChangeState(new CitizenAlertState(this, stateMachine));
+                break;
+
+            case AIStateID.Action:
+                ChangeState(new CitizenActionState(this, stateMachine));
+                break;
+
+            default:
+                ChangeState(new CitizenPatrolState(this, stateMachine));
+                break;
+        }
+    }
 }

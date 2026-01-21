@@ -40,8 +40,6 @@ public class GuardAI : BaseAI
     protected override void Awake()
     {
         base.Awake();
-
-        maxHP = 1f;
         CurrentHP = maxHP;
 
         //무기에 데미지 주입
@@ -157,6 +155,28 @@ public class GuardAI : BaseAI
         }
     }
 
+    //일어날 시 상태 초기화
+    public override void OnRecoverFromKnockdown()
+    {
+        base.OnRecoverFromKnockdown(); // IsKnockedDown = false 실행
+
+        //싸우던 중이면 Chase, 아니면 패트롤
+        switch (currentNetworkState)
+        {
+            case AIStateID.Chase:
+            case AIStateID.Attack:
+                ChangeState(new GuardChaseState(this, stateMachine));
+                break;
+
+            case AIStateID.Patrol:
+                ChangeState(new GuardPatrolState(this, stateMachine));
+                break;
+
+            default:
+                ChangeState(new GuardPatrolState(this, stateMachine));
+                break;
+        }
+    }
 
 
     //범위체크용
@@ -165,5 +185,7 @@ public class GuardAI : BaseAI
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectRadius);
     }
+
+
 
 }

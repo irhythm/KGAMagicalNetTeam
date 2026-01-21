@@ -5,8 +5,20 @@ public class CitizenPatrolState : AIStateBase
     private CitizenAI citizen;      
     private bool movingForward = true; //앞뒤전환
 
+    //최적화_인터벌 랜덤
+    private float thinkTimer = 0f;
+    private float thinkInterval;
+
     public override void Execute()
     {
+        //매 프레임 검사 X
+        thinkTimer += Time.deltaTime;
+        if (thinkTimer < thinkInterval) return;
+
+        //타이머 초기화 (다음 주기도 랜덤 =패턴 겹침 방지)
+        thinkTimer = 0f;
+        thinkInterval = Random.Range(0.1f, 0.3f);
+
         //플레이어가 근처에 있는지 체크
         if (citizen.CheckPlayerNearby())
         {
@@ -29,6 +41,7 @@ public class CitizenPatrolState : AIStateBase
     public CitizenPatrolState(BaseAI ai, StateMachine machine): base(ai, machine, BaseAI.AIStateID.Patrol)
     {
         citizen = ai as CitizenAI;
+        thinkInterval = Random.Range(0.1f, 0.3f);
     }
 
     public override void Enter()

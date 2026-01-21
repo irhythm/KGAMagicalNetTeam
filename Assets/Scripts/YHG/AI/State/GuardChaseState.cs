@@ -30,7 +30,10 @@ public class GuardChaseState : AIStateBase
         base.Enter();
         if (guard.Agent != null && guard.Agent.isOnNavMesh)
         {
+            guard.Agent.updatePosition = true;  
+            guard.Agent.updateRotation = true; 
             guard.Agent.isStopped = false;
+            guard.Agent.ResetPath();
             guard.Agent.speed = guard.runSpeed;
         }
         if (guard.targetPlayer != null)
@@ -38,6 +41,17 @@ public class GuardChaseState : AIStateBase
             //추격 시작시에 타겟 포톤뷰 찾아두기
             targetPV = guard.targetPlayer.GetComponent<PhotonView>();
             lastTargetPos = guard.targetPlayer.position;
+            if (guard.Agent.isOnNavMesh)
+            {
+                Vector3 dir = (guard.targetPlayer.position - guard.transform.position).normalized;
+                dir.y = 0;
+                if (dir != Vector3.zero)
+                {
+                    guard.transform.rotation = Quaternion.LookRotation(dir);
+                }
+
+                guard.Agent.SetDestination(guard.targetPlayer.position);
+            }
         }
 
         //발견 즉시 동료들에게 신고

@@ -1,8 +1,9 @@
+using BzKovSoft.RagdollTemplate.Scripts.Charachter;
+using ExitGames.Client.Photon.StructWrapping;
+using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using Photon.Pun;
-using BzKovSoft.RagdollTemplate.Scripts.Charachter;
-using System.Collections;
 
 [RequireComponent(typeof(PhotonView))]
 [RequireComponent(typeof(BzRagdoll))]
@@ -14,8 +15,8 @@ public class HumanoidRagdollController : MonoBehaviourPun
     [SerializeField] private NavMeshAgent agent;
 
     [Header("설정값")]
-    [SerializeField] private float knockDownDuration = 3.0f; //최소 기절 시간
-    [SerializeField] private float getUpAnimationDuration = 3.5f; //일어나는 애니메이션 길이
+    [SerializeField] private float knockDownDuration = 1.5f; //최소 기절 시간
+    [SerializeField] private float getUpAnimationDuration = 2.5f; //일어나는 애니메이션 길이
 
     //BaseAI 연결 일단 얘도 임시긴함
     [SerializeField] private BaseAI baseAI;
@@ -23,6 +24,10 @@ public class HumanoidRagdollController : MonoBehaviourPun
     //상태 관리용
     private bool isRagdollActive = false;
     private float ragdollStartTime;
+
+    //중복기상방지
+
+    private bool isRecovering = false;
 
 
 
@@ -45,7 +50,7 @@ public class HumanoidRagdollController : MonoBehaviourPun
     }
 
     //외부용 피격 메서드
-    public void ApplyRagdoll(Vector3 force, Vector3 hitPoint)
+    public void ApplyRagdoll(Vector3 force)
     {
         if (isRagdollActive) return; 
         //이미 다운된 상태면 무시 (누워있어도 계속 날아가게 처리?? 일단 보류)
@@ -53,12 +58,13 @@ public class HumanoidRagdollController : MonoBehaviourPun
 
         photonView.RPC(nameof(RpcActivateRagdoll), RpcTarget.All, force);
     }
-
+     
     //피격 RPC
     [PunRPC]
     private void RpcActivateRagdoll(Vector3 force)
     {
         isRagdollActive = true;
+        isRecovering = false;
         ragdollStartTime = Time.time;
 
         if (baseAI != null) baseAI.IsKnockedDown = true;
@@ -90,6 +96,8 @@ public class HumanoidRagdollController : MonoBehaviourPun
     //기상 체크(방장용)
     private void CheckGetUpCondition()
     {
+        if (isRecovering) return;
+
         //일단 3초
         if (Time.time - ragdollStartTime < knockDownDuration) return;
 
@@ -106,7 +114,7 @@ public class HumanoidRagdollController : MonoBehaviourPun
             return;
         }
 
-        if (hipsRigid.linearVelocity.magnitude < 0.1f)
+        if (hipsRigid.linearVelocity.magnitude < 0.5f)
         {
             //위치보정, NavMesh 위 유효 좌표를 찾음
             Vector3 getUpPos = hips.position;
@@ -114,6 +122,10 @@ public class HumanoidRagdollController : MonoBehaviourPun
             {
                 getUpPos = hit.position;
             }
+            
+            //일어나는 중
+            isRecovering = true;
+
             //안전한 위치를 모두에게 전송하며 기상 명령(텔포 좀 할 듯)?
             photonView.RPC(nameof(RpcGetUp), RpcTarget.All, getUpPos);
         }
@@ -129,26 +141,32 @@ public class HumanoidRagdollController : MonoBehaviourPun
 
     private IEnumerator CoGetUpProcess(Vector3 pos)
     {
-        //위치 동기화
-        //래그돌 상태에선 Root가 엉뚱한 위치에 존재할 수 있으므로 방장이 정해준 위치로 강제이동
-        transform.position = pos;
-
         //래그돌 해제 -> 기상 애니메이션 블렌딩 시작
         bzRagdoll.IsRagdolled = false;
 
         //애니메이션 재생 대기
         yield return CoroutineManager.waitForSeconds(getUpAnimationDuration);
 
+        if (animator != null)
+        {
+            animator.enabled = true;
+        }
+
         if ((agent != null))
         {
-            agent.Warp(transform.position);//위치재설정
+            agent.Warp(pos);//위치재설정
             agent.enabled = true;
         }
 
-        //녹다운 해제, Execute 다시 진행
-        if (baseAI != null) baseAI.IsKnockedDown = false;
-
+        //시민 경비 리커버리 시 행동 수행(방장만)
+        if (PhotonNetwork.IsMasterClient)
+        {
+            baseAI.OnRecoverFromKnockdown();
+        }
+        else
+        {
+            baseAI.IsKnockedDown = false;
+        } 
         isRagdollActive = false;
     }
-
 }

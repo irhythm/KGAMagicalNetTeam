@@ -45,7 +45,7 @@ public class GuardAttackState : AIStateBase
     public override void Exit()
     {
         base.Exit();
-        if (guard.Agent != null)
+        if (guard.Agent != null && guard.Agent.isActiveAndEnabled && guard.Agent.isOnNavMesh)
         {
             if (guard.useRootMotion)
             {
