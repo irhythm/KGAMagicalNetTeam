@@ -70,10 +70,6 @@ public class Fireball : MonoBehaviourPun
 
             if (rb != null)
             {
-                var agent = hit.GetComponent<UnityEngine.AI.NavMeshAgent>();
-                if (agent != null && agent.enabled) agent.enabled = false;
-
-                rb.isKinematic = false;
                 rb.AddExplosionForce(fireballData.explosionForce, explosionPos, fireballData.explosionRadius, fireballData.explosionUpward, ForceMode.Impulse);
             }
 
