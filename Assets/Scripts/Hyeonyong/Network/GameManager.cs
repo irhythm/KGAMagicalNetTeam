@@ -71,6 +71,7 @@ public class GameManager : PhotonSingleton<GameManager>
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("OnStore", out object onStore))
         {
             bool checkStore = (bool)onStore;
+            Debug.Log("상점 여부 체크 : "+checkStore);
             if (checkStore)
                 return true;
         }
@@ -114,17 +115,18 @@ public class GameManager : PhotonSingleton<GameManager>
         //해당 씬은 씬을 넘어가고 나서 발동함 <- 그러므로 게임 -> 상점 (발동) 상점 -> 게임 (발동 X) 즉 현재 상점씬이어야 발동 근데 룸 프로퍼티가 업데이트가 꼬여서인지 현재 상점씬 아닐 경우에 발동함
         //보니까 씬을 넘어가고 나서 커스텀 프로퍼티를 변경함 이로 인해 꼬임 현상 발동
         //그냥 여기서 스토어도 같이 초기화 시키자
-        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("MoneyCount", out object count))
-        {
-            Debug.Log("팀 재화 받아옴");
-            result = (int)count;
+        //if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("MoneyCount", out object count))
+        //{
+        //    Debug.Log("팀 재화 받아옴");
+        //    result = (int)count;
 
-        }
+        //}
+        result = CurTeamMoney();
 
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("OnStore", out object onStore))
         {
             bool checkStore = (bool)onStore;
-            Debug.Log("현재 상점 : "+checkStore);
+            Debug.Log("현재 상점 : "+!checkStore);
             if (!checkStore)
             {
                 //처음 시작했을 때 대비용
@@ -329,6 +331,7 @@ public class GameManager : PhotonSingleton<GameManager>
         roomTable["MoneyCount"] = 0;
         roomTable["OnStore"] = true;
         roomTable["GameRound"] = 2;
+        //roomTable["OnStart"] = false;
         PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
     }
 

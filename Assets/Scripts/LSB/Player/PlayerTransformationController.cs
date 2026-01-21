@@ -121,7 +121,7 @@ public class PlayerTransformationController : MonoBehaviourPun
             player.SetAnimator(currentAnimator);
         }
 
-        GuardManager.instance.NotifyPlayerTransform();
+        GuardManager.instance?.NotifyPlayerTransform();
         player.ChangePlayerLayer();
         Debug.Log("마법사로 변신 완료!");
     }

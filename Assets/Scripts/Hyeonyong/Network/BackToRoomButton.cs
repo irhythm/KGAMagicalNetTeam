@@ -18,7 +18,7 @@ public class BackToRoomButton : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("Room");//네트워크 상에서 씬 바꾸는 것
+            PhotonNetwork.LoadLevel("Room_new");//네트워크 상에서 씬 바꾸는 것
         }
     }
 
