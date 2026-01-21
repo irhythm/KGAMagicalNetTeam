@@ -126,7 +126,7 @@ public class GameManager : PhotonSingleton<GameManager>
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("OnStore", out object onStore))
         {
             bool checkStore = (bool)onStore;
-            Debug.Log("현재 상점 : "+!checkStore);
+            Debug.Log("현재 상점 : " + !checkStore);
             if (!checkStore)
             {
                 //처음 시작했을 때 대비용
@@ -140,14 +140,20 @@ public class GameManager : PhotonSingleton<GameManager>
                     }
                 }
             }
-            roomTable["OnStore"] = !checkStore;
-            PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                roomTable["OnStore"] = !checkStore;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+            }
         }
-        else 
+        else
         {
             Debug.Log("상점 여부 지정");
-            roomTable["OnStore"] = false;
-            PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                roomTable["OnStore"] = false;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+            }
         }
 
 
