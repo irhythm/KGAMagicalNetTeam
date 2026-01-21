@@ -11,6 +11,7 @@ public class PlayerTransformationController : MonoBehaviourPun
 
     private PlayableCharacter player;
 
+    public const string PLAYER_ISWIZARD = "ISWIZARD";
     public bool IsWizard { get; private set; } = false;
     public bool IsTransforming { get; private set; } = false;
 
@@ -97,6 +98,9 @@ public class PlayerTransformationController : MonoBehaviourPun
 
         photonView.RPC(nameof(RPC_TransformToWizard), RpcTarget.All);
 
+        Hashtable props = new Hashtable();
+        props[PLAYER_ISWIZARD] = true;
+
         IsTransforming = false;
         transformCoroutine = null;
 
@@ -106,6 +110,11 @@ public class PlayerTransformationController : MonoBehaviourPun
 
     [PunRPC]
     private void RPC_TransformToWizard()
+    {
+        TransformToWizard();
+    }
+
+    public void TransformToWizard()
     {
         IsWizard = true;
 
