@@ -17,7 +17,7 @@ public class GameManager : PhotonSingleton<GameManager>
 {
     public GameObject LocalPlayer { get; set; }
 
-    public static GameManager Instance;
+    //public static GameManager Instance;
     [SerializeField] GameObject playerPrefab;
 
     [SerializeField] InventoryWheelLogic _inventoryWheelLogic;
@@ -32,7 +32,7 @@ public class GameManager : PhotonSingleton<GameManager>
     void Start()//씬이 너무 빨리 불러와져서 스타트가 room 들어가기 전에 호출되는 것이 문제임
     {
         //pv=GetComponent<PhotonView>();
-        Instance = this;//실체도 없고 그냥 스크립트로만 존재해서 간단히 제작
+        //Instance = this;//실체도 없고 그냥 스크립트로만 존재해서 간단히 제작
         if (PlayerManager.LocalPlayerInstance == null)//플레이어 매니저가 이미 플레이어 정보를 들고있을 경우 패스
         {
             StartCoroutine(SpawnPlayerWhenConnected());
