@@ -28,7 +28,7 @@ public class CitizenActionState : AIStateBase
     public override void Execute()
     {
         //경로계산 끝났고, 남은거리 1 이하면 탈출성공
-        if (!citizen.Agent.pathPending && citizen.Agent.remainingDistance < 1.0f)
+        if (!citizen.Agent.pathPending && citizen.Agent.remainingDistance < 1.0f && citizen.Agent.isOnNavMesh)
         {
             citizen.OnEscapeSuccess();
         }

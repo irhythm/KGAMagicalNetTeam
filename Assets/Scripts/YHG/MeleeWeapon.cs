@@ -38,8 +38,8 @@ public class MeleeWeapon : MonoBehaviour
     //실제 충돌 감지
     private void OnTriggerEnter(Collider other)
     {
-        //방장만
-        if (!PhotonNetwork.IsMasterClient) return;
+        ////방장만
+        //if (!PhotonNetwork.IsMasterClient) return;
         //중복타격방지
         if (hitTargets.Contains(other.gameObject)) return;
 
