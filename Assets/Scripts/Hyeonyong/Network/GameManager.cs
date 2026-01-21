@@ -67,7 +67,7 @@ public class GameManager : PhotonSingleton<GameManager>
             PlayerTransformationController myCheckWizard = null;
             foreach (PlayerTransformationController playerTransformationController in checkWizard)
             {
-                if (playerTransformationController.GetComponent<PhotonView>().OwnerActorNr == p.ActorNumber) ;
+                if (playerTransformationController.GetComponent<PhotonView>().OwnerActorNr == p.ActorNumber)
                 {
                     myCheckWizard = playerTransformationController;
                     break;
