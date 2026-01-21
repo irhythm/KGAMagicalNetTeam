@@ -33,6 +33,8 @@ public class PlayableCharacter : MonoBehaviourPun
 
     public enum MoveDir { Front, Back, Left, Right }
 
+    [SerializeField] bool isRoom;
+
     #region 프로퍼티
     public float MoveSpeed => moveSpeed;
     public float RotationSpeed => rotationSpeed;
@@ -99,19 +101,22 @@ public class PlayableCharacter : MonoBehaviourPun
         AttackState = new PlayerAttackState(this, StateMachine);
 
 
-
         //260119 최정욱 local player 인스턴스 저장
         if (photonView.IsMine)
         {
             GameManager.Instance.LocalPlayer = gameObject;
         }
 
-        if(photonView.IsMine)
+        //260121 양현용 : 룸 전용 플레이어 생성용도
+        if (isRoom)
+            return;
+
+        if (photonView.IsMine)
         {
             // 미니맵 카메라에 플레이어 트랜스폼 할당
             MinimapCamera camera = FindAnyObjectByType<MinimapCamera>();
 
-            if(camera != null)
+            if (camera != null)
             {
                 camera.SetTarget(transform);
             }

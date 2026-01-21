@@ -3,6 +3,7 @@ using Photon.Pun;
 using UnityEngine.SceneManagement;
 public class TitleManager : MonoBehaviourPunCallbacks
 {
+    [SerializeField] string roomSceneName;
     [SerializeField] bool onTest = false;
     [SerializeField] AudioClip titleAudio;
     private void Awake()
@@ -53,6 +54,6 @@ public class TitleManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("방 입장 및 룸 씬으로 전환 요청");
-        SceneManager.LoadScene("Room");
+        SceneManager.LoadScene(roomSceneName);
     }
 }

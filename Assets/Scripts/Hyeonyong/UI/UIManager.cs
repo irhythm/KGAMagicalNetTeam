@@ -347,6 +347,17 @@ public class UIManager : MonoBehaviour
     {
         if (gameSettingUI != null)
         {
+            if (onGame)
+            {
+                foreach (GameObject ui in settingUIGameObject)
+                {
+                    if (ui.activeSelf)
+                    {
+                        ui.gameObject.SetActive(false);
+                        return;
+                    }
+                }
+            }
             onGameSettingUI = !onGameSettingUI;
             gameSettingUI.SetActive(onGameSettingUI);
 

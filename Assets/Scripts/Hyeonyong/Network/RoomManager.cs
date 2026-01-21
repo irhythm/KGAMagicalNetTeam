@@ -1,15 +1,19 @@
 using Photon.Pun;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using Photon.Realtime;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
+    public static RoomManager Instance;
+    public GameObject LocalPlayer { get; set; }
+
     [SerializeField] Button StartBtn;
     [SerializeField] Button ReadyBtn;
     [SerializeField] Toggle checkHiddenRoom;
@@ -25,6 +29,17 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     Dictionary<int, TextMeshProUGUI> playerStateDic = new Dictionary<int, TextMeshProUGUI>();
     Dictionary<int, GameObject> playerInfoDic = new Dictionary<int, GameObject>();
+
+    [SerializeField] GameObject roomTab;
+    [SerializeField] private InputActionReference tabInput;
+
+    [SerializeField] private GameObject playerPrefab_Room;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private IEnumerator Start()
     {
         FirebaseAuthManager.Instance.RefreshUser();
@@ -79,7 +94,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             else
             {
                 roomTable["FriendlyFire"] = friendlyFire.isOn;
-                
+
                 PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
 
                 // 로컬 플레이어의 프로퍼티를 업데이트 (네트워크 전체에 동기화됨)
@@ -97,7 +112,34 @@ public class RoomManager : MonoBehaviourPunCallbacks
             ReadyBtn.gameObject.SetActive(true);
             checkHiddenRoom.gameObject.SetActive(false);
         }
+
+        if (tabInput != null)
+        {
+            tabInput.action.performed += OpenRoomTab;
+        }
+
+        //if (PlayerManager.LocalPlayerInstance == null)//플레이어 매니저가 이미 플레이어 정보를 들고있을 경우 패스
+        //{
+        //    StartCoroutine(SpawnPlayerWhenConnected());
+        //}
     }
+    IEnumerator SpawnPlayerWhenConnected() //네트워크 게임은, 라이프 사이클도 중요하고, 또 네트워크 지연까지 고려해야 함
+    {
+        yield return new WaitUntil(() => PhotonNetwork.InRoom);
+
+        GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab_Room.name, new Vector3(20f, 2f, 30f), Quaternion.identity, 0);
+    }
+
+
+    //해당 코드 실행시 게임 시작 버튼에 치명적인 버그 발생
+    //private override void OnDisable()
+    //{
+    //    if (tabInput != null)
+    //    {
+    //        tabInput.action.performed -= OpenRoomTab;
+    //    }
+    //}
+
 
     public void ChangeFriendlyFire()
     {
@@ -122,18 +164,21 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient == true)
         {
-            roomTable["OnStore"] = true;
+            //roomTable["OnStore"] = true;
+            GameManager.Instance.ResetCustomProperty();
+            roomTable["OnStart"] = true;
             PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
         }
     }
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
-        if (propertiesThatChanged.ContainsKey("OnStore"))
+        if (propertiesThatChanged.ContainsKey("OnStart"))
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             if (PhotonNetwork.IsMasterClient == true)
             {
                 PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
+
             }
         }
     }
@@ -333,6 +378,23 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         SceneManager.LoadScene("Lobby");
+    }
+
+    public void OpenRoomTab(InputAction.CallbackContext context)
+    {
+        bool onOpen = !roomTab.activeSelf;
+        if (onOpen)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
+        roomTab.SetActive(onOpen);
     }
 
 }

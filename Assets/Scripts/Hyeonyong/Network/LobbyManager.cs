@@ -9,7 +9,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
-{ 
+{
+    [SerializeField] string roomSceneName;
     [SerializeField] TMP_InputField createRoomInput;
     [SerializeField] TMP_InputField joinRoomInput;
     [SerializeField] TMP_InputField changeNicknameInput;
@@ -124,7 +125,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("방 입장 및 룸 씬으로 전환 요청");
-        SceneManager.LoadScene("Room");
+        SceneManager.LoadScene(roomSceneName);
     }
 
 
