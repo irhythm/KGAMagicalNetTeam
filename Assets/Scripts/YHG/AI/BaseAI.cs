@@ -256,4 +256,11 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamag
             }
         }
     }
+
+    //랙돌 피격 끝나고 일어날 때 수행할 메서드
+    public virtual void OnRecoverFromKnockdown()
+    {
+        IsKnockedDown = false; // 기본 동작: 상태 플래그 끄기
+    }
+
 }
