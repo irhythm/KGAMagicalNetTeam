@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 using System.IO;
@@ -9,6 +9,7 @@ public class FractureBaker : EditorWindow
     private int chunkCount = 100;
     private float density = 50f;
     private float breakForce = 50f;
+    private float debrisLifetime = 10f;
 
     // 앵커 설정
     private Anchor anchor = Anchor.Bottom;
@@ -33,6 +34,8 @@ public class FractureBaker : EditorWindow
         GUILayout.Space(5);
         chunkCount = EditorGUILayout.IntField("Chunk Count", chunkCount);
         density = EditorGUILayout.FloatField("Density", density);
+
+        debrisLifetime = EditorGUILayout.FloatField("Debris Lifetime (sec)", debrisLifetime);
 
         anchor = (Anchor)EditorGUILayout.EnumFlagsField("Anchor Mask", anchor);
 
@@ -70,7 +73,7 @@ public class FractureBaker : EditorWindow
         // 파편 생성
         ChunkGraphManager fracturedManager = Fracture.FractureGameObject(
             targetObject, anchor, seed, chunkCount,
-            insideMat, outsideMat, breakForce, density
+            insideMat, outsideMat, breakForce, density, debrisLifetime
         );
 
         GameObject fracturedObj = fracturedManager.gameObject;

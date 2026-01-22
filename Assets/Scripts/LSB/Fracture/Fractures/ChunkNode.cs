@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +18,7 @@ public class ChunkNode : MonoBehaviour
 
     private Rigidbody rb;
 
-    //  앵커 여부를 필드로 선언하여 Unity가 프리팹에 저장(직렬화)할 수 있게 함
+    // 앵커 여부를 필드로 선언하여 Unity가 프리팹에 저장(직렬화)할 수 있게 함
     [SerializeField] public bool IsIndestructible = false;
     [SerializeField] public float BreakForce = 50f;
 
@@ -25,6 +27,15 @@ public class ChunkNode : MonoBehaviour
 
     // 현재 고정되어 있는가?
     public bool IsFrozen => rb != null && rb.isKinematic;
+
+    // 파편이 부서진 후 사라질 때까지의 시간
+    [SerializeField] public float DebrisLifetime = 5f;
+
+    // UI 및 외부 시스템 연결을 위한 이벤트
+    public static event Action<ChunkNode> OnAnyChunkBroken;
+
+    // 개별 파편이 사라질 때 발생하는 이벤트
+    public event Action OnDebrisDisable;
 
     private void Awake()
     {
@@ -142,7 +153,25 @@ public class ChunkNode : MonoBehaviour
             }
             _neighbours.Clear(); // 내 이웃 목록 초기화
             RefreshNeighboursArray();
+
+            // 부서짐 이벤트 발생
+            OnAnyChunkBroken?.Invoke(this);
+
+            // 일정 시간 뒤 비활성화 코루틴 시작
+            if (gameObject.activeInHierarchy)
+            {
+                StartCoroutine(DisableDebrisRoutine());
+            }
         }
+    }
+
+    // 사라짐 처리 코루틴
+    private IEnumerator DisableDebrisRoutine()
+    {
+        yield return CoroutineManager.waitForSeconds(DebrisLifetime);
+
+        OnDebrisDisable?.Invoke();
+        gameObject.SetActive(false);
     }
 
     private void Freeze()
