@@ -112,8 +112,15 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
         
     }
 
+    public bool CheckTargetAlreadyContain(Transform transform)
+    {
+        if(_targets.Contains(transform)) return true;
+        return false;
+    }
     public void AddTarget(Transform transform)
     {
+        if (CheckTargetAlreadyContain(transform))
+            return;
         Debug.Log("더하기");
         _targets.Add(transform);
     }
