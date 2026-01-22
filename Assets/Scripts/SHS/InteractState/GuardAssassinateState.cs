@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class GuardAssassinateState : AIStateBase, IInteractable
 {
-    private IInteractable target;       // »óÈ£ÀÛ¿ëÀ» ÇÒ »ó´ë Å¸°Ù
+    private IInteractable target;       // ìƒí˜¸ì‘ìš©ì„ í•  ìƒëŒ€ íƒ€ê²Ÿ
 
     private readonly int? animHashNum;
+
+    public bool isInteracted { get; private set; }
 
     public GuardAssassinateState(BaseAI ai, StateMachine stateMachine, BaseAI.AIStateID stateID, IInteractable target, string animName)
         : base(ai, stateMachine, stateID)
@@ -44,5 +46,10 @@ public class GuardAssassinateState : AIStateBase, IInteractable
     public void OnInteract()
     {
 
+    }
+
+    void IInteractable.OnInteract()
+    {
+        throw new System.NotImplementedException();
     }
 }

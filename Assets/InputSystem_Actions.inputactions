@@ -167,6 +167,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "InteractMotion",
+                    "type": "Button",
+                    "id": "60ed4a36-6a0f-4cb9-ba18-f783748b6a78",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -651,6 +660,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Transformation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2e9e92d8-8c87-4ee1-816a-dd5710c97047",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InteractMotion",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
