@@ -15,7 +15,7 @@ public abstract class BaseInteractSystem
     }
 
     // √ ±‚»≠
-    public void Init(IInteractable executer, IInteractable receiver)
+    public virtual void Init(IInteractable executer, IInteractable receiver)
     {
         this.executer = executer;
         this.receiver = receiver;

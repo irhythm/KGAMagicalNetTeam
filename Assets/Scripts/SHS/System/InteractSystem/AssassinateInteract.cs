@@ -7,6 +7,11 @@ public class AssassinateInteract : BaseInteractSystem
 
     }
 
+    public override void Init(IInteractable executer, IInteractable receiver)
+    {
+        base.Init(executer, receiver);
+    }
+
     public override void PlayInteract()
     {
         base.PlayInteract();

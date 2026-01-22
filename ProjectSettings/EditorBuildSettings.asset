@@ -32,10 +32,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Hyeonyong/Win.unity
     guid: 5548c7ade9dfcab4989406b8de0f890f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SHS/New Scene 1.unity
     guid: cad190a85828bbd478d10c1890b8c257
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SHS/New Scene.unity
     guid: 6e74b8cafa2262640bfd364443eb4e9a
   m_configObjects:
