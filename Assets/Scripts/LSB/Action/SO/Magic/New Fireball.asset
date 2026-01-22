@@ -24,7 +24,7 @@ MonoBehaviour:
   knockbackForce: 0
   speed: 20
   explosionEffectPrefab: {fileID: 2171681095029567125, guid: 6a76d703b210225468effaff42ad5632, type: 3}
-  explosionRadius: 5
+  explosionRadius: 2
   explosionForce: 200
   explosionUpward: 1
   explosionLayer:
