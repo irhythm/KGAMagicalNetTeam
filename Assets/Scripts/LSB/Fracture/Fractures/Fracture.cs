@@ -2,27 +2,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ¸Ş½¬ ÆÄ±«(Fracture) ÀÛ¾÷À» ¼öÇàÇÏ´Â Å¬·¡½º
-/// NvBlast ¶óÀÌºê·¯¸®¸¦ ÀÌ¿ëÇØ ¸Ş½¬¸¦ Voronoi ÆĞÅÏÀ¸·Î ºĞÇÒÇÏ°í, 
-/// ºĞÇÒµÈ ÆÄÆíµéÀ» GameObject·Î º¯È¯ÇÏ¿© Á¶¸³
+/// ë©”ì‰¬ íŒŒê´´(Fracture) ì‘ì—…ì„ ìˆ˜í–‰í•˜ëŠ” í´ë˜ìŠ¤
+/// NvBlast ë¼ì´ë¸ŒëŸ¬ë¦¬ë¥¼ ì´ìš©í•´ ë©”ì‰¬ë¥¼ Voronoi íŒ¨í„´ìœ¼ë¡œ ë¶„í• í•˜ê³ , 
+/// ë¶„í• ëœ íŒŒí¸ë“¤ì„ GameObjectë¡œ ë³€í™˜í•˜ì—¬ ì¡°ë¦½
 /// </summary>
 public static class Fracture
 {
-    // Physics.OverlapBoxNonAlloc¿¡¼­ »ç¿ëÇÒ ¹öÆÛ (¸Ş¸ğ¸® ÇÒ´ç ÃÖÀûÈ­¿ë)
+    // Physics.OverlapBoxNonAllocì—ì„œ ì‚¬ìš©í•  ë²„í¼ (ë©”ëª¨ë¦¬ í• ë‹¹ ìµœì í™”ìš©)
     private static readonly Collider[] OverlapBuffer = new Collider[64];
 
     /// <summary>
-    /// ´ë»ó °ÔÀÓ ¿ÀºêÁ§Æ®¸¦ ÆÄ±«ÇÏ¿© ÆÄÆíµéÀÇ ÁıÇÕÃ¼·Î º¯È¯ÇÕ´Ï´Ù.
+    /// ëŒ€ìƒ ê²Œì„ ì˜¤ë¸Œì íŠ¸ë¥¼ íŒŒê´´í•˜ì—¬ íŒŒí¸ë“¤ì˜ ì§‘í•©ì²´ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     /// </summary>
-    public static ChunkGraphManager FractureGameObject(GameObject gameObject, Anchor anchor, int seed, int totalChunks, Material insideMaterial, Material outsideMaterial, float jointBreakForce, float density)
+    public static ChunkGraphManager FractureGameObject(GameObject gameObject, Anchor anchor, int seed, int totalChunks, Material insideMaterial, Material outsideMaterial, float jointBreakForce, float density, float debrisLifetime)
     {
-        // ¿øº» ¿ÀºêÁ§Æ®ÀÇ ÅëÇÕ ¸Ş½¬ µ¥ÀÌÅÍ¸¦ °¡Á®¿É´Ï´Ù.
+        // ì›ë³¸ ì˜¤ë¸Œì íŠ¸ì˜ í†µí•© ë©”ì‰¬ ë°ì´í„°ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
         var mesh = GetWorldMesh(gameObject);
 
-        // NvBlast ½Ãµå ¼³Á¤
+        // NvBlast ì‹œë“œ ì„¤ì •
         NvBlastExtUnity.setSeed(seed);
 
-        // Unity Mesh¸¦ NvMesh(NvBlast¿ë µ¥ÀÌÅÍ) º¯È¯
+        // Unity Meshë¥¼ NvMesh(NvBlastìš© ë°ì´í„°) ë³€í™˜
         var nvMesh = new NvMesh(
             mesh.vertices,
             mesh.normals,
@@ -32,41 +32,41 @@ public static class Fracture
             (int)mesh.GetIndexCount(0)
         );
 
-        // ¸Ş½¬ ºĞÇÒ ¼öÇà
+        // ë©”ì‰¬ ë¶„í•  ìˆ˜í–‰
         var meshes = FractureMeshesInNvblast(totalChunks, nvMesh);
 
-        // °¢ ÆÄÆíÀÇ Áú·® °è»ê (ÀüÃ¼ ºÎÇÇ * ¹Ğµµ / ÆÄÆí ¼ö)
+        // ê° íŒŒí¸ì˜ ì§ˆëŸ‰ ê³„ì‚° (ì „ì²´ ë¶€í”¼ * ë°€ë„ / íŒŒí¸ ìˆ˜)
         var chunkMass = mesh.Volume() * density / totalChunks;
 
-        // ºĞÇÒµÈ ¸Ş½¬ µ¥ÀÌÅÍ·Î ½ÇÁ¦ GameObject(Chunk) »ı¼º
-        var chunks = BuildChunks(insideMaterial, outsideMaterial, meshes, chunkMass);
+        // ë¶„í• ëœ ë©”ì‰¬ ë°ì´í„°ë¡œ ì‹¤ì œ GameObject(Chunk) ìƒì„±
+        var chunks = BuildChunks(insideMaterial, outsideMaterial, meshes, chunkMass, debrisLifetime);
 
-        // ÆÄÆíµé °£ÀÇ ÀÌ¿ô °ü°è(Neighbours) µî·Ï
+        // íŒŒí¸ë“¤ ê°„ì˜ ì´ì›ƒ ê´€ê³„(Neighbours) ë“±ë¡
         int count = chunks.Count;
         for (int i = 0; i < count; i++)
         {
             RegisterNeighbours(chunks[i], 0.005f, jointBreakForce);
         }
 
-        // ¼³Á¤µÈ ¾ŞÄ¿ À§Ä¡ÀÇ ÆÄÆíµé °íÁ¤ Ã³¸®
+        // ì„¤ì •ëœ ì•µì»¤ ìœ„ì¹˜ì˜ íŒŒí¸ë“¤ ê³ ì • ì²˜ë¦¬
         AnchorChunks(gameObject, anchor);
 
-        // ÆÄÆíµéÀ» ´ãÀ» ºÎ¸ğ ¿ÀºêÁ§Æ® »ı¼º
+        // íŒŒí¸ë“¤ì„ ë‹´ì„ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ ìƒì„±
         var fractureGameObject = new GameObject("Fracture");
         Transform fractureTransform = fractureGameObject.transform;
 
-        // ¿øº»°ú µ¿ÀÏÇÑ Transform ¼³Á¤
+        // ì›ë³¸ê³¼ ë™ì¼í•œ Transform ì„¤ì •
         fractureGameObject.transform.position = gameObject.transform.position;
         fractureGameObject.transform.rotation = gameObject.transform.rotation;
         fractureGameObject.transform.localScale = gameObject.transform.localScale;
 
-        // ÆÄÆíµéÀ» ºÎ¸ğ ÇÏÀ§·Î ÀÌµ¿
+        // íŒŒí¸ë“¤ì„ ë¶€ëª¨ í•˜ìœ„ë¡œ ì´ë™
         for (int i = 0; i < count; i++)
         {
             chunks[i].transform.SetParent(fractureTransform, true);
         }
 
-        // ChunkGraphManager Ãß°¡ ¹× ÃÊ±âÈ­
+        // ChunkGraphManager ì¶”ê°€ ë° ì´ˆê¸°í™”
         var graphManager = fractureGameObject.AddComponent<ChunkGraphManager>();
         graphManager.Setup(fractureGameObject.GetComponentsInChildren<ChunkNode>());
 
@@ -74,37 +74,37 @@ public static class Fracture
     }
 
     /// <summary>
-    /// ÁöÁ¤µÈ ¾ŞÄ¿ ¸é¿¡ À§Ä¡ÇÑ ÆÄÆíµéÀ» Ã£¾Æ °íÁ¤½ÃÅ°´Â ¸Ş¼­µå
+    /// ì§€ì •ëœ ì•µì»¤ ë©´ì— ìœ„ì¹˜í•œ íŒŒí¸ë“¤ì„ ì°¾ì•„ ê³ ì •ì‹œí‚¤ëŠ” ë©”ì„œë“œ
     /// </summary>
     private static void AnchorChunks(GameObject gameObject, Anchor anchor)
     {
         var transform = gameObject.transform;
 
-        // º£ÀÌÅ· ½Ã ¿À·ù ¹æÁö¸¦ À§ÇØ isSharedMesh=true ¿É¼Ç »ç¿ë
+        // ë² ì´í‚¹ ì‹œ ì˜¤ë¥˜ ë°©ì§€ë¥¼ ìœ„í•´ isSharedMesh=true ì˜µì…˜ ì‚¬ìš©
         var bounds = gameObject.GetCompositeMeshBounds(includeInactive: false, isSharedMesh: true);
 
-        // ¾ŞÄ¿ ¿µ¿ª¿¡ °ãÄ¡´Â Äİ¶óÀÌ´õ °Ë»ö
+        // ì•µì»¤ ì˜ì—­ì— ê²¹ì¹˜ëŠ” ì½œë¼ì´ë” ê²€ìƒ‰
         var anchoredColliders = GetAnchoredColliders(anchor, transform, bounds);
 
         foreach (var collider in anchoredColliders)
         {
             if (collider.TryGetComponent(out ChunkNode node))
             {
-                // ÇØ´ç ³ëµå¸¦ ¾ŞÄ¿(¹«Àû) »óÅÂ·Î ¼³Á¤
+                // í•´ë‹¹ ë…¸ë“œë¥¼ ì•µì»¤(ë¬´ì ) ìƒíƒœë¡œ ì„¤ì •
                 node.IsIndestructible = true;
             }
         }
     }
 
     /// <summary>
-    /// ¸Ş½¬ ¸®½ºÆ®¸¦ ±â¹İÀ¸·Î ½ÇÁ¦ GameObject¸¦ »ı¼ºÇÏ´Â ¸Ş¼­µå
+    /// ë©”ì‰¬ ë¦¬ìŠ¤íŠ¸ë¥¼ ê¸°ë°˜ìœ¼ë¡œ ì‹¤ì œ GameObjectë¥¼ ìƒì„±í•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
-    private static List<GameObject> BuildChunks(Material insideMaterial, Material outsideMaterial, List<Mesh> meshes, float chunkMass)
+    private static List<GameObject> BuildChunks(Material insideMaterial, Material outsideMaterial, List<Mesh> meshes, float chunkMass, float debrisLifetime)
     {
         var list = new List<GameObject>(meshes.Count);
         for (int i = 0; i < meshes.Count; i++)
         {
-            var chunk = BuildChunk(insideMaterial, outsideMaterial, meshes[i], chunkMass);
+            var chunk = BuildChunk(insideMaterial, outsideMaterial, meshes[i], chunkMass, debrisLifetime);
             chunk.name += $" [{i}]";
             list.Add(chunk);
         }
@@ -112,7 +112,7 @@ public static class Fracture
     }
 
     /// <summary>
-    /// NvBlast¸¦ »ç¿ëÇÏ¿© Voronoi ÆĞÅÏÀ¸·Î ¸Ş½¬¸¦ ºĞÇÒÇÏ´Â ¸Ş¼­µå
+    /// NvBlastë¥¼ ì‚¬ìš©í•˜ì—¬ Voronoi íŒ¨í„´ìœ¼ë¡œ ë©”ì‰¬ë¥¼ ë¶„í• í•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
     private static List<Mesh> FractureMeshesInNvblast(int totalChunks, NvMesh nvMesh)
     {
@@ -128,7 +128,7 @@ public static class Fracture
 
         var meshCount = fractureTool.getChunkCount();
         var meshes = new List<Mesh>(meshCount);
-        // index 0Àº ¿øº»ÀÏ °¡´É¼ºÀÌ ÀÖ¾î 1ºÎÅÍ ÃßÃâ
+        // index 0ì€ ì›ë³¸ì¼ ê°€ëŠ¥ì„±ì´ ìˆì–´ 1ë¶€í„° ì¶”ì¶œ
         for (var i = 1; i < meshCount; i++)
         {
             meshes.Add(ExtractChunkMesh(fractureTool, i));
@@ -138,16 +138,16 @@ public static class Fracture
     }
 
     /// <summary>
-    /// ¾ŞÄ¿ ¹æÇâÀÇ °æ°è¸éÀ» Physics.OverlapBox·Î °Ë»çÇÏ´Â ¸Ş¼­µå
+    /// ì•µì»¤ ë°©í–¥ì˜ ê²½ê³„ë©´ì„ Physics.OverlapBoxë¡œ ê²€ì‚¬í•˜ëŠ” ë©”ì„œë“œ
     /// </summary>
     private static HashSet<Collider> GetAnchoredColliders(Anchor anchor, Transform meshTransform, Bounds bounds)
     {
         var anchoredChunks = new HashSet<Collider>();
-        var frameWidth = .01f; // °¨ÁöÇÒ µÎ²²
+        var frameWidth = .01f; // ê°ì§€í•  ë‘ê»˜
         var meshWorldCenter = meshTransform.TransformPoint(bounds.center);
         var meshWorldExtents = Vector3.Scale(bounds.extents, meshTransform.lossyScale);
 
-        // Æ¯Á¤ ¹æÇâ °Ë»ç ÇïÆÛ ÇÔ¼ö
+        // íŠ¹ì • ë°©í–¥ ê²€ì‚¬ í—¬í¼ í•¨ìˆ˜
         void CheckAndAdd(Vector3 direction, Vector3 halfExtentsMod)
         {
             var center = meshWorldCenter + direction;
@@ -158,7 +158,7 @@ public static class Fracture
             }
         }
 
-        // °¢ ÇÃ·¡±×º°·Î °Ë»ç ¼öÇà
+        // ê° í”Œë˜ê·¸ë³„ë¡œ ê²€ì‚¬ ìˆ˜í–‰
         if (anchor.HasFlag(Anchor.Left))
         {
             var halfExtents = AbsVec3(meshWorldExtents);
@@ -202,12 +202,12 @@ public static class Fracture
     private static Vector3 AbsVec3(Vector3 v) => new Vector3(Mathf.Abs(v.x), Mathf.Abs(v.y), Mathf.Abs(v.z));
 
     /// <summary>
-    /// NvBlast µ¥ÀÌÅÍ¸¦ Unity Mesh·Î º¯È¯
+    /// NvBlast ë°ì´í„°ë¥¼ Unity Meshë¡œ ë³€í™˜
     /// </summary>
     private static Mesh ExtractChunkMesh(NvFractureTool fractureTool, int index)
     {
-        var outside = fractureTool.getChunkMesh(index, false); // °Ñ¸é
-        var inside = fractureTool.getChunkMesh(index, true);   // Àı´Ü¸é
+        var outside = fractureTool.getChunkMesh(index, false); // ê²‰ë©´
+        var inside = fractureTool.getChunkMesh(index, true);   // ì ˆë‹¨ë©´
 
         var chunkMesh = outside.toUnityMesh();
         chunkMesh.subMeshCount = 2;
@@ -216,7 +216,7 @@ public static class Fracture
     }
 
     /// <summary>
-    /// ¿øº» ¿ÀºêÁ§Æ®ÀÇ ¸ğµç ¸Ş½¬¸¦ ÇÏ³ª·Î º´ÇÕÇÏ¿© °¡Á®¿È
+    /// ì›ë³¸ ì˜¤ë¸Œì íŠ¸ì˜ ëª¨ë“  ë©”ì‰¬ë¥¼ í•˜ë‚˜ë¡œ ë³‘í•©í•˜ì—¬ ê°€ì ¸ì˜´
     /// </summary>
     private static Mesh GetWorldMesh(GameObject gameObject)
     {
@@ -251,28 +251,29 @@ public static class Fracture
     }
 
     /// <summary>
-    /// ´ÜÀÏ ÆÄÆí GameObject »ı¼º ¹× ÄÄÆ÷³ÍÆ® ºÎÂø
+    /// ë‹¨ì¼ íŒŒí¸ GameObject ìƒì„± ë° ì»´í¬ë„ŒíŠ¸ ë¶€ì°©
     /// </summary>
-    private static GameObject BuildChunk(Material insideMaterial, Material outsideMaterial, Mesh mesh, float mass)
+    private static GameObject BuildChunk(Material insideMaterial, Material outsideMaterial, Mesh mesh, float mass, float debrisLifetime)
     {
         var chunk = new GameObject("Chunk");
 
-        // ·»´õ·¯ ¼³Á¤
+        // ë Œë”ëŸ¬ ì„¤ì •
         var renderer = chunk.AddComponent<MeshRenderer>();
         renderer.sharedMaterials = new[] { outsideMaterial, insideMaterial };
 
         var meshFilter = chunk.AddComponent<MeshFilter>();
         meshFilter.sharedMesh = mesh;
 
-        // ÆÄÆí ³ëµå ½ºÅ©¸³Æ®
+        // íŒŒí¸ ë…¸ë“œ ìŠ¤í¬ë¦½íŠ¸
         var chunkNode = chunk.AddComponent<ChunkNode>();
+        chunkNode.DebrisLifetime = debrisLifetime;
 
-        // ¹°¸® ¼³Á¤ (Kinematic)
+        // ë¬¼ë¦¬ ì„¤ì • (Kinematic)
         var rigibody = chunk.AddComponent<Rigidbody>();
         rigibody.mass = mass;
         rigibody.isKinematic = true;
 
-        // Äİ¶óÀÌ´õ ¼³Á¤
+        // ì½œë¼ì´ë” ì„¤ì •
         var mc = chunk.AddComponent<MeshCollider>();
         mc.convex = true;
         mc.sharedMesh = mesh;
@@ -281,7 +282,7 @@ public static class Fracture
     }
 
     /// <summary>
-    /// ÆÄÆí ÁÖº¯ÀÇ ´Ù¸¥ ÆÄÆíµéÀ» °¨ÁöÇÏ¿© ÀÌ¿ôÀ¸·Î µî·ÏÇÕ´Ï´Ù.
+    /// íŒŒí¸ ì£¼ë³€ì˜ ë‹¤ë¥¸ íŒŒí¸ë“¤ì„ ê°ì§€í•˜ì—¬ ì´ì›ƒìœ¼ë¡œ ë“±ë¡í•©ë‹ˆë‹¤.
     /// </summary>
     private static void RegisterNeighbours(GameObject chunk, float touchRadius, float breakForce)
     {
@@ -304,7 +305,7 @@ public static class Fracture
             {
                 if (col.TryGetComponent(out ChunkNode otherNode))
                 {
-                    // ¾ç¹æÇâ ¿¬°á
+                    // ì–‘ë°©í–¥ ì—°ê²°
                     myNode.AddNeighbour(otherNode);
                     otherNode.AddNeighbour(myNode);
                 }
