@@ -4,11 +4,11 @@ using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// 벡터 연산, 메쉬 부피 계산, 바운드 박스 계산 등 수학적 유틸리티를 제공하는 확장 클래스입니다.
+/// 벡터 연산, 메쉬 부피 계산, 바운드 박스 계산 등 수학적 유틸리티를 제공하는 확장 클래스
 /// </summary>
 public static class Extensions
 {
-    // 기본 확장 메서드
+    // --- 기본 확장 메서드 ---
 
     public static Color SetAlpha(this Color color, float value)
     {
@@ -36,22 +36,11 @@ public static class Extensions
         return GetOrAddComponent(go, typeof(T)) as T;
     }
 
-    // Vector3 확장 메서드
+    // --- Vector3 확장 메서드 ---
 
-    public static Vector3 SetX(this Vector3 vector3, float x)
-    {
-        return new Vector3(x, vector3.y, vector3.z);
-    }
-
-    public static Vector3 SetY(this Vector3 vector3, float y)
-    {
-        return new Vector3(vector3.x, y, vector3.z);
-    }
-
-    public static Vector3 SetZ(this Vector3 vector3, float z)
-    {
-        return new Vector3(vector3.x, vector3.y, z);
-    }
+    public static Vector3 SetX(this Vector3 vector3, float x) => new Vector3(x, vector3.y, vector3.z);
+    public static Vector3 SetY(this Vector3 vector3, float y) => new Vector3(vector3.x, y, vector3.z);
+    public static Vector3 SetZ(this Vector3 vector3, float z) => new Vector3(vector3.x, vector3.y, z);
 
     public static Vector3 Multiply(this Vector3 vectorA, Vector3 vectorB)
     {
@@ -60,13 +49,10 @@ public static class Extensions
 
     public static Vector3 Abs(this Vector3 vector)
     {
-        var x = Mathf.Abs(vector.x);
-        var y = Mathf.Abs(vector.y);
-        var z = Mathf.Abs(vector.z);
-        return new Vector3(x, y, z);
+        return new Vector3(Mathf.Abs(vector.x), Mathf.Abs(vector.y), Mathf.Abs(vector.z));
     }
 
-    // Mesh 부피(Volume) 계산
+    // --- Mesh 부피(Volume) 계산 ---
 
     private static float SignedVolumeOfTriangle(Vector3 p1, Vector3 p2, Vector3 p3)
     {
@@ -94,7 +80,7 @@ public static class Extensions
         return Mathf.Abs(volume);
     }
 
-    // Bounds(경계) 계산 및 변환
+    // --- Bounds(경계) 계산 및 변환 ---
 
     public static Vector3[] GetVertices(this Bounds bounds) => new[]
     {
@@ -108,15 +94,8 @@ public static class Extensions
         bounds.center + new Vector3(bounds.extents.x, bounds.extents.y, bounds.extents.z),
     };
 
-    public static Vector3 Min(this Vector3 vectorA, Vector3 vectorB)
-    {
-        return Vector3.Min(vectorA, vectorB);
-    }
-
-    public static Vector3 Max(this Vector3 vectorA, Vector3 vectorB)
-    {
-        return Vector3.Max(vectorA, vectorB);
-    }
+    public static Vector3 Min(this Vector3 vectorA, Vector3 vectorB) => Vector3.Min(vectorA, vectorB);
+    public static Vector3 Max(this Vector3 vectorA, Vector3 vectorB) => Vector3.Max(vectorA, vectorB);
 
     public static Bounds ToBounds(this Vector3[] vertices)
     {
@@ -150,7 +129,7 @@ public static class Extensions
             .ToBounds();
     }
 
-    // 프리팹 베이킹 오류 해결을 위해 isSharedMesh 파라미터 및 안전장치 추가
+    // 프리팹 베이킹 오류 해결을 위해 isSharedMesh 파라미터가 추가된 바운드 계산
     public static Bounds GetCompositeMeshBounds(this GameObject go, bool includeInactive = false, bool isSharedMesh = false)
     {
         var meshFilters = go.GetComponentsInChildren<MeshFilter>(includeInactive);

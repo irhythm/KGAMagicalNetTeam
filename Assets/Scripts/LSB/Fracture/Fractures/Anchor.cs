@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 
 /// <summary>
-/// 파괴 시 고정될 면을 설정하는 플래그 Enum (예: 바닥, 벽면)
+/// 파괴시 고정될 면 설정용 enum
 /// </summary>
 [Flags]
 public enum Anchor
@@ -27,6 +27,7 @@ public class AnchorDrawer : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         label = EditorGUI.BeginProperty(position, label, property);
+        // EnumFlagsField를 사용하여 비트 연산 기반의 다중 선택 UI 제공
         property.intValue = (int)(Anchor)EditorGUI.EnumFlagsField(position, label, (Anchor)property.intValue);
         EditorGUI.EndProperty();
     }
