@@ -2178,7 +2178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ServerConnector
   roomSceneName: Room
-  onTest: 1
+  onTest: 0
   titleAudio: {fileID: 8300000, guid: d35e9e1d6f876ce4c95f1eb8177f15ab, type: 3}
 --- !u!4 &318443349
 Transform:
