@@ -108,7 +108,7 @@ public class GuardChaseState : AIStateBase
     private void ReportToManager()
     {
         if (GuardManager.instance == null || targetPV == null) return;
-        GuardManager.instance.ReportEnemy(targetPV.Owner.ActorNumber, guard.targetPlayer.position);
+        guard.ReportEnemy(guard.targetPlayer.position);
     }
 
 }

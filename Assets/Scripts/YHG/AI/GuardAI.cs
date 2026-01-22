@@ -1,4 +1,4 @@
-﻿using Photon.Pun;
+using Photon.Pun;
 using UnityEngine;
 using System.Collections;
 
@@ -28,7 +28,7 @@ public class GuardAI : BaseAI
     public float lastAttackTime; //쿨타임 계산용
 
     //최적화용 버퍼
-    private Collider[] connectionBuffer = new Collider[1];
+    protected Collider[] connectionBuffer = new Collider[1];
 
     //최적화용 포톤뷰 캐싱
     private PhotonView targetPv;
@@ -84,7 +84,8 @@ public class GuardAI : BaseAI
         }
     }
 
-    public bool CheckEnemyNearby()
+    //01.22 virtual 추가, 주둔지 경비는 시야각+높이체크 로직 쓸 거
+    public virtual bool CheckEnemyNearby()
     {
         int count = Physics.OverlapSphereNonAlloc(transform.position, detectRadius, connectionBuffer, targetMask);
         if (count > 0)
@@ -101,6 +102,27 @@ public class GuardAI : BaseAI
         targetPlayer = null;
         targetPv = null;
         return false;
+    }
+
+    //신고 기능 대리자
+    //State가 GuardManager를 직접 부르지 않고 이 함수를 통해 부르도록 구조 변경
+    //주둔지 경비병은 주변 동료에게만 전파로 바꿀 예정
+    public virtual void ReportEnemy(Vector3 pos)
+    {
+        if (targetPlayer == null) return;
+
+        PhotonView targetView = targetPlayer.GetComponent<PhotonView>();
+        if (targetView != null && GuardManager.instance != null)
+        {
+            GuardManager.instance.ReportEnemy(targetView.Owner.ActorNumber, pos);
+        }
+    }
+
+    //소음 감지 껍데기
+    //플레이어가 OverlapSphere로 이 함수를 호출
+    public virtual void OnHearNoise(Vector3 noisePos)
+    {
+        //당장은 주둔지용이고 기존 경비엔 필요한 로직이 따로 없지만 확장성 면에서 두기
     }
 
     public void AttackTarget()
@@ -185,7 +207,5 @@ public class GuardAI : BaseAI
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectRadius);
     }
-
-
 
 }
