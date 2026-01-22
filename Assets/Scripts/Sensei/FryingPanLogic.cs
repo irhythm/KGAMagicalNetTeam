@@ -14,6 +14,7 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
     PhotonView pv;
 
     Queue<GameObject> _mushrooms = new Queue<GameObject>();
+    Transform removeTarget;
 
     IEnumerator FiringMushroom()
     {
@@ -28,11 +29,16 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
                 //한 번에 모든 플레이어에게 날리는 용도
                 foreach (Transform target in _targets)
                 {
+                    if (target == null)
+                    {
+                        removeTarget = target;
+                    }
                     //Debug.Log(target.gameObject.name+"에게 쏜다");
                     //FireMushroom(target);
                     if(PhotonNetwork.IsMasterClient)
                         pv.RPC(nameof(FireMushroom), RpcTarget.All, target.position);
                 }
+                _targets.Remove(removeTarget);
                 Debug.Log("쏜다 끝");
                 i++;
                 yield return new WaitForSeconds(_howLongToWait);
