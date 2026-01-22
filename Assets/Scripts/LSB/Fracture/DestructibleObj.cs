@@ -1,13 +1,11 @@
 using UnityEngine;
 
 /// <summary>
-/// ÀÌ ¿ÀºêÁ§Æ®°¡ ÆÄ±« °¡´ÉÇÑ º®ÀÓÀ» ½Äº°ÇÏ´Â Å¬·¡½ºÀÔ´Ï´Ù.
+/// ì´ ì˜¤ë¸Œì íŠ¸ê°€ íŒŒê´´ ê°€ëŠ¥í•œ ë²½ì„ì„ ì‹ë³„í•˜ëŠ” í´ë˜ìŠ¤
 /// </summary>
 public class DestructibleWall : MonoBehaviour
 {
     private void Awake()
     {
-        // ChunkGraphManager³ª ChunkNodeµéÀÌ °¢ÀÚ Awake¿¡¼­ ÃÊ±âÈ­µÇ¹Ç·Î
-        // ¿©±â¼­´Â Æ¯º°ÇÑ ·ÎÁ÷ ¾øÀÌ ½Äº°ÀÚ ¿ªÇÒ¸¸ ¼öÇàÇÕ´Ï´Ù.
     }
 }
