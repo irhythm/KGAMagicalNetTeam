@@ -15423,6 +15423,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PanController
   PanHpBanner: {fileID: 22982334594758103}
   fryingPanMaxHp: 20
+  damageColor: {r: 1, g: 0, b: 0, a: 0}
+  damageChangeDelay: 0.2
+  noiseStrength: 1
+  noiseDelay: 0.01
 --- !u!54 &1231014907
 Rigidbody:
   m_ObjectHideFlags: 0

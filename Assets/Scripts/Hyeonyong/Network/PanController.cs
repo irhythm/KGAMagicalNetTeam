@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -10,11 +11,31 @@ public class PanController : MonoBehaviourPunCallbacks
     PhotonView pv;
     PanView panView;
 
+    Renderer myRenderer;
+    Material myMaterial;
+
+    Color originColor;
+    [SerializeField] Color damageColor;
+    [SerializeField] float damageChangeDelay=1f;
+
+    Coroutine damageCoroutine_Color;
+    Coroutine damageCoroutine_Noise;
+    [SerializeField] float noiseStrength = 3f;
+    [SerializeField] float noiseDelay = 0.01f;
+
+    Vector3 originPos;
+    
     private void Start()
     {
         pv= GetComponent<PhotonView>();
         panView = GetComponent<PanView>();
         InitFryingPan();
+
+        myRenderer = GetComponent<Renderer>();
+        myMaterial = myRenderer.material;
+        myMaterial.EnableKeyword("_EMISSION");
+        originColor = myMaterial.GetColor("_EmissionColor");
+        originPos=transform.position;
     }
     void InitFryingPan()
     {
@@ -42,6 +63,13 @@ public class PanController : MonoBehaviourPunCallbacks
         HandleHpChanged(curHp/fryingPanMaxHp);
         SetFryingPanHP(curHp);
         //CheckDie();
+        if(damageCoroutine_Color!=null) 
+            StopCoroutine(damageCoroutine_Color);
+        damageCoroutine_Color=StartCoroutine(TakeDamageEvent_Color());
+
+        if(damageCoroutine_Noise != null)
+            StopCoroutine(damageCoroutine_Noise);
+        damageCoroutine_Noise=StartCoroutine(TakeDamageEvent_Noise());
     }
 
     //룸 프로퍼티의 값이 바뀌면 호출
@@ -74,6 +102,8 @@ public class PanController : MonoBehaviourPunCallbacks
     private void OnDisable()
     {
         //비활성화시 실행할 코드
+        if(damageCoroutine_Color!=null)
+            StopCoroutine(damageCoroutine_Color);
     }
 
     float GetFryingPanHP()
@@ -92,6 +122,35 @@ public class PanController : MonoBehaviourPunCallbacks
     private void HandleHpChanged(float hpRatio)
     {
         panView.UpdateHp(hpRatio);
+    }
+
+    IEnumerator TakeDamageEvent_Color()
+    {
+        myMaterial.SetColor("_EmissionColor", damageColor);
+        yield return CoroutineManager.waitForSeconds(damageChangeDelay);
+        myMaterial.SetColor("_EmissionColor", originColor);
+        damageCoroutine_Color = null;
+    }
+
+    IEnumerator TakeDamageEvent_Noise()
+    {
+        float curTime = damageChangeDelay;
+        float curNoiseStrength = noiseStrength;
+        float ratio = curTime;
+        while (curTime > 0)
+        {
+            Debug.Log("노이즈 발생");
+            ratio = curTime / damageChangeDelay;
+            //curNoiseStrength = Mathf.Lerp(curNoiseStrength, 0, ratio);
+            float x = Random.Range(-1f, 1f) * curNoiseStrength;
+            float y = Random.Range(-1f, 1f) * curNoiseStrength;
+
+            transform.position = new Vector3(originPos.x + x, originPos.y + y, originPos.z);
+            curTime-=noiseDelay;
+            yield return CoroutineManager.waitForSeconds(noiseDelay);
+        }
+        transform.position = originPos;
+        damageCoroutine_Noise = null;
     }
 
 }
