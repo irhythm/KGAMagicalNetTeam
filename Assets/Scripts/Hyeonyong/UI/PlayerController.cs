@@ -70,6 +70,8 @@ public class PlayerController : MonoBehaviourPun, IDamageable
 
         testTakeDamageAction.action.Enable();
         testTakeDamageAction.action.performed += TestTakeDamage;
+
+        RoomManager.Instance?.fryingPanLogic.AddTarget(transform);
     }
 
     private void OnDisable()
