@@ -2,19 +2,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ÀüÃ¼ ÆÄÆíµéÀÇ ¿¬°á »óÅÂ¸¦ °ü¸®ÇÏ´Â ¸Å´ÏÀú Å¬·¡½º
-/// ÆÄÆí°£ÀÇ ¿¬°á »óÅÂ¸¦ ÃßÀûÇÏ°í, ±¸Á¶Àû ¹«°á¼ºÀ» Àç°è»êÇÕ´Ï´Ù.
+/// ì „ì²´ íŒŒí¸ë“¤ì˜ ì—°ê²° ìƒíƒœë¥¼ ê´€ë¦¬í•˜ëŠ” ë§¤ë‹ˆì € í´ë˜ìŠ¤
+/// íŒŒí¸ê°„ì˜ ì—°ê²° ìƒíƒœë¥¼ ì¶”ì í•˜ê³ , êµ¬ì¡°ì  ë¬´ê²°ì„±ì„ ì¬ê³„ì‚°í•©ë‹ˆë‹¤.
 /// </summary>
 public class ChunkGraphManager : MonoBehaviour
 {
     [SerializeField] private ChunkNode[] nodes;
 
-    // BFS Å½»öÀ» À§ÇÑ ÀÚ·á±¸Á¶ (ÇÊµå·Î ¼±¾ğÇÏ¿© °¡ºñÁö ÄÃ·º¼Ç ÁÙÀÓ)
+    // BFS íƒìƒ‰ì„ ìœ„í•œ ìë£Œêµ¬ì¡° (í•„ë“œë¡œ ì„ ì–¸í•˜ì—¬ ê°€ë¹„ì§€ ì»¬ë ‰ì…˜ ì¤„ì„)
     private Queue<ChunkNode> searchQueue = new Queue<ChunkNode>();
     private HashSet<ChunkNode> safeNodes = new HashSet<ChunkNode>();
 
     /// <summary>
-    /// ¿ÜºÎ¿¡¼­ ³ëµå ¸®½ºÆ®¸¦ ÁÖÀÔ¹Ş¾Æ ÃÊ±âÈ­
+    /// ì™¸ë¶€ì—ì„œ ë…¸ë“œ ë¦¬ìŠ¤íŠ¸ë¥¼ ì£¼ì…ë°›ì•„ ì´ˆê¸°í™”
     /// </summary>
     public void Setup(ChunkNode[] allNodes)
     {
@@ -27,13 +27,13 @@ public class ChunkGraphManager : MonoBehaviour
 
     private void Awake()
     {
-        // ³ëµå ¸®½ºÆ®°¡ ºñ¾îÀÖÀ¸¸é ·±Å¸ÀÓ¿¡ Ã£±â
+        // ë…¸ë“œ ë¦¬ìŠ¤íŠ¸ê°€ ë¹„ì–´ìˆìœ¼ë©´ ëŸ°íƒ€ì„ì— ì°¾ê¸°
         if (nodes == null || nodes.Length == 0)
         {
             nodes = GetComponentsInChildren<ChunkNode>();
         }
 
-        // °ÔÀÓ ½ÃÀÛ ½Ã, ÀúÀåµÈ ¹è¿­ µ¥ÀÌÅÍ¸¦ HashSetÀ¸·Î º¹±¸
+        // ê²Œì„ ì‹œì‘ ì‹œ, ì €ì¥ëœ ë°°ì—´ ë°ì´í„°ë¥¼ HashSetìœ¼ë¡œ ë³µêµ¬
         if (nodes != null)
         {
             foreach (var node in nodes)
@@ -47,7 +47,7 @@ public class ChunkGraphManager : MonoBehaviour
     {
         bool needsGraphRebuild = false;
 
-        // ÆÄÆí Áß ÇÏ³ª¶óµµ ¿¬°áÀÌ ²÷¾îÁ³´Ù°í º¸°íÇÏ¸é ±×·¡ÇÁ Àç°è»ê Æ®¸®°Å
+        // íŒŒí¸ ì¤‘ í•˜ë‚˜ë¼ë„ ì—°ê²°ì´ ëŠì–´ì¡Œë‹¤ê³  ë³´ê³ í•˜ë©´ ê·¸ë˜í”„ ì¬ê³„ì‚° íŠ¸ë¦¬ê±°
         if (nodes != null)
         {
             for (int i = 0; i < nodes.Length; i++)
@@ -69,18 +69,18 @@ public class ChunkGraphManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ±¸Á¶Àû ¹«°á¼º Àç°è»ê (ÁöÁö´ë°¡ ¾ø´Â ÆÄÆí ¶³¾î¶ß¸®±â)
+    /// êµ¬ì¡°ì  ë¬´ê²°ì„± ì¬ê³„ì‚° (ì§€ì§€ëŒ€ê°€ ì—†ëŠ” íŒŒí¸ ë–¨ì–´ëœ¨ë¦¬ê¸°)
     /// </summary>
     private void RecalculateStructuralIntegrity()
     {
         searchQueue.Clear();
         safeNodes.Clear();
 
-        // 1. ¾ŞÄ¿ Ã£±â
+        // ì•µì»¤ ì°¾ê¸°
         for (int i = 0; i < nodes.Length; i++)
         {
             var node = nodes[i];
-            // °íÁ¤µÇ¾î ÀÖ°í(Frozen) + ÆÄ±«ºÒ°¡(Indestructible)ÀÎ ³à¼®ÀÌ ÁøÂ¥ ÁöÁö´ë
+            // ê³ ì •ë˜ì–´ ìˆê³ (Frozen) + íŒŒê´´ë¶ˆê°€(Indestructible)ì¸ ë…€ì„ì´ ì§„ì§œ ì§€ì§€ëŒ€
             if (node != null && node.IsFrozen && node.IsIndestructible)
             {
                 searchQueue.Enqueue(node);
@@ -88,18 +88,18 @@ public class ChunkGraphManager : MonoBehaviour
             }
         }
 
-        // ÁöÁö´ë¿Í ¿¬°áµÈ ¸ğµç ÆÄÆí Å½»ö (BFS ¾Ë°í¸®Áò)
+        // ì§€ì§€ëŒ€ì™€ ì—°ê²°ëœ ëª¨ë“  íŒŒí¸ íƒìƒ‰ (BFS ì•Œê³ ë¦¬ì¦˜)
         while (searchQueue.Count > 0)
         {
             var current = searchQueue.Dequeue();
-            var neighbours = current.neighbours; // Setup()ÀÌ È£ÃâµÇ¾î¾ß ÀÌ ¹è¿­ÀÌ À¯È¿ÇÔ
+            var neighbours = current.neighbours; // Setup()ì´ í˜¸ì¶œë˜ì–´ì•¼ ì´ ë°°ì—´ì´ ìœ íš¨í•¨
 
             if (neighbours != null)
             {
                 for (int i = 0; i < neighbours.Length; i++)
                 {
                     var neighbour = neighbours[i];
-                    // À¯È¿ÇÏ°í, ¾ÆÁ÷ ¹æ¹® ¾È Çß°í, °íÁ¤µÈ »óÅÂ¶ó¸é -> ¾ÈÀüÇÔ
+                    // ìœ íš¨í•˜ê³ , ì•„ì§ ë°©ë¬¸ ì•ˆ í–ˆê³ , ê³ ì •ëœ ìƒíƒœë¼ë©´ -> ì•ˆì „í•¨
                     if (neighbour != null && !safeNodes.Contains(neighbour) && neighbour.IsFrozen)
                     {
                         safeNodes.Add(neighbour);
@@ -109,13 +109,13 @@ public class ChunkGraphManager : MonoBehaviour
             }
         }
 
-        // ÁöÁö´ë¿Í ¿¬°áÀÌ ²÷±ä(¾ÈÀüÇÏÁö ¾ÊÀº) ÆÄÆíµé Ãß¶ô ½ÃÅ°±â
+        // ì§€ì§€ëŒ€ì™€ ì—°ê²°ì´ ëŠê¸´(ì•ˆì „í•˜ì§€ ì•Šì€) íŒŒí¸ë“¤ ì¶”ë½ ì‹œí‚¤ê¸°
         for (int i = 0; i < nodes.Length; i++)
         {
             var node = nodes[i];
             if (node != null && node.IsFrozen && !safeNodes.Contains(node))
             {
-                node.Unfreeze(); // ¹°¸® ÄÑ±â (Ãß¶ô)
+                node.Unfreeze(); // ë¬¼ë¦¬ ì¼œê¸° (ì¶”ë½)
             }
         }
     }
