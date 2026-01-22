@@ -1,16 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PanView : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    [SerializeField] Image hpBar;
+    public void UpdateHp(float ratio)
+    { 
+        hpBar.fillAmount = ratio;
     }
 }

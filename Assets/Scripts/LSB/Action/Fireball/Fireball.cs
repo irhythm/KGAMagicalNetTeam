@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ÆÄÀÌ¾îº¼ Åõ»çÃ¼ ·ÎÁ÷ÀÔ´Ï´Ù.
-/// Ãæµ¹ ½Ã ³×Æ®¿öÅ© RPC·Î Æø¹ßÀ» ¾Ë¸®°í, ¹üÀ§ ³» ¿ÀºêÁ§Æ®¿¡ ¹°¸®·ÂÀ» °¡ÇÔ
+/// íŒŒì´ì–´ë³¼ íˆ¬ì‚¬ì²´ ë¡œì§ì…ë‹ˆë‹¤.
+/// ì¶©ëŒ ì‹œ ë„¤íŠ¸ì›Œí¬ RPCë¡œ í­ë°œì„ ì•Œë¦¬ê³ , ë²”ìœ„ ë‚´ ì˜¤ë¸Œì íŠ¸ì— ë¬¼ë¦¬ë ¥ì„ ê°€í•¨
 /// </summary>
 public class Fireball : MonoBehaviourPun
 {
@@ -13,9 +13,11 @@ public class Fireball : MonoBehaviourPun
 
     private int shooterActorNumber;
     private bool hasExploded = false;
+    int fryingPanLayer;
 
     private void Start()
     {
+        fryingPanLayer = LayerMask.NameToLayer("FryingPan");
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
@@ -27,17 +29,18 @@ public class Fireball : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
-        // ¹ß»çÇÑ º»ÀÎ¿¡°Ô´Â Ãæµ¹ÇÏÁö ¾ÊÀ½
+        // ë°œì‚¬í•œ ë³¸ì¸ì—ê²ŒëŠ” ì¶©ëŒí•˜ì§€ ì•ŠìŒ
         PhotonView targetView = other.GetComponent<PhotonView>();
         if (targetView != null && targetView.OwnerActorNr == shooterActorNumber)
         {
-            return;
+            if(other.CompareTag("Player"))
+                return;
         }
 
         if (hasExploded) return;
         hasExploded = true;
 
-        // ¸ğµç Å¬¶óÀÌ¾ğÆ®¿¡¼­ Æø¹ß ½ÇÇà
+        // ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ì—ì„œ í­ë°œ ì‹¤í–‰
         photonView.RPC(nameof(RPC_ExplodeProcess), RpcTarget.All, transform.position);
         PhotonNetwork.Destroy(gameObject);
     }
@@ -48,20 +51,25 @@ public class Fireball : MonoBehaviourPun
         if (fireballData.explosionEffectPrefab != null)
             Instantiate(fireballData.explosionEffectPrefab, explosionPos, Quaternion.identity);
 
-        // Æø¹ß ¹üÀ§ ³»ÀÇ ¸ğµç Äİ¶óÀÌ´õ °¨Áö
+        // í­ë°œ ë²”ìœ„ ë‚´ì˜ ëª¨ë“  ì½œë¼ì´ë” ê°ì§€
         Collider[] colliders = Physics.OverlapSphere(explosionPos, fireballData.explosionRadius, fireballData.explosionLayer);
 
-        Debug.Log($"[Fireball] Æø¹ß ¹İ°æ({fireballData.explosionRadius}) ³» °¨ÁöµÈ ¹°Ã¼ ¼ö: {colliders.Length}");
+        Debug.Log($"[Fireball] í­ë°œ ë°˜ê²½({fireballData.explosionRadius}) ë‚´ ê°ì§€ëœ ë¬¼ì²´ ìˆ˜: {colliders.Length}");
 
         foreach (Collider hit in colliders)
         {
-            // ÆÄÆí(ChunkNode)ÀÎÁö È®ÀÎ (ÀÚ½Å ¶Ç´Â ºÎ¸ğ)
+            if (hit.gameObject.layer == fryingPanLayer)
+            {
+                if (photonView.IsMine)
+                    hit.GetComponent<PanController>().OnTakeDamage(fireballData.damage);
+            }
+            // íŒŒí¸(ChunkNode)ì¸ì§€ í™•ì¸ (ìì‹  ë˜ëŠ” ë¶€ëª¨)
             ChunkNode node = hit.GetComponent<ChunkNode>();
             if (node == null) node = hit.GetComponentInParent<ChunkNode>();
 
             if (node != null)
             {
-                // °¨ÁöµÈ ÆÄÆí¿¡°Ô Èû Àû¿ë
+                // ê°ì§€ëœ íŒŒí¸ì—ê²Œ í˜ ì ìš©
                 node.ApplyExplosionForce(
                     fireballData.explosionForce,
                     explosionPos,
@@ -71,10 +79,10 @@ public class Fireball : MonoBehaviourPun
                 continue;
             }
 
-            // ÀÏ¹İ ¹°¸® °´Ã¼(ÇÃ·¹ÀÌ¾î, Àû µî) Ã³¸®
+            // ì¼ë°˜ ë¬¼ë¦¬ ê°ì²´(í”Œë ˆì´ì–´, ì  ë“±) ì²˜ë¦¬
             Rigidbody rb = hit.GetComponent<Rigidbody>();
 
-            // ¾Æ±º ¿ÀÀÎ»ç°İ ¹æÁö
+            // ì•„êµ° ì˜¤ì¸ì‚¬ê²© ë°©ì§€
             PhotonView targetView = hit.GetComponent<PhotonView>();
             if (targetView != null)
             {
@@ -88,7 +96,7 @@ public class Fireball : MonoBehaviourPun
                 rb.AddExplosionForce(fireballData.explosionForce, explosionPos, fireballData.explosionRadius, fireballData.explosionUpward, ForceMode.Impulse);
             }
 
-            // µ¥¹ÌÁö Ã³¸®
+            // ë°ë¯¸ì§€ ì²˜ë¦¬
             if (targetView != null && targetView.IsMine)
             {
                 IDamageable target = hit.GetComponent<IDamageable>();

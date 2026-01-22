@@ -57,7 +57,7 @@ public class PlayerMagicSystem : MonoBehaviourPun
         if (targetAction == null || !targetAction.CanUse()) return;
 
         targetAction.InitCooldown();
-        Debug.Log($"¾×¼Ç ½Ã½ºÅÛ {(isLeftHand ? "Left" : "Right")} Äğ´Ù¿î ½ÃÀÛ");
+        Debug.Log($"ì•¡ì…˜ ì‹œìŠ¤í…œ {(isLeftHand ? "Left" : "Right")} ì¿¨ë‹¤ìš´ ì‹œì‘");
 
         if (targetAction is MagicAction magic)
         {
@@ -139,7 +139,7 @@ public class PlayerMagicSystem : MonoBehaviourPun
 
             if (targetAction == null)
             {
-                Debug.LogWarning($"[System] ÀÎº¥Åä¸®¿¡ ¾ø´Â ¾×¼ÇÀ» ÀåÂø ½ÃµµÇÔ: {item.itemName}. »õ·Î »ı¼ºÇÕ´Ï´Ù.");
+                Debug.LogWarning($"[System] ì¸ë²¤í† ë¦¬ì— ì—†ëŠ” ì•¡ì…˜ì„ ì¥ì°© ì‹œë„í•¨: {item.itemName}. ìƒˆë¡œ ìƒì„±í•©ë‹ˆë‹¤.");
                 targetAction = actionData.CreateInstance();
             }
 
@@ -149,6 +149,6 @@ public class PlayerMagicSystem : MonoBehaviourPun
         if (isLeft) _leftAction = targetAction;
         else _rightAction = targetAction;
 
-        Debug.Log($"{(isLeft ? "¿Ş¼Õ" : "¿À¸¥¼Õ")} ÀåÂø: {item?.itemName}");
+        Debug.Log($"{(isLeft ? "ì™¼ì†" : "ì˜¤ë¥¸ì†")} ì¥ì°©: {item?.itemName}");
     }
 }
