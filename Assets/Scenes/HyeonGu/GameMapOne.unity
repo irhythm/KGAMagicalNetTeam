@@ -181,6 +181,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 1a3fb4564f76cb0458fa7dcfd90c5a3d, type: 3}
   m_PrefabInstance: {fileID: 597646}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &645037
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 41.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 122.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (18)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &645038 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 645037}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1515332
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2603,68 +2665,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 1a3fb4564f76cb0458fa7dcfd90c5a3d, type: 3}
   m_PrefabInstance: {fileID: 70822426}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &73391691
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -15.76
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 124.42
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (20)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &73391692 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 73391691}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &74123293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2823,6 +2823,68 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 1a3fb4564f76cb0458fa7dcfd90c5a3d, type: 3}
   m_PrefabInstance: {fileID: 82144757}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &84261563
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -19.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 159.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (5)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &84261564 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 84261563}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &86151571
 PrefabInstance:
@@ -3518,68 +3580,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 1a3fb4564f76cb0458fa7dcfd90c5a3d, type: 3}
   m_PrefabInstance: {fileID: 127862354}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &131304915
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -94.56
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -17.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (25)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &131304916 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 131304915}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &133056377
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3641,6 +3641,68 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 9069115365609054727, guid: 60f79905accf3b24fa0114b941f1aac0, type: 3}
   m_PrefabInstance: {fileID: 133056377}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &135369711
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -90.96001
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 122.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (17)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &135369712 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 135369711}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &138510832
 PrefabInstance:
@@ -6696,68 +6758,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 233526332}
   m_CullTransparentMesh: 1
---- !u!1001 &234320095
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -29.76
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 159.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (3)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &234320096 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 234320095}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &235271398
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7153,68 +7153,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 241814179}
   m_CullTransparentMesh: 1
---- !u!1001 &247948422
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 6.239998
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 159.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (6)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &247948423 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 247948422}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &250324401
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7338,6 +7276,68 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5294220334779307404, guid: 170b5c8bc206e434bbabb0dfb4c448a2, type: 3}
   m_PrefabInstance: {fileID: 258425941}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &259058711
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -91.76001
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 137.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (21)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &259058712 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 259058711}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &262568011
 PrefabInstance:
@@ -8831,68 +8831,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 308581097}
   m_CullTransparentMesh: 1
---- !u!1001 &313235245
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -112.66
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -9.080002
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (24)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &313235246 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 313235245}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &316184775
 GameObject:
   m_ObjectHideFlags: 0
@@ -9806,68 +9744,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 9069115365609054727, guid: 60f79905accf3b24fa0114b941f1aac0, type: 3}
   m_PrefabInstance: {fileID: 334195982}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &337642715
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -79.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 157.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.2588191
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.9659258
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (11)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &337642716 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 337642715}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &338664307
 GameObject:
@@ -11148,6 +11024,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 372096702}
   m_CullTransparentMesh: 1
+--- !u!1001 &372950955
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -95.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -33.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (20)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &372950956 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 372950955}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &374585660
 GameObject:
   m_ObjectHideFlags: 0
@@ -11461,68 +11399,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 9069115365609054727, guid: 60f79905accf3b24fa0114b941f1aac0, type: 3}
   m_PrefabInstance: {fileID: 391581556}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &392570542
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -90.96001
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 122.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (12)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &392570543 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 392570542}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &394076505
 PrefabInstance:
@@ -11921,68 +11797,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 1a3fb4564f76cb0458fa7dcfd90c5a3d, type: 3}
   m_PrefabInstance: {fileID: 412727310}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &414515144
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -43.260002
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 125.520004
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (18)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &414515145 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 414515144}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &422499184
 GameObject:
   m_ObjectHideFlags: 0
@@ -12075,68 +11889,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6419187236850804161, guid: e05ae677c7b3bc546bd36b488586fb0c, type: 3}
   m_PrefabInstance: {fileID: 423737030}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &424615812
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -95.36
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -33.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (26)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &424615813 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 424615812}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &424702787
 PrefabInstance:
@@ -12837,68 +12589,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6419187236850804161, guid: e05ae677c7b3bc546bd36b488586fb0c, type: 3}
   m_PrefabInstance: {fileID: 441800055}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &442936018
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -122.66
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -9.080002
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (23)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &442936019 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 442936018}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &449208350
 PrefabInstance:
@@ -16836,6 +16526,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 08a1c14a984751b4e992a4afa3974807, type: 3}
   m_PrefabInstance: {fileID: 574409857}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &583345356
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -29.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 159.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (4)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &583345357 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 583345356}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &584055247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17753,6 +17505,68 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3797600274067251302, guid: 2733d4365aba6ef4ca4d5a4495cdaa07, type: 3}
   m_PrefabInstance: {fileID: 607519591}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &608145661
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -122.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -9.080002
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (11)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &608145662 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 608145661}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &610310477
 PrefabInstance:
@@ -20850,6 +20664,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1107406304231971054, guid: 1fdb83abe97881945a999271a05f4c52, type: 3}
   m_PrefabInstance: {fileID: 721824078}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &726292318
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.239998
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 159.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (7)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &726292319 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 726292318}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &730630948
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21151,6 +21027,68 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 9069115365609054727, guid: 60f79905accf3b24fa0114b941f1aac0, type: 3}
   m_PrefabInstance: {fileID: 736612283}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &737329108
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -112.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 169.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (13)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &737329109 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 737329108}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &739301744
 GameObject:
@@ -22446,68 +22384,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 788639307}
   m_CullTransparentMesh: 1
---- !u!1001 &789468481
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 39.44
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 149.72
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.49999994
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.86602545
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -120
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (17)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &789468482 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 789468481}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &795548173
 GameObject:
   m_ObjectHideFlags: 0
@@ -22834,6 +22710,68 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8817662005672380546, guid: 6bed6741c1f92d1459e9f8f04dc87ecd, type: 3}
   m_PrefabInstance: {fileID: 803834774}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &804835119
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -112.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -9.080002
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (14)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &804835120 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 804835119}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &808980501
 PrefabInstance:
@@ -24806,68 +24744,6 @@ Transform:
   - {fileID: 633546561}
   m_Father: {fileID: 2129551945}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!1001 &886997120
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -112.66
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 169.42
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (10)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &886997121 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 886997120}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &892788845
 GameObject:
   m_ObjectHideFlags: 0
@@ -25821,68 +25697,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 924742341}
   m_CullTransparentMesh: 1
---- !u!1001 &925495189
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -9.660002
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 159.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (5)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &925495190 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 925495189}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &925501338
 GameObject:
   m_ObjectHideFlags: 0
@@ -26552,68 +26366,6 @@ Transform:
   - {fileID: 966462921}
   m_Father: {fileID: 2129551945}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!1001 &950130355
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -57.86
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 159.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &950130356 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 950130355}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &950470229
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29538,68 +29290,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074653909}
   m_CullTransparentMesh: 1
---- !u!1001 &1078042889
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 30.54
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 159.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.17364809
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.9848078
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (8)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &1078042890 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 1078042889}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1078284307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29665,68 +29355,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8817662005672380546, guid: 6bed6741c1f92d1459e9f8f04dc87ecd, type: 3}
   m_PrefabInstance: {fileID: 1078284307}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &1082966901
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -47.760002
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 159.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (2)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &1082966902 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 1082966901}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1083221147
 GameObject:
@@ -31510,68 +31138,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 08a1c14a984751b4e992a4afa3974807, type: 3}
   m_PrefabInstance: {fileID: 1149272436}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1152839182
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -91.76001
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 137.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (13)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &1152839183 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 1152839182}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1153683310
 GameObject:
   m_ObjectHideFlags: 0
@@ -33348,6 +32914,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 1a3fb4564f76cb0458fa7dcfd90c5a3d, type: 3}
   m_PrefabInstance: {fileID: 1205625038}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1213598425
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 83.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 169.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (16)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1213598426 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1213598425}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1214520826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34957,6 +34585,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5566614576695011573, guid: 3e833f3c41837e2499848cbd3a40b527, type: 3}
   m_PrefabInstance: {fileID: 1285707116}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1289400635
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 39.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 149.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.49999994
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.86602545
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -120
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (24)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1289400636 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1289400635}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1289569328
 GameObject:
   m_ObjectHideFlags: 0
@@ -35876,6 +35566,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1305977570
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -122.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 169.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (10)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1305977571 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1305977570}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1308580842
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35999,6 +35751,68 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 9069115365609054727, guid: 60f79905accf3b24fa0114b941f1aac0, type: 3}
   m_PrefabInstance: {fileID: 1311231063}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1311551364
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -15.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 124.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (27)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1311551365 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1311551364}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1312015399
 PrefabInstance:
@@ -37208,68 +37022,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 1a3fb4564f76cb0458fa7dcfd90c5a3d, type: 3}
   m_PrefabInstance: {fileID: 1356269730}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1358783293
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -67.86
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 159.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &1358783294 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 1358783293}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1361370875
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37587,6 +37339,68 @@ Transform:
   - {fileID: 1800779714}
   m_Father: {fileID: 2129551945}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1001 &1371512187
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -47.760002
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 159.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1371512188 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1371512187}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1372346472
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38361,6 +38175,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1392568088}
   m_CullTransparentMesh: 1
+--- !u!1001 &1393195185
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 73.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 169.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (12)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1393195186 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1393195185}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1394343918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39021,6 +38897,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8817662005672380546, guid: 6bed6741c1f92d1459e9f8f04dc87ecd, type: 3}
   m_PrefabInstance: {fileID: 1411797087}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1413861259
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 40.639988
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 137.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (22)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1413861260 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1413861259}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1415541624
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39082,68 +39020,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6360628377774826359, guid: 5228c984e5be7284d8d83c18096254dd, type: 3}
   m_PrefabInstance: {fileID: 1415541624}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &1421493324
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -122.66
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 169.42
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (9)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &1421493325 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 1421493324}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1422158721
 PrefabInstance:
@@ -39467,68 +39343,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431340488}
   m_CullTransparentMesh: 1
---- !u!1001 &1431927661
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -87.86
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 149.72
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.49999994
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.86602545
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (14)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &1431927662 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 1431927661}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1435019164
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40565,7 +40379,7 @@ MonoBehaviour:
   guardPrefabs:
   - {fileID: 5133415269387751846, guid: b8b47a31ddabe5140acb4424e01d7ef9, type: 3}
   - {fileID: 2944837968078040472, guid: 95871b3330128e34f931a93718196fbd, type: 3}
-  spawnInterval: 30
+  spawnInterval: 60
 --- !u!4 &1463418897
 Transform:
   m_ObjectHideFlags: 0
@@ -42343,6 +42157,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 08a1c14a984751b4e992a4afa3974807, type: 3}
   m_PrefabInstance: {fileID: 1534120894}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1534734439
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.660002
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 159.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (6)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1534734440 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1534734439}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1536061946
 GameObject:
   m_ObjectHideFlags: 0
@@ -42379,68 +42255,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &1538626321
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 16.239998
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 159.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (7)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &1538626322 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 1538626321}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1539276866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42502,6 +42316,68 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 1a3fb4564f76cb0458fa7dcfd90c5a3d, type: 3}
   m_PrefabInstance: {fileID: 1539276866}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1540122477
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -57.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 159.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1540122478 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1540122477}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1541192699
 PrefabInstance:
@@ -44231,6 +44107,130 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 1a3fb4564f76cb0458fa7dcfd90c5a3d, type: 3}
   m_PrefabInstance: {fileID: 1624117795}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1627576349
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -27.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 16.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (15)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1627576350 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1627576349}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1628068775
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -28.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 125.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (26)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1628068776 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1628068775}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1639946552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45465,68 +45465,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1681514857}
   m_CullTransparentMesh: 1
---- !u!1001 &1683186356
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 41.44
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 122.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (15)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &1683186357 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 1683186356}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1686114465
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47012,6 +46950,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9069115365609054727, guid: 60f79905accf3b24fa0114b941f1aac0, type: 3}
   m_PrefabInstance: {fileID: 1726241860}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1730246571
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -87.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 149.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.49999994
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.86602545
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (23)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1730246572 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1730246571}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1741966534
 GameObject:
   m_ObjectHideFlags: 0
@@ -47087,68 +47087,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1741966534}
   m_CullTransparentMesh: 1
---- !u!1001 &1744700802
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 73.64
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 169.42
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (21)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &1744700803 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 1744700802}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1744807419
 GameObject:
   m_ObjectHideFlags: 0
@@ -49582,68 +49520,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 08a1c14a984751b4e992a4afa3974807, type: 3}
   m_PrefabInstance: {fileID: 1828286548}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1832411526
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -28.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 125.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (19)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &1832411527 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 1832411526}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1834921182
 GameObject:
   m_ObjectHideFlags: 0
@@ -49781,68 +49657,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 1a3fb4564f76cb0458fa7dcfd90c5a3d, type: 3}
   m_PrefabInstance: {fileID: 1835040798}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &1838288617
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -27.66
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 16.52
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (28)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &1838288618 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 1838288617}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1839310172
 GameObject:
@@ -50599,68 +50413,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6419187236850804161, guid: e05ae677c7b3bc546bd36b488586fb0c, type: 3}
   m_PrefabInstance: {fileID: 1883418386}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1885928635
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (27)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &1885928636 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 1885928635}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1893010121
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51205,6 +50957,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9069115365609054727, guid: 60f79905accf3b24fa0114b941f1aac0, type: 3}
   m_PrefabInstance: {fileID: 1922740952}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1924111653
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -67.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 159.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1924111654 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1924111653}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1931964170
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51267,6 +51081,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 915433115640153526, guid: 7a92d70f42aca1d40aa5675904d4fb0a, type: 3}
   m_PrefabInstance: {fileID: 1931964170}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1932171710
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 16.239998
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 159.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (8)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1932171711 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1932171710}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1935912571
 GameObject:
   m_ObjectHideFlags: 0
@@ -51302,6 +51178,68 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 115}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &1936046227
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 30.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 159.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.17364809
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9848078
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (9)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &1936046228 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 1936046227}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1937192661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52332,68 +52270,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1984829499}
   m_CullTransparentMesh: 1
---- !u!1001 &1991551225
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 83.64
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 169.42
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (22)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &1991551226 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 1991551225}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1991982223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53473,6 +53349,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 1a3fb4564f76cb0458fa7dcfd90c5a3d, type: 3}
   m_PrefabInstance: {fileID: 2029367481}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2031374147
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -43.260002
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 125.520004
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (25)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &2031374148 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 2031374147}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2032600381
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53695,6 +53633,68 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 28}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!1001 &2043098517
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -79.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 157.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.2588191
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9659258
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &2043098518 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 2043098517}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2046269880
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53832,68 +53832,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2048619011}
   m_CullTransparentMesh: 1
---- !u!1001 &2049788304
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -19.76
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 159.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (4)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &2049788305 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 2049788304}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2050561281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54207,6 +54145,68 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 1a3fb4564f76cb0458fa7dcfd90c5a3d, type: 3}
   m_PrefabInstance: {fileID: 2057486656}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2060084968
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -94.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -17.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (19)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &2060084969 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 2060084968}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2060846188
 GameObject:
@@ -54619,68 +54619,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2400510031361712144, guid: 1a3fb4564f76cb0458fa7dcfd90c5a3d, type: 3}
   m_PrefabInstance: {fileID: 2063833597}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2067989521
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2069912634}
-    m_Modifications:
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 40.639988
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 137.62
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1894108225620970410, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-      propertyPath: m_Name
-      value: House_01_LITE Sensei Edited (16)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
---- !u!4 &2067989522 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1680521436167680362, guid: f5fdb1f9def615e488854e3691ec41d5, type: 3}
-  m_PrefabInstance: {fileID: 2067989521}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2068141018
 GameObject:
   m_ObjectHideFlags: 0
@@ -54785,35 +54723,35 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1358783294}
-  - {fileID: 337642716}
-  - {fileID: 1082966902}
-  - {fileID: 950130356}
-  - {fileID: 234320096}
-  - {fileID: 2049788305}
-  - {fileID: 925495190}
-  - {fileID: 247948423}
-  - {fileID: 1538626322}
-  - {fileID: 1078042890}
-  - {fileID: 1421493325}
-  - {fileID: 442936019}
-  - {fileID: 1744700803}
-  - {fileID: 886997121}
-  - {fileID: 313235246}
-  - {fileID: 1838288618}
-  - {fileID: 1991551226}
-  - {fileID: 392570543}
-  - {fileID: 1683186357}
-  - {fileID: 131304916}
-  - {fileID: 424615813}
-  - {fileID: 1152839183}
-  - {fileID: 2067989522}
-  - {fileID: 1431927662}
-  - {fileID: 789468482}
-  - {fileID: 414515145}
-  - {fileID: 1832411527}
-  - {fileID: 73391692}
-  - {fileID: 1885928636}
+  - {fileID: 1924111654}
+  - {fileID: 2043098518}
+  - {fileID: 1371512188}
+  - {fileID: 1540122478}
+  - {fileID: 583345357}
+  - {fileID: 84261564}
+  - {fileID: 1534734440}
+  - {fileID: 726292319}
+  - {fileID: 1932171711}
+  - {fileID: 1936046228}
+  - {fileID: 1305977571}
+  - {fileID: 608145662}
+  - {fileID: 1393195186}
+  - {fileID: 737329109}
+  - {fileID: 804835120}
+  - {fileID: 1627576350}
+  - {fileID: 1213598426}
+  - {fileID: 135369712}
+  - {fileID: 645038}
+  - {fileID: 2060084969}
+  - {fileID: 372950956}
+  - {fileID: 259058712}
+  - {fileID: 1413861260}
+  - {fileID: 1730246572}
+  - {fileID: 1289400636}
+  - {fileID: 2031374148}
+  - {fileID: 1628068776}
+  - {fileID: 1311551365}
+  - {fileID: 2099845697}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2070499437
@@ -55296,6 +55234,68 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6419187236850804161, guid: e05ae677c7b3bc546bd36b488586fb0c, type: 3}
   m_PrefabInstance: {fileID: 2097033816}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2099845696
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2069912634}
+    m_Modifications:
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454418320751103612, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+      propertyPath: m_Name
+      value: House_01_LITE Sensei Edited_901041 (28)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+--- !u!4 &2099845697 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 607991880146035242, guid: 9f136425ca6bbe547972adbae781d151, type: 3}
+  m_PrefabInstance: {fileID: 2099845696}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2109217158
 GameObject:
