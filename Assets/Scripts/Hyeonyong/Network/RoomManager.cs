@@ -20,6 +20,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] Toggle friendlyFire;
     [SerializeField] Transform playerInfoTab;
     [SerializeField] GameObject playerInfo;
+    public FryingPanLogic fryingPanLogic;
 
     Hashtable readyTable = new Hashtable();
     Hashtable roomTable = new Hashtable();

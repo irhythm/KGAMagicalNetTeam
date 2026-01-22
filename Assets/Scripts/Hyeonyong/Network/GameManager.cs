@@ -55,8 +55,9 @@ public class GameManager : PhotonSingleton<GameManager>
     IEnumerator SpawnPlayerWhenConnected() //네트워크 게임은, 라이프 사이클도 중요하고, 또 네트워크 지연까지 고려해야 함
     {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
-
-        GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity, 0);
+        yield return new WaitUntil(()=>RoundManager.Instance!=null);
+        //GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity, 0);
+        GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, RoundManager.Instance.spawnPos[PhotonNetwork.LocalPlayer.ActorNumber].position, Quaternion.identity, 0);
 
         //260121 다른 사람 변신 상태 유지
         Player[] players = PhotonNetwork.PlayerList;//방 속 사람을 받아옴
@@ -69,12 +70,15 @@ public class GameManager : PhotonSingleton<GameManager>
             {
                 PhotonView pv = playerTransformationController.GetComponent<PhotonView>();
                 if (pv.IsMine)
+                {
+                    RoomManager.Instance?.fryingPanLogic.AddTarget(playerTransformationController.gameObject.transform);
                     continue;
-
+                }
                 if (pv.OwnerActorNr == p.ActorNumber)
                 {
                     Debug.Log("트랜스폼 컨트롤러 찾았다.");
                     myCheckWizard = playerTransformationController;
+                    RoomManager.Instance?.fryingPanLogic.AddTarget(myCheckWizard.gameObject.transform);
                     break;
                 }
             }
