@@ -30,11 +30,11 @@ public class GameManager : PhotonSingleton<GameManager>
 
     [SerializeField] int needMoneyCount = 5;
 
-    void Start()//¾ÀÀÌ ³Ê¹« »¡¸® ºÒ·¯¿ÍÁ®¼­ ½ºÅ¸Æ®°¡ room µé¾î°¡±â Àü¿¡ È£ÃâµÇ´Â °ÍÀÌ ¹®Á¦ÀÓ
+    void Start()//ì”¬ì´ ë„ˆë¬´ ë¹¨ë¦¬ ë¶ˆëŸ¬ì™€ì ¸ì„œ ìŠ¤íƒ€íŠ¸ê°€ room ë“¤ì–´ê°€ê¸° ì „ì— í˜¸ì¶œë˜ëŠ” ê²ƒì´ ë¬¸ì œì„
     {
         //pv=GetComponent<PhotonView>();
-        //Instance = this;//½ÇÃ¼µµ ¾ø°í ±×³É ½ºÅ©¸³Æ®·Î¸¸ Á¸ÀçÇØ¼­ °£´ÜÈ÷ Á¦ÀÛ
-        if (PlayerManager.LocalPlayerInstance == null)//ÇÃ·¹ÀÌ¾î ¸Å´ÏÀú°¡ ÀÌ¹Ì ÇÃ·¹ÀÌ¾î Á¤º¸¸¦ µé°íÀÖÀ» °æ¿ì ÆĞ½º
+        //Instance = this;//ì‹¤ì²´ë„ ì—†ê³  ê·¸ëƒ¥ ìŠ¤í¬ë¦½íŠ¸ë¡œë§Œ ì¡´ì¬í•´ì„œ ê°„ë‹¨íˆ ì œì‘
+        if (PlayerManager.LocalPlayerInstance == null)//í”Œë ˆì´ì–´ ë§¤ë‹ˆì €ê°€ ì´ë¯¸ í”Œë ˆì´ì–´ ì •ë³´ë¥¼ ë“¤ê³ ìˆì„ ê²½ìš° íŒ¨ìŠ¤
         {
             StartCoroutine(SpawnPlayerWhenConnected());
         }
@@ -52,15 +52,22 @@ public class GameManager : PhotonSingleton<GameManager>
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    IEnumerator SpawnPlayerWhenConnected() //³×Æ®¿öÅ© °ÔÀÓÀº, ¶óÀÌÇÁ »çÀÌÅ¬µµ Áß¿äÇÏ°í, ¶Ç ³×Æ®¿öÅ© Áö¿¬±îÁö °í·ÁÇØ¾ß ÇÔ
+    IEnumerator SpawnPlayerWhenConnected() //ë„¤íŠ¸ì›Œí¬ ê²Œì„ì€, ë¼ì´í”„ ì‚¬ì´í´ë„ ì¤‘ìš”í•˜ê³ , ë˜ ë„¤íŠ¸ì›Œí¬ ì§€ì—°ê¹Œì§€ ê³ ë ¤í•´ì•¼ í•¨
     {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
         yield return new WaitUntil(()=>RoundManager.Instance!=null);
         //GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, new Vector3(0f, 1f, 0f), Quaternion.identity, 0);
-        GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, RoundManager.Instance.spawnPos[PhotonNetwork.LocalPlayer.ActorNumber].position, Quaternion.identity, 0);
+        int spawnPosNum = PhotonNetwork.LocalPlayer.ActorNumber -1 ;
+        int maxSpawnPosCount = RoundManager.Instance.spawnPos.Length;
+        while (spawnPosNum >= maxSpawnPosCount)
+        {
+            spawnPosNum -= maxSpawnPosCount;
+        }
 
-        //260121 ´Ù¸¥ »ç¶÷ º¯½Å »óÅÂ À¯Áö
-        Player[] players = PhotonNetwork.PlayerList;//¹æ ¼Ó »ç¶÷À» ¹Ş¾Æ¿È
+        GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, RoundManager.Instance.spawnPos[spawnPosNum].position, Quaternion.identity, 0);
+
+        //260121 ë‹¤ë¥¸ ì‚¬ëŒ ë³€ì‹  ìƒíƒœ ìœ ì§€
+        Player[] players = PhotonNetwork.PlayerList;//ë°© ì† ì‚¬ëŒì„ ë°›ì•„ì˜´
 
         PlayerTransformationController[] checkWizard = GameObject.FindObjectsByType<PlayerTransformationController>(FindObjectsSortMode.None);
         foreach (var p in players)
@@ -76,31 +83,31 @@ public class GameManager : PhotonSingleton<GameManager>
                 }
                 if (pv.OwnerActorNr == p.ActorNumber)
                 {
-                    Debug.Log("Æ®·£½ºÆû ÄÁÆ®·Ñ·¯ Ã£¾Ò´Ù.");
+                    Debug.Log("íŠ¸ëœìŠ¤í¼ ì»¨íŠ¸ë¡¤ëŸ¬ ì°¾ì•˜ë‹¤.");
                     myCheckWizard = playerTransformationController;
                     RoomManager.Instance?.fryingPanLogic.AddTarget(myCheckWizard.gameObject.transform);
                     break;
                 }
             }
 
-            Debug.Log("Æ®·£½ºÆû ÄÁÆ®·Ñ·¯  p°ª ±â¹İ ¹Ş¾Æ¿À±â ½Ãµµ.");
+            Debug.Log("íŠ¸ëœìŠ¤í¼ ì»¨íŠ¸ë¡¤ëŸ¬  pê°’ ê¸°ë°˜ ë°›ì•„ì˜¤ê¸° ì‹œë„.");
 
             if (p.CustomProperties.TryGetValue("ISWIZARD", out object isWizard))
             {
                 //myCheckWizard?.
                 if ((bool)isWizard)
                 {
-                    Debug.Log("Æ®·£½ºÆû ÄÁÆ®·Ñ·¯ °ªÀ» ¹Ş¾Æ ½ÇÇàÇÑ´Ù");
+                    Debug.Log("íŠ¸ëœìŠ¤í¼ ì»¨íŠ¸ë¡¤ëŸ¬ ê°’ì„ ë°›ì•„ ì‹¤í–‰í•œë‹¤");
                     myCheckWizard?.TransformToWizard();
                 }
                 else
                 {
-                    Debug.Log("Æ®·£½ºÆû ÄÁÆ®·Ñ·¯ °ªÀÌ False ÀÌ´Ù");
+                    Debug.Log("íŠ¸ëœìŠ¤í¼ ì»¨íŠ¸ë¡¤ëŸ¬ ê°’ì´ False ì´ë‹¤");
                 }
             }
             else
             {
-                Debug.Log("Æ®·£½ºÆû ÄÁÆ®·Ñ·¯ ¹ŞÁö ¸øÇß´Ù");
+                Debug.Log("íŠ¸ëœìŠ¤í¼ ì»¨íŠ¸ë¡¤ëŸ¬ ë°›ì§€ ëª»í–ˆë‹¤");
             }
         }
         playerTable["ISWIZARD"] = false;
@@ -115,14 +122,14 @@ public class GameManager : PhotonSingleton<GameManager>
         InitMoneyCountAndStore();
     }
 
-    //´ÙÀ½ ¾ÀÀ» ³Ñ¾î°¥¼ö ÀÖ´ÂÁö È®ÀÎÇÏ´Â ÄÚµå
+    //ë‹¤ìŒ ì”¬ì„ ë„˜ì–´ê°ˆìˆ˜ ìˆëŠ”ì§€ í™•ì¸í•˜ëŠ” ì½”ë“œ
     public bool CheckMoneyCount()
     {
-        //ÇöÀç ¾ÀÀÌ »óÁ¡ ¾ÀÀÌ¸é ÀçÈ­ Ã¼Å© ÇÊ¿ä ¾øÀ½
+        //í˜„ì¬ ì”¬ì´ ìƒì  ì”¬ì´ë©´ ì¬í™” ì²´í¬ í•„ìš” ì—†ìŒ
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("OnStore", out object onStore))
         {
             bool checkStore = (bool)onStore;
-            Debug.Log("»óÁ¡ ¿©ºÎ Ã¼Å© : "+checkStore);
+            Debug.Log("ìƒì  ì—¬ë¶€ ì²´í¬ : "+checkStore);
             if (checkStore)
                 return true;
         }
@@ -153,22 +160,22 @@ public class GameManager : PhotonSingleton<GameManager>
         }
         else
         {
-            Debug.Log("ºÒ·¯¿À±â ½ÇÆĞ");
+            Debug.Log("ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨");
             return -1;
         }
     }
 
-    //°ÔÀÓ ¶ó¿îµå ³Ñ¾î°¥ °æ¿ì ÇØ´ç ÆÀ ÀçÈ­¸¦ ÀÏÁ¤ ¼ö ¸¸Å­ ±ğ´Â ÄÚµå (»óÁ¡¾À¿¡¼­´Â ÀçÈ­¸¦ ±ğÁö ¾Ê¾Æ¾ß ÇÔ) <- ÇØ´ç ÄÚµå´Â ÇÃ·¹ÀÌ¾î ¼ÒÈ¯ Àü¿¡ ½ÇÇà
+    //ê²Œì„ ë¼ìš´ë“œ ë„˜ì–´ê°ˆ ê²½ìš° í•´ë‹¹ íŒ€ ì¬í™”ë¥¼ ì¼ì • ìˆ˜ ë§Œí¼ ê¹ëŠ” ì½”ë“œ (ìƒì ì”¬ì—ì„œëŠ” ì¬í™”ë¥¼ ê¹ì§€ ì•Šì•„ì•¼ í•¨) <- í•´ë‹¹ ì½”ë“œëŠ” í”Œë ˆì´ì–´ ì†Œí™˜ ì „ì— ì‹¤í–‰
     public void InitMoneyCountAndStore()
     {
         int result = -1;
 
-        //ÇØ´ç ¾ÀÀº ¾ÀÀ» ³Ñ¾î°¡°í ³ª¼­ ¹ßµ¿ÇÔ <- ±×·¯¹Ç·Î °ÔÀÓ -> »óÁ¡ (¹ßµ¿) »óÁ¡ -> °ÔÀÓ (¹ßµ¿ X) Áï ÇöÀç »óÁ¡¾ÀÀÌ¾î¾ß ¹ßµ¿ ±Ùµ¥ ·ë ÇÁ·ÎÆÛÆ¼°¡ ¾÷µ¥ÀÌÆ®°¡ ²¿¿©¼­ÀÎÁö ÇöÀç »óÁ¡¾À ¾Æ´Ò °æ¿ì¿¡ ¹ßµ¿ÇÔ
-        //º¸´Ï±î ¾ÀÀ» ³Ñ¾î°¡°í ³ª¼­ Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼¸¦ º¯°æÇÔ ÀÌ·Î ÀÎÇØ ²¿ÀÓ Çö»ó ¹ßµ¿
-        //±×³É ¿©±â¼­ ½ºÅä¾îµµ °°ÀÌ ÃÊ±âÈ­ ½ÃÅ°ÀÚ
+        //í•´ë‹¹ ì”¬ì€ ì”¬ì„ ë„˜ì–´ê°€ê³  ë‚˜ì„œ ë°œë™í•¨ <- ê·¸ëŸ¬ë¯€ë¡œ ê²Œì„ -> ìƒì  (ë°œë™) ìƒì  -> ê²Œì„ (ë°œë™ X) ì¦‰ í˜„ì¬ ìƒì ì”¬ì´ì–´ì•¼ ë°œë™ ê·¼ë° ë£¸ í”„ë¡œí¼í‹°ê°€ ì—…ë°ì´íŠ¸ê°€ ê¼¬ì—¬ì„œì¸ì§€ í˜„ì¬ ìƒì ì”¬ ì•„ë‹ ê²½ìš°ì— ë°œë™í•¨
+        //ë³´ë‹ˆê¹Œ ì”¬ì„ ë„˜ì–´ê°€ê³  ë‚˜ì„œ ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹°ë¥¼ ë³€ê²½í•¨ ì´ë¡œ ì¸í•´ ê¼¬ì„ í˜„ìƒ ë°œë™
+        //ê·¸ëƒ¥ ì—¬ê¸°ì„œ ìŠ¤í† ì–´ë„ ê°™ì´ ì´ˆê¸°í™” ì‹œí‚¤ì
         //if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("MoneyCount", out object count))
         //{
-        //    Debug.Log("ÆÀ ÀçÈ­ ¹Ş¾Æ¿È");
+        //    Debug.Log("íŒ€ ì¬í™” ë°›ì•„ì˜´");
         //    result = (int)count;
 
         //}
@@ -177,10 +184,10 @@ public class GameManager : PhotonSingleton<GameManager>
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("OnStore", out object onStore))
         {
             bool checkStore = (bool)onStore;
-            Debug.Log("ÇöÀç »óÁ¡ : " + !checkStore);
+            Debug.Log("í˜„ì¬ ìƒì  : " + !checkStore);
             if (!checkStore)
             {
-                //Ã³À½ ½ÃÀÛÇßÀ» ¶§ ´ëºñ¿ë
+                //ì²˜ìŒ ì‹œì‘í–ˆì„ ë•Œ ëŒ€ë¹„ìš©
                 if (result >= needMoneyCount)
                 {
                     result = result - needMoneyCount;
@@ -199,7 +206,7 @@ public class GameManager : PhotonSingleton<GameManager>
         }
         else
         {
-            Debug.Log("»óÁ¡ ¿©ºÎ ÁöÁ¤");
+            Debug.Log("ìƒì  ì—¬ë¶€ ì§€ì •");
             if (PhotonNetwork.IsMasterClient)
             {
                 roomTable["OnStore"] = false;
@@ -211,11 +218,11 @@ public class GameManager : PhotonSingleton<GameManager>
         if (UIManager.Instance.moneyCount != null)
         {
             UIManager.Instance.moneyCount.text = result + "";
-            Debug.Log("ÆÀ ÀçÈ­ Ç¥½Ã");
+            Debug.Log("íŒ€ ì¬í™” í‘œì‹œ");
         }
         else
         {
-            Debug.Log("ÆÀ ÀçÈ­ Ç¥½Ã ½ÇÆĞ");
+            Debug.Log("íŒ€ ì¬í™” í‘œì‹œ ì‹¤íŒ¨");
 
         }
     }
@@ -253,8 +260,8 @@ public class GameManager : PhotonSingleton<GameManager>
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            //ÇØ´ç ÄÚµå´Â ÇÃ·¹ÀÌ¾î°¡ ¼ÒÈ¯µÉ ¶§¸¶´Ù ½ÇÇàµÇ¾î¾ß ÇÔ(¸Å¹ø »ì¾Æ³ª´Ï±î ·ë ³»ÀÇ ÇÃ·¹ÀÌ¾î ¼ö ¸¸Å­ ÃÊ±âÈ­)
-            //Âü°í·Î ÇØ´ç ÄÚµå´Â ÇÃ·¹ÀÌ¾î°¡ disable(³ª°¥ °æ¿ì) ¶§µµ ½ÇÇàµÇ¾î¾ß ÇÔ
+            //í•´ë‹¹ ì½”ë“œëŠ” í”Œë ˆì´ì–´ê°€ ì†Œí™˜ë  ë•Œë§ˆë‹¤ ì‹¤í–‰ë˜ì–´ì•¼ í•¨(ë§¤ë²ˆ ì‚´ì•„ë‚˜ë‹ˆê¹Œ ë£¸ ë‚´ì˜ í”Œë ˆì´ì–´ ìˆ˜ ë§Œí¼ ì´ˆê¸°í™”)
+            //ì°¸ê³ ë¡œ í•´ë‹¹ ì½”ë“œëŠ” í”Œë ˆì´ì–´ê°€ disable(ë‚˜ê°ˆ ê²½ìš°) ë•Œë„ ì‹¤í–‰ë˜ì–´ì•¼ í•¨
             roomTable["PlayerCount"] = PhotonNetwork.CurrentRoom.PlayerCount;
             PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
         }
@@ -276,7 +283,7 @@ public class GameManager : PhotonSingleton<GameManager>
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        Debug.Log(otherPlayer.NickName + "´ÔÀÌ °ÔÀÓÀ» ¶°³µ½À´Ï´Ù.");
+        Debug.Log(otherPlayer.NickName + "ë‹˜ì´ ê²Œì„ì„ ë– ë‚¬ìŠµë‹ˆë‹¤.");
         CheckInGamePlayer();
     }
 
@@ -299,7 +306,7 @@ public class GameManager : PhotonSingleton<GameManager>
     {
         if (!CheckMoneyCount())
         {
-            Debug.Log("ÀçÈ­·®À» ÃæÁ·½ÃÅ°Áö ¸øÇÔ");
+            Debug.Log("ì¬í™”ëŸ‰ì„ ì¶©ì¡±ì‹œí‚¤ì§€ ëª»í•¨");
             return;
         }
        
@@ -310,9 +317,9 @@ public class GameManager : PhotonSingleton<GameManager>
         }
         else
         {
-            Debug.Log("Å¬¸®¾î ÀÎ¿ø ¼ö¸¦ °¡Á®¿ÀÁö ¸øÇÔ");
+            Debug.Log("í´ë¦¬ì–´ ì¸ì› ìˆ˜ë¥¼ ê°€ì ¸ì˜¤ì§€ ëª»í•¨");
         }
-        Debug.Log($"ÀÎ¿ø {player}/{maxPlayer} ");
+        Debug.Log($"ì¸ì› {player}/{maxPlayer} ");
         if (player < maxPlayer)
             return;
 
@@ -331,7 +338,7 @@ public class GameManager : PhotonSingleton<GameManager>
                     {
                         if (PhotonNetwork.IsMasterClient)
                         {
-                            //°ÔÀÓ¾ÀÀ¸·Î ÀÌµ¿
+                            //ê²Œì„ì”¬ìœ¼ë¡œ ì´ë™
                             PhotonNetwork.LoadLevel("GameMapOne");
                             //StartCoroutine(InitMoneyCountAndStore());
                             roomTable["GameRound"] = curRound;
@@ -348,14 +355,14 @@ public class GameManager : PhotonSingleton<GameManager>
                 }
                 else
                 {
-                    Debug.Log("»óÁ¡ ¿©ºÎ¸¦ °¡Á®¿ÀÁö ¸øÇÔ");
+                    Debug.Log("ìƒì  ì—¬ë¶€ë¥¼ ê°€ì ¸ì˜¤ì§€ ëª»í•¨");
                 }
             }
             else
             {
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    //¸ğµç ¶ó¿îµå¸¦ ¼ÒºñÇÏ¿´À¸¹Ç·Î Win
+                    //ëª¨ë“  ë¼ìš´ë“œë¥¼ ì†Œë¹„í•˜ì˜€ìœ¼ë¯€ë¡œ Win
                     PhotonNetwork.LoadLevel("Win");
                     ResetCustomProperty();
                 }
@@ -363,7 +370,7 @@ public class GameManager : PhotonSingleton<GameManager>
         }
         else
         {
-            Debug.Log("¶ó¿îµå Á¤º¸¸¦ °¡Á®¿ÀÁö ¸øÇÔ");
+            Debug.Log("ë¼ìš´ë“œ ì •ë³´ë¥¼ ê°€ì ¸ì˜¤ì§€ ëª»í•¨");
         }
     }
 
@@ -377,14 +384,14 @@ public class GameManager : PhotonSingleton<GameManager>
 
     public void ResetCustomProperty()
     {
-        //¸¶½ºÅÍ°¡ Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼ ¸ñ·Ïµé ÃÊ±âÈ­
+        //ë§ˆìŠ¤í„°ê°€ ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹° ëª©ë¡ë“¤ ì´ˆê¸°í™”
         if (!PhotonNetwork.IsMasterClient)
             return;
-        //¾îÂ÷ÇÇ ÇÃ·¹ÀÌ¾î Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼´Â ¾À ÀÌµ¿½Ã roommanager¿¡¼­ ÃÊ±âÈ­µÈ´Ù ±×·¯¹Ç·Î room¸¸ ÃÊ±âÈ­
+        //ì–´ì°¨í”¼ í”Œë ˆì´ì–´ ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹°ëŠ” ì”¬ ì´ë™ì‹œ roommanagerì—ì„œ ì´ˆê¸°í™”ëœë‹¤ ê·¸ëŸ¬ë¯€ë¡œ roomë§Œ ì´ˆê¸°í™”
         //foreach (var key in roomTable.Keys)
         //{
         //    roomTable.Remove(key);
-        //} // <- ÇØ´ç ¹æ½ÄÀ¸·Î ÃÊ±âÈ­°¡ Á¤»óÀûÀ¸·Î ÀÌ·ç¾îÁöÁö ¾ÊÀ½
+        //} // <- í•´ë‹¹ ë°©ì‹ìœ¼ë¡œ ì´ˆê¸°í™”ê°€ ì •ìƒì ìœ¼ë¡œ ì´ë£¨ì–´ì§€ì§€ ì•ŠìŒ
         roomTable["MoneyCount"] = 0;
         roomTable["OnStore"] = true;
         roomTable["GameRound"] = 2;
