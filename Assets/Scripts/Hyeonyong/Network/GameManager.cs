@@ -63,9 +63,14 @@ public class GameManager : PhotonSingleton<GameManager>
         {
             spawnPosNum -= maxSpawnPosCount;
         }
+        Debug.Log("소환했다");
 
-        GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, RoundManager.Instance.spawnPos[spawnPosNum].position, Quaternion.identity, 0);
-
+        GameObject player = null;
+        if (LocalPlayer == null)
+        {
+            player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, RoundManager.Instance.spawnPos[spawnPosNum].position, Quaternion.identity, 0);
+        }
+        
         //260121 다른 사람 변신 상태 유지
         Player[] players = PhotonNetwork.PlayerList;//방 속 사람을 받아옴
 
@@ -254,6 +259,18 @@ public class GameManager : PhotonSingleton<GameManager>
                 }
             }
         }
+
+        if (propertiesThatChanged.ContainsKey("PlayerCount"))
+        {
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("PlayerCount", out object count))
+            {
+                if((int)count <= 0)
+                {
+                    PhotonNetwork.LoadLevel("Lose");
+                    ResetCustomProperty();
+                }
+            }
+        }
     }
 
     public void CheckInGamePlayer()
@@ -295,11 +312,17 @@ public class GameManager : PhotonSingleton<GameManager>
 
     public void CheckDie()
     {
+        if (!(PhotonNetwork.IsMasterClient))
+        {
+            return;
+        }
+        int curPlayerCount = 0;
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("PlayerCount", out object count))
         {
-            roomTable["PlayerCount"] = (int)count - 1;
+            curPlayerCount = (int)count - 1;
+            roomTable["PlayerCount"] = curPlayerCount;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
         }
-        PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
     }
 
     public void CheckRoundClear(int player)
@@ -328,7 +351,6 @@ public class GameManager : PhotonSingleton<GameManager>
             int curRound = (int)round;
             curRound--;
 
-            //PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
             if (curRound > 0)
             {
                 if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("OnStore", out object onStore))
@@ -338,19 +360,14 @@ public class GameManager : PhotonSingleton<GameManager>
                     {
                         if (PhotonNetwork.IsMasterClient)
                         {
-                            //게임씬으로 이동
                             PhotonNetwork.LoadLevel("GameMapOne");
-                            //StartCoroutine(InitMoneyCountAndStore());
                             roomTable["GameRound"] = curRound;
                         }
                     }
                     else
                     {
                         if (PhotonNetwork.IsMasterClient)
-                        {
                             PhotonNetwork.LoadLevel("StoreMapSensei");
-                            //StartCoroutine(InitMoneyCountAndStore());
-                        }
                     }
                 }
                 else
@@ -395,6 +412,7 @@ public class GameManager : PhotonSingleton<GameManager>
         roomTable["MoneyCount"] = 0;
         roomTable["OnStore"] = true;
         roomTable["GameRound"] = 2;
+        roomTable["PlayerCount"] = PhotonNetwork.CurrentRoom.PlayerCount;
         //roomTable["OnStart"] = false;
         PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
     }

@@ -34,7 +34,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject roomTab;
     [SerializeField] private InputActionReference tabInput;
 
-    [SerializeField] private GameObject playerPrefab_Room;
+    public GameObject player;
 
     private void Awake()
     {
@@ -118,19 +118,12 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             tabInput.action.performed += OpenRoomTab;
         }
-
-        //if (PlayerManager.LocalPlayerInstance == null)//플레이어 매니저가 이미 플레이어 정보를 들고있을 경우 패스
-        //{
-        //    StartCoroutine(SpawnPlayerWhenConnected());
-        //}
     }
-    IEnumerator SpawnPlayerWhenConnected() //네트워크 게임은, 라이프 사이클도 중요하고, 또 네트워크 지연까지 고려해야 함
+
+    public void SetPlayer(GameObject player)
     {
-        yield return new WaitUntil(() => PhotonNetwork.InRoom);
-
-        GameObject player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab_Room.name, new Vector3(20f, 2f, 30f), Quaternion.identity, 0);
+        this.player = player;
     }
-
 
     //해당 코드 실행시 게임 시작 버튼에 치명적인 버그 발생
     //private override void OnDisable()
@@ -178,6 +171,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             if (PhotonNetwork.IsMasterClient == true)
             {
+                PhotonNetwork.Destroy(player);
                 PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
 
             }

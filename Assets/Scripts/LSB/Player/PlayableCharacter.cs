@@ -157,6 +157,7 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
 
             StateMachine.InitState(MoveState);
         }
+        OnDie += GameManager.Instance.CheckDie;
     }
 
     private void OnDisable()
@@ -166,6 +167,7 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
             // 메모리 누수 방지용 구독 해제
             UnsubscribeInputEvents();
         }
+        OnDie -= GameManager.Instance.CheckDie;
     }
 
     private void Update()
