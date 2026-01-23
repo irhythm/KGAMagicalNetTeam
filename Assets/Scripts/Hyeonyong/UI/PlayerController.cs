@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviourPun, IDamageable
+public class PlayerController : MonoBehaviourPun, IDamageable, IExplosion
 {
     [SerializeField] private InputActionReference testTakeDamageAction;
     PhotonView pv;
@@ -104,11 +104,39 @@ public class PlayerController : MonoBehaviourPun, IDamageable
         GameManager.Instance.PlusMoneyCount();
     }
 
+
+    public void OnExplosion(Vector3 explosionPos, FireballSO data, int attackerActorNr)
+    {
+        if (pv.OwnerActorNr == attackerActorNr) return;
+        if (!IsFriendlyFireOn()) return;
+
+        if (playableCharacter.Rigidbody != null)
+        {
+            playableCharacter.Rigidbody.AddExplosionForce(data.knockbackForce, explosionPos, data.explosionRadius, data.explosionUpward, ForceMode.Impulse);
+        }
+
+        if (pv.IsMine)
+        {
+            TakeDamage(data.damage);
+        }
+    }
+
     public void TakeDamage(float takeDamage)
     {
         if (!pv.IsMine) return;
         playableCharacter.OnAttacked(takeDamage);
     }
+
+    private bool IsFriendlyFireOn()
+    {
+        if (PhotonNetwork.CurrentRoom != null &&
+            PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("FriendlyFire", out object isFF))
+        {
+            return (bool)isFF;
+        }
+        return false;
+    }
+
 
     public void SetPlayerInfo()
     {

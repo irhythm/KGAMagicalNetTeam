@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(PhotonView))]
 [RequireComponent(typeof(BzRagdoll))]
-public class HumanoidRagdollController : MonoBehaviourPun
+public class HumanoidRagdollController : MonoBehaviourPun, IExplosion
 {
     [Header("컴포넌트부착")]
     [SerializeField] private BzRagdoll bzRagdoll;
@@ -168,5 +168,14 @@ public class HumanoidRagdollController : MonoBehaviourPun
             baseAI.IsKnockedDown = false;
         } 
         isRagdollActive = false;
+    }
+
+    public void OnExplosion(Vector3 explosionPos, FireballSO data, int attackerActorNr)
+    {
+        Vector3 force = transform.forward * data.knockbackForce;
+        ApplyRagdoll(force);
+
+        if(baseAI != null)
+            baseAI.TakeDamage(data.damage);
     }
 }
