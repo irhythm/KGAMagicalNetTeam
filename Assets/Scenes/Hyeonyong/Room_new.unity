@@ -9880,7 +9880,7 @@ MonoBehaviour:
   bgmSound: {fileID: 1272325734}
   bgmSoundMute: {fileID: 675947744}
   sfxSound: {fileID: 1768908814}
-  sfxSoundMute: {fileID: 876037699}
+  sfxSoundMute: {fileID: 589303065}
   voiceChatSound: {fileID: 447360023}
   voiceChatSoundMute: {fileID: 876037699}
   micSound: {fileID: 913777466}

@@ -20,13 +20,15 @@ MonoBehaviour:
   cooldown: 5
   isDisposable: 0
   damage: 5
-  spawnOffset: {x: 0, y: 0, z: 0}
   knockbackForce: 200
+  spawnOffset: {x: 0, y: 0, z: 0}
+  magicSound: {fileID: 8300000, guid: 5b6935c78d4a801438cc45ac1a8b4680, type: 3}
   speed: 80
   startSpeedMul: 0.2
   maxSpeedMul: 3
   accelerationTime: 2
   explosionEffectPrefab: {fileID: 1879798220002124, guid: 8c988011ae9fc604a8a3761a0ac3d8a8, type: 3}
+  explosionSound: {fileID: 8300000, guid: 34a1e0dd450b03343bb4fd0fcefccce7, type: 3}
   explosionRadius: 2
   explosionUpward: 1
   explosionLayer:

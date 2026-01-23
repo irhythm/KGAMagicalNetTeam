@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: -3380060991827195814}
   - component: {fileID: 2313500061498276488}
   - component: {fileID: 5837470473743272608}
-  - component: {fileID: 4585291283266281434}
   m_Layer: 0
   m_Name: FireballRed
   m_TagString: Untagged
@@ -140,22 +139,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4585291283266281434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 463702073341317402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa5c1e37409a9344a344c0468db383d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PolygonArsenal.PolygonSoundSpawn
-  prefabSound: {fileID: 1297775994297274, guid: 42f4d35ea48960f4cbadc373e47bdc4d, type: 3}
-  destroyWhenDone: 1
-  soundPrefabIsChild: 0
-  pitchRandomMultiplier: 1.2
 --- !u!1 &3348708037604070035
 GameObject:
   m_ObjectHideFlags: 0
