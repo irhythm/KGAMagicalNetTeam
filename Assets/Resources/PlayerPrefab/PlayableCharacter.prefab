@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 7306091583133949098}
   - component: {fileID: 3537390183694864578}
   - component: {fileID: -6708908734006990876}
+  - component: {fileID: 6959001058618340752}
   m_Layer: 6
   m_Name: PlayableCharacter
   m_TagString: Player
@@ -621,6 +622,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: PhotonVoice::Photon.Voice.Unity.UtilityScripts.MicAmplifier
   amplificationFactor: 1
+--- !u!114 &6959001058618340752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940719953895527930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81e787b957a5e6b46a6bf854dc82f8b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerNoiseEmitter
+  runNoiseRadius: 10
+  sprintNoiseRadius: 20
+  guardLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  noiseInterval: 0.4
 --- !u!1001 &317560795834362853
 PrefabInstance:
   m_ObjectHideFlags: 0
