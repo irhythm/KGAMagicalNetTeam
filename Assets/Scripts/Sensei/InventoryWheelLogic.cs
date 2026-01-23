@@ -7,20 +7,20 @@ using UnityEngine.InputSystem;
 using System.Collections;
 public class InventoryWheelLogic : MonoBehaviour
 {
-    //[SerializeField] List<Transform> _wheelSlotPositions; // ÀÎº¥Åä¸® ÈÙ ½½·Ôµé
-    [SerializeField] List<Image> _wheelSlots; // ÀÎº¥Åä¸® ÈÙ ½½·Ôµé¿¡ µé¾î°¥ ¾ÆÀÌÅÛµé
-    [SerializeField] List<TextMeshProUGUI> _wheelSlotCounts; // ÀÎº¥Åä¸® ÈÙ ½½·Ôµé¿¡ µé¾î°¥ ¾ÆÀÌÅÛ °¹¼öµé
+    //[SerializeField] List<Transform> _wheelSlotPositions; // ì¸ë²¤í† ë¦¬ íœ  ìŠ¬ë¡¯ë“¤
+    [SerializeField] List<Image> _wheelSlots; // ì¸ë²¤í† ë¦¬ íœ  ìŠ¬ë¡¯ë“¤ì— ë“¤ì–´ê°ˆ ì•„ì´í…œë“¤
+    [SerializeField] List<TextMeshProUGUI> _wheelSlotCounts; // ì¸ë²¤í† ë¦¬ íœ  ìŠ¬ë¡¯ë“¤ì— ë“¤ì–´ê°ˆ ì•„ì´í…œ ê°¯ìˆ˜ë“¤
 
-    //260115 ÃÖÁ¤¿í ÀÎº¥Åä¸® UI °ü·Ã Ãß°¡
-    [Header("ÀÎº¥Åä¸® UI Sensei")]
-    [SerializeField] List<InputActionReference> _inventoryInputActions; //0Àº q, 1Àº e
+    //260115 ìµœì •ìš± ì¸ë²¤í† ë¦¬ UI ê´€ë ¨ ì¶”ê°€
+    [Header("ì¸ë²¤í† ë¦¬ UI Sensei")]
+    [SerializeField] List<InputActionReference> _inventoryInputActions; //0ì€ q, 1ì€ e
     [SerializeField] GameObject _inventoryUI;
     [SerializeField] InventoryWheelLogic _inventoryWheelLogic;
     public InventoryWheelLogic InventoryWheel => _inventoryWheelLogic;
     bool _isInventoryUIOn = false;
     public bool IsInventoryUIOn => _isInventoryUIOn;
 
-    int _qOrE = 0; //0Àº q, 1Àº e
+    int _qOrE = 0; //0ì€ q, 1ì€ e
 
 
 
@@ -28,7 +28,7 @@ public class InventoryWheelLogic : MonoBehaviour
 
     void OpenInventory(bool left)
     {
-        Debug.Log("ÀÎº¥Åä¸® ¿­¸²");
+        Debug.Log("ì¸ë²¤í† ë¦¬ ì—´ë¦¼");
         if (_inventoryUI == null)
             return;
         if (!_isInventoryUIOn)
@@ -53,20 +53,24 @@ public class InventoryWheelLogic : MonoBehaviour
     {
         yield return new WaitUntil(() => GameManager.Instance != null && GameManager.Instance.LocalPlayer != null);
         yield return new WaitUntil(() => GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>() != null);
-
+        GameManager.Instance.InventoryWheel = this;
         //yield return new WaitUntil(() => ourPlayerReference != null && ourPlayerReference.GetComponent<PlayerInputHandler>() != null);
 
         GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnSelectQorEEvent += OpenInventory;
         
-        Debug.Log("ÀÎº¥Åä¸® ÈÙ ·ÎÁ÷ ½ºÅ¸Æ®¿¡¼­ ÇÃ·¹ÀÌ¾î ·¹ÆÛ·±½º ÇÒ´çµÊ");
+        Debug.Log("ì¸ë²¤í† ë¦¬ íœ  ë¡œì§ ìŠ¤íƒ€íŠ¸ì—ì„œ í”Œë ˆì´ì–´ ë ˆí¼ëŸ°ìŠ¤ í• ë‹¹ë¨");
+        foreach (var item in GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.Inventory)
+        {
+            Debug.Log("ì¸ë²¤í† ë¦¬ ì•„ì´í…œë“¤: " + item.Key.itemName + " , " + item.Value);
+        }
         GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnDeselectQorEEvent += CloseInventory;
-        //260115 ÃÖÁ¤¿í ÀÎº¥Åä¸® UI °ü·Ã Ãß°¡
+        //260115 ìµœì •ìš± ì¸ë²¤í† ë¦¬ UI ê´€ë ¨ ì¶”ê°€
         //_inventoryInputActions
         //_inventoryInputActions[0].action.Enable();
         //_inventoryInputActions[0].action.performed += OpenInventory;
         //_inventoryInputActions[1].action.Enable();
         //_inventoryInputActions[1].action.performed += OpenInventory;
-
+        UpdateWheelInventory();
         //_inventoryInputActions[0].action.canceled += CloseInventory;
         //_inventoryInputActions[1].action.canceled += CloseInventory;
     }
@@ -79,7 +83,7 @@ public class InventoryWheelLogic : MonoBehaviour
         GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnSelectQorEEvent -= OpenInventory;
         GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnDeselectQorEEvent -= CloseInventory;
 
-        //260115 ÃÖÁ¤¿í ÀÎº¥Åä¸® UI °ü·Ã Ãß°¡
+        //260115 ìµœì •ìš± ì¸ë²¤í† ë¦¬ UI ê´€ë ¨ ì¶”ê°€
         //_inventoryInputActions
         //_inventoryInputActions[0].action.performed -= OpenInventory;
         //_inventoryInputActions[1].action.performed -= OpenInventory;
@@ -167,14 +171,14 @@ public class InventoryWheelLogic : MonoBehaviour
                     //_inventoryWheelLogic.SelectCurrentSlotByQ();
                     break;
                 case 1:
-                    Debug.Log("E ´İÈû");
+                    Debug.Log("E ë‹«í˜");
                     if (_inventoryWheelLogic.HoveredItem == null)
                     {
                         break;
                     }
                     if (GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.RightHandSlot == null)
                     {
-                        Debug.Log("E ÀåÂø One");
+                        Debug.Log("E ì¥ì°© One");
                         if (GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot == null)
                         {
                             GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
@@ -183,7 +187,7 @@ public class InventoryWheelLogic : MonoBehaviour
                         else if (HoveredItem.itemName != GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
                         {
                             GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.EquipItem(_inventoryWheelLogic.HoveredItem, false);
-                            Debug.Log("E ÀåÂø Two");
+                            Debug.Log("E ì¥ì°© Two");
                             break;
                         }
                         else if (HoveredItem.itemName == GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.LeftHandSlot.itemName)
@@ -263,7 +267,7 @@ public class InventoryWheelLogic : MonoBehaviour
     }
 
 
-    //´õ Á¤±³ÇÑ ÀÎº¥Åä¸® ÈÙÀ» À§ÇØ ³ªÁß¿¡ ¼öÁ¤ ÇÊ¿ä
+    //ë” ì •êµí•œ ì¸ë²¤í† ë¦¬ íœ ì„ ìœ„í•´ ë‚˜ì¤‘ì— ìˆ˜ì • í•„ìš”
     public void UpdateWheelInventory()
     {
         //_wheelSlots.Clear();

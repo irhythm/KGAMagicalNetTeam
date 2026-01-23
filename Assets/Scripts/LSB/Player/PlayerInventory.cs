@@ -40,7 +40,7 @@ public class PlayerInventory
         {
             if (inventory.Count >= maximumInvenCount)
             {
-                Debug.Log("ÀÎº¥Åä¸® °¡µæ Âü");
+                Debug.Log("ì¸ë²¤í† ë¦¬ ê°€ë“ ì°¸");
                 return;
             }
             inventory.Add(item, 1);
@@ -51,13 +51,20 @@ public class PlayerInventory
                 {
                     ActionBase newAction = actionData.CreateInstance();
                     activeActions.Add(actionData, newAction);
-                    Debug.Log($"ÀÎº¥Åä¸® {item.itemName} ¾×¼Ç »ı¼ºµÊ");
+                    Debug.Log($"ì¸ë²¤í† ë¦¬ {item.itemName} ì•¡ì…˜ ìƒì„±ë¨");
                 }
             }
         }
-
+        Debug.Log(GameManager.Instance);
+        Debug.Log(GameManager.Instance.InventoryWheel);
         if (GameManager.Instance != null && GameManager.Instance.InventoryWheel != null)
+        {
+            foreach (var kvp in inventory)
+            {
+                Debug.Log($"ì¸ë²¤í† ë¦¬ ì•„ì´í…œ: {kvp.Key.itemName}, ê°œìˆ˜: {kvp.Value}");
+            }
             GameManager.Instance.InventoryWheel.UpdateWheelInventory();
+        }
     }
 
     public void RemoveItem(InventoryDataSO item)

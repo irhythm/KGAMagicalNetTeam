@@ -21,7 +21,7 @@ public class GameManager : PhotonSingleton<GameManager>
     [SerializeField] GameObject playerPrefab;
 
     [SerializeField] InventoryWheelLogic _inventoryWheelLogic;
-    public InventoryWheelLogic InventoryWheel => _inventoryWheelLogic;
+    public InventoryWheelLogic InventoryWheel { get { return _inventoryWheelLogic; } set { _inventoryWheelLogic = value; } }
 
     Hashtable roomTable = new Hashtable();
     Hashtable playerTable = new Hashtable();
