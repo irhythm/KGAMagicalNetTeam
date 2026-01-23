@@ -6853,7 +6853,7 @@ MonoBehaviour:
   bgmSound: {fileID: 43563925}
   bgmSoundMute: {fileID: 154585035}
   sfxSound: {fileID: 1189004955}
-  sfxSoundMute: {fileID: 482739224}
+  sfxSoundMute: {fileID: 318353849}
   voiceChatSound: {fileID: 770925756}
   voiceChatSoundMute: {fileID: 482739224}
   micSound: {fileID: 985800039}

@@ -63,6 +63,9 @@ public class Fireball : MonoBehaviourPun
     [PunRPC]
     private void RPC_ExplodeProcess(Vector3 explosionPos)
     {
+        //2601213 양현용 : 파이어볼 소환 사운드 추가
+        SoundManager.Instance.PlaySFX(fireballData.explosionSound, 1f, 100f, gameObject.transform.position);
+
         if (fireballData.explosionEffectPrefab != null)
             Instantiate(fireballData.explosionEffectPrefab, explosionPos, Quaternion.identity);
 
