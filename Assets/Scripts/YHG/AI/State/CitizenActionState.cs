@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class CitizenActionState : AIStateBase
 {
@@ -27,8 +27,12 @@ public class CitizenActionState : AIStateBase
 
     public override void Execute()
     {
+        if (citizen.Agent == null || !citizen.Agent.isActiveAndEnabled || !citizen.Agent.isOnNavMesh)
+        {
+            return;
+        }
         //경로계산 끝났고, 남은거리 1 이하면 탈출성공
-        if (!citizen.Agent.pathPending && citizen.Agent.remainingDistance < 1.0f && citizen.Agent.isOnNavMesh)
+        if (!citizen.Agent.pathPending && citizen.Agent.remainingDistance < 1.0f)
         {
             citizen.OnEscapeSuccess();
         }

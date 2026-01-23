@@ -50,21 +50,24 @@ public class CoinLogic : MonoBehaviour
                 break;
             }
 
-            Debug.Log("Raycast Hit All: " + hit.transform.name);
+            //Debug.Log("Raycast Hit All: " + hit.transform.name);
 
 
 
             if (hit.transform.gameObject.GetComponent<CoinItself>() != null)
             {
-                GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.AddItem(hit.transform.gameObject.GetComponent<CoinItself>().CoinData);
+                if (GetComponent<PhotonView>().IsMine)
+                {
+                    GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.AddItem(hit.transform.gameObject.GetComponent<CoinItself>().CoinData);
+                }
                 hit.transform.gameObject.GetComponent<CoinItself>().RequestDestroy();
-                Debug.Log("Coin Picked Up! Really");
+                //Debug.Log("Coin Picked Up! Really");
             }
 
 
         }
         //EventSystem.Screen
-        Debug.Log("Interaction F Clicked");
+        //Debug.Log("Interaction F Clicked");
         
         // Add coin to player's inventory or increase coin count
         // Example: playerInventory.AddCoins(1);

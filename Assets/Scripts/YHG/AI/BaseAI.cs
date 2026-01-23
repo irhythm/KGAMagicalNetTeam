@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
 using System.Collections;
@@ -173,7 +173,7 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamag
     [PunRPC]
     public virtual void RPC_TakeDamage(float damageAmount)
     {
-        if (currentNetworkState == AIStateID.Dead) return;
+        if (currentNetworkState == AIStateID.Dead || CurrentHP <= 0) return;
 
         CurrentHP -= damageAmount;
 
