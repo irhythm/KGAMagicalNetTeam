@@ -59,9 +59,9 @@ public class InventoryWheelLogic : MonoBehaviour
         GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnSelectQorEEvent += OpenInventory;
 
         //Debug.Log("인벤토리 휠 로직 스타트에서 플레이어 레퍼런스 할당됨");
-        if (GameManager.Instance.PlayerInventory != null)
+        if (GameManager.Instance.TemporaryPlayerInventory != null)
         {
-            foreach (var keyvaluepair in GameManager.Instance.PlayerInventory)
+            foreach (var keyvaluepair in GameManager.Instance.TemporaryPlayerInventory)
             {
 
 
@@ -78,7 +78,7 @@ public class InventoryWheelLogic : MonoBehaviour
 
                 //playerTable[keyvaluepair.Key.itemName] = keyvaluepair.Value;
             }
-            GameManager.Instance.PlayerInventory.Clear();
+            GameManager.Instance.TemporaryPlayerInventory.Clear();
 
         }
 

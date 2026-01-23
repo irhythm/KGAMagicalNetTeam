@@ -15,7 +15,7 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Unity.VisualScripting;
 public class GameManager : PhotonSingleton<GameManager>
 {
-    public Dictionary<InventoryDataSO, int> PlayerInventory = new Dictionary<InventoryDataSO, int>();
+    public Dictionary<InventoryDataSO, int> TemporaryPlayerInventory = new Dictionary<InventoryDataSO, int>();
 
     public GameObject LocalPlayer { get; set; }
 
@@ -360,12 +360,12 @@ public class GameManager : PhotonSingleton<GameManager>
                     bool checkStore = (bool)onStore;
                     if (checkStore)
                     {
-                        PlayerInventory.Clear();
+                        TemporaryPlayerInventory.Clear();
                         foreach (var keyvaluepair in LocalPlayer.GetComponent<PlayableCharacter>().Inventory.Inventory)
                         {
                             Debug.Log($"인벤토리 보존 {keyvaluepair.Key.itemName} : {keyvaluepair.Value}");
                             
-                            PlayerInventory.Add(keyvaluepair.Key, keyvaluepair.Value);
+                            TemporaryPlayerInventory.Add(keyvaluepair.Key, keyvaluepair.Value);
                             //playerTable[keyvaluepair.Key.itemName] = keyvaluepair.Value;
                         }
                         if (PhotonNetwork.IsMasterClient)
@@ -381,12 +381,12 @@ public class GameManager : PhotonSingleton<GameManager>
                     else
                     {
                         //260123 최정욱 인벤토리 보존
-                        PlayerInventory.Clear();
+                        TemporaryPlayerInventory.Clear();
                         foreach (var keyvaluepair in LocalPlayer.GetComponent<PlayableCharacter>().Inventory.Inventory)
                         {
                             Debug.Log($"인벤토리 보존 {keyvaluepair.Key.itemName} : {keyvaluepair.Value}");
 
-                            PlayerInventory.Add(keyvaluepair.Key, keyvaluepair.Value);
+                            TemporaryPlayerInventory.Add(keyvaluepair.Key, keyvaluepair.Value);
                             //playerTable[keyvaluepair.Key.itemName] = keyvaluepair.Value;
                         }
                         if (PhotonNetwork.IsMasterClient)
