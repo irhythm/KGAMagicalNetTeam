@@ -15,6 +15,8 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Unity.VisualScripting;
 public class GameManager : PhotonSingleton<GameManager>
 {
+    public Dictionary<InventoryDataSO, int> TemporaryPlayerInventory = new Dictionary<InventoryDataSO, int>();
+
     public GameObject LocalPlayer { get; set; }
 
     //public static GameManager Instance;
@@ -358,16 +360,38 @@ public class GameManager : PhotonSingleton<GameManager>
                     bool checkStore = (bool)onStore;
                     if (checkStore)
                     {
+                        TemporaryPlayerInventory.Clear();
+                        foreach (var keyvaluepair in LocalPlayer.GetComponent<PlayableCharacter>().Inventory.Inventory)
+                        {
+                            Debug.Log($"인벤토리 보존 {keyvaluepair.Key.itemName} : {keyvaluepair.Value}");
+                            
+                            TemporaryPlayerInventory.Add(keyvaluepair.Key, keyvaluepair.Value);
+                            //playerTable[keyvaluepair.Key.itemName] = keyvaluepair.Value;
+                        }
                         if (PhotonNetwork.IsMasterClient)
                         {
                             PhotonNetwork.LoadLevel("GameMapOne");
                             roomTable["GameRound"] = curRound;
                         }
+                        //260123 최정욱 인벤토리 보존
+
+
+
                     }
                     else
                     {
+                        //260123 최정욱 인벤토리 보존
+                        TemporaryPlayerInventory.Clear();
+                        foreach (var keyvaluepair in LocalPlayer.GetComponent<PlayableCharacter>().Inventory.Inventory)
+                        {
+                            Debug.Log($"인벤토리 보존 {keyvaluepair.Key.itemName} : {keyvaluepair.Value}");
+
+                            TemporaryPlayerInventory.Add(keyvaluepair.Key, keyvaluepair.Value);
+                            //playerTable[keyvaluepair.Key.itemName] = keyvaluepair.Value;
+                        }
                         if (PhotonNetwork.IsMasterClient)
                             PhotonNetwork.LoadLevel("StoreMapSensei");
+
                     }
                 }
                 else

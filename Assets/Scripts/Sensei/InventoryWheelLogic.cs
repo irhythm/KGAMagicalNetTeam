@@ -57,8 +57,31 @@ public class InventoryWheelLogic : MonoBehaviour
         //yield return new WaitUntil(() => ourPlayerReference != null && ourPlayerReference.GetComponent<PlayerInputHandler>() != null);
 
         GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnSelectQorEEvent += OpenInventory;
-        
-        Debug.Log("인벤토리 휠 로직 스타트에서 플레이어 레퍼런스 할당됨");
+
+        //Debug.Log("인벤토리 휠 로직 스타트에서 플레이어 레퍼런스 할당됨");
+        if (GameManager.Instance.TemporaryPlayerInventory != null)
+        {
+            foreach (var keyvaluepair in GameManager.Instance.TemporaryPlayerInventory)
+            {
+
+
+                Debug.Log($"인벤토리 보존 {keyvaluepair.Key.itemName} : {keyvaluepair.Value}");
+
+                for (int i = 0; i < keyvaluepair.Value; i++)
+                {
+                    GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.AddItem(keyvaluepair.Key);
+                }
+
+                //PlayerInventory.Add(keyvaluepair.Key, keyvaluepair.Value);
+
+                //GameManager.Instance.LocalPlayer.GetComponent<PlayerInventory>().Inventory
+
+                //playerTable[keyvaluepair.Key.itemName] = keyvaluepair.Value;
+            }
+            GameManager.Instance.TemporaryPlayerInventory.Clear();
+
+        }
+
         foreach (var item in GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.Inventory)
         {
             Debug.Log("인벤토리 아이템들: " + item.Key.itemName + " , " + item.Value);
