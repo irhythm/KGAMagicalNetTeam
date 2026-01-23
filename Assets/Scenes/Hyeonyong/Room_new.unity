@@ -1140,7 +1140,7 @@ MonoBehaviour:
   runInBackground: 1
   statsResetInterval: 1000
   speakerPrefab: {fileID: 7940719953895527930, guid: f8e4a1f019587374893ff143fd1371ae, type: 3}
-  primaryRecorder: {fileID: 0}
+  primaryRecorder: {fileID: 62442801}
   usePrimaryRecorder: 1
   cppCompatibilityMode: 0
   Settings:
@@ -24688,7 +24688,7 @@ MonoBehaviour:
   fryingPanLogic: {fileID: 1231014903}
   roomTab: {fileID: 2066517177}
   tabInput: {fileID: -135069969608573499, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  playerPrefab_Room: {fileID: 7940719953895527930, guid: 361e6dfda81b8414487e163cb9d2fa7e, type: 3}
+  player: {fileID: 0}
 --- !u!4 &1970379930
 Transform:
   m_ObjectHideFlags: 0

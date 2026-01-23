@@ -1,5 +1,6 @@
 using Photon.Pun;
 using Photon.Voice.PUN;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,7 +26,7 @@ public class PlayerController : MonoBehaviourPun, IDamageable, IExplosion
     GameObject playerInfo;
     GameObject magicInfo;
 
-    void Start()
+    IEnumerator Start()
     {
         pv = GetComponent<PhotonView>();
         pvv = GetComponent<PhotonVoiceView>();
@@ -66,7 +67,11 @@ public class PlayerController : MonoBehaviourPun, IDamageable, IExplosion
             playerView.UpdatePlayerHP(1f);
         }
 
+        //본래는 로그인 후 닉네임을 가져와야 하지만 테스트 단계이므로 대충 null로 넘김
+        //yield return new WaitUntil(()=>pv.Owner !=null);
+        yield return null;
         SetPlayerName(pv.Owner.NickName);
+
 
         testTakeDamageAction.action.Enable();
         testTakeDamageAction.action.performed += TestTakeDamage;
