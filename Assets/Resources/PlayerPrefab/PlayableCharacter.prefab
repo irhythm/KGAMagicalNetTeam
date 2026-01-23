@@ -171,6 +171,10 @@ MonoBehaviour:
   wizardModel: {fileID: 8722707484499129528}
   playerIcon: {fileID: 4620196561771727251}
   teamIcon: {fileID: 2133397425804827743}
+  canInteractLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  checkDistance: 1
   isRoom: 0
 --- !u!114 &-6589114128582020185
 MonoBehaviour:
