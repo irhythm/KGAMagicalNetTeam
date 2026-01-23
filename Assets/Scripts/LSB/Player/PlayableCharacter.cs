@@ -2,17 +2,17 @@ using Photon.Pun;
 using System;
 using UnityEngine;
 
-public class PlayableCharacter : MonoBehaviourPun
+public class PlayableCharacter : MonoBehaviourPun, IInteractable
 {
-    // ±¸µ¶ÇÒ ÀÌº¥Æ® Á¤ÀÇ
-    public event Action<float> OnHpChanged; // Ã¼·Â º¯°æÇÏ¸é Àü´Ş¿ë
-    public event Action OnDie;              // »ç¸ÁÇÏ¸é È£Ãâ¿ë
+    // êµ¬ë…í•  ì´ë²¤íŠ¸ ì •ì˜
+    public event Action<float> OnHpChanged; // ì²´ë ¥ ë³€ê²½í•˜ë©´ ì „ë‹¬ìš©
+    public event Action OnDie;              // ì‚¬ë§í•˜ë©´ í˜¸ì¶œìš©
 
-    // ¸ğµ¨
+    // ëª¨ë¸
     private PlayerModel _model;
 
     [Header("Settings")]
-    [SerializeField] private float maxHp = 100f; // Ã¼·Â ÀÎ½ºÆåÅÍ ³ëÃâ
+    [SerializeField] private float maxHp = 100f; // ì²´ë ¥ ì¸ìŠ¤í™í„° ë…¸ì¶œ
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private float jumpForce = 5f;
@@ -31,11 +31,15 @@ public class PlayableCharacter : MonoBehaviourPun
     [SerializeField] private MapIcon playerIcon;
     [SerializeField] private MapIcon teamIcon;
 
+    [Header("Interact Settings")]
+    [SerializeField] private LayerMask canInteractLayer;    // ìƒí˜¸ì‘ìš©ì´ ê°€ëŠ¥í•œ ë ˆì´ì–´
+    [SerializeField] private float checkDistance = 1f;     // 260122 ì‹ í˜„ì„­: ìƒí˜¸ì‘ìš© ì²´í¬ ê±°ë¦¬
+
     public enum MoveDir { Front, Back, Left, Right }
 
     [SerializeField] bool isRoom;
 
-    #region ÇÁ·ÎÆÛÆ¼
+    #region í”„ë¡œí¼í‹°
     public float MoveSpeed => moveSpeed;
     public float RotationSpeed => rotationSpeed;
     public float JumpForce => jumpForce;
@@ -46,7 +50,7 @@ public class PlayableCharacter : MonoBehaviourPun
     public GameObject WizardModel => wizardModel;
     #endregion
 
-    #region ÂüÁ¶
+    #region ì°¸ì¡°
     public PlayerInputHandler InputHandler { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
     public Animator Animator { get; private set; }
@@ -57,15 +61,18 @@ public class PlayableCharacter : MonoBehaviourPun
     public PlayerTransformationController TransformationController { get; private set; }
     #endregion
 
-    #region »óÅÂ ¸Ó½Å
+    #region ìƒíƒœ ë¨¸ì‹ 
     public StateMachine StateMachine { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerDodgeState DodgeState { get; private set; }
     public PlayerAttackState AttackState { get; private set; }
+    public PlayerInteractState InteractState { get; private set; }    // 260122 ì‹ í˜„ì„­: ìƒí˜¸ì‘ìš© ìƒíƒœë¡œ ì „í™˜
+
+    public bool isInteracted { get; private set; }  // 260122 ì‹ í˜„ì„­: IInteractable ì¸í„°í˜ì´ìŠ¤ í•„ë“œ â†’ ìƒí˜¸ì‘ìš©ì´ ì§„í–‰ ì¤‘ì´ë©´ true
     #endregion
 
-    #region ¾Ö´Ï¸ŞÀÌ¼Ç
+    #region ì• ë‹ˆë©”ì´ì…˜
     public readonly int HashSpeed = Animator.StringToHash("Speed");
     public readonly int HashVerticalVelocity = Animator.StringToHash("VerticalVelocity");
     public readonly int HashAttackTrigger = Animator.StringToHash("AttackTrigger");
@@ -88,7 +95,7 @@ public class PlayableCharacter : MonoBehaviourPun
         playerController = GetComponent<PlayerController>();
         TransformationController = GetComponent<PlayerTransformationController>();
 
-        // ¸ğµ¨ ÃÊ±âÈ­
+        // ëª¨ë¸ ì´ˆê¸°í™”
         _model = new PlayerModel(maxHp);
         _model.Init();
 
@@ -99,21 +106,24 @@ public class PlayableCharacter : MonoBehaviourPun
         JumpState = new PlayerJumpState(this, StateMachine, "IsJumping");
         DodgeState = new PlayerDodgeState(this, StateMachine, "IsDodging");
         AttackState = new PlayerAttackState(this, StateMachine);
+        InteractState = new PlayerInteractState(this, StateMachine);    // 260122 ì‹ í˜„ì„­: ìƒí˜¸ì‘ìš© ìƒíƒœ ìƒì„±
 
 
-        //260119 ÃÖÁ¤¿í local player ÀÎ½ºÅÏ½º ÀúÀå
+
+        //260119 ìµœì •ìš± local player ì¸ìŠ¤í„´ìŠ¤ ì €ì¥
         if (photonView.IsMine)
         {
             GameManager.Instance.LocalPlayer = gameObject;
         }
 
-        //260121 ¾çÇö¿ë : ·ë Àü¿ë ÇÃ·¹ÀÌ¾î »ı¼º¿ëµµ
+        //260121 ì–‘í˜„ìš© : ë£¸ ì „ìš© í”Œë ˆì´ì–´ ìƒì„±ìš©ë„
         if (isRoom)
             return;
 
+        // 260121 ì‹ í˜„ì„­ : ë¯¸ë‹ˆë§µ ì—°ë™ ë° ì•„ì´ì½˜ ì§€ì •
         if (photonView.IsMine)
         {
-            // ¹Ì´Ï¸Ê Ä«¸Ş¶ó¿¡ ÇÃ·¹ÀÌ¾î Æ®·£½ºÆû ÇÒ´ç
+            // ë¯¸ë‹ˆë§µ ì¹´ë©”ë¼ì— í”Œë ˆì´ì–´ íŠ¸ëœìŠ¤í¼ í• ë‹¹
             MinimapCamera camera = FindAnyObjectByType<MinimapCamera>();
 
             if (camera != null)
@@ -121,12 +131,12 @@ public class PlayableCharacter : MonoBehaviourPun
                 camera.SetTarget(transform);
             }
 
-            // ÇÃ·¹ÀÌ¾î ÀÚ½ÅÀÏ ¶§ ÇÃ·¹ÀÌ¾î ¾ÆÀÌÄÜÀ» È°¼ºÈ­
+            // í”Œë ˆì´ì–´ ìì‹ ì¼ ë•Œ í”Œë ˆì´ì–´ ì•„ì´ì½˜ì„ í™œì„±í™”
             playerIcon.gameObject.SetActive(true);
         }
         else
         {
-            // ´Ù¸¥ ÆÀ¿øÀÏ ¶§ ÆÀ¿ø ¾ÆÀÌÄÜ È°¼ºÈ­
+            // ë‹¤ë¥¸ íŒ€ì›ì¼ ë•Œ íŒ€ì› ì•„ì´ì½˜ í™œì„±í™”
             teamIcon.gameObject.SetActive(true);
         }
     }
@@ -142,7 +152,7 @@ public class PlayableCharacter : MonoBehaviourPun
                 camScript.SetTarget(this.transform);
             }
 
-            // ÀÎÇ² ÀÌº¥Æ® ±¸µ¶
+            // ì¸í’‹ ì´ë²¤íŠ¸ êµ¬ë…
             SubscribeInputEvents();
 
             StateMachine.InitState(MoveState);
@@ -153,7 +163,7 @@ public class PlayableCharacter : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            // ¸Ş¸ğ¸® ´©¼ö ¹æÁö¿ë ±¸µ¶ ÇØÁ¦
+            // ë©”ëª¨ë¦¬ ëˆ„ìˆ˜ ë°©ì§€ìš© êµ¬ë… í•´ì œ
             UnsubscribeInputEvents();
         }
     }
@@ -166,6 +176,8 @@ public class PlayableCharacter : MonoBehaviourPun
         {
             Inventory.HandleCooldowns(Time.deltaTime);
         }
+
+        CanInteractMotion();
 
         StateMachine.CurrentState.Execute();
     }
@@ -192,16 +204,16 @@ public class PlayableCharacter : MonoBehaviourPun
         InputHandler.OnTransformEvent -= HandleTransformation;
     }
 
-    // Á¡ÇÁ/È¸ÇÇ ÀÌº¥Æ®
+    // ì í”„/íšŒí”¼ ì´ë²¤íŠ¸
     private void HandleJump()
     {
-        // ÀÌµ¿ »óÅÂÀÏ¶§¸¸ Á¡ÇÁ/È¸ÇÇ °¡´É
+        // ì´ë™ ìƒíƒœì¼ë•Œë§Œ ì í”„/íšŒí”¼ ê°€ëŠ¥
         if (StateMachine.CurrentState is PlayerMoveState)
         {
             Vector2 input = InputHandler.MoveInput;
             MoveDir dir = GetMoveDir(input);
 
-            // ÁÂ¿ì ÀÌµ¿ ÁßÀÌ¸é È¸ÇÇ
+            // ì¢Œìš° ì´ë™ ì¤‘ì´ë©´ íšŒí”¼
             if (dir == MoveDir.Left || dir == MoveDir.Right)
             {
                 if (CanDodge)
@@ -219,15 +231,15 @@ public class PlayableCharacter : MonoBehaviourPun
 
     private void HandleAttack(bool isLeftHand)
     {
-        // ÀÌµ¿ »óÅÂÀÏ¶§¸¸ °ø°İ °¡´É
+        // ì´ë™ ìƒíƒœì¼ë•Œë§Œ ê³µê²© ê°€ëŠ¥
         if (!(StateMachine.CurrentState is PlayerMoveState)) return;
 
         ActionBase magic = MagicSystem.GetAction(isLeftHand);
 
-        // ¸¶¹ı ÄğÅ¸ÀÓÁßÀÎÁö È®ÀÎ
+        // ë§ˆë²• ì¿¨íƒ€ì„ì¤‘ì¸ì§€ í™•ì¸
         if (MagicSystem.IsActionReady(isLeftHand))
         {
-            // °ø°İ »óÅÂ·Î ÀüÈ¯
+            // ê³µê²© ìƒíƒœë¡œ ì „í™˜
             var attackState = AttackState as PlayerAttackState;
             if (attackState != null)
             {
@@ -237,13 +249,38 @@ public class PlayableCharacter : MonoBehaviourPun
         }
         else
         {
-            Debug.Log("ÄğÅ¸ÀÓ ÁßÀÌ¶ó °ø°İ ºÒ°¡");
+            Debug.Log("ì¿¨íƒ€ì„ ì¤‘ì´ë¼ ê³µê²© ë¶ˆê°€");
         }
     }
 
     private void HandleTransformation(bool isPressed)
     {
         TransformationController.HandleTransformInput(isPressed);
+    }
+
+    // 260122 ì‹ í˜„ì„­: ìƒí˜¸ì‘ìš©ì´ ê°€ëŠ¥í•œ ìƒíƒœì¸ì§€ ì²´í¬ (ë ˆì´ìºìŠ¤íŠ¸)
+    private void CanInteractMotion()
+    {
+        if (!(StateMachine.CurrentState is PlayerMoveState)) return;
+
+        if(Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out RaycastHit hit, checkDistance, canInteractLayer))
+        {
+            if(hit.collider.TryGetComponent<IInteractable>(out var interact))
+            {
+                // todo: ìƒí˜¸ì‘ìš© ê°€ëŠ¥ UI ë„ìš°ê¸° ë“± ì‹¤í–‰
+                InputHandler.CanInteractMotion = true;
+
+                // ìƒí˜¸ì‘ìš© ëŒ€ìƒì´ ë‹¤ë¥¼ ê²½ìš° ê°±ì‹ 
+                if(InteractState.target != interact)
+                {
+                    InteractState.SetTarget(interact);
+                }
+            }
+            else
+            {
+                InputHandler.CanInteractMotion = false;
+            }
+        }
     }
 
     public void OnAttacked(float damage)
@@ -260,7 +297,7 @@ public class PlayableCharacter : MonoBehaviourPun
         if (isDie)
         {
             OnDie?.Invoke();
-            Debug.Log("Ä³¸¯ÅÍ »ç¸Á");
+            Debug.Log("ìºë¦­í„° ì‚¬ë§");
         }
     }
 
@@ -297,23 +334,29 @@ public class PlayableCharacter : MonoBehaviourPun
     {
         gameObject.layer = LayerMask.NameToLayer("Default");
     }
+
+    // 260122 ì‹ í˜„ì„­: ìƒí˜¸ì‘ìš© ì‹œ ì§„í–‰í•  ê²ƒë“¤
+    public void OnInteract()
+    {
+
+    }
 }
-#region ·¹°Å½Ã ÄÚµå
+#region ë ˆê±°ì‹œ ì½”ë“œ
 //using Photon.Pun;
 //using System;
 //using UnityEngine;
 
 //public class PlayableCharacter : MonoBehaviourPun
 //{
-//    // ±¸µ¶ÇÒ ÀÌº¥Æ® Á¤ÀÇ
-//    public event Action<float> OnHpChanged; // Ã¼·Â º¯°æÇÏ¸é Àü´Ş¿ë
-//    public event Action OnDie;              // »ç¸ÁÇÏ¸é È£Ãâ¿ë
+//    // êµ¬ë…í•  ì´ë²¤íŠ¸ ì •ì˜
+//    public event Action<float> OnHpChanged; // ì²´ë ¥ ë³€ê²½í•˜ë©´ ì „ë‹¬ìš©
+//    public event Action OnDie;              // ì‚¬ë§í•˜ë©´ í˜¸ì¶œìš©
 
-//    // ¸ğµ¨
+//    // ëª¨ë¸
 //    private PlayerModel _model;
 
 //    [Header("Settings")]
-//    [SerializeField] private float maxHp = 100f; // Ã¼·Â ÀÎ½ºÆåÅÍ ³ëÃâ
+//    [SerializeField] private float maxHp = 100f; // ì²´ë ¥ ì¸ìŠ¤í™í„° ë…¸ì¶œ
 //    [SerializeField] private float moveSpeed = 5f;
 //    [SerializeField] private float rotationSpeed = 10f;
 //    [SerializeField] private float jumpForce = 5f;
@@ -327,7 +370,7 @@ public class PlayableCharacter : MonoBehaviourPun
 
 //    public enum MoveDir { Front, Back, Left, Right }
 
-//    #region ÇÁ·ÎÆÛÆ¼
+//    #region í”„ë¡œí¼í‹°
 //    public float MoveSpeed => moveSpeed;
 //    public float RotationSpeed => rotationSpeed;
 //    public float JumpForce => jumpForce;
@@ -336,7 +379,7 @@ public class PlayableCharacter : MonoBehaviourPun
 //    public bool CanDodge => Time.time >= LastDodgeTime + DodgeCooldown;
 //    #endregion
 
-//    #region ÂüÁ¶
+//    #region ì°¸ì¡°
 //    public PlayerInputHandler InputHandler { get; private set; }
 //    public Rigidbody Rigidbody { get; private set; }
 //    public Animator Animator { get; private set; }
@@ -347,7 +390,7 @@ public class PlayableCharacter : MonoBehaviourPun
 //    public PlayerTransformationController TransformationController { get; private set; }
 //    #endregion
 
-//    #region »óÅÂ ¸Ó½Å
+//    #region ìƒíƒœ ë¨¸ì‹ 
 //    public StateMachine StateMachine { get; private set; }
 //    public PlayerMoveState MoveState { get; private set; }
 //    public PlayerJumpState JumpState { get; private set; }
@@ -365,7 +408,7 @@ public class PlayableCharacter : MonoBehaviourPun
 //        playerController = GetComponent<PlayerController>();
 //        TransformationController = GetComponent<PlayerTransformationController>();
 
-//        // ¸ğµ¨ ÃÊ±âÈ­
+//        // ëª¨ë¸ ì´ˆê¸°í™”
 //        _model = new PlayerModel(maxHp);
 //        _model.Init();
 
@@ -412,31 +455,31 @@ public class PlayableCharacter : MonoBehaviourPun
 //    }
 
 
-//    // µ¥¹ÌÁö Ã³¸® ·ÎÁ÷ ¿©±â·Î ¿Å±è
+//    // ë°ë¯¸ì§€ ì²˜ë¦¬ ë¡œì§ ì—¬ê¸°ë¡œ ì˜®ê¹€
 //    public void OnAttacked(float damage)
 //    {
 //        photonView.RPC(nameof(RPC_TakeDamage), RpcTarget.All, damage);
 //    }
 
-//    // µ¥¹ÌÁö Àû¿ë ÀÌº¥Æ® È£Ãâ
+//    // ë°ë¯¸ì§€ ì ìš© ì´ë²¤íŠ¸ í˜¸ì¶œ
 //    [PunRPC]
 //    public void RPC_TakeDamage(float damage)
 //    {
 //        bool isDie = _model.TakeDamage(damage);
 
-//        // µ¥ÀÌÅÍ º¯°æ »ç½ÇÀ» Presenter¿¡°Ô ¾Ë¸²
+//        // ë°ì´í„° ë³€ê²½ ì‚¬ì‹¤ì„ Presenterì—ê²Œ ì•Œë¦¼
 //        OnHpChanged?.Invoke(_model.CurHp / _model.MaxHp);
 
 //        if (isDie)
 //        {
 //            OnDie?.Invoke();
-//            Debug.Log("Ä³¸¯ÅÍ »ç¸Á (Logic)");
+//            Debug.Log("ìºë¦­í„° ì‚¬ë§ (Logic)");
 //        }
 //    }
 
 
 //    /// <summary>
-//    /// ¿òÁ÷ÀÌ´Â ¹æÇâ ±¸ÇÏ´Â¿ëµµ
+//    /// ì›€ì§ì´ëŠ” ë°©í–¥ êµ¬í•˜ëŠ”ìš©ë„
 //    /// </summary>
 //    /// <param name="input"></param>
 //    /// <returns></returns>
@@ -455,9 +498,9 @@ public class PlayableCharacter : MonoBehaviourPun
 //    }
 
 //    /// <summary>
-//    /// ±×¶ó¿îµå Ã¼Å©
+//    /// ê·¸ë¼ìš´ë“œ ì²´í¬
 //    /// </summary>
-//    /// <returns>¶¥ÀÎÁö</returns>
+//    /// <returns>ë•…ì¸ì§€</returns>
 //    public bool CheckIsGrounded()
 //    {
 //        return Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, groundCheckDist + 0.1f, groundLayer);

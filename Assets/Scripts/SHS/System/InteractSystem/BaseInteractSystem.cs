@@ -3,8 +3,8 @@ using UnityEngine;
 
 public abstract class BaseInteractSystem
 {
-    protected IInteractable executer;       // »óÈ£ÀÛ¿ëÀ» ½ÃÀÛÇÏ´Â Æ®·£½ºÆû
-    protected IInteractable receiver;       // »óÈ£ÀÛ¿ëÀ» ´çÇÏ´Â Æ®·£½ºÆû
+    protected IInteractable executer;       // ìƒí˜¸ì‘ìš©ì„ ì‹œì‘í•˜ëŠ” íŠ¸ëœìŠ¤í¼
+    protected IInteractable receiver;       // ìƒí˜¸ì‘ìš©ì„ ë‹¹í•˜ëŠ” íŠ¸ëœìŠ¤í¼
 
     protected event Action executeAct;
     protected event Action receiveAct;
@@ -14,7 +14,7 @@ public abstract class BaseInteractSystem
         Init(executer, receiver);
     }
 
-    // ÃÊ±âÈ­
+    // ì´ˆê¸°í™”
     public virtual void Init(IInteractable executer, IInteractable receiver)
     {
         this.executer = executer;
@@ -24,10 +24,10 @@ public abstract class BaseInteractSystem
         receiveAct = executer.OnInteract;
     }
 
-    // »óÈ£ÀÛ¿ë ½ÇÇà
+    // ìƒí˜¸ì‘ìš© ì‹¤í–‰
     public virtual void PlayInteract()
     {
-        executeAct?.Invoke();   // ½ÇÇàÀÚ ¾×¼Ç ½ÇÇà
-        receiveAct?.Invoke();   // ¸®½Ã¹ö ¾×¼Ç ½ÇÇà
+        executeAct?.Invoke();   // ì‹¤í–‰ì ì•¡ì…˜ ì‹¤í–‰
+        receiveAct?.Invoke();   // ë¦¬ì‹œë²„ ì•¡ì…˜ ì‹¤í–‰
     }
 }

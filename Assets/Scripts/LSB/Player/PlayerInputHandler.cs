@@ -27,25 +27,29 @@ public class PlayerInputHandler : MonoBehaviourPun
     private InputAction _attackRightAction;
     private InputAction _transformAction;
     private InputAction _interactAction;
+    private InputAction _interactMotionAction;  // 260122 신현섭: 상호작용 모션 전용 인풋 액션 (x키)
 
-    #region �̺�Ʈ ����
-    public event Action<Vector2> OnMoveEvent;   // �̵�
-    public event Action OnJumpEvent;            // ����
-    public event Action<bool> OnAttackEvent;    // ����
-    public event Action<bool> OnTransformEvent; // ����
-    public event Action<bool> OnSelectQorEEvent;        // Q �Ǵ� E����
-    public event Action<bool> OnDeselectQorEEvent;        // Q �Ǵ� E ��������
-    public event Action OnInteractEvent;        
+    #region 이벤트 정의
+    public event Action<Vector2> OnMoveEvent;   // 이동
+    public event Action OnJumpEvent;            // 점프
+    public event Action<bool> OnAttackEvent;    // 공격
+    public event Action<bool> OnTransformEvent; // 변신
+    public event Action<bool> OnSelectQorEEvent;        // Q 또는 E선택
+    public event Action<bool> OnDeselectQorEEvent;        // Q 또는 E 선택해제
+    public event Action OnInteractEvent;
+    public event Action OnInteractMotionEvent;  // 260122 신현섭: 상호작용 모션 (ex. 처형, 암살, 플레이어 간 상호작용)
     #endregion
 
-    #region ������Ƽ
+    #region 프로퍼티
     public Vector2 MoveInput => _areInputsAllowed ? _rawMoveInput : Vector2.zero;
     public bool IsSprintInput { get; private set; }
     public bool IsWalkInput { get; private set; }
     public bool JumpButtonHeld { get; private set; }
 
     public bool IsInteractClicked { get; private set; }
+    public bool CanInteractMotion { get; set; }     // 260122 신현섭: 현재 상호작용 모션이 가능한지 여부
     #endregion
+
 
     private void Awake()
     {
@@ -71,6 +75,7 @@ public class PlayerInputHandler : MonoBehaviourPun
         ConnectEInput();
         ConnectQInput();
         ConnectInteractInput();
+        ConnectInteractMotionInput();
 
         UIManager.Instance.onOpenUI += DisableInputLogic;
         UIManager.Instance.onCloseUI += EnableInputLogic;
@@ -135,7 +140,18 @@ public class PlayerInputHandler : MonoBehaviourPun
         }
     }
 
-
+    // 260122 신현섭: 상호작용 모션 연결
+    private void ConnectInteractMotionInput()
+    {
+        _interactMotionAction = _playerInput.actions["InteractMotion"];
+        _interactMotionAction.started += ctx =>
+        {
+            if (CanInteractMotion)
+            {
+                OnInteractMotionEvent?.Invoke();
+            }
+        };
+    }
 
 
     private void ConnectQInput()
@@ -264,7 +280,7 @@ public class PlayerInputHandler : MonoBehaviourPun
         }
     }
 }
-#region ���Ž� �ڵ�
+#region 레거시 코드
 //using Photon.Pun;
 //using UnityEngine;
 //using UnityEngine.InputSystem;
@@ -295,7 +311,7 @@ public class PlayerInputHandler : MonoBehaviourPun
 //    private InputAction _attackRightAction;
 //    private InputAction _transformAction;
 
-//    #region ������Ƽ
+//    #region 프로퍼티
 //    public Vector2 MoveInput => _areInputsAllowed ? _rawMoveInput : Vector2.zero;
 //    public bool IsSprintInput { get; private set; }
 //    public bool IsWalkInput { get; private set; }
