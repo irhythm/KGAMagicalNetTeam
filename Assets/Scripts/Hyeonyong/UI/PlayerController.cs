@@ -107,7 +107,8 @@ public class PlayerController : MonoBehaviourPun, IDamageable, IExplosion
     {
         if (!pv.IsMine) return;
         GameManager.Instance.PlusMoneyCount();
-        GetComponent<PlayableCharacter>().OnAttacked(1f);
+        if(GetComponent<PlayableCharacter>().Model.CurHp>0 )
+            GetComponent<PlayableCharacter>().OnAttacked(1f);
     }
 
 

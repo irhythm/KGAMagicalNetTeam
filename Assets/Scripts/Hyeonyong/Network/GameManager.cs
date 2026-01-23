@@ -262,14 +262,20 @@ public class GameManager : PhotonSingleton<GameManager>
             }
         }
 
+
         if (propertiesThatChanged.ContainsKey("PlayerCount"))
         {
             if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("PlayerCount", out object count))
             {
                 if((int)count <= 0)
                 {
-                    PhotonNetwork.LoadLevel("Lose");
-                    ResetCustomProperty();
+                    UIManager.Instance.onCloseUI.Invoke();
+
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        PhotonNetwork.LoadLevel("Lose");
+                        ResetCustomProperty();
+                    }
                 }
             }
         }
@@ -323,6 +329,7 @@ public class GameManager : PhotonSingleton<GameManager>
         {
             curPlayerCount = (int)count - 1;
             roomTable["PlayerCount"] = curPlayerCount;
+
             PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
         }
     }

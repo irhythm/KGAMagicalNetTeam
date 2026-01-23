@@ -10,6 +10,7 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
 
     // 모델
     private PlayerModel _model;
+    public PlayerModel Model=>_model;
 
     [Header("Settings")]
     [SerializeField] private float maxHp = 100f; // 체력 인스펙터 노출
