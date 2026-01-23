@@ -172,7 +172,7 @@ public class HumanoidRagdollController : MonoBehaviourPun, IExplosion
 
     public void OnExplosion(Vector3 explosionPos, FireballSO data, int attackerActorNr)
     {
-        Vector3 force = transform.forward * data.knockbackForce;
+        Vector3 force = (transform.position - explosionPos).normalized * data.knockbackForce;
         ApplyRagdoll(force);
 
         if(baseAI != null)
