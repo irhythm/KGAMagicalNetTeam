@@ -8,6 +8,7 @@ public class FireballSO : MagicDataSO
     public float maxSpeedMul = 3.0f;
     public float accelerationTime = 2.0f;
     public GameObject explosionEffectPrefab;
+    public AudioClip explosionSound;
 
     [Header("Explosion")]
     public float explosionRadius = 5f;      // 폭발 반경
