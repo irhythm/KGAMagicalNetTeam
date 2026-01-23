@@ -4171,7 +4171,7 @@ MonoBehaviour:
   targetPlayer: {fileID: 0}
   lastAttackTime: 0
   myWeapons:
-  - {fileID: 2792500669146000992}
+  - {fileID: 0}
 --- !u!114 &3768445575235341513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10517,17 +10517,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6db645130985f654895e4942c7d8a16a, type: 3}
---- !u!114 &2792500669146000992 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1887477853562036081, guid: 6db645130985f654895e4942c7d8a16a, type: 3}
-  m_PrefabInstance: {fileID: 4391396165313605905}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c129a0b6dfb3b554d9f1046d264da0fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MeleeWeapon
 --- !u!4 &7539168259123497681 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6075881592049597376, guid: 6db645130985f654895e4942c7d8a16a, type: 3}

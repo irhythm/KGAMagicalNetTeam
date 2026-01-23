@@ -22,10 +22,12 @@ MonoBehaviour:
   damage: 5
   spawnOffset: {x: 0, y: 0, z: 0}
   knockbackForce: 200
-  speed: 20
+  speed: 80
+  startSpeedMul: 0.2
+  maxSpeedMul: 3
+  accelerationTime: 2
   explosionEffectPrefab: {fileID: 2171681095029567125, guid: 6a76d703b210225468effaff42ad5632, type: 3}
   explosionRadius: 2
-  explosionForce: 200
   explosionUpward: 1
   explosionLayer:
     serializedVersion: 2

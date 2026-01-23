@@ -4,6 +4,9 @@ using UnityEngine;
 public class FireballSO : MagicDataSO
 {
     public float speed = 20f;
+    public float startSpeedMul = 0.2f;
+    public float maxSpeedMul = 3.0f;
+    public float accelerationTime = 2.0f;
     public GameObject explosionEffectPrefab;
 
     [Header("Explosion")]

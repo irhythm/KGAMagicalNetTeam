@@ -13,18 +13,33 @@ public class Fireball : MonoBehaviourPun
 
     private int shooterActorNumber;
     private bool hasExploded = false;
-    int fryingPanLayer;
+
+    private float currentTimer = 0f;
+
+    Rigidbody rb;
 
     private void Start()
     {
-        fryingPanLayer = LayerMask.NameToLayer("FryingPan");
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.linearVelocity = transform.forward * fireballData.speed;
-        }
+        rb = GetComponent<Rigidbody>();
+        ApplyVelocity();
     }
 
+    void FixedUpdate()
+    {
+        currentTimer += Time.fixedDeltaTime;
+
+        ApplyVelocity();
+    }
+
+    private void ApplyVelocity()
+    {
+        if (rb == null) return;
+
+        float progress = Mathf.Clamp01(currentTimer / fireballData.accelerationTime);
+        float currentMul = Mathf.Lerp(fireballData.startSpeedMul, fireballData.maxSpeedMul, progress);
+
+        rb.linearVelocity = transform.forward * (fireballData.speed * currentMul);
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (!photonView.IsMine) return;
