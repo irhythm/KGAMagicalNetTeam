@@ -26,7 +26,7 @@ MonoBehaviour:
   startSpeedMul: 0.2
   maxSpeedMul: 3
   accelerationTime: 2
-  explosionEffectPrefab: {fileID: 2171681095029567125, guid: 6a76d703b210225468effaff42ad5632, type: 3}
+  explosionEffectPrefab: {fileID: 1546657409941744, guid: cf30c2341110d7f46aaa4dd8097403ae, type: 3}
   explosionRadius: 2
   explosionUpward: 1
   explosionLayer:
