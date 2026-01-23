@@ -180,6 +180,11 @@ public class GuardAI : BaseAI
     //일어날 시 상태 초기화
     public override void OnRecoverFromKnockdown()
     {
+        if (CurrentHP <= 0 || currentNetworkState == AIStateID.Dead)
+        {
+            return;
+        }
+
         base.OnRecoverFromKnockdown(); // IsKnockedDown = false 실행
 
         //싸우던 중이면 Chase, 아니면 패트롤
