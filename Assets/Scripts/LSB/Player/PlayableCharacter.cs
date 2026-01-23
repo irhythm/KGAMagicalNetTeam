@@ -339,7 +339,12 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     }
 
     // 260122 신현섭: 상호작용 시 진행할 것들
-    public void OnInteract()
+    public void OnExecuterInteraction()
+    {
+
+    }
+
+    public void OnReceiverInteraction()
     {
 
     }
