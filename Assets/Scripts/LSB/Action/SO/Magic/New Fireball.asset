@@ -21,7 +21,7 @@ MonoBehaviour:
   isDisposable: 0
   damage: 5
   spawnOffset: {x: 0, y: 0, z: 0}
-  knockbackForce: 0
+  knockbackForce: 200
   speed: 20
   explosionEffectPrefab: {fileID: 2171681095029567125, guid: 6a76d703b210225468effaff42ad5632, type: 3}
   explosionRadius: 2

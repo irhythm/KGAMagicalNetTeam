@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class PanController : MonoBehaviourPunCallbacks
+public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
 {
     [SerializeField] GameObject PanHpBanner;
     Hashtable roomTable = new Hashtable();
@@ -51,7 +51,15 @@ public class PanController : MonoBehaviourPunCallbacks
             //CheckDie();
     }
 
-    public void OnTakeDamage(float damage)
+    public void OnExplosion(Vector3 explosionPos, FireballSO data, int attackerActorNr)
+    {
+        if (pv.IsMine)
+        {
+            TakeDamage(data.damage);
+        }
+    }
+
+    public void TakeDamage(float damage)
     {
         pv.RPC(nameof(TakeDamageRPC), RpcTarget.All, damage);
     }
@@ -152,5 +160,4 @@ public class PanController : MonoBehaviourPunCallbacks
         transform.position = originPos;
         damageCoroutine_Noise = null;
     }
-
 }

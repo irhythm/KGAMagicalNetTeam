@@ -54,69 +54,29 @@ public class Fireball : MonoBehaviourPun
         // 폭발 범위 내의 모든 콜라이더 감지
         Collider[] colliders = Physics.OverlapSphere(explosionPos, fireballData.explosionRadius, fireballData.explosionLayer);
 
-        Debug.Log($"[Fireball] 폭발 반경({fireballData.explosionRadius}) 내 감지된 물체 수: {colliders.Length}");
+        Debug.Log($"[Fireball] 내 감지된 물체 수: {colliders.Length}");
 
         foreach (Collider hit in colliders)
         {
-            if (hit.gameObject.layer == fryingPanLayer)
+            IExplosion targetComponent = hit.GetComponent<IExplosion>();
+            if (targetComponent == null) targetComponent = hit.GetComponentInParent<IExplosion>();
+
+            if (targetComponent != null)
             {
-                if (photonView.IsMine)
-                    hit.GetComponent<PanController>().OnTakeDamage(fireballData.damage);
+                targetComponent.OnExplosion(explosionPos, fireballData, shooterActorNumber);
             }
-            // 파편(ChunkNode)인지 확인 (자신 또는 부모)
-            ChunkNode node = hit.GetComponent<ChunkNode>();
-            if (node == null) node = hit.GetComponentInParent<ChunkNode>();
-
-            if (node != null)
+            else
             {
-                // 감지된 파편에게 힘 적용
-                node.ApplyExplosionForce(
-                    fireballData.explosionForce,
-                    explosionPos,
-                    fireballData.explosionRadius,
-                    fireballData.explosionUpward
-                );
-                continue;
-            }
-
-            // 일반 물리 객체(플레이어, 적 등) 처리
-            Rigidbody rb = hit.GetComponent<Rigidbody>();
-
-            // 아군 오인사격 방지
-            PhotonView targetView = hit.GetComponent<PhotonView>();
-            if (targetView != null)
-            {
-                if (!targetView.IsMine) continue;
-                if (targetView.OwnerActorNr == shooterActorNumber && hit.CompareTag("Player")) continue;
-                if (hit.CompareTag("Player") && !IsFriendlyFireOn()) continue;
-            }
-
-            if (rb != null)
-            {
-                rb.AddExplosionForce(fireballData.explosionForce, explosionPos, fireballData.explosionRadius, fireballData.explosionUpward, ForceMode.Impulse);
-            }
-
-            // 데미지 처리
-            if (targetView != null && targetView.IsMine)
-            {
-                IDamageable target = hit.GetComponent<IDamageable>();
-                if (target != null)
+                Rigidbody rb = hit.GetComponent<Rigidbody>();
+                if (rb != null)
                 {
-                    target.TakeDamage(fireballData.damage);
+                    rb.AddExplosionForce(fireballData.knockbackForce, explosionPos, fireballData.explosionRadius, fireballData.explosionUpward, ForceMode.Impulse);
                 }
             }
         }
     }
 
-    private bool IsFriendlyFireOn()
-    {
-        if (PhotonNetwork.CurrentRoom != null &&
-            PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("FriendlyFire", out object isFF))
-        {
-            return (bool)isFF;
-        }
-        return false;
-    }
+    
 
     public void SetShooterActorNumber(int actorNumber)
     {

@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 /// <summary>
 /// 파편의 상태와 이웃의 정보를 관리하는 노드
 /// </summary>
-public class ChunkNode : MonoBehaviour
+public class ChunkNode : MonoBehaviour, IExplosion
 {
     // 프리팹 직렬화용 이웃 배열
     [SerializeField] public ChunkNode[] neighbours;
@@ -194,5 +195,16 @@ public class ChunkNode : MonoBehaviour
             Vector3 pos = (col != null) ? col.bounds.center : transform.position;
             Gizmos.DrawSphere(pos, 0.2f);
         }
+    }
+
+    public void OnExplosion(Vector3 explosionPos, FireballSO data, int attackerActorNr)
+    {
+
+        ApplyExplosionForce(
+            data.knockbackForce,
+            explosionPos,
+            data.explosionRadius,
+            data.explosionUpward
+        );
     }
 }

@@ -7,10 +7,9 @@ public class FireballSO : MagicDataSO
     public GameObject explosionEffectPrefab;
 
     [Header("Explosion")]
-    public float explosionRadius = 5f;      // Æø¹ß ¹İ°æ
-    public float explosionForce = 1000f;    // Æø¹ß Èû
-    public float explosionUpward = 1f;      // À§·Î ¶ç¿ì´Â Èû
-    public LayerMask explosionLayer;        // Æø¹ß¿¡ ¸ÂÀ» ·¹ÀÌ¾î
+    public float explosionRadius = 5f;      // í­ë°œ ë°˜ê²½
+    public float explosionUpward = 1f;      // ìœ„ë¡œ ë„ìš°ëŠ” í˜
+    public LayerMask explosionLayer;        // í­ë°œì— ë§ì„ ë ˆì´ì–´
 
     public override ActionBase CreateInstance()
     {
