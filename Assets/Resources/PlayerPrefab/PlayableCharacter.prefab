@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6284574979208489163}
   - component: {fileID: 2133397425804827743}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: MapIcon_Team
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2519602762177208824}
   - component: {fileID: 4620196561771727251}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: MapIcon_Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -640,6 +640,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   noiseInterval: 0.4
+  gizmoColor: {r: 0, g: 1, b: 1, a: 0.4}
 --- !u!1001 &317560795834362853
 PrefabInstance:
   m_ObjectHideFlags: 0
