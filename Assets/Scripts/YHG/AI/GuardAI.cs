@@ -31,7 +31,7 @@ public class GuardAI : BaseAI
     protected Collider[] connectionBuffer = new Collider[1];
 
     //최적화용 포톤뷰 캐싱
-    private PhotonView targetPv;
+    protected PhotonView targetPv;
 
     [Header("정밀 판정용 무기 연결")]
     public MeleeWeapon[] myWeapons;
