@@ -16,9 +16,6 @@ public class MagicFireball : MagicAction
 
         if (fireballData.itemPrefab != null)
         {
-            //2601213 양현용 : 파이어볼 소환 사운드 추가
-            SoundManager.Instance.PlaySFX(fireballData.magicSound, 1f, 100f, finalSpawnPos);
-
             GameObject obj = PhotonNetwork.Instantiate("EffectPrefab/" + fireballData.itemPrefab.name, finalSpawnPos, Quaternion.LookRotation(direction));
             Fireball fireball = obj.GetComponent<Fireball>();
             if (fireball != null)
