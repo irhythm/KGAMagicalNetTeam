@@ -33,12 +33,12 @@ public class PlayerInventory
 
     public void AddItem(InventoryDataSO item)
     {
-        if (GameManager.Instance.LocalPlayer != null && GameManager.Instance.LocalPlayer.GetComponent<PhotonView>().IsMine)
-        {
+        
             if (inventory.ContainsKey(item))
             {
                 inventory[item]++;
-            }
+                Debug.Log($"인벤토리 {item.itemName} 개수 증가됨");
+        }
             else
             {
                 if (inventory.Count >= maximumInvenCount)
@@ -68,13 +68,12 @@ public class PlayerInventory
                 //}
                 GameManager.Instance.InventoryWheel.UpdateWheelInventory();
             }
-        }
+        
     }
 
     public void RemoveItem(InventoryDataSO item)
     {
-        if (GameManager.Instance.LocalPlayer != null && GameManager.Instance.LocalPlayer.GetComponent<PhotonView>().IsMine)
-        {
+        
             if (inventory.ContainsKey(item))
             {
                 inventory[item]--;
@@ -91,6 +90,6 @@ public class PlayerInventory
             }
             if (GameManager.Instance != null && GameManager.Instance.InventoryWheel != null)
                 GameManager.Instance.InventoryWheel.UpdateWheelInventory();
-        }
+        
     }
 }
