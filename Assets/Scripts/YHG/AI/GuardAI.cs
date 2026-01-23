@@ -207,7 +207,7 @@ public class GuardAI : BaseAI
 
 
     //범위체크용
-    private void OnDrawGizmosSelected()
+    protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectRadius);
