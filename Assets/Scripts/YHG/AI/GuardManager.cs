@@ -1,10 +1,9 @@
-﻿using Photon.Pun;
+using Photon.Pun;
 using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;//테스트용
 
 //마법 사용 정보, 경비간 무전 구현할 인스턴스 컴포넌트
 //씬 장착, 파괴는 시킴
@@ -47,8 +46,11 @@ public class GuardManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
+        if (instance != null && instance != this)
+        {
+            Destroy(instance.gameObject);
+        }
+        instance = this;
     }
 
     private void Start()
@@ -231,6 +233,13 @@ public class GuardManager : MonoBehaviourPunCallbacks
         }
     }
 
+    private void OnDestroy()
+    {
+        if (instance != null)
+        {
+            instance = null;
+        }
+    }
 
     //마법용(신빈님), 발동 시점에 호출
     public void RegisterMagicNoise(Vector3 pos)

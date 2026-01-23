@@ -16,9 +16,17 @@ public class PlayerNoiseEmitter : MonoBehaviourPun
     //참조용
     private PlayerInputHandler inputHandler;
 
+    [Header("디버그 설정")]
+    public Color gizmoColor = new Color(0, 1, 1, 0.4f);
+
     //GC 방지용 버퍼
     private Collider[] noiseBuffer = new Collider[10];
     private float noiseTimer = 0f;
+
+    private void Awake()
+    {
+        inputHandler = GetComponent<PlayerInputHandler>();
+    }
 
     private void Update()
     {
@@ -77,7 +85,7 @@ public class PlayerNoiseEmitter : MonoBehaviourPun
     //에디터 범위 눈으로 확인
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = new Color(1, 1, 0, 0.3f); //반투명 노랑
+        Gizmos.color = gizmoColor;
         Gizmos.DrawWireSphere(transform.position, runNoiseRadius);
     }
 }
