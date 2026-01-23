@@ -41,6 +41,13 @@ public class HumanoidRagdollController : MonoBehaviourPun, IExplosion
 
     private void Update()
     {
+        if (baseAI != null && baseAI.CurrentHP <= 0) return;
+
+        if (isRecovering) return;
+
+        //일단 대기
+        if (Time.time - ragdollStartTime < knockDownDuration) return;
+
         //방장이 NPC의 기상 타이밍 결정
         //안 그러면 각자 화면에서 따로 일어나서 위치가 꼬임
         if (PhotonNetwork.IsMasterClient && isRagdollActive)
@@ -136,6 +143,7 @@ public class HumanoidRagdollController : MonoBehaviourPun, IExplosion
     [PunRPC]
     private void RpcGetUp(Vector3 syncPosition)
     {
+        if (baseAI != null && baseAI.CurrentHP <= 0) return;
         StartCoroutine(CoGetUpProcess(syncPosition));
     }
 
