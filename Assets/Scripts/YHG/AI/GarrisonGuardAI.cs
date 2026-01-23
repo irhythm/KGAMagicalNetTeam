@@ -29,17 +29,18 @@ public class GarrisonGuardAI : GuardAI
     //4단계 시야 필터링
     //거리  / 높이 / 각도 / 레이
     //오버랩/ 임계 / 앵글 / 레이
-    public override bool CheckEnemyNearby()
-    {
 
-    }
+    //public override bool CheckEnemyNearby()
+    //{
+
+    //}
 
 
-    //멀티 레이캐스트 로직
-    private bool CanSeeTarget(Transform target)
-    {
+    ////멀티 레이캐스트 로직
+    //private bool CanSeeTarget(Transform target)
+    //{
 
-    }
+    //}
 
     //소음 감지(주둔지 전용)
     //주둔지 체크(앵커포인트 기준 maxChasDIst 범위만)
@@ -65,8 +66,5 @@ public class GarrisonGuardAI : GuardAI
     {
         //감지범위, 주둔지 범위, 시야각 3개
     }
-
-    
-
 
 }
