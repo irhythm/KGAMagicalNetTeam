@@ -69,13 +69,13 @@ public class CoinLogic : MonoBehaviour
                 else if (hit.transform.gameObject.GetComponent<PurchasableScriptableObject>() != null)
                 {
 
-                    if ((int)PhotonNetwork.CurrentRoom.CustomProperties["MoneyCount"] >= (hit.transform.gameObject.GetComponent<PurchasableScriptableObject>().Cost))
-
-
+                    if (GameManager.Instance.CurTeamMoney() >= (hit.transform.gameObject.GetComponent<PurchasableScriptableObject>().Cost))
                     {
-                        Hashtable customProperties = new Hashtable();
-                        customProperties["MoneyCount"] = (int)PhotonNetwork.CurrentRoom.CustomProperties["MoneyCount"] - (hit.transform.gameObject.GetComponent<PurchasableScriptableObject>().Cost);
-                        PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties); // = (int)PhotonNetwork.CurrentRoom.CustomProperties["MoneyCount"] - (hit.transform.gameObject.GetComponent<PurchasableScriptableObject>().Cost);
+                        //Hashtable customProperties = new Hashtable();
+                        //customProperties["MoneyCount"] = (int)PhotonNetwork.CurrentRoom.CustomProperties["MoneyCount"] - (hit.transform.gameObject.GetComponent<PurchasableScriptableObject>().Cost);
+                        //PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties); // = (int)PhotonNetwork.CurrentRoom.CustomProperties["MoneyCount"] - (hit.transform.gameObject.GetComponent<PurchasableScriptableObject>().Cost);
+                        GameManager.Instance.UseTeamMoney(hit.transform.gameObject.GetComponent<PurchasableScriptableObject>().Cost);
+
                         GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.AddItem(hit.transform.gameObject.GetComponent<PurchasableScriptableObject>().InventoryData);
 
                         hit.transform.gameObject.GetComponent<PurchasableScriptableObject>().RequestDestroy();
