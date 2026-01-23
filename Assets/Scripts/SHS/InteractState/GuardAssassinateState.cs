@@ -43,13 +43,13 @@ public class GuardAssassinateState : AIStateBase, IInteractable
         base.FixedExecute();
     }
 
-    public void OnInteract()
+    public void OnExecuterInteraction()
     {
-
+        
     }
 
-    void IInteractable.OnInteract()
+    public void OnReceiverInteraction()
     {
-        throw new System.NotImplementedException();
+
     }
 }

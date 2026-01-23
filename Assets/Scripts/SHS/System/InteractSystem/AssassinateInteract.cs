@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class AssassinateInteract : BaseInteractSystem
 {
-    public AssassinateInteract(IInteractable executer, IInteractable receiver) : base(executer, receiver)
+    public AssassinateInteract(InteractionDataSO data, IInteractable executer, params IInteractable[] receivers) : base(data,executer, receivers)
     {
 
     }
 
-    public override void Init(IInteractable executer, IInteractable receiver)
+    public override void Init(InteractionDataSO data, IInteractable executer, params IInteractable[] receivers)
     {
-        base.Init(executer, receiver);
+        base.Init(data, executer, receivers);
     }
 
     public override void PlayInteract()
