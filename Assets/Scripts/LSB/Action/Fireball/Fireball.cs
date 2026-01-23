@@ -20,6 +20,9 @@ public class Fireball : MonoBehaviourPun
 
     private void Start()
     {
+        //2601213 양현용 : 파이어볼 소환 사운드 추가
+        SoundManager.Instance.PlaySFX(fireballData.magicSound, 1f, 100f, gameObject.transform.position);
+
         rb = GetComponent<Rigidbody>();
         ApplyVelocity();
     }
