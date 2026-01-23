@@ -15,7 +15,7 @@ MonoBehaviour:
   itemId: 1001
   itemName: Fireball
   itemImage: {fileID: 695775810, guid: 080cb6d98b00c2645b2c41df5f69bc78, type: 3}
-  itemPrefab: {fileID: 3849062070049599827, guid: 0878129b6f3a0d64ea4728b382a5f1c5, type: 3}
+  itemPrefab: {fileID: 463702073341317402, guid: be79f0b4e7b2c7b48a648ba14f7f6dcf, type: 3}
   description: 
   cooldown: 5
   isDisposable: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
   startSpeedMul: 0.2
   maxSpeedMul: 3
   accelerationTime: 2
-  explosionEffectPrefab: {fileID: 1546657409941744, guid: cf30c2341110d7f46aaa4dd8097403ae, type: 3}
+  explosionEffectPrefab: {fileID: 1879798220002124, guid: 8c988011ae9fc604a8a3761a0ac3d8a8, type: 3}
   explosionRadius: 2
   explosionUpward: 1
   explosionLayer:
