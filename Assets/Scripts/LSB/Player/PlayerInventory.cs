@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,58 +33,64 @@ public class PlayerInventory
 
     public void AddItem(InventoryDataSO item)
     {
-        if (inventory.ContainsKey(item))
+        if (GameManager.Instance.LocalPlayer != null && GameManager.Instance.LocalPlayer.GetComponent<PhotonView>().IsMine)
         {
-            inventory[item]++;
-        }
-        else
-        {
-            if (inventory.Count >= maximumInvenCount)
+            if (inventory.ContainsKey(item))
             {
-                Debug.Log("인벤토리 가득 참");
-                return;
+                inventory[item]++;
             }
-            inventory.Add(item, 1);
-
-            if (item is ActionItemDataSO actionData)
+            else
             {
-                if (!activeActions.ContainsKey(actionData))
+                if (inventory.Count >= maximumInvenCount)
                 {
-                    ActionBase newAction = actionData.CreateInstance();
-                    activeActions.Add(actionData, newAction);
-                    Debug.Log($"인벤토리 {item.itemName} 액션 생성됨");
+                    Debug.Log("인벤토리 가득 참");
+                    return;
+                }
+                inventory.Add(item, 1);
+
+                if (item is ActionItemDataSO actionData)
+                {
+                    if (!activeActions.ContainsKey(actionData))
+                    {
+                        ActionBase newAction = actionData.CreateInstance();
+                        activeActions.Add(actionData, newAction);
+                        Debug.Log($"인벤토리 {item.itemName} 액션 생성됨");
+                    }
                 }
             }
-        }
-        Debug.Log(GameManager.Instance);
-        Debug.Log(GameManager.Instance.InventoryWheel);
-        if (GameManager.Instance != null && GameManager.Instance.InventoryWheel != null)
-        {
-            foreach (var kvp in inventory)
+            //Debug.Log(GameManager.Instance);
+            //Debug.Log(GameManager.Instance.InventoryWheel);
+            if (GameManager.Instance != null && GameManager.Instance.InventoryWheel != null)
             {
-                Debug.Log($"인벤토리 아이템: {kvp.Key.itemName}, 개수: {kvp.Value}");
+                //foreach (var kvp in inventory)
+                //{
+                //    Debug.Log($"인벤토리 아이템: {kvp.Key.itemName}, 개수: {kvp.Value}");
+                //}
+                GameManager.Instance.InventoryWheel.UpdateWheelInventory();
             }
-            GameManager.Instance.InventoryWheel.UpdateWheelInventory();
         }
     }
 
     public void RemoveItem(InventoryDataSO item)
     {
-        if (inventory.ContainsKey(item))
+        if (GameManager.Instance.LocalPlayer != null && GameManager.Instance.LocalPlayer.GetComponent<PhotonView>().IsMine)
         {
-            inventory[item]--;
-            if (inventory[item] <= 0)
+            if (inventory.ContainsKey(item))
             {
-                inventory.Remove(item);
-
-                if (item is ActionItemDataSO actionData && activeActions.ContainsKey(actionData))
+                inventory[item]--;
+                if (inventory[item] <= 0)
                 {
-                    activeActions.Remove(actionData);
+                    inventory.Remove(item);
+
+                    if (item is ActionItemDataSO actionData && activeActions.ContainsKey(actionData))
+                    {
+                        activeActions.Remove(actionData);
+                    }
+                    return;
                 }
-                return;
             }
+            if (GameManager.Instance != null && GameManager.Instance.InventoryWheel != null)
+                GameManager.Instance.InventoryWheel.UpdateWheelInventory();
         }
-        if (GameManager.Instance != null && GameManager.Instance.InventoryWheel != null)
-            GameManager.Instance.InventoryWheel.UpdateWheelInventory();
     }
 }
