@@ -56,7 +56,10 @@ public class CoinLogic : MonoBehaviour
 
             if (hit.transform.gameObject.GetComponent<CoinItself>() != null)
             {
-                GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.AddItem(hit.transform.gameObject.GetComponent<CoinItself>().CoinData);
+                if (GameManager.Instance.LocalPlayer.GetComponent<PhotonView>().IsMine)
+                {
+                    GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.AddItem(hit.transform.gameObject.GetComponent<CoinItself>().CoinData);
+                }
                 hit.transform.gameObject.GetComponent<CoinItself>().RequestDestroy();
                 Debug.Log("Coin Picked Up! Really");
             }
