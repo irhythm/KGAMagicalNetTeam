@@ -48,7 +48,7 @@ public class GarrisonGuardAI : GuardAI
     //오버라이드
     protected override void SetInitialState()
     {
-        // ChangeState(new GarrisonPatrolState(this, stateMachine));
+        ChangeState(new GarrisonPatrolState(this, stateMachine));
     }
 
     //4단계 시야 필터링
@@ -208,7 +208,7 @@ public class GarrisonGuardAI : GuardAI
             Gizmos.DrawWireSphere(transform.position, maxChaseDist);
         }
 
-        //fovAngle시야각 0.5까먹지말고
+        //fovAngle시야각
         Gizmos.color = Color.green;
         Vector3 leftRay = Quaternion.Euler(0, -fovAngle * 0.5f, 0) * transform.forward;
         Vector3 rightRay = Quaternion.Euler(0, fovAngle * 0.5f, 0) * transform.forward;
