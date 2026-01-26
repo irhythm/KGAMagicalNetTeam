@@ -10177,7 +10177,7 @@ MonoBehaviour:
   - {fileID: 910100030}
   - {fileID: 2042867179}
   - {fileID: 1412607731}
-  roundAudio: {fileID: 0}
+  roundAudio: {fileID: 8300000, guid: ac596879c2a33fb4f90d7caee30d0510, type: 3}
 --- !u!4 &1236452731
 Transform:
   m_ObjectHideFlags: 0
