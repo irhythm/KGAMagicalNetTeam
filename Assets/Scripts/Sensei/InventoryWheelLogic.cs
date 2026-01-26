@@ -102,7 +102,8 @@ public class InventoryWheelLogic : MonoBehaviour
 
     void OnDestroy()
     {
-
+        if (GameManager.Instance == null || GameManager.Instance.LocalPlayer == null)
+            return;
         GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnSelectQorEEvent -= OpenInventory;
         GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnDeselectQorEEvent -= CloseInventory;
 
