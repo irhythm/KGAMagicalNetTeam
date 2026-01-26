@@ -2,10 +2,10 @@ using UnityEngine;
 
 public abstract class ItemAction : ActionBase
 {
-    // µ¥ÀÌÅÍ Çüº¯È¯ ÇÁ·ÎÆÛÆ¼
-    public ItemDataSO MagicData => BaseData as ItemDataSO;
+    // ë°ì´í„° í˜•ë³€í™˜ í”„ë¡œí¼í‹°
+    public ActionItemDataSO ItemData => BaseData;
 
-    public ItemAction(ItemDataSO data) : base(data)
+    public ItemAction(ActionItemDataSO data) : base(data)
     {
     }
 
