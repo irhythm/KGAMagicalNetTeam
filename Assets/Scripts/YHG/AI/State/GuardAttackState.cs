@@ -62,7 +62,14 @@ public class GuardAttackState : AIStateBase
         //타겟 죽거나 사라지면 순찰
         if (guard.targetPlayer == null)
         {
-            stateMachine.ChangeState(new GuardPatrolState(guard, stateMachine));
+            if (guard is GarrisonGuardAI garrison)
+            {
+                stateMachine.ChangeState(new GarrisonPatrolState(garrison, stateMachine));
+            }
+            else
+            {
+                stateMachine.ChangeState(new GuardPatrolState(guard, stateMachine));
+            }
             return;
         }
 
@@ -79,10 +86,17 @@ public class GuardAttackState : AIStateBase
             //제곱 사용
             float sqrDist = (guard.targetPlayer.position - guard.transform.position).sqrMagnitude;
 
+            //적 멀어짐, 추격 시작
             if (sqrDist > sqrStopAttackRange)
             {
-                //적 멀어짐, 추격 시작
-                stateMachine.ChangeState(new GuardChaseState(guard, stateMachine));
+                if (guard is GarrisonGuardAI garrison)
+                {
+                    stateMachine.ChangeState(new GarrisonChaseState(garrison, stateMachine));
+                }
+                else
+                {
+                    stateMachine.ChangeState(new GuardChaseState(guard, stateMachine));
+                }
                 return;
             }
         }

@@ -171,12 +171,15 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamag
     }
 
     [PunRPC]
-    public virtual void RPC_TakeDamage(float damageAmount)
+    public void RPC_TakeDamage(float damageAmount)
     {
         if (currentNetworkState == AIStateID.Dead || CurrentHP <= 0) return;
+        ProcessDamage(damageAmount);
+    }
 
-        CurrentHP -= damageAmount;
-
+    protected virtual void ProcessDamage(float damage)
+    {
+        CurrentHP -= damage;
 
         if (CurrentHP <= 0)
         {

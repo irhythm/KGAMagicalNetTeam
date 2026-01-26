@@ -217,4 +217,10 @@ public class GarrisonGuardAI : GuardAI
         Gizmos.DrawRay(transform.position, rightRay * detectRadius);
     }
 
+    protected override void ProcessDamage(float damage)
+    {
+        //stateMachine 체크해서 리턴중이면 데미지 무시
+        if (stateMachine != null && stateMachine.CurrentState is GarrisonReturnState) return;
+        base.TakeDamage(damage);
+    }
 }
