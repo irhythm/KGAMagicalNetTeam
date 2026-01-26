@@ -20,6 +20,7 @@ public class CoinLogic : MonoBehaviour
 
     void OnDestroy()
     {
+        GetComponent<PlayerInputHandler>().OnInteractEvent -= PickupOrSpendCoin;
        // InputSystem.actions.FindActionMap("Player").FindAction("Interact").performed -= PickupCoin;
     }
 
