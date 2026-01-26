@@ -28,8 +28,24 @@ public class CoinItself : MonoBehaviourPunCallbacks
         PhotonNetwork.Destroy(this.gameObject);
     }
 
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+
+    public void DropCoin(Vector3 spawnPos, Vector3 targetPos)
+    {
+        photonView.RPC("RPC_DropCoin", RpcTarget.MasterClient, spawnPos, targetPos);
+        GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.RemoveItem(coinData);
+    }
+
+
+    [PunRPC]
+    private void RPC_DropCoin(Vector3 spawnPos, Vector3 targetPos)
+    {
+
+        GetComponent<Rigidbody>().AddForce((targetPos - spawnPos) * 5f, ForceMode.Impulse);
+
+
+    }
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
     {
         
     }

@@ -22,19 +22,12 @@ public class ItemCoin : ItemAction
 
 
         temp = PhotonNetwork.Instantiate(coinData.itemPrefab.name, spawnPos, Quaternion.identity);
-        temp.GetComponent<PhotonView>().RPC(nameof(RPC_DropCoin), RpcTarget.All, spawnPos, targetPos);
+        temp.GetComponent<CoinItself>().DropCoin(spawnPos, targetPos);
 
     }
 
 
-    [PunRPC]
-    private void RPC_DropCoin(Vector3 spawnPos, Vector3 targetPos)
-    {
-
-        temp.GetComponent<Rigidbody>().AddForce((targetPos - spawnPos) * 5f, ForceMode.Impulse);
-        
-        
-    }
+    
 
 
 }
