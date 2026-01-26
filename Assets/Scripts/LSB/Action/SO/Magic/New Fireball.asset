@@ -17,10 +17,12 @@ MonoBehaviour:
   itemImage: {fileID: 695775810, guid: 080cb6d98b00c2645b2c41df5f69bc78, type: 3}
   itemPrefab: {fileID: 463702073341317402, guid: be79f0b4e7b2c7b48a648ba14f7f6dcf, type: 3}
   description: 
-  cooldown: 5
+  cooldown: 1
   isDisposable: 0
   damage: 5
   knockbackForce: 200
+  radius: 5
+  forceUpward: 1
   spawnOffset: {x: 0, y: 0, z: 0}
   magicSound: {fileID: 8300000, guid: 5b6935c78d4a801438cc45ac1a8b4680, type: 3}
   speed: 80
@@ -29,8 +31,6 @@ MonoBehaviour:
   accelerationTime: 2
   explosionEffectPrefab: {fileID: 1879798220002124, guid: 8c988011ae9fc604a8a3761a0ac3d8a8, type: 3}
   explosionSound: {fileID: 8300000, guid: 34a1e0dd450b03343bb4fd0fcefccce7, type: 3}
-  explosionRadius: 2
-  explosionUpward: 1
   explosionLayer:
     serializedVersion: 2
     m_Bits: 4294967295

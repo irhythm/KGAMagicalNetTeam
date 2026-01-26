@@ -17,10 +17,12 @@ MonoBehaviour:
   itemImage: {fileID: 2062015785, guid: 080cb6d98b00c2645b2c41df5f69bc78, type: 3}
   itemPrefab: {fileID: 7017943351223773638, guid: 29db89a531eeb0a44b653f7ee1d5dcf7, type: 3}
   description: 
-  cooldown: 5
+  cooldown: 1
   isDisposable: 0
   damage: 5
   knockbackForce: 50
+  radius: 3
+  forceUpward: 1
   spawnOffset: {x: 0, y: 0, z: 0}
   magicSound: {fileID: 8300000, guid: 59775caacc554a341911ba6d9b9c2f99, type: 3}
   strikeRadius: 5
