@@ -33,14 +33,15 @@ public class GarrisonChaseState : AIStateBase
             garrison.Agent.updatePosition = true;
             garrison.Agent.updateRotation = true;
             garrison.Agent.isStopped = false;
-            garrison.Agent.ResetPath();
             garrison.Agent.speed = garrison.runSpeed;
+            garrison.Agent.ResetPath();
         }
         if (garrison.targetPlayer != null)
         {
             //추격 시작시에 타겟 포톤뷰 찾아두기
             targetPV = garrison.targetPlayer.GetComponent<PhotonView>();
             lastTargetPos = garrison.targetPlayer.position;
+
             if (garrison.Agent.isOnNavMesh)
             {
                 Vector3 dir = (garrison.targetPlayer.position - garrison.transform.position).normalized;
@@ -52,17 +53,26 @@ public class GarrisonChaseState : AIStateBase
 
                 garrison.Agent.SetDestination(garrison.targetPlayer.position);
             }
+            //발견 즉시 동료들에게 신고
+            ReportToManager();
         }
-
-        //발견 즉시 동료들에게 신고
-        ReportToManager();
     }
+
     public override void Execute()
     {
         //타겟 유효성 검사
         if (garrison.targetPlayer == null)
         {
-            stateMachine.ChangeState(new GarrisonPatrolState(garrison, stateMachine));
+            stateMachine.ChangeState(new GarrisonReturnState(garrison, stateMachine));
+            return;
+        }
+
+        //주둔지에서 멀어졌는지 체크
+
+        float distToCenter = Vector3.Distance(garrison.garrisonCenter.position, garrison.targetPlayer.position);
+        if (distToCenter > garrison.maxChaseDist)
+        {
+            stateMachine.ChangeState(new GarrisonReturnState(garrison, stateMachine));
             return;
         }
 
@@ -110,5 +120,4 @@ public class GarrisonChaseState : AIStateBase
         if (GuardManager.instance == null || targetPV == null) return;
         garrison.ReportEnemy(garrison.targetPlayer.position);
     }
-
 }
