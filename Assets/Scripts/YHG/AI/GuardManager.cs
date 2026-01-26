@@ -288,7 +288,7 @@ public class GuardManager : MonoBehaviourPunCallbacks
         Debug.Log("플레이어 변신 체크, 타이머 가동");
         IsTimerRunning = true;
         Timer = 0f;
-
+        RoundManager.Instance.StartOnGameBGM();
         //스폰 인터벌만큼 대기
         nextSpawnTargetTime = spawnInterval;
         currentWave = 0;

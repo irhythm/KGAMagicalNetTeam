@@ -1,24 +1,26 @@
 using UnityEngine;
 
 /// <summary>
-/// PlayerPrefs·Î µ¥ÀÌÅÍ ÀúÀå
-/// À¯Àú ¾ÆÀÌµğ, ¾ğ¾î ¼³Á¤, À½¾Ç º¼·ı ¼³Á¤, ±âÅ¸ º¼·ı ¼³Á¤, Ç°Áú ¼³Á¤, ÇØ»óµµ ¼öÄ¡
+/// PlayerPrefsë¡œ ë°ì´í„° ì €ì¥
+/// ìœ ì € ì•„ì´ë””, ì–¸ì–´ ì„¤ì •, ìŒì•… ë³¼ë¥¨ ì„¤ì •, ê¸°íƒ€ ë³¼ë¥¨ ì„¤ì •, í’ˆì§ˆ ì„¤ì •, í•´ìƒë„ ìˆ˜ì¹˜
 /// </summary>
 public static class PlayerPrefsDataManager
 {
     #region PlayerPrefs Key
-    public const string KEY_LOGINID = "LoginId";                    // ·Î±×ÀÎ ¾ÆÀÌµğ Å°
-    public const string KEY_LANGUAGE = "Language";                  // ¾ğ¾î ¼³Á¤ Å°
-    public const string KEY_BGMVOLUME = "BgmVolume";                // BGM º¼·ı Å°
-    public const string KEY_SFXVOLUME = "SfxVolume";                // SFX º¼·ı Å°
-    public const string KEY_GRAPHICQUALITY = "GraphicQuality";      // ±×·¡ÇÈ Ç°Áú ¼³Á¤ Å°
-    public const string KEY_RESOLUTIONWIDTH = "ResolutionWidth";    // °¡·Î ÇØ»óµµ ¼öÄ¡ Å°
-    public const string KEY_RESOLUTIONHEIGHT = "ResolutionHeight";  // ¼¼·Î ÇØ»óµµ ¼öÄ¡ Å°
-    public const string KEY_MouseSensivity = "MouseSensitivity";  // ¸¶¿ì½º °¨µµ Å°
-    public const string KEY_MouseXInvert= "MouseXInvert";  // ¸¶¿ì½º X ¹İÀü
-    public const string KEY_MouseYInvert= "MouseYInvert";  // ¸¶¿ì½º Y ¹İÀü
-    public const string KEY_PlayerVoice= "PlayerVoice";  // À½¼º Ã¤ÆÃ »ç¿îµå
-    public const string KEY_PlayerMic= "PlayerMic";  // À½¼º Ã¤ÆÃ »ç¿îµå
+    public const string KEY_LOGINID = "LoginId";                    // ë¡œê·¸ì¸ ì•„ì´ë”” í‚¤
+    public const string KEY_LANGUAGE = "Language";                  // ì–¸ì–´ ì„¤ì • í‚¤
+    public const string KEY_BGMVOLUME = "BgmVolume";                // BGM ë³¼ë¥¨ í‚¤
+    public const string KEY_SFXVOLUME = "SfxVolume";                // SFX ë³¼ë¥¨ í‚¤
+    public const string KEY_GRAPHICQUALITY = "GraphicQuality";      // ê·¸ë˜í”½ í’ˆì§ˆ ì„¤ì • í‚¤
+    public const string KEY_RESOLUTIONWIDTH = "ResolutionWidth";    // ê°€ë¡œ í•´ìƒë„ ìˆ˜ì¹˜ í‚¤
+    public const string KEY_RESOLUTIONHEIGHT = "ResolutionHeight";  // ì„¸ë¡œ í•´ìƒë„ ìˆ˜ì¹˜ í‚¤
+    public const string KEY_RESOLUTIONWINDOW = "ResolutionWindow";  // ì„¸ë¡œ í•´ìƒë„ ìˆ˜ì¹˜ í‚¤
+    public const string KEY_RESOLUTIONHZ = "ResolutionHz";  // ì£¼ì‚¬ìœ¨
+    public const string KEY_MouseSensivity = "MouseSensitivity";  // ë§ˆìš°ìŠ¤ ê°ë„ í‚¤
+    public const string KEY_MouseXInvert= "MouseXInvert";  // ë§ˆìš°ìŠ¤ X ë°˜ì „
+    public const string KEY_MouseYInvert= "MouseYInvert";  // ë§ˆìš°ìŠ¤ Y ë°˜ì „
+    public const string KEY_PlayerVoice= "PlayerVoice";  // ìŒì„± ì±„íŒ… ì‚¬ìš´ë“œ
+    public const string KEY_PlayerMic= "PlayerMic";  // ìŒì„± ì±„íŒ… ì‚¬ìš´ë“œ
 
     public const string KEY_BGMVOLUME_MUTE = "BGMVolumeMute";
     public const string KEY_SFXVOLUME_MUTE = "SFXVolumeMute";
@@ -38,7 +40,7 @@ public static class PlayerPrefsDataManager
             PlayerPrefs.SetString(KEY_LOGINID, value);
         }
     }
-    public static string Language   // ±¹Á¦ Ç¥ÁØ ¾ğ¾î ÄÚµå¸¦ »ç¿ë (ex. "ko", "en", "ja")
+    public static string Language   // êµ­ì œ í‘œì¤€ ì–¸ì–´ ì½”ë“œë¥¼ ì‚¬ìš© (ex. "ko", "en", "ja")
     {
         get{ return PlayerPrefs.GetString(KEY_LANGUAGE, "ko"); }
 
@@ -46,11 +48,11 @@ public static class PlayerPrefsDataManager
         {
             string language;
 
-            // ¿ÀÅ¸ À§Çè µîÀ» ¹æÁöÇÏ±â À§ÇØ Àß¸øµÈ °ªÀÌ°Å³ª ÁöÁ¤µÇÁö ¾ÊÀº °æ¿ìÀÏ °æ¿ì ±âº»°ªÀ¸·Î ÇÑ±¹¾î ÁöÁ¤
+            // ì˜¤íƒ€ ìœ„í—˜ ë“±ì„ ë°©ì§€í•˜ê¸° ìœ„í•´ ì˜ëª»ëœ ê°’ì´ê±°ë‚˜ ì§€ì •ë˜ì§€ ì•Šì€ ê²½ìš°ì¼ ê²½ìš° ê¸°ë³¸ê°’ìœ¼ë¡œ í•œêµ­ì–´ ì§€ì •
             switch (value.ToLower())
             {
                 case "ko":
-                //case "ja":    // ¾ÆÁ÷ ÀÏº»¾î´Â Ãß°¡ x ¡æ ÆùÆ®°¡ ÀÏº»¾î´Â Áö¿øÇÏÁö ¾Ê±â ¶§¹®
+                //case "ja":    // ì•„ì§ ì¼ë³¸ì–´ëŠ” ì¶”ê°€ x â†’ í°íŠ¸ê°€ ì¼ë³¸ì–´ëŠ” ì§€ì›í•˜ì§€ ì•Šê¸° ë•Œë¬¸
                 case "en":
                     language = value.ToLower();
                     break;
@@ -203,6 +205,52 @@ public static class PlayerPrefsDataManager
         {
             int num = value == true ? 1 : 0;
             PlayerPrefs.SetInt(KEY_PlayerMic_MUTE, num);
+        }
+    }
+
+    public static int ResolutionWidth
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(KEY_RESOLUTIONWIDTH);
+        }
+        set
+        {
+            PlayerPrefs.SetInt(KEY_RESOLUTIONWIDTH, value);
+        }
+    }
+    public static int ResolutionHeight
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(KEY_RESOLUTIONHEIGHT);
+        }
+        set
+        {
+            PlayerPrefs.SetInt(KEY_RESOLUTIONHEIGHT, value);
+        }
+    }
+    public static float ResolutionHz
+    {
+        get
+        {
+            return PlayerPrefs.GetFloat (KEY_RESOLUTIONHZ);
+        }
+        set
+        {
+            PlayerPrefs.SetFloat(KEY_RESOLUTIONHZ, value);
+        }
+    }
+
+    public static int ResolutionWindow
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(KEY_RESOLUTIONWINDOW);
+        }
+        set
+        {
+            PlayerPrefs.SetInt(KEY_RESOLUTIONWINDOW, value);
         }
     }
 }

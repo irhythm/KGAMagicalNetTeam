@@ -27,7 +27,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         SoundManager.Instance.PlayBGM(LobbyAudio);
         Debug.Log("로비 씬 시작");
         FirebaseAuthManager.Instance.RefreshUser();
-        PhotonNetwork.NickName = FirebaseAuthManager.Instance.user.DisplayName;
+        if (FirebaseAuthManager.Instance.user != null)
+        {
+            PhotonNetwork.NickName = FirebaseAuthManager.Instance.user.DisplayName;
+        }
+        else
+        {
+            PhotonNetwork.NickName = "Tester"+PhotonNetwork.CountOfPlayers;
+        }
+
         if (FirebaseAuthManager.Instance.user == null)
         {
             Debug.Log("유저가 없다");
