@@ -9,5 +9,5 @@ public abstract class MagicAction : ActionBase
     {
     }
 
-    public abstract void OnCast(Vector3 spawnPos, Vector3 direction, bool isLeftHand, int shooterID);
+    public abstract void OnCast(Vector3 spawnPos, Vector3 targetPos, bool isLeftHand, int shooterID);
 }

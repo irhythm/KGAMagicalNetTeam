@@ -1099,6 +1099,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackToRoomButton
   backToRoomBtn: {fileID: 408104126}
+  loseOrWinAudio: {fileID: 8300000, guid: 236a7490ad4cd0c4a9400dde877d5016, type: 3}
 --- !u!4 &1701449749
 Transform:
   m_ObjectHideFlags: 0

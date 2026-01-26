@@ -1543,7 +1543,7 @@ MonoBehaviour:
   playGameBtns:
   - {fileID: 191458}
   - {fileID: 271012259}
-  loginAudio: {fileID: 0}
+  loginAudio: {fileID: 8300000, guid: 26c2ff7d3aa63c447885ce833d4e2fb6, type: 3}
 --- !u!4 &705780661
 Transform:
   m_ObjectHideFlags: 0

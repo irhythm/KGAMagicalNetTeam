@@ -2,11 +2,13 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-public class BackToRoomButton : MonoBehaviourPunCallbacks
+public class FinalRoundManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject backToRoomBtn;
+    [SerializeField] AudioClip loseOrWinAudio;
     private void Start()
     {
+        SoundManager.Instance.PlayBGM(loseOrWinAudio);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         if (!PhotonNetwork.IsMasterClient)
@@ -18,7 +20,7 @@ public class BackToRoomButton : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("Room_new");//³×Æ®¿öÅ© »ó¿¡¼­ ¾À ¹Ù²Ù´Â °Í
+            PhotonNetwork.LoadLevel("Room_new");//ë„¤íŠ¸ì›Œí¬ ìƒì—ì„œ ì”¬ ë°”ê¾¸ëŠ” ê²ƒ
         }
     }
 

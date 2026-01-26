@@ -1,4 +1,4 @@
-using Firebase.Auth;//½Ç½Ã°£À¸·Î ÇØ¾ß ÇÒ °Íµé
+using Firebase.Auth;//ì‹¤ì‹œê°„ìœ¼ë¡œ í•´ì•¼ í•  ê²ƒë“¤
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
@@ -19,21 +19,24 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] Transform roomListPanel;
     //[SerializeField] List<string> curRoomList = new List<string>();
     [SerializeField] Dictionary<string,GameObject> curRoomList = new Dictionary<string, GameObject>();
+
+    [SerializeField] AudioClip LobbyAudio;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        Debug.Log("·Îºñ ¾À ½ÃÀÛ");
+        SoundManager.Instance.PlayBGM(LobbyAudio);
+        Debug.Log("ë¡œë¹„ ì”¬ ì‹œì‘");
         FirebaseAuthManager.Instance.RefreshUser();
         PhotonNetwork.NickName = FirebaseAuthManager.Instance.user.DisplayName;
         if (FirebaseAuthManager.Instance.user == null)
         {
-            Debug.Log("À¯Àú°¡ ¾ø´Ù");
+            Debug.Log("ìœ ì €ê°€ ì—†ë‹¤");
             //yield break;
             return;
         }    
         changeNicknameInput.placeholder.GetComponent<TMP_Text>().text = FirebaseAuthManager.Instance.user.DisplayName;
 
-        //260113 ÃÖÁ¤¿í ¹æ ³ª°¡°í ·Îºñ·Î µ¹¾Æ¿Ã¶§ ¸¶½ºÅÍ¼­¹ö·Î ÀüÈ¯ ±â´Ù¸®±â
+        //260113 ìµœì •ìš± ë°© ë‚˜ê°€ê³  ë¡œë¹„ë¡œ ëŒì•„ì˜¬ë•Œ ë§ˆìŠ¤í„°ì„œë²„ë¡œ ì „í™˜ ê¸°ë‹¤ë¦¬ê¸°
 
         if (PhotonNetwork.IsConnectedAndReady)
         {
@@ -50,7 +53,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     }
 
-    //260113 ÃÖÁ¤¿í ¹æ ³ª°¡°í ·Îºñ·Î µ¹¾Æ¿Ã¶§ ¸¶½ºÅÍ¼­¹ö·Î ÀüÈ¯ ±â´Ù¸®±â
+    //260113 ìµœì •ìš± ë°© ë‚˜ê°€ê³  ë¡œë¹„ë¡œ ëŒì•„ì˜¬ë•Œ ë§ˆìŠ¤í„°ì„œë²„ë¡œ ì „í™˜ ê¸°ë‹¤ë¦¬ê¸°
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.JoinLobby();
@@ -61,8 +64,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
-        //PhotonNetwork.CreateRoom(createRoomInput.text, new RoomOptions { MaxPlayers=4});//¿·¿¡ ÀÎÇ²ÇÊµå¿¡ µé¾îÀÖ´ø ³»¿ëÀÇ ÀÌ¸§À¸·Î ¹æ »ı¼º
-        PhotonNetwork.CreateRoom(createRoomInput.text);//¿·¿¡ ÀÎÇ²ÇÊµå¿¡ µé¾îÀÖ´ø ³»¿ëÀÇ ÀÌ¸§À¸·Î ¹æ »ı¼º
+        //PhotonNetwork.CreateRoom(createRoomInput.text, new RoomOptions { MaxPlayers=4});//ì˜†ì— ì¸í’‹í•„ë“œì— ë“¤ì–´ìˆë˜ ë‚´ìš©ì˜ ì´ë¦„ìœ¼ë¡œ ë°© ìƒì„±
+        PhotonNetwork.CreateRoom(createRoomInput.text);//ì˜†ì— ì¸í’‹í•„ë“œì— ë“¤ì–´ìˆë˜ ë‚´ìš©ì˜ ì´ë¦„ìœ¼ë¡œ ë°© ìƒì„±
     }
     public void JoinRoom()
     {
@@ -74,20 +77,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void JoinRandomRoom()
     {
-        PhotonNetwork.JoinRandomOrCreateRoom();//¸¸µå´Â °Í±îÁö ÇÏ°Å³ª
+        PhotonNetwork.JoinRandomOrCreateRoom();//ë§Œë“œëŠ” ê²ƒê¹Œì§€ í•˜ê±°ë‚˜
     }
 
     public void ExitLobby()
     {
-        PhotonNetwork.LeaveLobby();//·Îºñ ¶°³ª¶ó°í Æ÷Åæ¿¡°Ô Áö½Ã, µ¥ÀÌÅÍ ÀúÀå ÇÏ·Á¸é ¾À ÀÌµ¿ ÈÄ ÇØ´ç ÄÚµå ½ÇÇàÇÏ´Â °Íµµ ±¦ÂúÀ½
-        SceneManager.LoadScene(0);//´Ù½Ã Å¸ÀÌÆ² È­¸éÀ¸·Î
+        PhotonNetwork.LeaveLobby();//ë¡œë¹„ ë– ë‚˜ë¼ê³  í¬í†¤ì—ê²Œ ì§€ì‹œ, ë°ì´í„° ì €ì¥ í•˜ë ¤ë©´ ì”¬ ì´ë™ í›„ í•´ë‹¹ ì½”ë“œ ì‹¤í–‰í•˜ëŠ” ê²ƒë„ ê´œì°®ìŒ
+        SceneManager.LoadScene(0);//ë‹¤ì‹œ íƒ€ì´í‹€ í™”ë©´ìœ¼ë¡œ
     }
 
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)//·ë Á¤º¸°¡ º¯ÇßÀ» ¶§, Á¶ÀÎ ·Îºñ ¼º°ø½Ã ÇÑ ¹ø,
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)//ë£¸ ì •ë³´ê°€ ë³€í–ˆì„ ë•Œ, ì¡°ì¸ ë¡œë¹„ ì„±ê³µì‹œ í•œ ë²ˆ,
     {
         foreach (RoomInfo roomInfo in roomList)
         {
-            Debug.Log("¹æ ¸ñ·Ï °¡Á®¿À±â");
+            Debug.Log("ë°© ëª©ë¡ ê°€ì ¸ì˜¤ê¸°");
             if (roomInfo.RemovedFromList)
             {
                 if (curRoomList.ContainsKey(roomInfo.Name)) 
@@ -105,7 +108,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 curRoomList.Add(roomInfo.Name, roomBtn);
             }
             
-            ////¹æ Àç»ı¼º ¹æÁö
+            ////ë°© ì¬ìƒì„± ë°©ì§€
             //if (!curRoomList.Contains(roomInfo.Name))
             //{
             //    var room = Instantiate(roomPrefab, roomListPanel);
@@ -116,7 +119,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             //}
         }
     }
-    public void Refresh()//·ë »õ·Î°íÄ§ : ·Îºñ ³ª°¬´Ù µé¾î¿À±â
+    public void Refresh()//ë£¸ ìƒˆë¡œê³ ì¹¨ : ë¡œë¹„ ë‚˜ê°”ë‹¤ ë“¤ì–´ì˜¤ê¸°
     {
         PhotonNetwork.LeaveLobby();
         PhotonNetwork.JoinLobby();
@@ -124,7 +127,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("¹æ ÀÔÀå ¹× ·ë ¾ÀÀ¸·Î ÀüÈ¯ ¿äÃ»");
+        Debug.Log("ë°© ì…ì¥ ë° ë£¸ ì”¬ìœ¼ë¡œ ì „í™˜ ìš”ì²­");
         SceneManager.LoadScene(roomSceneName);
     }
 
@@ -135,7 +138,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
 
-    //260113 ÃÖÁ¤¿í
+    //260113 ìµœì •ìš±
     public void ReturnToLogin()
     {
         FirebaseAuth.DefaultInstance.SignOut();
