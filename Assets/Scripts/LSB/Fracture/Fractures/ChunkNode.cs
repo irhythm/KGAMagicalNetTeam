@@ -197,14 +197,14 @@ public class ChunkNode : MonoBehaviour, IExplosion
         }
     }
 
-    public void OnExplosion(Vector3 explosionPos, FireballSO data, int attackerActorNr)
+    public void OnExplosion(Vector3 explosionPos, MagicDataSO data, int attackerActorNr)
     {
 
         ApplyExplosionForce(
             data.knockbackForce,
             explosionPos,
-            data.explosionRadius,
-            data.explosionUpward
+            data.radius,
+            data.forceUpward
         );
     }
 }

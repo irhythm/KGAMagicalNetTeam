@@ -112,14 +112,14 @@ public class PlayerController : MonoBehaviourPun, IDamageable, IExplosion
     }
 
 
-    public void OnExplosion(Vector3 explosionPos, FireballSO data, int attackerActorNr)
+    public void OnExplosion(Vector3 explosionPos, MagicDataSO data, int attackerActorNr)
     {
         if (pv.OwnerActorNr == attackerActorNr) return;
         if (!IsFriendlyFireOn()) return;
 
         if (playableCharacter.Rigidbody != null)
         {
-            playableCharacter.Rigidbody.AddExplosionForce(data.knockbackForce, explosionPos, data.explosionRadius, data.explosionUpward, ForceMode.Impulse);
+            playableCharacter.Rigidbody.AddExplosionForce(data.knockbackForce, explosionPos, data.radius, data.forceUpward, ForceMode.Impulse);
         }
 
         if (pv.IsMine)

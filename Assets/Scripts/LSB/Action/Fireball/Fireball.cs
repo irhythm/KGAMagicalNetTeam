@@ -73,7 +73,7 @@ public class Fireball : MonoBehaviourPun
             Instantiate(fireballData.explosionEffectPrefab, explosionPos, Quaternion.identity);
 
         // 폭발 범위 내의 모든 콜라이더 감지
-        Collider[] colliders = Physics.OverlapSphere(explosionPos, fireballData.explosionRadius, fireballData.explosionLayer);
+        Collider[] colliders = Physics.OverlapSphere(explosionPos, fireballData.radius, fireballData.explosionLayer);
 
         foreach (Collider hit in colliders)
         {
@@ -89,7 +89,7 @@ public class Fireball : MonoBehaviourPun
                 Rigidbody rb = hit.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
-                    rb.AddExplosionForce(fireballData.knockbackForce, explosionPos, fireballData.explosionRadius, fireballData.explosionUpward, ForceMode.Impulse);
+                    rb.AddExplosionForce(fireballData.knockbackForce, explosionPos, fireballData.radius, fireballData.forceUpward, ForceMode.Impulse);
                 }
             }
         }

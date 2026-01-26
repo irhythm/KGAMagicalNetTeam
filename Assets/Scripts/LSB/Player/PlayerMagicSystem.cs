@@ -57,26 +57,31 @@ public class PlayerMagicSystem : MonoBehaviourPun
         if (targetAction == null || !targetAction.CanUse()) return;
 
         targetAction.InitCooldown();
+        Vector3 targetPos = GetTargetPoint();
 
-        if (targetAction is MagicAction magic)
-        {
-            Vector3 targetPos = GetTargetPoint();
-            Vector3 spawnPos = spawnPoint.position;
-
-            UseMagic(isLeftHand, spawnPos, targetPos);
-        }
+        ExecuteAction(targetAction, spawnPoint.position, targetPos, isLeftHand);
 
         OnHandCooldownStarted?.Invoke(targetAction, isLeftHand);
     }
 
-    private void UseMagic(bool isLeftHand, Vector3 spawnPos, Vector3 targetPos)
+    private void ExecuteAction(ActionBase action, Vector3 spawnPos, Vector3 targetPos, bool isLeftHand)
     {
-        ActionBase targetAction = isLeftHand ? _leftAction : _rightAction;
+        int actorNr = photonView.OwnerActorNr;
 
-        if (targetAction is MagicAction magic)
+        switch (action)
         {
-            GuardManager.instance?.RegisterMagicNoise(transform.position);
-            magic.OnCast(spawnPos, targetPos, isLeftHand, photonView.OwnerActorNr);
+            case MagicAction magic:
+                GuardManager.instance?.RegisterMagicNoise(transform.position);
+                magic.OnCast(spawnPos, targetPos, isLeftHand, actorNr);
+                break;
+
+            case ItemAction item:
+                item.OnUse(spawnPos, targetPos, isLeftHand, actorNr);
+                break;
+
+            default:
+                Debug.LogWarning($"처리할 수 없는 액션 타입입니다: {action.GetType().Name}");
+                break;
         }
     }
 

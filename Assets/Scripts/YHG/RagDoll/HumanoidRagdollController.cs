@@ -178,7 +178,7 @@ public class HumanoidRagdollController : MonoBehaviourPun, IExplosion
         isRagdollActive = false;
     }
 
-    public void OnExplosion(Vector3 explosionPos, FireballSO data, int attackerActorNr)
+    public void OnExplosion(Vector3 explosionPos, MagicDataSO data, int attackerActorNr)
     {
         Vector3 dir = (transform.position - explosionPos).normalized;
         Vector3 force = (dir + Vector3.up * 0.5f) * data.knockbackForce;

@@ -51,7 +51,7 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
             //CheckDie();
     }
 
-    public void OnExplosion(Vector3 explosionPos, FireballSO data, int attackerActorNr)
+    public void OnExplosion(Vector3 explosionPos, MagicDataSO data, int attackerActorNr)
     {
         if (pv.IsMine)
         {

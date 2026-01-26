@@ -45,19 +45,19 @@ public class LightningStrike : MonoBehaviourPun
                     continue;
             }
 
-            ChunkNode node = col.GetComponent<ChunkNode>();
-            if (node == null) node = col.GetComponentInParent<ChunkNode>();
+            IExplosion targetComponent = col.GetComponent<IExplosion>();
+            if (targetComponent == null) targetComponent = col.GetComponentInParent<IExplosion>();
 
-            if (node != null)
+            if (targetComponent != null)
             {
-                node.ApplyExplosionForce(data.knockbackForce, transform.position, data.strikeRadius, 0.5f);
+                targetComponent.OnExplosion(transform.position, data, shooterID);
             }
             else
             {
                 Rigidbody rb = col.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
-                    rb.AddExplosionForce(data.knockbackForce, transform.position, data.strikeRadius, 0.5f);
+                    rb.AddExplosionForce(data.knockbackForce, transform.position, data.strikeRadius, data.forceUpward, ForceMode.Impulse);
                 }
             }
 
