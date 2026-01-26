@@ -1,4 +1,5 @@
 using Photon.Pun;
+//using UnityEngine.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
 public class MagicLightningStrike : MagicAction

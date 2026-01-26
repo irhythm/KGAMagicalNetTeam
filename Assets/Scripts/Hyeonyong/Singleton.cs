@@ -11,16 +11,17 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         {
             if (_instance == null)
             {
-#pragma warning disable CS0618 // Çü½Ä ¶Ç´Â ¸â¹ö´Â »ç¿ëµÇÁö ¾Ê½À´Ï´Ù.
-                _instance = FindObjectOfType<T>();
-#pragma warning restore CS0618 // Çü½Ä ¶Ç´Â ¸â¹ö´Â »ç¿ëµÇÁö ¾Ê½À´Ï´Ù.
-                if (_instance == null)
-                {
-                    GameObject singletonObject = new GameObject();
-                    _instance = singletonObject.AddComponent<T>();
-                    singletonObject.name = typeof(T).ToString() + " (Singleton)";
-                    DontDestroyOnLoad(singletonObject);
-                }
+#pragma warning disable CS0618 // í˜•ì‹ ë˜ëŠ” ë©¤ë²„ëŠ” ì‚¬ìš©ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
+                Debug.Log("No Singleton of this type exists: " + typeof(T).ToString());
+                //_instance = FindObjectOfType<T>();
+#pragma warning restore CS0618 // í˜•ì‹ ë˜ëŠ” ë©¤ë²„ëŠ” ì‚¬ìš©ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
+                //if (_instance == null)
+                //{
+                    //GameObject singletonObject = new GameObject();
+                    //_instance = singletonObject.AddComponent<T>();
+                    //singletonObject.name = typeof(T).ToString() + " (Singleton)";
+                    //DontDestroyOnLoad(singletonObject);
+                //}
             }
             return _instance;
         }
