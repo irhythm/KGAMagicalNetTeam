@@ -24,7 +24,6 @@ public class LightningStrike : MonoBehaviourPun
 
         photonView.RPC(nameof(RPC_Strike), RpcTarget.All);
     }
-
     [PunRPC]
     private void RPC_Strike()
     {
@@ -33,36 +32,47 @@ public class LightningStrike : MonoBehaviourPun
             Instantiate(data.strikeEffectPrefab, transform.position, Quaternion.identity);
         }
 
-        if (photonView.IsMine)
+        SoundManager.Instance.PlaySFX(data.lightningSound, 1f, 100f, gameObject.transform.position);
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, data.strikeRadius, data.hitLayer);
+
+        foreach (var col in colliders)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, data.strikeRadius, data.hitLayer);
-
-            Debug.Log($"충돌한 오브젝트 수: {colliders.Length}");
-
-            foreach (var col in colliders)
+            PhotonView targetView = col.GetComponent<PhotonView>();
+            if (targetView != null && targetView.OwnerActorNr == shooterID)
             {
-                PhotonView targetView = col.GetComponent<PhotonView>();
-                if (targetView != null && targetView.OwnerActorNr == shooterID)
+                if (col.CompareTag("Player"))
+                    continue;
+            }
+
+            ChunkNode node = col.GetComponent<ChunkNode>();
+            if (node == null) node = col.GetComponentInParent<ChunkNode>();
+
+            if (node != null)
+            {
+                node.ApplyExplosionForce(data.knockbackForce, transform.position, data.strikeRadius, 0.5f);
+            }
+            else
+            {
+                Rigidbody rb = col.GetComponent<Rigidbody>();
+                if (rb != null)
                 {
-                    if (col.CompareTag("Player"))
-                        continue;
+                    rb.AddExplosionForce(data.knockbackForce, transform.position, data.strikeRadius, 0.5f);
                 }
+            }
 
-                ChunkNode node = col.GetComponent<ChunkNode>();
-                if (node == null) node = col.GetComponentInParent<ChunkNode>();
-
-                if (node != null)
-                {
-                    node.ApplyExplosionForce(data.knockbackForce, transform.position, data.strikeRadius, 0.5f);
-                }
-
+            if (photonView.IsMine)
+            {
                 IDamageable target = col.GetComponent<IDamageable>();
                 if (target != null)
                 {
                     target.TakeDamage(data.damage);
                 }
             }
-            SoundManager.Instance.PlaySFX(data.lightningSound, 1f, 100f, gameObject.transform.position);
+        }
+
+        if (photonView.IsMine)
+        {
             PhotonNetwork.Destroy(gameObject);
         }
     }
