@@ -1,11 +1,12 @@
 using UnityEngine;
+using Photon.Pun;
 
 public abstract class ActionBase
 {
-    // µ¥ÀÌÅÍ ÂüÁ¶
+    // ë°ì´í„° ì°¸ì¡°
     public ActionItemDataSO BaseData { get; private set; }
 
-    // ÄðÅ¸ÀÓ °ü¸®
+    // ì¿¨íƒ€ìž„ ê´€ë¦¬
     public float CurrentCooldown { get; protected set; }
 
     public ActionBase(ActionItemDataSO data)
@@ -13,7 +14,7 @@ public abstract class ActionBase
         this.BaseData = data;
     }
 
-    // ÄðÅ¸ÀÓ °¨¼Ò ·ÎÁ÷ ¾÷µ¥ÀÌÆ®¿¡¼­ È£Ãâ ÇØ¾ßµÊ
+    // ì¿¨íƒ€ìž„ ê°ì†Œ ë¡œì§ ì—…ë°ì´íŠ¸ì—ì„œ í˜¸ì¶œ í•´ì•¼ë¨
     public void Tick(float deltaTime)
     {
         if (CurrentCooldown > 0)
@@ -23,13 +24,13 @@ public abstract class ActionBase
         }
     }
 
-    // »ç¿ë °¡´É ¿©ºÎ
+    // ì‚¬ìš© ê°€ëŠ¥ ì—¬ë¶€
     public bool CanUse()
     {
         return CurrentCooldown <= 0;
     }
 
-    // ÄðÅ¸ÀÓ ½ÃÀÛ
+    // ì¿¨íƒ€ìž„ ì‹œìž‘
     public void InitCooldown()
     {
         CurrentCooldown = BaseData.cooldown;

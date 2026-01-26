@@ -3,9 +3,9 @@ using UnityEngine;
 public abstract class ItemAction : ActionBase
 {
     // 데이터 형변환 프로퍼티
-    public ItemDataSO MagicData => BaseData as ItemDataSO;
+    public ActionItemDataSO ItemData => BaseData;
 
-    public ItemAction(ItemDataSO data) : base(data)
+    public ItemAction(ActionItemDataSO data) : base(data)
     {
     }
 
