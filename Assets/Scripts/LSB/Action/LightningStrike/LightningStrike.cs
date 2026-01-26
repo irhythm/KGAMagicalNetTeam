@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class LightningStrike : MonoBehaviourPun
 {
-    // [중요 변경] 인스펙터에서 할당할 수 있게 SerializeField 추가
-    // 유니티 에디터의 프리팹에서 'LightningStrikeSO' 파일을 여기에 꼭 넣어주세요!
     [SerializeField] private LightningStrikeSO data;
 
     private int shooterID;
@@ -47,7 +45,6 @@ public class LightningStrike : MonoBehaviourPun
         {
             PhotonView targetView = col.GetComponent<PhotonView>();
 
-            // [변경] 받아온 파라미터(_shooterID)와 비교
             if (targetView != null && targetView.OwnerActorNr == _shooterID)
             {
                 if (col.CompareTag("Player"))
