@@ -18,6 +18,10 @@ public class CheckClear : MonoBehaviour
         else if (other.CompareTag("Money"))
         {
             GameManager.Instance.PlusMoneyCount();
+            if(other.GetComponent<CoinItself>() != null)
+            {
+                other.GetComponent<CoinItself>().RequestDestroy();
+            }
         }
     }
     private void OnTriggerExit(Collider other)
@@ -26,7 +30,7 @@ public class CheckClear : MonoBehaviour
         //    return;
         if (!other.CompareTag("Player"))
             return;
-        Debug.Log("ÇÃ·¹ÀÌ¾î°¡ ³ª°¬´Ù");
+        Debug.Log("í”Œë ˆì´ì–´ê°€ ë‚˜ê°”ë‹¤");
         curPlayerEnter--;
         //GameManager.Instance.CheckRoundClear(curPlayerEnter);
     }

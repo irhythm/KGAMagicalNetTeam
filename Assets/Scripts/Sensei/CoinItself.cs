@@ -31,7 +31,7 @@ public class CoinItself : MonoBehaviourPunCallbacks
 
     public void DropCoin(Vector3 spawnPos, Vector3 targetPos)
     {
-        photonView.RPC("RPC_DropCoin", RpcTarget.MasterClient, spawnPos, targetPos);
+        photonView.RPC("RPC_DropCoin", RpcTarget.All, spawnPos, targetPos);
         GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.RemoveItem(coinData);
     }
 
@@ -39,8 +39,8 @@ public class CoinItself : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_DropCoin(Vector3 spawnPos, Vector3 targetPos)
     {
-
-        GetComponent<Rigidbody>().AddForce((targetPos - spawnPos) * 5f, ForceMode.Impulse);
+        CoinSO coinSOData = coinData as CoinSO;
+        GetComponent<Rigidbody>().AddForce((targetPos - spawnPos) * (coinSOData.CoinThrowForce), ForceMode.Impulse);
 
 
     }
