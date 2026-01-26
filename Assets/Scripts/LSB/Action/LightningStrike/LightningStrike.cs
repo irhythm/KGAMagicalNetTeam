@@ -45,7 +45,7 @@ public class LightningStrike : MonoBehaviourPun
                 if (targetView != null && targetView.OwnerActorNr == shooterID)
                 {
                     if (col.CompareTag("Player"))
-                        return;
+                        continue;
                 }
 
                 ChunkNode node = col.GetComponent<ChunkNode>();
