@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4836203465789776391}
-  - component: {fileID: 7309430348342523520}
+  - component: {fileID: 8190019682323665433}
   - component: {fileID: 1293266250876713838}
   - component: {fileID: 8941660674004983414}
   - component: {fileID: 1550445866316892440}
@@ -41,7 +41,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &7309430348342523520
+--- !u!114 &8190019682323665433
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -50,20 +50,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1871080202085579384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e940cb95a7ae8b45a1d36d0366fe0f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 261c3582cc675dc479f063260756a1ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Loading
   loadingObj: {fileID: 4922697220970127320}
   imgBackground: {fileID: 2205538236465668884}
   backgrounds: []
   loadingBar: {fileID: 3310195133957882581}
-  fakeLoadingTime: 1.5
+  fakeLoadingTime: 3
   tipText: {fileID: 2730777507081978215}
-  tips:
-  - "\uC774\uAC74 \uCCAB \uBC88\uC9F8 \uD301"
-  - "\uC800\uAC74 \uB450 \uBC88\uC9F8 \uD301"
-  fakeStartPer: 0.7
-  photonView: {fileID: -4288393076482016434}
+  tips: []
+  fakeStartPer: 0
+  photonView: {fileID: 0}
 --- !u!223 &1293266250876713838
 Canvas:
   m_ObjectHideFlags: 0
