@@ -34,7 +34,9 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
 
     [Header("Interact Settings")]
     [SerializeField] private LayerMask canInteractLayer;    // 상호작용이 가능한 레이어
-    [SerializeField] private float checkDistance = 1f;     // 260122 신현섭: 상호작용 체크 거리
+    [SerializeField] private float checkDistance = 1f;      // 260122 신현섭: 상호작용 체크 거리
+
+    [SerializeField] private InteractionDataSO assassinateData; // 260126 신현섭: 암살 연출 데이터
 
     public enum MoveDir { Front, Back, Left, Right }
 
@@ -71,6 +73,8 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     public PlayerInteractState InteractState { get; private set; }    // 260122 신현섭: 상호작용 상태로 전환
 
     public bool isInteracted { get; private set; }  // 260122 신현섭: IInteractable 인터페이스 필드 → 상호작용이 진행 중이면 true
+
+    public Transform ActorTrans => transform;
     #endregion
 
     #region 애니메이션
@@ -345,6 +349,11 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     }
 
     public void OnReceiverInteraction()
+    {
+
+    }
+
+    public void OnStopped()
     {
 
     }

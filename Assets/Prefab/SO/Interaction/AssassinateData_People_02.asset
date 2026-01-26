@@ -14,15 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InteractionDataSO
   <timelineAsset>k__BackingField: {fileID: 11400000, guid: 9d2083e6b2d4ce0439ba11386e33380f, type: 2}
   <type>k__BackingField: 0
-  <trackNames>k__BackingField:
-  - Executer_Track01
-  - Receiver_Track01
   <isExecuterPivot>k__BackingField: 0
-  receiverPivotIndex: 1
-  offsets:
-  - isApply: 1
+  receiverPivotIndex: 0
+  offset_Executer:
+    name: Executer_Track01
+    isApply: 1
     position: {x: 0, y: 0, z: -1.8}
     rotation: {x: 0, y: 0, z: 0}
-  - isApply: 0
+  offset_Camera:
+    name: Camera_Track
+    isApply: 1
+    position: {x: 1.417, y: 1.628, z: -2.66}
+    rotation: {x: 4.537338, y: 324.14902, z: 359.9326}
+  offset_Receiver:
+  - name: Receiver_Track01
+    isApply: 0
     position: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0}

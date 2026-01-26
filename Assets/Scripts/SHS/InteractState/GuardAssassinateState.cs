@@ -8,6 +8,8 @@ public class GuardAssassinateState : AIStateBase, IInteractable
 
     public bool isInteracted { get; private set; }
 
+    public Transform ActorTrans => ai.transform;
+
     public GuardAssassinateState(BaseAI ai, StateMachine stateMachine, BaseAI.AIStateID stateID, IInteractable target, string animName)
         : base(ai, stateMachine, stateID)
     {
@@ -49,6 +51,11 @@ public class GuardAssassinateState : AIStateBase, IInteractable
     }
 
     public void OnReceiverInteraction()
+    {
+
+    }
+
+    public void OnStopped()
     {
 
     }
