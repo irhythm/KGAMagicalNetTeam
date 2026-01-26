@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class InventoryDataSO : ScriptableObject
 {
-    public string itemId;           // ¾ÆÀÌµğ
-    public string itemName;         // ÀÌ¸§
+    public string itemId;           // ì•„ì´ë””
+    public string itemName;         // ì´ë¦„
 
-    public Sprite itemImage;        // ÀÌ¹ÌÁö
+    public Sprite itemImage;        // ì´ë¯¸ì§€
     
-    public GameObject itemPrefab;   // ÇÁ¸®Æé
+    public GameObject itemPrefab;   // í”„ë¦¬í©
 
     [TextArea]
-    public string description;      // ¼³¸í
+    public string description;      // ì„¤ëª…
 }

@@ -85,7 +85,15 @@ public class PlayerInventory
                     {
                         activeActions.Remove(actionData);
                     }
-                    return;
+
+                if (GameManager.Instance != null && GameManager.Instance.InventoryWheel != null)
+                {
+                    GameManager.Instance.InventoryWheel.UpdateWheelInventory();
+                    GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().MagicSystem.CheckAndClear(item);
+                }
+
+
+                return;
                 }
             }
             if (GameManager.Instance != null && GameManager.Instance.InventoryWheel != null)

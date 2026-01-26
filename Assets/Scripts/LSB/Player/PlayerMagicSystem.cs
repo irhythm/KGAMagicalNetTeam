@@ -115,6 +115,22 @@ public class PlayerMagicSystem : MonoBehaviourPun
         }
     }
 
+    public void CheckAndClear(InventoryDataSO item)
+    {
+        
+
+
+        if (LeftHandSlot == item)
+        {
+            EquipItem(null, true);
+        }
+        if (RightHandSlot == item)
+        {
+            EquipItem(null, false);
+        }
+
+    }
+
     public void EquipItem(InventoryDataSO item, bool isLeft)
     {
         InventoryDataSO oldItem = isLeft ? LeftHandSlot : RightHandSlot;
