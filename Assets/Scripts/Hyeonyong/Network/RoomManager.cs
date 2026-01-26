@@ -36,6 +36,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     public GameObject player;
 
+    [SerializeField] AudioClip RoomAudio;
+
     private void Awake()
     {
         Instance = this;
@@ -43,6 +45,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     private IEnumerator Start()
     {
+        SoundManager.Instance.PlayBGM(RoomAudio);
         FirebaseAuthManager.Instance.RefreshUser();
         yield return new WaitUntil(() => PhotonNetwork.InRoom);//방에 입장했는지
         yield return null;
@@ -133,7 +136,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
     //        tabInput.action.performed -= OpenRoomTab;
     //    }
     //}
-
+    private void OnDisable()
+    {
+        if (tabInput != null)
+        {
+            tabInput.action.performed -= OpenRoomTab;
+        }
+    }
 
     public void ChangeFriendlyFire()
     {
