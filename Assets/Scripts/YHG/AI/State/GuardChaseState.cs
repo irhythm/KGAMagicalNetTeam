@@ -52,10 +52,9 @@ public class GuardChaseState : AIStateBase
 
                 guard.Agent.SetDestination(guard.targetPlayer.position);
             }
+            //발견 즉시 동료들에게 신고
+            ReportToManager();
         }
-
-        //발견 즉시 동료들에게 신고
-        ReportToManager();
     }
     public override void Execute()
     {
