@@ -1455,7 +1455,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000044819386}
+  m_AnchoredPosition: {x: 0, y: 0.000804913}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &438943158
@@ -3989,6 +3989,7 @@ MonoBehaviour:
   changeNicknameInput: {fileID: 483512935}
   roomPrefab: {fileID: 9040922581771121920, guid: 689a998d7be2b9b40a2161a547a19ef9, type: 3}
   roomListPanel: {fileID: 438943157}
+  LobbyAudio: {fileID: 8300000, guid: 7f0b0878750742e4fb9edde53f091d32, type: 3}
 --- !u!4 &1384603218
 Transform:
   m_ObjectHideFlags: 0
@@ -4166,7 +4167,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 780876836}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999694
+  m_Size: 0.9977273
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
