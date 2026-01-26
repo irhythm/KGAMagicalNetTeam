@@ -109,7 +109,6 @@ GameObject:
   - component: {fileID: 38377460294247438}
   - component: {fileID: 7752848447118575829}
   - component: {fileID: 584731637786702885}
-  - component: {fileID: 7488527903777639671}
   - component: {fileID: 1836383907938754046}
   - component: {fileID: 5016317772577129787}
   - component: {fileID: -800506876397032378}
@@ -120,6 +119,7 @@ GameObject:
   - component: {fileID: 3537390183694864578}
   - component: {fileID: -6708908734006990876}
   - component: {fileID: 6959001058618340752}
+  - component: {fileID: 3256137796433457060}
   m_Layer: 6
   m_Name: PlayableCharacter
   m_TagString: Player
@@ -355,22 +355,6 @@ MonoBehaviour:
   m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &7488527903777639671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7940719953895527930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonTransformView
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!114 &1836383907938754046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,7 +392,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 7488527903777639671}
+  - {fileID: 3256137796433457060}
   - {fileID: 5603259388290521515}
   - {fileID: 5073509746355090667}
   sceneViewId: 0
@@ -641,6 +625,22 @@ MonoBehaviour:
     m_Bits: 128
   noiseInterval: 0.4
   gizmoColor: {r: 0, g: 1, b: 1, a: 0.4}
+--- !u!114 &3256137796433457060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940719953895527930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonUnityNetworking::Photon.Pun.PhotonRigidbodyView
+  m_SynchronizeVelocity: 1
+  m_SynchronizeAngularVelocity: 1
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!1001 &317560795834362853
 PrefabInstance:
   m_ObjectHideFlags: 0
