@@ -24,17 +24,11 @@ public class Fireball : MonoBehaviourPun
         SoundManager.Instance.PlaySFX(fireballData.magicSound, 1f, 100f, gameObject.transform.position);
 
         rb = GetComponent<Rigidbody>();
-
-        if (photonView.IsMine)
-        {
-            ApplyVelocity();
-        }
+        ApplyVelocity();
     }
 
     void FixedUpdate()
     {
-        if (!photonView.IsMine) return;
-
         currentTimer += Time.fixedDeltaTime;
 
         ApplyVelocity();
