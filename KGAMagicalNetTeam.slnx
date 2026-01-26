@@ -4,6 +4,7 @@
   <Project Path="PhotonRealtime.csproj" />
   <Project Path="PhotonUnityNetworking.Editor.csproj" />
   <Project Path="PhotonUnityNetworking.csproj" />
+  <Project Path="IngameDebugConsole.Runtime.csproj" />
   <Project Path="PhotonUnityNetworking.Demos.csproj" />
   <Project Path="PhotonVoice.PUN.Editor.csproj" />
   <Project Path="PhotonVoice.csproj" />
@@ -14,6 +15,7 @@
   <Project Path="PhotonChat.csproj" />
   <Project Path="MicAmplifierEditor.Editor.csproj" />
   <Project Path="PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj" />
+  <Project Path="IngameDebugConsole.Editor.csproj" />
   <Project Path="PhotonVoice.PUN.csproj" />
   <Project Path="Voice.FMOD.Editor.csproj" />
   <Project Path="PhotonVoice.Editor.csproj" />
