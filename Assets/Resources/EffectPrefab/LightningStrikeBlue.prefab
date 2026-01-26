@@ -39676,6 +39676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f84c66b88d07554ebdbd4472a5e7d54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightningStrike
+  data: {fileID: 11400000, guid: e8c3c0ad6ad875346984481f51f21ab0, type: 2}
 --- !u!114 &-8689874300026406079
 MonoBehaviour:
   m_ObjectHideFlags: 0
