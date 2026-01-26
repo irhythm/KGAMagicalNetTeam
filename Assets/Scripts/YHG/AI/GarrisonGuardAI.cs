@@ -188,27 +188,15 @@ public class GarrisonGuardAI : GuardAI
     //기즈모
     protected override void OnDrawGizmosSelected()
     {
-        //부모의 detectedRadius감지범위,
+        //부모의 detectedRadius감지범위, 빨강
         base.OnDrawGizmosSelected();
         
-        //maxChaseDist 주둔지 범위
+        //기지 범위, 파랑
         Gizmos.color = gizmoColor;
+        Vector3 centerPos = (garrisonCenter != null) ? garrisonCenter.position : transform.position;
+        Gizmos.DrawWireSphere(centerPos, maxChaseDist);
 
-        if (garrisonCenter != null)
-        {
-
-        }
-        Gizmos.color = gizmoColor;
-        if (garrisonCenter != null)
-        {
-            Gizmos.DrawWireSphere(garrisonCenter.position, maxChaseDist);
-        }
-        else
-        {
-            Gizmos.DrawWireSphere(transform.position, maxChaseDist);
-        }
-
-        //fovAngle시야각
+        //fovAngle시야각, 초록
         Gizmos.color = Color.green;
         Vector3 leftRay = Quaternion.Euler(0, -fovAngle * 0.5f, 0) * transform.forward;
         Vector3 rightRay = Quaternion.Euler(0, fovAngle * 0.5f, 0) * transform.forward;
