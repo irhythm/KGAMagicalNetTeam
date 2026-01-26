@@ -46,7 +46,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
     private IEnumerator Start()
     {
         SoundManager.Instance.PlayBGM(RoomAudio);
-        FirebaseAuthManager.Instance.RefreshUser();
+        //yield return new WaitUntil(() => FirebaseAuthManager.Instance != null);//파이어베이스 초기화 대기
+        if (FirebaseAuthManager.Instance != null)
+        {
+            FirebaseAuthManager.Instance.RefreshUser();
+        }
         yield return new WaitUntil(() => PhotonNetwork.InRoom);//방에 입장했는지
         yield return null;
         InitReady();

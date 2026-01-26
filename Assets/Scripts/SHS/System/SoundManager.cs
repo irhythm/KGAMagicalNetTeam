@@ -6,33 +6,33 @@ using UnityEngine.SceneManagement;
 
 public enum Soundtype
 {
-    BGM,        // ¹è°æÀ½
-    SFX,        // È¿°úÀ½
+    BGM,        // ë°°ê²½ìŒ
+    SFX,        // íš¨ê³¼ìŒ
 }
 
 public class SoundManager : Singleton<SoundManager>
 {
-    [Header("¿Àµğ¿À ¹Í¼­")]
+    [Header("ì˜¤ë””ì˜¤ ë¯¹ì„œ")]
     [field: SerializeField] public AudioMixer MasterAudioMixer { get; private set; }
 
-    [Header("ºê±İÀ» Àç»ıÇÒ ¿Àµğ¿À ¼Ò½º")]
+    [Header("ë¸Œê¸ˆì„ ì¬ìƒí•  ì˜¤ë””ì˜¤ ì†ŒìŠ¤")]
     [field: SerializeField] public AudioSource bgmSource { get; private set; }
 
-    [Header("È¿°úÀ½À» Àç»ıÇÒ ¿Àµğ¿À ¼Ò½º ÇÁ¸®ÆÕ")]
+    [Header("íš¨ê³¼ìŒì„ ì¬ìƒí•  ì˜¤ë””ì˜¤ ì†ŒìŠ¤ í”„ë¦¬íŒ¹")]
     [SerializeField] private AudioSource sfxSource;
 
-    [Header("»ç¿îµå Ç®")]
+    [Header("ì‚¬ìš´ë“œ í’€")]
     [SerializeField] private SoundPool soundPool;
 
-    [Header("¿Àµğ¿À Å¬¸³ ¸ğÀ½ SO ÆÄÀÏ")]
+    [Header("ì˜¤ë””ì˜¤ í´ë¦½ ëª¨ìŒ SO íŒŒì¼")]
     [SerializeField] private AudioClipSO audioClipSO;
 
-    // ¹è°æÀ½, È¿°úÀ½ ¿Àµğ¿À Å¬¸³À» ÀúÀåÇÒ µñ¼Å³Ê¸®
+    // ë°°ê²½ìŒ, íš¨ê³¼ìŒ ì˜¤ë””ì˜¤ í´ë¦½ì„ ì €ì¥í•  ë”•ì…”ë„ˆë¦¬
     private Dictionary<string, AudioClip> bgmDic = new Dictionary<string, AudioClip>();
     private Dictionary<string, AudioClip> sfxDic = new Dictionary<string, AudioClip>();
 
-    private List<AudioSource> sfxList = new List<AudioSource>();    // ÇöÀç Àç»ıÁßÀÎ È¿°úÀ½ ¿Àµğ¿À ¼Ò½º¸¦ °¡Áö°í ÀÖÀ» ¸®½ºÆ®
-    private Coroutine sfxPlayCoroutine;                             // ÇöÀç Àç»ıÁßÀÎ È¿°úÀ½ ¿Àµğ¿À ¼Ò½ºµéÀ» Ã¼Å©ÇÏ´Â ÄÚ·çÆ¾ º¯¼ö
+    private List<AudioSource> sfxList = new List<AudioSource>();    // í˜„ì¬ ì¬ìƒì¤‘ì¸ íš¨ê³¼ìŒ ì˜¤ë””ì˜¤ ì†ŒìŠ¤ë¥¼ ê°€ì§€ê³  ìˆì„ ë¦¬ìŠ¤íŠ¸
+    private Coroutine sfxPlayCoroutine;                             // í˜„ì¬ ì¬ìƒì¤‘ì¸ íš¨ê³¼ìŒ ì˜¤ë””ì˜¤ ì†ŒìŠ¤ë“¤ì„ ì²´í¬í•˜ëŠ” ì½”ë£¨í‹´ ë³€ìˆ˜
 
     protected override void Awake()
     {
@@ -41,10 +41,16 @@ public class SoundManager : Singleton<SoundManager>
     }
 
     #region Init
-    // µ¥ÀÌÅÍ ÃÊ±âÈ­
+    // ë°ì´í„° ì´ˆê¸°í™”
     private void InitData()
     {
-        // ¹è°æÀ½ µñ¼Å³Ê¸®¿¡ µ¥ÀÌÅÍ Ãß°¡
+        if (audioClipSO.bgmClips == null || audioClipSO.sfxClips == null)
+        {
+            return;
+        }
+
+
+        // ë°°ê²½ìŒ ë”•ì…”ë„ˆë¦¬ì— ë°ì´í„° ì¶”ê°€
         if (audioClipSO.bgmClips.Length > 0)
         {
             foreach(var so in audioClipSO.bgmClips)
@@ -54,7 +60,7 @@ public class SoundManager : Singleton<SoundManager>
             }
         }
 
-        // È¿°úÀ½ µñ¼Å³Ê¸®¿¡ µ¥ÀÌÅÍ Ãß°¡
+        // íš¨ê³¼ìŒ ë”•ì…”ë„ˆë¦¬ì— ë°ì´í„° ì¶”ê°€
         if(audioClipSO.sfxClips.Length > 0)
         {
             foreach(var so in audioClipSO.sfxClips)
@@ -66,16 +72,16 @@ public class SoundManager : Singleton<SoundManager>
     }
     #endregion
 
-    #region ¿Àµğ¿À Å¬¸³À» ¹Ş¾Æ¿Í Àç»ı
+    #region ì˜¤ë””ì˜¤ í´ë¦½ì„ ë°›ì•„ì™€ ì¬ìƒ
     public void PlayBGM(AudioClip clip)
     {
         PlaySound(Soundtype.BGM, bgmSource, clip, 0f);
     }
 
     /// <summary>
-    /// È¿°úÀ½ Àç»ı
+    /// íš¨ê³¼ìŒ ì¬ìƒ
     /// </summary>
-    /// <param name="clip"> Àç»ıÇÒ ¿Àµğ¿À Å¬¸³ </param>
+    /// <param name="clip"> ì¬ìƒí•  ì˜¤ë””ì˜¤ í´ë¦½ </param>
     public void PlaySFX(AudioClip clip)
     {
         AudioSource source = soundPool.Get(sfxSource);
@@ -86,12 +92,12 @@ public class SoundManager : Singleton<SoundManager>
     }
 
     /// <summary>
-    /// È¿°úÀ½ Àç»ı
+    /// íš¨ê³¼ìŒ ì¬ìƒ
     /// </summary>
-    /// <param name="clip"> Àç»ıÇÒ ¿Àµğ¿À Å¬¸³ </param>
-    /// <param name="spatialAmount"> °ø°£ À½Çâ ¼öÄ¡°ª (0 ¡æ 2D À½Çâ / 1 ¡æ 3D À½Çâ) </param>
-    /// <param name="maxDistance"> 3D À½ÇâÀÏ °æ¿ì µéÀ» ¼ö ÀÖ´Â ÃÖ´ë °Å¸® </param>
-    /// <param name="pos"> Àç»ı½ÃÅ³ À§Ä¡ </param>
+    /// <param name="clip"> ì¬ìƒí•  ì˜¤ë””ì˜¤ í´ë¦½ </param>
+    /// <param name="spatialAmount"> ê³µê°„ ìŒí–¥ ìˆ˜ì¹˜ê°’ (0 â†’ 2D ìŒí–¥ / 1 â†’ 3D ìŒí–¥) </param>
+    /// <param name="maxDistance"> 3D ìŒí–¥ì¼ ê²½ìš° ë“¤ì„ ìˆ˜ ìˆëŠ” ìµœëŒ€ ê±°ë¦¬ </param>
+    /// <param name="pos"> ì¬ìƒì‹œí‚¬ ìœ„ì¹˜ </param>
     public void PlaySFX(AudioClip clip, float spatialAmount, float maxDistance, Vector3 pos)
     {
         AudioSource source = soundPool.Get(sfxSource);
@@ -103,7 +109,7 @@ public class SoundManager : Singleton<SoundManager>
     }
     #endregion
 
-    #region ¿Àµğ¿À Å¬¸³ ÀÌ¸§(string)À» ¹Ş¾Æ¿Í Àç»ı
+    #region ì˜¤ë””ì˜¤ í´ë¦½ ì´ë¦„(string)ì„ ë°›ì•„ì™€ ì¬ìƒ
     public void PlayBGM(string bgmName)
     {
         if (bgmSource == null || !bgmDic.TryGetValue(bgmName, out var clip)) return;
@@ -121,11 +127,11 @@ public class SoundManager : Singleton<SoundManager>
     }
 
     /// <summary>
-    /// È¿°úÀ½ Àç»ı
+    /// íš¨ê³¼ìŒ ì¬ìƒ
     /// </summary>
-    /// <param name="sfxName"> Àç»ıÇÒ ¿Àµğ¿À Å¬¸³ ÀÌ¸§, µñ¼Å³Ê¸®¿¡¼­ Ã£À» Å°°ª </param>
-    /// <param name="spatialAmount"> °ø°£ À½Çâ ¼öÄ¡°ª (0 ¡æ 2D À½Çâ / 1 ¡æ 3D À½Çâ) </param>
-    /// <param name="pos"> Àç»ı½ÃÅ³ À§Ä¡ </param>
+    /// <param name="sfxName"> ì¬ìƒí•  ì˜¤ë””ì˜¤ í´ë¦½ ì´ë¦„, ë”•ì…”ë„ˆë¦¬ì—ì„œ ì°¾ì„ í‚¤ê°’ </param>
+    /// <param name="spatialAmount"> ê³µê°„ ìŒí–¥ ìˆ˜ì¹˜ê°’ (0 â†’ 2D ìŒí–¥ / 1 â†’ 3D ìŒí–¥) </param>
+    /// <param name="pos"> ì¬ìƒì‹œí‚¬ ìœ„ì¹˜ </param>
     public void PlaySFX(string sfxName, float spatialAmount, float maxDistance, Vector3 pos)
     {
         AudioSource source = soundPool.Get(sfxSource);
@@ -150,7 +156,7 @@ public class SoundManager : Singleton<SoundManager>
             AddSfXList(source);
     }
 
-    #region »ç¿îµå Àç»ı ÁßÁö
+    #region ì‚¬ìš´ë“œ ì¬ìƒ ì¤‘ì§€
     public void StopSound(AudioSource source)
     {
         if(source != null && source.isPlaying)
@@ -160,7 +166,7 @@ public class SoundManager : Singleton<SoundManager>
     }
     #endregion
 
-    #region ¿Àµğ¿À ¼Ò½º ¼³Á¤
+    #region ì˜¤ë””ì˜¤ ì†ŒìŠ¤ ì„¤ì •
     public void SetSoundVolume(Soundtype type, float volume, bool mute = false)
     {
         if (MasterAudioMixer == null) return;
@@ -203,7 +209,7 @@ public class SoundManager : Singleton<SoundManager>
         }
     }
 
-    // sfxListÁß Àç»ıÀÌ ¿Ï·áµÈ ¿Àµğ¿À ¼Ò½º Á¤¸®
+    // sfxListì¤‘ ì¬ìƒì´ ì™„ë£Œëœ ì˜¤ë””ì˜¤ ì†ŒìŠ¤ ì •ë¦¬
     private IEnumerator CheckPlayingSFX()
     {
         while (sfxList.Count > 0)
@@ -217,7 +223,7 @@ public class SoundManager : Singleton<SoundManager>
                 }
             }
 
-            Debug.Log("ÄÚ·çÆ¾ µµ´ÂÁß");
+            Debug.Log("ì½”ë£¨í‹´ ë„ëŠ”ì¤‘");
             yield return CoroutineManager.waitForSeconds(0.5f);
         }
 
