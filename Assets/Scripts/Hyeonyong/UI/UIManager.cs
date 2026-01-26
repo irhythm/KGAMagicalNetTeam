@@ -2,6 +2,7 @@ using Photon.Voice.PUN;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using TMPro;
 using UnityEngine;
@@ -13,15 +14,15 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
     /// <summary>
-    /// ÀúÀåÇØ¾ßÇÒ °ª
-    /// 1. ID¸¸ ÀÚµ¿ ·Î±×ÀÎÀ¸·Î ºÒ·¯¿À±â (string) Key : Email
-    /// 2. ¹è°æÀ½ º¼·ı(float) Key : BGMVolume
-    /// 3. È¿°úÀ½ º¼·ı(float) Key : EffectVolume
-    /// 4. À½¼º´ëÈ­ º¼·ı(float) Key : VoiceChatVolume
-    /// 5. ±×·¡ÇÈ Ç°Áú(int)(enum) Key : GraphicQuality
-    /// 6. ¸¶¿ì½º °¨µµ(float) Key : MouseSensivity
-    /// 7. XY ¹İÀü ¿©¹«(bool) Key : XYInversion
-    /// 8. ¾ğ¾î º¯°æ(int)(enum) : Language
+    /// ì €ì¥í•´ì•¼í•  ê°’
+    /// 1. IDë§Œ ìë™ ë¡œê·¸ì¸ìœ¼ë¡œ ë¶ˆëŸ¬ì˜¤ê¸° (string) Key : Email
+    /// 2. ë°°ê²½ìŒ ë³¼ë¥¨(float) Key : BGMVolume
+    /// 3. íš¨ê³¼ìŒ ë³¼ë¥¨(float) Key : EffectVolume
+    /// 4. ìŒì„±ëŒ€í™” ë³¼ë¥¨(float) Key : VoiceChatVolume
+    /// 5. ê·¸ë˜í”½ í’ˆì§ˆ(int)(enum) Key : GraphicQuality
+    /// 6. ë§ˆìš°ìŠ¤ ê°ë„(float) Key : MouseSensivity
+    /// 7. XY ë°˜ì „ ì—¬ë¬´(bool) Key : XYInversion
+    /// 8. ì–¸ì–´ ë³€ê²½(int)(enum) : Language
     /// </summary>
 
     [SerializeField] TMP_InputField emailInput;
@@ -48,7 +49,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private InputActionReference escInput;
 
     [SerializeField] TMP_Dropdown resolutionDropDown;
-
+    List<Resolution> resolutions;
+    [SerializeField] TMP_Dropdown resolutionWindowDropDown;
     [SerializeField] ThirdPersonCamera thirdPersonCamera;
 
 
@@ -304,12 +306,34 @@ public class UIManager : MonoBehaviour
 
         if (resolutionDropDown != null)
         {
-            resolutionDropDown.onValueChanged.AddListener((value) => { PlayerPrefs.SetInt("resolution", value); });
-            if (PlayerPrefs.HasKey("resolution"))
+            resolutionDropDown.onValueChanged.AddListener((value) =>
+            { 
+                SetResolution(value);
+            });
+            SetResolutionDropDown();
+        }
+        if (resolutionWindowDropDown != null)
+        {
+            resolutionWindowDropDown.onValueChanged.AddListener((value) =>
             {
-                resolutionDropDown.value = PlayerPrefs.GetInt("resolution");
-                //PlayerPrefs.SetInt("language", languageDropDown.value);
-            }
+                PlayerPrefsDataManager.ResolutionWindow = value;
+                switch (value)
+                {
+                    case 0:
+                        Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+                        break;
+                    case 1:
+                        Screen.fullScreenMode = FullScreenMode.Windowed;
+                        break;
+                }
+            });
+            resolutionWindowDropDown.value = PlayerPrefsDataManager.ResolutionWindow;
+        }
+        if (graphicQualityDropDown != null)
+        {
+            graphicQualityDropDown.onValueChanged.AddListener((value) =>
+            { PlayerPrefsDataManager.GraphicQuality = value; });
+            graphicQualityDropDown.value = PlayerPrefsDataManager.GraphicQuality;
         }
     }
 
@@ -329,7 +353,7 @@ public class UIManager : MonoBehaviour
                 }
             }
 
-            Debug.Log("esc ÀÔ·Â");
+            Debug.Log("esc ì…ë ¥");
             onGameSettingUI = !onGameSettingUI;
             gameSettingUI.SetActive(onGameSettingUI);
 
@@ -373,7 +397,7 @@ public class UIManager : MonoBehaviour
     }
     public void OpenUI(string uiName)
     {
-        Debug.Log("UI ¿­¸²");
+        Debug.Log("UI ì—´ë¦¼");
         checkUI[uiName] = true;
         onOpenUI.Invoke();
     }
@@ -383,7 +407,7 @@ public class UIManager : MonoBehaviour
         checkUI[name] = false;
         if (!CheckUiClose())
             return;
-        Debug.Log("UI ´İÈû");
+        Debug.Log("UI ë‹«í˜");
         onCloseUI.Invoke();
     }
 
@@ -408,5 +432,74 @@ public class UIManager : MonoBehaviour
     public void ExitGame()
     {
         GameManager.Instance.ExitGame();
+    }
+
+    public void SetResolutionDropDown()
+    {
+        resolutions = Screen.resolutions.ToList();
+        resolutions.Reverse();
+        //Resolution fullScreen = Screen.currentResolution;
+
+        //resolutions.Insert(0, fullScreen);
+        resolutionDropDown.ClearOptions();
+        List<string> options = new List<string>();
+
+        int currentResolutionIndex = 0;
+        int saveResolutionIndex = -1;
+
+        int saveWidth = PlayerPrefsDataManager.ResolutionWidth;
+        int saveHeight = PlayerPrefsDataManager.ResolutionHeight;
+        float saveHz = PlayerPrefsDataManager.ResolutionHz;
+
+        int curWidth = Screen.currentResolution.width;
+        int curHeight = Screen.currentResolution.height;
+        float curHz = GetHz(Screen.currentResolution);
+        float hz= 0;
+        for (int i = 0; i < resolutions.Count; i++)
+        {
+            hz = GetHz(resolutions[i]);
+            string option = resolutions[i].width + " x " + resolutions[i].height + "(" + hz + ")";
+            options.Add(option);
+            
+            //ì €ì¥ëœ ê°’ì´ ì—†ì„ ê²½ìš°
+            if (resolutions[i].width == curWidth &&
+                resolutions[i].height == curHeight&&
+                hz==curHz)
+            {
+                Debug.Log("ê°™ì€ ê°’ì„ ì°¾ì•˜ë‹¤");
+                currentResolutionIndex = i;
+            }
+            //ì €ì¥ëœ ê°’ì´ ìˆì„ ê²½ìš°
+            if (resolutions[i].width == saveWidth && resolutions[i].height == saveHeight && Mathf.Approximately(hz,saveHz))
+            {
+                Debug.Log("ì €ì¥ëœ ê°’ì„ ì°¾ì•˜ë‹¤");
+                saveResolutionIndex = i;
+            }
+        }
+
+        resolutionDropDown.AddOptions(options);
+        int index = saveResolutionIndex != -1 ? saveResolutionIndex : currentResolutionIndex;
+        resolutionDropDown.value = index;
+        resolutionDropDown.RefreshShownValue();
+        SetResolution(index);
+    }
+
+    public void SetResolution(int index)
+    {
+        Resolution resolution = resolutions[index];
+        //bool checkFullScreen = index==0?true : false;
+        FullScreenMode checkFullScreen = PlayerPrefsDataManager.ResolutionWindow==0? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
+        Screen.SetResolution(resolution.width, resolution.height, checkFullScreen, resolution.refreshRateRatio);
+        PlayerPrefsDataManager.ResolutionWidth = resolution.width;
+        PlayerPrefsDataManager.ResolutionHeight = resolution.height;
+        PlayerPrefsDataManager.ResolutionHz = GetHz(resolution);
+
+        Debug.Log($"ê°’ì„ ì €ì¥í•œë‹¤ :{resolution.width}x{resolution.height}({GetHz(resolution)}) ");
+    }
+
+    public float GetHz(Resolution resolution)
+    {
+        return Mathf.Round(
+            (float)resolution.refreshRateRatio.numerator / (float)resolution.refreshRateRatio.denominator * 100f) / 100;
     }
 }
