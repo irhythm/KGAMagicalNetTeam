@@ -57,27 +57,26 @@ public class PlayerMagicSystem : MonoBehaviourPun
         if (targetAction == null || !targetAction.CanUse()) return;
 
         targetAction.InitCooldown();
-        Debug.Log($"액션 시스템 {(isLeftHand ? "Left" : "Right")} 쿨다운 시작");
 
         if (targetAction is MagicAction magic)
         {
-            Vector3 dir = GetDir(spawnPoint);
+            Vector3 targetPos = GetTargetPoint();
             Vector3 spawnPos = spawnPoint.position;
 
-            RPC_UseMagic(isLeftHand, spawnPos, dir);
+            UseMagic(isLeftHand, spawnPos, targetPos);
         }
 
         OnHandCooldownStarted?.Invoke(targetAction, isLeftHand);
     }
 
-    private void RPC_UseMagic(bool isLeftHand, Vector3 spawnPos, Vector3 direction)
+    private void UseMagic(bool isLeftHand, Vector3 spawnPos, Vector3 targetPos)
     {
         ActionBase targetAction = isLeftHand ? _leftAction : _rightAction;
 
         if (targetAction is MagicAction magic)
         {
             GuardManager.instance?.RegisterMagicNoise(transform.position);
-            magic.OnCast(spawnPos, direction, isLeftHand, photonView.OwnerActorNr);
+            magic.OnCast(spawnPos, targetPos, isLeftHand, photonView.OwnerActorNr);
         }
     }
 
@@ -92,30 +91,23 @@ public class PlayerMagicSystem : MonoBehaviourPun
         return action != null && action.CanUse();
     }
 
-    private Vector3 GetDir(Transform spawnPoint)
+    private Vector3 GetTargetPoint()
     {
         Ray ray = _mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
-        Vector3 targetPoint;
 
         if (Physics.Raycast(ray, out hit, maxAimDistance, aimLayerMask))
         {
-            targetPoint = hit.point;
+            if(hit.distance <= minAimDistance)
+            {
+                return ray.GetPoint(minAimDistance);
+            }
+            return hit.point;
         }
         else
         {
-            targetPoint = ray.GetPoint(maxAimDistance);
+            return ray.GetPoint(maxAimDistance);
         }
-
-        Vector3 direction = targetPoint - spawnPoint.position;
-        float currentDist = direction.magnitude;
-
-        if (currentDist < minAimDistance)
-        {
-            targetPoint = spawnPoint.position + direction.normalized * minAimDistance;
-        }
-
-        return (targetPoint - spawnPoint.position).normalized;
     }
 
     public void EquipItem(InventoryDataSO item, bool isLeft)

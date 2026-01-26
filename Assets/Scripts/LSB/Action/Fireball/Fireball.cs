@@ -75,8 +75,6 @@ public class Fireball : MonoBehaviourPun
         // 폭발 범위 내의 모든 콜라이더 감지
         Collider[] colliders = Physics.OverlapSphere(explosionPos, fireballData.explosionRadius, fireballData.explosionLayer);
 
-        Debug.Log($"[Fireball] 내 감지된 물체 수: {colliders.Length}");
-
         foreach (Collider hit in colliders)
         {
             IExplosion targetComponent = hit.GetComponent<IExplosion>();
