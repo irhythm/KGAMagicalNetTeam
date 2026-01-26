@@ -3670,7 +3670,6 @@ GameObject:
   - component: {fileID: -7349782472214411636}
   - component: {fileID: -6344738614420327817}
   - component: {fileID: 4654346704534276059}
-  - component: {fileID: -1959252277818047018}
   m_Layer: 7
   m_Name: Citizen_Female
   m_TagString: Enemy
@@ -3919,20 +3918,6 @@ MonoBehaviour:
   knockDownDuration: 3
   getUpAnimationDuration: 3.5
   baseAI: {fileID: 3632195477549707009}
---- !u!114 &-1959252277818047018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8422139059911836487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d62096f8d0728414784e4d33617fd03f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SimpleRagdollTester
-  targetController: {fileID: 0}
-  pushPower: 55
 --- !u!1 &8460227537249621534
 GameObject:
   m_ObjectHideFlags: 0

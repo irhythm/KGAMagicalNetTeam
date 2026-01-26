@@ -5247,7 +5247,6 @@ GameObject:
   - component: {fileID: 604025553611632398}
   - component: {fileID: -8273168861780367077}
   - component: {fileID: 5513362632095609638}
-  - component: {fileID: 2065256608999824046}
   m_Layer: 7
   m_Name: AxeGuardPrefab
   m_TagString: Enemy
@@ -5534,20 +5533,6 @@ MonoBehaviour:
   knockDownDuration: 3
   getUpAnimationDuration: 2.6
   baseAI: {fileID: 1288307128011534361}
---- !u!114 &2065256608999824046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5133415269387751846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d62096f8d0728414784e4d33617fd03f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SimpleRagdollTester
-  targetController: {fileID: 0}
-  pushPower: 50
 --- !u!1 &5180935114380997244
 GameObject:
   m_ObjectHideFlags: 0
