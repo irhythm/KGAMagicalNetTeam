@@ -16,66 +16,96 @@ public class InteractionManager : Singleton<InteractionManager>
     private IInteractable executer;
     private List<IInteractable> receivers = new List<IInteractable>();
 
+    private BaseInteractSystem interactSystem;      // 상호작용 클래스 캐싱
+
+    private AssassinateInteract assassinateSystem;  // 암살 상호작용 클래스
+
+
     protected override void Awake()
     {
         base.Awake();
     }
 
-    public void RequestInteraction(InteractionDataSO data, CinemachineCamera camera, IInteractable executer, params IInteractable[] receivers)
+    public void RequestInteraction(InteractionDataSO data, IInteractable executer, params IInteractable[] receivers)
     {
         if (data == null || executer == null || receivers == null) return;
-
-        BaseInteractSystem system = null;
 
         switch (data.type)
         {
             case InteractionType.Assassinate:
-                system = new AssassinateInteract(data, executer, receivers);
+                if (assassinateSystem == null)
+                {
+                    assassinateSystem = new AssassinateInteract(data, executer, receivers);
+                }
+                else
+                {
+                    assassinateSystem.Init(data, executer, receivers);
+                }
+                interactSystem = assassinateSystem;
                 break;
         }
 
         this.executer = executer;
         this.receivers = receivers.ToList();
 
-        TimelineSetting(data, camera, executer, receivers);
+        TimelineSetting(data, executer, receivers);
+
+        Play();
     }
 
     // 타임라인 포지션 등 세팅
-    private void TimelineSetting(InteractionDataSO data, CinemachineCamera camera, IInteractable executer, params IInteractable[] receivers)
+    private void TimelineSetting(InteractionDataSO data, IInteractable executer, params IInteractable[] receivers)
     {
         if (data == null) return;
+        if (ProjectManager.Instance == null || ProjectManager.Instance.CinemachineControl == null) return;
 
         pd.playableAsset = data.timelineAsset;
 
         var tracks = data.timelineAsset.GetOutputTracks().ToArray();
-        SetTrackValue(data, tracks, camera, executer, receivers);
-        SetTransform(data, camera, executer, receivers);
+        SetTrackValue(data, tracks, executer, receivers);
+        SetTransform(data, executer, receivers);
+    }
+
+    private void Play()
+    {
+        ProjectManager.Instance.CinemachineControl.SetCameraType(Cinemachinetype.CutScene);
+
+        pd.stopped += Stop;
 
         pd.Play();
     }
 
-    private void SetTrackValue(InteractionDataSO data, TrackAsset[] tracks, CinemachineCamera camera, IInteractable executer, params IInteractable[] receivers)
+    private void Stop(PlayableDirector pd)
     {
-        pd.SetGenericBinding(tracks[Array.FindIndex(tracks, x => x.name.StartsWith("Camera"))], camera.GetComponent<Animator>());
+        ProjectManager.Instance.CinemachineControl.SetCameraType(Cinemachinetype.InGame);
+        interactSystem.EndInteract();
+        pd.playableAsset = null;
+    }
+
+    // 트랙에 맞게 매칭
+    private void SetTrackValue(InteractionDataSO data, TrackAsset[] tracks, IInteractable executer, params IInteractable[] receivers)
+    {
+        pd.SetGenericBinding(tracks[Array.FindIndex(tracks, x => x.name.StartsWith("Camera"))], ProjectManager.Instance.CinemachineControl.cutSceneCamera.GetComponent<Animator>());
         pd.SetGenericBinding(tracks[Array.FindIndex(tracks, x => x.name.StartsWith("Executer"))], executer.ActorTrans.gameObject);
 
-        for(int i = 0; i < data.offset_Receiver.Count; i++)
+        for (int i = 0; i < data.offset_Receiver.Count; i++)
         {
             TrackAsset track = tracks[Array.FindIndex(tracks, x => x.name == data.offset_Receiver[i].name)];
 
             pd.SetGenericBinding(track, receivers[i].ActorTrans.gameObject);
         }
 
-        foreach(var track in tracks)
+        foreach (var track in tracks)
         {
-            if(track is SignalTrack signalTrack)
+            if (track is SignalTrack signalTrack)
             {
-                pd.SetGenericBinding(signalTrack, camera.GetComponent<SignalReceiver>());
+                pd.SetGenericBinding(signalTrack, ProjectManager.Instance.CinemachineControl.cutSceneCamera.GetComponent<SignalReceiver>());
             }
         }
     }
 
-    private void SetTransform(InteractionDataSO data, CinemachineCamera camera, IInteractable executer, params IInteractable[] receivers)
+    // 기준 트랜스폼에 맞게 나머지 트랙들의 오브젝트 트랜스폼도 반영
+    private void SetTransform(InteractionDataSO data, IInteractable executer, params IInteractable[] receivers)
     {
         // 누가 기준 트랜스폼인지에 따라 위치 보정
         Transform pivotTrans;
@@ -99,16 +129,16 @@ public class InteractionManager : Singleton<InteractionManager>
         }
 
         // 기준 트랜스폼을 기준으로 실제 위치, 회전값 적용
-        if(data.offset_Executer.isApply)
+        if (data.offset_Executer.isApply)
         {
             executer.ActorTrans.position = pivotTrans.TransformPoint(data.offset_Executer.position);
             executer.ActorTrans.rotation = Quaternion.Euler(pivotTrans.eulerAngles + data.offset_Executer.rotation);
         }
-        
-        if(data.offset_Camera.isApply)
+
+        if (data.offset_Camera.isApply)
         {
-            camera.transform.position = pivotTrans.TransformPoint(data.offset_Camera.position);
-            camera.transform.rotation = Quaternion.Euler(pivotTrans.eulerAngles + data.offset_Camera.rotation);
+            ProjectManager.Instance.CinemachineControl.cutSceneCamera.transform.position = pivotTrans.TransformPoint(data.offset_Camera.position);
+            ProjectManager.Instance.CinemachineControl.cutSceneCamera.transform.rotation = Quaternion.Euler(pivotTrans.eulerAngles + data.offset_Camera.rotation);
         }
 
         for (int i = 0; i < data.offset_Receiver.Count; i++)

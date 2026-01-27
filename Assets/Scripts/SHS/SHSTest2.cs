@@ -2,16 +2,13 @@ using UnityEngine;
 
 public class SHSTest2 : MonoBehaviour, IInteractable
 {
-    public bool isInteracted { get; private set; }
+    public bool IsInteracted { get; private set; }
 
     public Transform ActorTrans => transform;
 
-    public void OnExecuterInteraction()
-    {
+    [field: SerializeField] public InteractionDataSO interactionData { get; set; }
 
-    }
-
-    public void OnReceiverInteraction()
+    public void OnInteraction()
     {
 
     }

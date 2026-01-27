@@ -6,9 +6,10 @@ public class GuardAssassinateState : AIStateBase, IInteractable
 
     private readonly int? animHashNum;
 
-    public bool isInteracted { get; private set; }
+    public bool IsInteracted { get; private set; }
 
     public Transform ActorTrans => ai.transform;
+    [field: SerializeField] public InteractionDataSO interactionData { get; set; }
 
     public GuardAssassinateState(BaseAI ai, StateMachine stateMachine, BaseAI.AIStateID stateID, IInteractable target, string animName)
         : base(ai, stateMachine, stateID)
@@ -45,14 +46,9 @@ public class GuardAssassinateState : AIStateBase, IInteractable
         base.FixedExecute();
     }
 
-    public void OnExecuterInteraction()
+    public void OnInteraction()
     {
         
-    }
-
-    public void OnReceiverInteraction()
-    {
-
     }
 
     public void OnStopped()
