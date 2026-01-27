@@ -26,6 +26,8 @@ public class GuardManager : MonoBehaviourPunCallbacks
 
     //UI 갱신을 위한 옵저버 이벤트
     public event Action<string> OnTimerSecondChanged;
+    public event Action OnWaveChanged;
+
 
     //최적화_지난 프레임의 초
     private int lastSecond = -1;
@@ -73,15 +75,25 @@ public class GuardManager : MonoBehaviourPunCallbacks
             //현재 포맷된 시간 전달(일단은 타이머만)
             OnTimerSecondChanged?.Invoke(GetFormattedTime());
         }
+
+
         if (PhotonNetwork.IsMasterClient)
         {
+
             if (Timer >= nextSpawnTargetTime)
             {
+
                 SpawnWave();
+
+                OnWaveChanged?.Invoke();
                 nextSpawnTargetTime += spawnInterval;
             }
+
         }
+
     }
+
+
 
     //UI 표기
     public string GetFormattedTime()
