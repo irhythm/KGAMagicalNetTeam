@@ -40,6 +40,11 @@ public class GarrisonReturnState : AIStateBase
     {
         if (garrison == null) return;
 
+        if (garrison.Agent == null || !garrison.Agent.isActiveAndEnabled || !garrison.Agent.isOnNavMesh)
+        {
+            return;
+        }
+
         if (!garrison.Agent.pathPending && garrison.Agent.remainingDistance <= 1.0f)
         {
             stateMachine.ChangeState(new GarrisonPatrolState(garrison, stateMachine));
