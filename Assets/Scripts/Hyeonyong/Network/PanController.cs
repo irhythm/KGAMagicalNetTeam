@@ -6,7 +6,6 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
 {
     [SerializeField] GameObject PanHpBanner;
-    Hashtable roomTable = new Hashtable();
     [SerializeField] float fryingPanMaxHp = 20;
     PhotonView pv;
     PanView panView;
@@ -68,7 +67,8 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
     void TakeDamageRPC(float damage)
     {
         float curHp = GetFryingPanHP()- damage;
-        HandleHpChanged(curHp/fryingPanMaxHp);
+        //HandleHpChanged(curHp/fryingPanMaxHp);
+        Debug.Log("프라이팬 : 현재 HP: " + curHp);
         SetFryingPanHP(curHp);
         //CheckDie();
         if(damageCoroutine_Color!=null) 
@@ -84,7 +84,7 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
         // 바뀐 프로퍼티 중에 "HP_1"이 포함되어 있는지 확인
-        if (propertiesThatChanged.ContainsKey("FryingPan"))
+        if (propertiesThatChanged.ContainsKey(NetworkProperties.FRYINGPANHP))
         {
             HandleHpChanged(GetFryingPanHP() / fryingPanMaxHp);
             CheckDie();
@@ -92,19 +92,23 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
     }
     void CheckDie()
     {
+        Debug.Log("프라이팬 : 죽음 체크");
         if (GetFryingPanHP() > 0)
             return;
-         
-        PanHpBanner.SetActive(false);
-        gameObject.SetActive(false);
+        Debug.Log("프라이팬 : 죽음");
+        if(PanHpBanner != null)
+            PanHpBanner.SetActive(false);
+        if (gameObject != null)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     void SetFryingPanHP(float curHp)
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            roomTable["FryingPan"] = curHp;
-            PhotonNetwork.CurrentRoom.SetCustomProperties(roomTable);
+            PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.FRYINGPANHP, curHp);
         }
     }
     private void OnDisable()
@@ -116,15 +120,7 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
 
     float GetFryingPanHP()
     {
-        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("FryingPan", out object fryingPanHp))
-        { 
-            return (float) fryingPanHp;
-        }
-        else
-        {
-            Debug.Log("값이 없다");
-            return -1;
-        }
+        return PhotonNetwork.CurrentRoom.GetProps<float>(NetworkProperties.FRYINGPANHP);
     }
 
     private void HandleHpChanged(float hpRatio)
@@ -159,5 +155,11 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
         }
         transform.position = originPos;
         damageCoroutine_Noise = null;
+    }
+
+    private void OnDestroy()
+    {
+        if (PhotonNetwork.IsMasterClient)
+            InitFryingPan();
     }
 }

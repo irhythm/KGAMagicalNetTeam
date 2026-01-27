@@ -43,6 +43,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     private IEnumerator Start()
     {
+
         SoundManager.Instance.PlayBGM(RoomAudio);
         //yield return new WaitUntil(() => FirebaseAuthManager.Instance != null);//파이어베이스 초기화 대기
         if (FirebaseAuthManager.Instance != null)
@@ -52,6 +53,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
         yield return new WaitUntil(() => PhotonNetwork.InRoom);//방에 입장했는지
         yield return null;
         InitReady();
+
+        Debug.Log("탭 테스트 1");
+
 
         Player[] players = PhotonNetwork.PlayerList;//방 속 사람을 받아옴
         foreach (var p in players)
@@ -78,6 +82,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             }
         }
 
+        Debug.Log("탭 테스트 2");
         checkHiddenRoom.isOn = !PhotonNetwork.CurrentRoom.IsVisible;
         if (PhotonNetwork.IsMasterClient)
         {
@@ -86,14 +91,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             checkHiddenRoom.gameObject.SetActive(true);
             friendlyFire.gameObject.SetActive(true);
 
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("FriendlyFire", out object isCheck))
-            {
-                friendlyFire.isOn = (bool)isCheck;
-            }
-            else
-            {
-                PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.FRIENDLYFIRE, friendlyFire.isOn);
-            }
+            friendlyFire.isOn = PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.FRIENDLYFIRE);
 
             InitGameRound();
 
@@ -104,11 +102,21 @@ public class RoomManager : MonoBehaviourPunCallbacks
             ReadyBtn.gameObject.SetActive(true);
             checkHiddenRoom.gameObject.SetActive(false);
         }
+        Debug.Log("탭 테스트 3");
+        CheckReady();
 
         if (tabInput != null)
         {
+            Debug.Log("탭 인풋 있음");
             tabInput.action.performed += OpenRoomTab;
+            tabInput.action.Enable();
         }
+        else
+        {
+            Debug.Log("탭 인풋 없음");
+        }
+
+        Debug.Log("탭 테스트 4");
     }
 
     public void SetPlayer(GameObject player)
@@ -156,7 +164,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             if (PhotonNetwork.IsMasterClient == true)
             {
-                PhotonNetwork.Destroy(player);
+                player = null;
+                //PhotonNetwork.Destroy(player);
                 PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
                 PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ONSTART, false);
             }
@@ -320,6 +329,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     public void OpenRoomTab(InputAction.CallbackContext context)
     {
+        Debug.Log("탭 열기 시도");
         bool onOpen = !roomTab.activeSelf;
         if (onOpen)
         {

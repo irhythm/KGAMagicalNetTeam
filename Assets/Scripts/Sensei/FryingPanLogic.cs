@@ -14,38 +14,24 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
     PhotonView pv;
 
     Queue<GameObject> _mushrooms = new Queue<GameObject>();
-    Transform removeTarget;
+
+    Coroutine _mushroomCoroutine;
 
     IEnumerator FiringMushroom()
     {
-        yield return null;    
-        {
-            int i = 0;
-            while (i<1000)
-            {
-                Debug.Log("쏜다");
-                //photonView.RPC("FireMushroom", RpcTarget.All, target);
 
+        while (true)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                _targets.RemoveAll(target => target == null);
                 //한 번에 모든 플레이어에게 날리는 용도
                 foreach (Transform target in _targets)
                 {
-                    if (target == null)
-                    {
-                        removeTarget = target;
-                    }
-                    //Debug.Log(target.gameObject.name+"에게 쏜다");
-                    //FireMushroom(target);
-                    if(PhotonNetwork.IsMasterClient)
-                        pv.RPC(nameof(FireMushroom), RpcTarget.All, target.position);
+                    pv.RPC(nameof(FireMushroom), RpcTarget.All, target.position);
                 }
-                _targets.Remove(removeTarget);
-                Debug.Log("쏜다 끝");
-                i++;
-                yield return new WaitForSeconds(_howLongToWait);
             }
-            //MushroomLogic mushroomLogic = mushroom.GetComponent<MushroomLogic>();
-            //mushroomLogic.SetTarget(target);
-            //yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(_howLongToWait);
         }
     }
 
@@ -58,6 +44,7 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
         if (mushroom == null)
         {
             mushroom = Instantiate(_mushroomPrefab, _mushroomSpawnPoint.position, Quaternion.identity);
+            mushroom.transform.SetParent(transform);
         }
         else
         {
@@ -103,13 +90,13 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
     void Start()
     {
         pv = GetComponent<PhotonView>();
-        StartCoroutine(FiringMushroom());
+        _mushroomCoroutine=StartCoroutine(FiringMushroom());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        base.OnDisable();
+        StopCoroutine(_mushroomCoroutine);
     }
 
     public bool CheckTargetAlreadyContain(Transform transform)

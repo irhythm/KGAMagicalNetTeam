@@ -32,13 +32,13 @@ public class LoginManager : MonoBehaviour
     }
     private void OnDisable()
     {
-        nextTabInput.action.Disable();
-        enterInput.action.Disable();
+        nextTabInput.action.performed -= NextTab;
+        enterInput.action.performed -= EnterGame;
         //playerInput.actions["Tab"].performed -= NextTab;
     }
     public void NextTab(InputAction.CallbackContext context)
     {
-        Debug.Log("≈« ≈¨∏Ø");
+        Debug.Log("ÌÉ≠ ÌÅ¥Î¶≠");
         SetTabNum();
         if (curIndex == -1)
             return;
@@ -64,7 +64,7 @@ public class LoginManager : MonoBehaviour
         {
             if (btn.gameObject.activeSelf)
             {
-                Debug.Log("πˆ∆∞ ≈¨∏Ø");
+                Debug.Log("Î≤ÑÌäº ÌÅ¥Î¶≠");
                 btn.onClick.Invoke();
                 break;
             }
@@ -84,7 +84,7 @@ public class LoginManager : MonoBehaviour
     }
 
 
-    //260113 √÷¡§øÌ
+    //260113 ÏµúÏ†ïÏö±
     public void ReturnToMainMenu()
     {
         SceneManager.LoadScene("Title");
