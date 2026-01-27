@@ -96,6 +96,7 @@ public class PlayerController : MonoBehaviourPun, IDamageable, IExplosion
     {
         if (playableCharacter != null) 
             playableCharacter.OnHpChanged -= HandleHpChanged;
+        testTakeDamageAction.action.performed -= TestTakeDamage;
     }
 
     private void HandleHpChanged(float hpRatio)
