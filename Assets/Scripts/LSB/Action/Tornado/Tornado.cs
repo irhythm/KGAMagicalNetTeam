@@ -56,7 +56,7 @@ public class Tornado : MonoBehaviourPun
         Vector3 nextPosition = transform.position + (moveDirection * data.moveSpeed * Time.deltaTime);
 
         RaycastHit hit;
-        int layerMask = LayerMask.NameToLayer("Ground");
+        int layerMask = 1 << LayerMask.NameToLayer("Ground");
 
         if (Physics.Raycast(nextPosition + Vector3.up * 5.0f, Vector3.down, out hit, 20.0f, layerMask))
         {
@@ -71,6 +71,10 @@ public class Tornado : MonoBehaviourPun
 
         Rigidbody rb = other.GetComponent<Rigidbody>();
         if (rb == null) return;
+
+        if ((data.hitLayer.value & (1 << other.gameObject.layer)) == 0)
+            return;
+        
 
         PhotonView targetPv = other.GetComponent<PhotonView>();
         if (targetPv != null && targetPv.OwnerActorNr == shooterID) return;
@@ -140,7 +144,7 @@ public class Tornado : MonoBehaviourPun
 
             float currentSuction = Mathf.Lerp(data.suctionSpeed, data.suctionSpeed * 2.5f, distFactor);
 
-            float heightFactor = (offset.y < 2.0f) ? 2.0f : 1.0f;
+            float heightFactor = (offset.y < 1.0f) ? 2.0f : 1.0f;
             float currentLift = data.liftSpeed * heightFactor;
 
             Vector3 targetVelocity = (tangentDir * data.orbitSpeed)
