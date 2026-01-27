@@ -20,12 +20,12 @@ public class PlayerSoundHandler : MonoBehaviour
 
         if (pv.IsMine)
         {
-            Debug.Log("³»°Å °ª °¡Á®¿È");
+            Debug.Log("ë‚´ê±° ê°’ ê°€ì ¸ì˜´");
             mic = GetComponent<MicAmplifier>();
 
             SetSoundEvent();
-            SetMicSound(-1);
-            SetVoiceSound(-1);
+            //SetMicSound(-1);
+            //SetVoiceSound(-1);
         }
         else
         {
@@ -54,18 +54,24 @@ public class PlayerSoundHandler : MonoBehaviour
         {
             SetMicMute(isOn);
         });
-        UIManager.Instance.VoiceChatSoundMute.isOn = PlayerPrefsDataManager.PlayerVoiceMute;
-        UIManager.Instance.MicSoundMute.isOn = PlayerPrefsDataManager.PlayerMicMute;
+
+        SetMicSound(UIManager.Instance.MicSound.value);
+        SetVoiceSound(UIManager.Instance.VoiceChatSound.value);
+        SetVoiceMute(UIManager.Instance.VoiceChatSoundMute.isOn);
+        SetMicMute(UIManager.Instance.MicSoundMute.isOn);
+        //UIManager.Instance.VoiceChatSoundMute.isOn = PlayerPrefsDataManager.PlayerVoiceMute;
+        ////ì²˜ìŒì— ê°’ì„ ê°€ì ¸ì˜¬ ë•Œ 
+        //UIManager.Instance.MicSoundMute.isOn = PlayerPrefsDataManager.PlayerMicMute;
 
     }
 
     private void SetMicSound(float value)
     {
-        Debug.Log("³»°Å °ª °¡Á®¿È »õÅÁ "+value);
-        //ÀÌ°Å ½ÃÀÛÇÏÀÚ¸¶ÀÚ ¹Ş¾Æ¿Í¼­ Ã³À½ °ªÀ¸·Î ÁøÇàµÇ´Â°Å °°´Ù ±×°Íµµ ¾Æ´Ñµ¥?
+        Debug.Log("ë‚´ê±° ê°’ ê°€ì ¸ì˜´ ìƒˆíƒ• "+value);
+        //ì´ê±° ì‹œì‘í•˜ìë§ˆì ë°›ì•„ì™€ì„œ ì²˜ìŒ ê°’ìœ¼ë¡œ ì§„í–‰ë˜ëŠ”ê±° ê°™ë‹¤ ê·¸ê²ƒë„ ì•„ë‹Œë°?
         if (value == -1)
         {
-            Debug.Log("UI ¸Å´ÏÀú¿¡¼­ °ª °¡Á®¿È : " + UIManager.Instance.MicSound.value);
+            Debug.Log("UI ë§¤ë‹ˆì €ì—ì„œ ê°’ ê°€ì ¸ì˜´ : " + UIManager.Instance.MicSound.value);
             mic.AmplificationFactor = UIManager.Instance.MicSound.value;
         }
         else
