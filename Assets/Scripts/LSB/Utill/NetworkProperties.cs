@@ -3,37 +3,44 @@ using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 /// <summary>
-/// ÇÃ·¹ÀÌ¾î ¹× ·ëÀÇ Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼¸¦ ÅëÇÕ °ü¸®ÇÏ´Â È®Àå ¸Ş¼­µå Å¬·¡½º
+/// í”Œë ˆì´ì–´ ë° ë£¸ì˜ ì»¤ìŠ¤í…€ í”„ë¡œí¼í‹°ë¥¼ í†µí•© ê´€ë¦¬í•˜ëŠ” í™•ì¥ ë©”ì„œë“œ í´ë˜ìŠ¤
 /// </summary>
 public static class NetworkProperties
 {
     [Header("Player")]
     public const string PLAYER_ISWIZARD = "ISWIZARD";
+    public const string PLAYER_READY = "READY";
 
     [Header("Room")]
     public const string ROOM = "ROOM";
+    public const string FRIENDLYFIRE = "FRIENDLYFIRE";
+    public const string GAMEROUND = "GAMEROUND";
+    public const string MONEYCOUNT = "MONEYCOUNT";
+    public const string ONSTART = "ONSTART";
+    public const string ONSTORE = "ONSTORE";
+    public const string PLAYERCOUNT = "PLAYERCOUNT";
 
 
 
-    // player.SetProps(NetworkProperties.¸¸µé¾î ³õÀº Å° º¯¼ö ¸í, 1);
+    // player.SetProps(NetworkProperties.ë§Œë“¤ì–´ ë†“ì€ í‚¤ ë³€ìˆ˜ ëª…, 1);
     public static void SetProps<T>(this Player player, string key, T value)
     {
-        // ÀÌ¹Ì °°Àº °ªÀÌ¸é ¼³Á¤ÇÏÁö ¾ÊÀ½
+        // ì´ë¯¸ ê°™ì€ ê°’ì´ë©´ ì„¤ì •í•˜ì§€ ì•ŠìŒ
         if (player.CustomProperties.ContainsKey(key))
         {
             T current = player.GetProps<T>(key);
             if (current != null && current.Equals(value)) return;
         }
 
-        // °ª ¼³Á¤
+        // ê°’ ì„¤ì •
         Hashtable props = new Hashtable { { key, value } };
         player.SetCustomProperties(props);
     }
 
-    // ÀÚ·áÇü (´ãÀ» º¯¼ö) = player.GetProps<ÀÚ·áÇü>(NetworkProperties.¸¸µé¾î ³õÀº Å° º¯¼ö ¸í);
+    // ìë£Œí˜• (ë‹´ì„ ë³€ìˆ˜) = player.GetProps<ìë£Œí˜•>(NetworkProperties.ë§Œë“¤ì–´ ë†“ì€ í‚¤ ë³€ìˆ˜ ëª…);
     public static T GetProps<T>(this Player player, string key)
     {
-        // ÇØ´ç Å°°¡ Á¸ÀçÇÏ¸é °ªÀ» ¹İÈ¯
+        // í•´ë‹¹ í‚¤ê°€ ì¡´ì¬í•˜ë©´ ê°’ì„ ë°˜í™˜
         if (player.CustomProperties.TryGetValue(key, out object val))
         {
             return (T)val;
@@ -44,27 +51,27 @@ public static class NetworkProperties
 
 
 
-    // PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.¸¸µé¾î ³õÀº Å° º¯¼ö ¸í, ÀúÀåÇÒ °ª);
+    // PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ë§Œë“¤ì–´ ë†“ì€ í‚¤ ë³€ìˆ˜ ëª…, ì €ì¥í•  ê°’);
     public static void SetProps<T>(this Room room, string key, T value)
     {
         if (room == null) return;
 
-        // ÀÌ¹Ì °°Àº °ªÀÌ¸é ¼³Á¤ÇÏÁö ¾ÊÀ½
+        // ì´ë¯¸ ê°™ì€ ê°’ì´ë©´ ì„¤ì •í•˜ì§€ ì•ŠìŒ
         if (room.CustomProperties.ContainsKey(key))
         {
             T current = room.GetProps<T>(key);
             if (current != null && current.Equals(value)) return;
         }
 
-        // °ª ¼³Á¤
+        // ê°’ ì„¤ì •
         Hashtable props = new Hashtable { { key, value } };
         room.SetCustomProperties(props);
     }
 
-    // ÀÚ·áÇü (´ãÀ» º¯¼ö) = PhotonNetwork.CurrentRoom.GetProps<ÀÚ·áÇü>(NetworkProperties.¸¸µé¾î ³õÀº Å° º¯¼ö ¸í);
+    // ìë£Œí˜• (ë‹´ì„ ë³€ìˆ˜) = PhotonNetwork.CurrentRoom.GetProps<ìë£Œí˜•>(NetworkProperties.ë§Œë“¤ì–´ ë†“ì€ í‚¤ ë³€ìˆ˜ ëª…);
     public static T GetProps<T>(this Room room, string key)
     {
-        // ·ëÀÌ nullÀÌ ¾Æ´Ï°í, ÇØ´ç Å°°¡ Á¸ÀçÇÏ¸é °ªÀ» ¹İÈ¯
+        // ë£¸ì´ nullì´ ì•„ë‹ˆê³ , í•´ë‹¹ í‚¤ê°€ ì¡´ì¬í•˜ë©´ ê°’ì„ ë°˜í™˜
         if (room != null && room.CustomProperties.TryGetValue(key, out object val))
         {
             return (T)val;
