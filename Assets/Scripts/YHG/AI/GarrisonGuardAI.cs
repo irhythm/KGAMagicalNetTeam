@@ -118,6 +118,9 @@ public class GarrisonGuardAI : GuardAI
         Vector3 right = target.right;
 
         //타겟기준 4곳 쏘기
+        //얘 자체 콜라이더 범위값을 기준으로 쓰도록 리팩토링 = 모델마다 다른 범위를 체크 가능
+        //bounds.extents min Max, or Center값의 익스텐스의 비례한 값을 쏘는 식으로
+
         Vector3[] checkPoints = new Vector3[]
         {
             targetPos + up * 1.0f,
