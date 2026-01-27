@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class CitizenPatrolState : AIStateBase
 {
@@ -11,6 +11,11 @@ public class CitizenPatrolState : AIStateBase
 
     public override void Execute()
     {
+        if (citizen.Agent == null || !citizen.Agent.isActiveAndEnabled || !citizen.Agent.isOnNavMesh)
+        {
+            return;
+        }
+
         //매 프레임 검사 X
         thinkTimer += Time.deltaTime;
         if (thinkTimer < thinkInterval) return;

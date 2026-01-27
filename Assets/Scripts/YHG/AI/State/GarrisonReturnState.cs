@@ -45,12 +45,14 @@ public class GarrisonReturnState : AIStateBase
             return;
         }
 
+        //도착하면 순찰
         if (!garrison.Agent.pathPending && garrison.Agent.remainingDistance <= 1.0f)
         {
             stateMachine.ChangeState(new GarrisonPatrolState(garrison, stateMachine));
             return;
         }
 
+        //복귀 중에도 적 감지(0.5초텀)
         detectTimer += Time.deltaTime;
         if (detectTimer >= 0.5f)
         {
