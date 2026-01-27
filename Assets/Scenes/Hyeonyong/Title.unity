@@ -1571,7 +1571,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00006484985
+      value: -0.00008773804
       objectReference: {fileID: 0}
     - target: {fileID: 22426080, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2760,7 +2760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ServerConnector
   roomSceneName: Room_new
-  onTest: 1
+  onTest: 0
   titleAudio: {fileID: 8300000, guid: c94cf4c03aae0b74d95281615b5011d2, type: 3}
 --- !u!4 &318443349
 Transform:
@@ -3769,9 +3769,9 @@ RectTransform:
   - {fileID: 444316518}
   - {fileID: 1522238514}
   - {fileID: 1478456490}
+  - {fileID: 1317723359}
   - {fileID: 1341163567}
   - {fileID: 78231491}
-  - {fileID: 1317723359}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8699,7 +8699,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
