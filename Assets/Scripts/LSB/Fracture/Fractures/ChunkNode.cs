@@ -7,7 +7,7 @@ using UnityEngine;
 /// <summary>
 /// 파편의 상태와 이웃의 정보를 관리하는 노드
 /// </summary>
-public class ChunkNode : MonoBehaviour, IExplosion
+public class ChunkNode : MonoBehaviour, IExplosion, IPhysicsObject
 {
     // 프리팹 직렬화용 이웃 배열
     [SerializeField] public ChunkNode[] neighbours;
@@ -206,5 +206,15 @@ public class ChunkNode : MonoBehaviour, IExplosion
             data.radius,
             data.forceUpward
         );
+    }
+
+    public void OnStatusChange(bool isControlled)
+    {
+        Debug.Log("청크노드 상태 변경");
+    }
+
+    public void OnApplyExternalForce(Vector3 forceDirection, float forcePower, ForceMode mode)
+    {
+        Debug.Log("물리 적용");
     }
 }
