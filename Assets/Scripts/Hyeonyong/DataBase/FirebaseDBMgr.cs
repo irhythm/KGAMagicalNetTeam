@@ -1,13 +1,14 @@
-using Firebase; //±âº» ±â´Éµé
-using Firebase.Auth; //ÀÎÁõÁ¤º¸ ±â´Éµé
-using Firebase.Database; //DB±â´Éµé
-using System.Collections; //ºñµ¿±â ÀÛ¾÷ ÇÒ°Å¶ó ±×·³
+using Firebase; //ê¸°ë³¸ ê¸°ëŠ¥ë“¤
+using Firebase.Auth; //ì¸ì¦ì •ë³´ ê¸°ëŠ¥ë“¤
+using Firebase.Database; //DBê¸°ëŠ¥ë“¤
+using System.Collections; //ë¹„ë™ê¸° ì‘ì—… í• ê±°ë¼ ê·¸ëŸ¼
 using System.Threading.Tasks;
-using System.Collections.Generic; //Äİ·º¼Ç¿¡ ´ã¾Æ¼­ ÇÑ¹ø¿¡ º¸³»·Á°í ¼±¾ğ
+using System.Collections.Generic; //ì½œë ‰ì…˜ì— ë‹´ì•„ì„œ í•œë²ˆì— ë³´ë‚´ë ¤ê³  ì„ ì–¸
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-//260113 ÃÖÁ¤¿í ÇÃ·¹ÀÌ¾î »ö±ò Ä¿¸¶ ÄÚµå
+using TMPro; //TMP ë“œë¡­ë‹¤ìš´ ì‚¬ìš© ìœ„í•´
+//260113 ìµœì •ìš± í”Œë ˆì´ì–´ ìƒ‰ê¹” ì»¤ë§ˆ ì½”ë“œ
 //using UnityEngine.Networking;
 using Photon.Pun;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -23,26 +24,26 @@ public enum WizardColor
 
 public class FirebaseDBMgr : MonoBehaviour
 {
-    DatabaseReference dbRef; //ÀÌ°Ç ²®µ¥±â
+    DatabaseReference dbRef; //ì´ê±´ ê»ë°ê¸°
     public FirebaseUser user;
 
     [SerializeField] InputField moneyField;
     [SerializeField] InputField xpField;
     [SerializeField] InputField levelField;
     
-    //260113 ÃÖÁ¤¿í ÇÃ·¹ÀÌ¾î »ö±ò Ä¿¸¶ ÄÚµå
+    //260113 ìµœì •ìš± í”Œë ˆì´ì–´ ìƒ‰ê¹” ì»¤ë§ˆ ì½”ë“œ
     [SerializeField] WizardColor playerColor;
-    [SerializeField] Dropdown colorDropdown;
+    [SerializeField] TMP_Dropdown colorDropdown;
 
-
+    
     const string Inven = "Inventory";
 
-    public List<string> inventory = new List<string> { "Å×½ºÆ®¾ÆÀÌÅÛ1", "Å×½ºÆ®¾ÆÀÌÅÛ2", "Å×½ºÆ®¾ÆÀÌÅÛ3" };
+    public List<string> inventory = new List<string> { "í…ŒìŠ¤íŠ¸ì•„ì´í…œ1", "í…ŒìŠ¤íŠ¸ì•„ì´í…œ2", "í…ŒìŠ¤íŠ¸ì•„ì´í…œ3" };
     public Dictionary<string, int> inventoryDicVer = new Dictionary<string, int>()
     {
-        {"µñ¼Å³Ê¸®Å×½ºÆ®1", 1 },
-        {"µñ¼Å³Ê¸®Å×½ºÆ®2", 3 },
-        {"µñ¼Å³Ê¸®Å×½ºÆ®3", 6 },
+        {"ë”•ì…”ë„ˆë¦¬í…ŒìŠ¤íŠ¸1", 1 },
+        {"ë”•ì…”ë„ˆë¦¬í…ŒìŠ¤íŠ¸2", 3 },
+        {"ë”•ì…”ë„ˆë¦¬í…ŒìŠ¤íŠ¸3", 6 },
     };
 
     IEnumerator Start()
@@ -52,27 +53,27 @@ public class FirebaseDBMgr : MonoBehaviour
         this.dbRef = FirebaseAuthManager.Instance.dbRef;
         if (dbRef == null)
         {
-            Debug.Log("FirebaseDBMgr: dbRef°¡ nullÀÔ´Ï´Ù!");
+            Debug.Log("FirebaseDBMgr: dbRefê°€ nullì…ë‹ˆë‹¤!");
             //yield break;
             dbRef = FirebaseDatabase.DefaultInstance.RootReference;
             if (dbRef == null)
             {
-                Debug.Log("FirebaseDBMgr: DefaultInstanceÀÇ RootReferenceµµ nullÀÔ´Ï´Ù!");
+                Debug.Log("FirebaseDBMgr: DefaultInstanceì˜ RootReferenceë„ nullì…ë‹ˆë‹¤!");
             }
         }
         //Debug.Log(dbRef)
         this.user = FirebaseAuthManager.Instance.user;
-        Debug.Log("FirebaseDBMgr¿¡¼­ user ID: " + user.UserId);
+        Debug.Log("FirebaseDBMgrì—ì„œ user ID: " + user.UserId);
 
     }
 
 
-    //260113 ÃÖÁ¤¿í ÇÃ·¹ÀÌ¾î »ö±ò Ä¿¸¶ ÄÚµå
+    //260113 ìµœì •ìš± í”Œë ˆì´ì–´ ìƒ‰ê¹” ì»¤ë§ˆ ì½”ë“œ
     public void OnColorDropdownChanged(int index)
     {
-        Debug.Log($"µå·Ó´Ù¿î ÀÎµ¦½º º¯°æ °¨Áö: {index}");
+        Debug.Log($"ë“œë¡­ë‹¤ìš´ ì¸ë±ìŠ¤ ë³€ê²½ ê°ì§€: {index}");
 
-        playerColor = (WizardColor)(index); // Dropdown ÀÎµ¦½º´Â 0ºÎÅÍ ½ÃÀÛÇÏ¹Ç·Î 1À» ´õÇØÁÜ
+        playerColor = (WizardColor)(index); // Dropdown ì¸ë±ìŠ¤ëŠ” 0ë¶€í„° ì‹œì‘í•˜ë¯€ë¡œ 1ì„ ë”í•´ì¤Œ
 
         if (checkAndSetColor != null)
         {
@@ -80,8 +81,8 @@ public class FirebaseDBMgr : MonoBehaviour
         }
         checkAndSetColor = StartCoroutine(GetAndCheckColor());
 
-        //Debug.Log($"¼±ÅÃµÈ ÇÃ·¹ÀÌ¾î »ö±ò: {playerColor}");
-        // ¿©±â¼­ ¼±ÅÃµÈ »ö±ò¿¡ µû¶ó ÇÃ·¹ÀÌ¾îÀÇ »ö±òÀ» º¯°æÇÏ´Â ·ÎÁ÷À» Ãß°¡ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+        //Debug.Log($"ì„ íƒëœ í”Œë ˆì´ì–´ ìƒ‰ê¹”: {playerColor}");
+        // ì—¬ê¸°ì„œ ì„ íƒëœ ìƒ‰ê¹”ì— ë”°ë¼ í”Œë ˆì´ì–´ì˜ ìƒ‰ê¹”ì„ ë³€ê²½í•˜ëŠ” ë¡œì§ì„ ì¶”ê°€í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
     }
 
     Coroutine checkAndSetColor;
@@ -90,7 +91,7 @@ public class FirebaseDBMgr : MonoBehaviour
     {
         //if (user == null)
         //{
-        //    Debug.LogWarning("»ç¿ëÀÚ Á¤º¸°¡ ¾ø½À´Ï´Ù. »ö±òÀ» ºÒ·¯¿Ã ¼ö ¾ø½À´Ï´Ù.");
+        //    Debug.LogWarning("ì‚¬ìš©ì ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤. ìƒ‰ê¹”ì„ ë¶ˆëŸ¬ì˜¬ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         //    yield break;
         //}
 
@@ -101,29 +102,29 @@ public class FirebaseDBMgr : MonoBehaviour
         yield return new WaitUntil(() => dbTask.IsCompleted);
         if (dbTask.Exception != null)
         {
-            Debug.LogWarning($"ÇÃ·¹ÀÌ¾î »ö±ò ºÒ·¯¿À±â ½ÇÆĞ! »çÀ¯: {dbTask.Exception}");
+            Debug.LogWarning($"í”Œë ˆì´ì–´ ìƒ‰ê¹” ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨! ì‚¬ìœ : {dbTask.Exception}");
         }
         //else if (dbTask.Result == null)
         //{
-        //    Debug.Log("ÇÃ·¹ÀÌ¾î »ö±òÀÌ ¼³Á¤µÇÁö ¾Ê¾Ò½À´Ï´Ù. ±âº»°ªÀ¸·Î ¼³Á¤ÇÕ´Ï´Ù.");
+        //    Debug.Log("í”Œë ˆì´ì–´ ìƒ‰ê¹”ì´ ì„¤ì •ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤. ê¸°ë³¸ê°’ìœ¼ë¡œ ì„¤ì •í•©ë‹ˆë‹¤.");
         //    dbRef.Child("users").Child(user.UserId).Child("WizardColor").SetValueAsync(playerColor);
         //}
         else if (dbTask.Result.Value == null)
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î »ö±òÀÌ ºñ¾îÀÖ½À´Ï´Ù. ±âº»°ªÀ¸·Î ¼³Á¤ÇÕ´Ï´Ù.");
+            Debug.Log("í”Œë ˆì´ì–´ ìƒ‰ê¹”ì´ ë¹„ì–´ìˆìŠµë‹ˆë‹¤. ê¸°ë³¸ê°’ìœ¼ë¡œ ì„¤ì •í•©ë‹ˆë‹¤.");
             dbRef.Child("users").Child(user.UserId).Child("WizardColor").SetValueAsync((int)playerColor);
         }
         else
         {
             if ((int)playerColor != Convert.ToInt32(dbTask.Result.Value))
             {
-                Debug.Log($"ÇÃ·¹ÀÌ¾î »ö±òÀÌ DB¿Í ´Ù¸¨´Ï´Ù. DB°ª: {dbTask.Result.Value}, ·ÎÄÃ°ª: {(int)playerColor}. DB°ªÀ¸·Î ¾÷µ¥ÀÌÆ®ÇÕ´Ï´Ù.");
+                Debug.Log($"í”Œë ˆì´ì–´ ìƒ‰ê¹”ì´ DBì™€ ë‹¤ë¦…ë‹ˆë‹¤. DBê°’: {dbTask.Result.Value}, ë¡œì»¬ê°’: {(int)playerColor}. DBê°’ìœ¼ë¡œ ì—…ë°ì´íŠ¸í•©ë‹ˆë‹¤.");
                 dbRef.Child("users").Child(user.UserId).Child("WizardColor").SetValueAsync((int)playerColor);
                 //playerColor = (WizardColor)Convert.ToInt32(dbTask.Result.Value);
             }
             else
             {
-                Debug.Log("ÇÃ·¹ÀÌ¾î »ö±òÀÌ DB¿Í ÀÏÄ¡ÇÕ´Ï´Ù.");
+                Debug.Log("í”Œë ˆì´ì–´ ìƒ‰ê¹”ì´ DBì™€ ì¼ì¹˜í•©ë‹ˆë‹¤.");
             }
             //playerColor = (WizardColor)Convert.ToInt32(dbTask.Result.Value);
 
@@ -142,10 +143,10 @@ public class FirebaseDBMgr : MonoBehaviour
 
     public void SaveInventoryandDict()
     {
-        dbRef.Child("users").Child(user.UserId).Child("Inventory").SetValueAsync(inventory); //¹è¿­°è¿­Àº ÀÌ·¸°Ô µş±ï
+        dbRef.Child("users").Child(user.UserId).Child("Inventory").SetValueAsync(inventory); //ë°°ì—´ê³„ì—´ì€ ì´ë ‡ê²Œ ë”¸ê¹
 
 
-        //¡åµñ¼Å³Ê¸®´Â ¿ÀºêÁ§Æ®·Î º¯È¯ÇØ¼­ ¿Ã¸®´Â ÀÛ¾÷ ÇÊ¿ä
+        //â–¼ë”•ì…”ë„ˆë¦¬ëŠ” ì˜¤ë¸Œì íŠ¸ë¡œ ë³€í™˜í•´ì„œ ì˜¬ë¦¬ëŠ” ì‘ì—… í•„ìš”
         Dictionary<string, object> invenDicObj = new Dictionary<string, object>();
         foreach (var kvp in inventoryDicVer)
         { 
@@ -161,20 +162,20 @@ public class FirebaseDBMgr : MonoBehaviour
 
         if (DBTask.Exception != null)
         {
-            Debug.LogWarning("ÀÎº¥Åä¸® ºÒ·¯¿À±â ½ÇÆĞ" + DBTask.Exception);
+            Debug.LogWarning("ì¸ë²¤í† ë¦¬ ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨" + DBTask.Exception);
         }
         else if (DBTask.Result.Value == null)
         {
-            Debug.LogWarning("ÀÎº¥Åä¸®°¡ ºñ¾ú½À´Ï´Ù");
+            Debug.LogWarning("ì¸ë²¤í† ë¦¬ê°€ ë¹„ì—ˆìŠµë‹ˆë‹¤");
         }
         else
         {
-            inventory.Clear(); //±âÁ¸ ·ÎÄÃ»óÀÇ ÀÎº¥Åä¸® ±ò²ûÇÏ°Ô ³¯¸®°í
-            foreach (DataSnapshot item in DBTask.Result.Children) //Child´Â ÇÏ³ª, ChildrenÀº ¿©·¯ Â÷ÀÏµå
+            inventory.Clear(); //ê¸°ì¡´ ë¡œì»¬ìƒì˜ ì¸ë²¤í† ë¦¬ ê¹”ë”í•˜ê²Œ ë‚ ë¦¬ê³ 
+            foreach (DataSnapshot item in DBTask.Result.Children) //ChildëŠ” í•˜ë‚˜, Childrenì€ ì—¬ëŸ¬ ì°¨ì¼ë“œ
             {
                 inventory.Add(item.Value.ToString());
             }
-            Debug.Log("ÀÎº¥Åä¸® ·Îµå ¿Ï·á" + string.Join(", ", inventory));
+            Debug.Log("ì¸ë²¤í† ë¦¬ ë¡œë“œ ì™„ë£Œ" + string.Join(", ", inventory));
 
         }
     }
@@ -186,11 +187,11 @@ public class FirebaseDBMgr : MonoBehaviour
 
         if (DBTask.Exception != null)
         {
-            Debug.LogWarning($"ÀÎº¥Åä¸® µñ¼Å³Ê¸® ºÒ·¯¿À±â ½ÇÆĞ! »çÀ¯: {DBTask.Exception}");
+            Debug.LogWarning($"ì¸ë²¤í† ë¦¬ ë”•ì…”ë„ˆë¦¬ ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨! ì‚¬ìœ : {DBTask.Exception}");
         }
         else if (DBTask.Result.Value == null)
         {
-            Debug.Log("ÀÎº¥Åä¸® µñ¼Å³Ê¸®¿¡ ¾ÆÀÌÅÛÀÌ ¾ø½À´Ï´Ù.");
+            Debug.Log("ì¸ë²¤í† ë¦¬ ë”•ì…”ë„ˆë¦¬ì— ì•„ì´í…œì´ ì—†ìŠµë‹ˆë‹¤.");
         }
         else
         {
@@ -206,10 +207,10 @@ public class FirebaseDBMgr : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning($"µñ¼Å³Ê¸® °ª º¯È¯ ½ÇÆĞ: {item.Key} = {item.Value}");
+                    Debug.LogWarning($"ë”•ì…”ë„ˆë¦¬ ê°’ ë³€í™˜ ì‹¤íŒ¨: {item.Key} = {item.Value}");
                 }
             }
-            Debug.Log($"ÀÎº¥Åä¸® µñ¼Å³Ê¸® ·Îµå ¿Ï·á: {string.Join(", ", inventoryDicVer)}");
+            Debug.Log($"ì¸ë²¤í† ë¦¬ ë”•ì…”ë„ˆë¦¬ ë¡œë“œ ì™„ë£Œ: {string.Join(", ", inventoryDicVer)}");
         }
     }
 
@@ -239,19 +240,19 @@ public class FirebaseDBMgr : MonoBehaviour
 
         if (DBTask.Exception != null)
         {
-            Debug.LogWarning("µ¥ÀÌÅÍ ºÒ·¯¿À±â ½ÇÆĞ" + DBTask.Exception);
+            Debug.LogWarning("ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨" + DBTask.Exception);
         }
         else if (DBTask.Result.Value == null)
         {
-            Debug.LogWarning("ÀúÀåµÈ µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù");
+            Debug.LogWarning("ì €ì¥ëœ ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤");
         }
         else
         {
-            DataSnapshot snapShot = DBTask.Result; //°á°ú´Â µ¢¾î¸®·Î ±â¾ïµÇ¾îÀÖÀ¸´Ï, ÀÌ°É ³ªÁß¿¡ ºĞ¼®ÇÏ°íÀÚ Å« Æ²¿¡ ´ã¾ÆµÒ
+            DataSnapshot snapShot = DBTask.Result; //ê²°ê³¼ëŠ” ë©ì–´ë¦¬ë¡œ ê¸°ì–µë˜ì–´ìˆìœ¼ë‹ˆ, ì´ê±¸ ë‚˜ì¤‘ì— ë¶„ì„í•˜ê³ ì í° í‹€ì— ë‹´ì•„ë‘ 
             moneyField.text = snapShot.Child("money").Exists ? snapShot.Child("money").Value.ToString() : "0";
             xpField.text = snapShot.Child("exp").Exists ? snapShot.Child("exp").Value.ToString() : "0";
             levelField.text = snapShot.Child("level").Exists ? snapShot.Child("level").Value.ToString() : "0";
-            Debug.Log("¿©±â±îÁø ·Îµå Àß ¼º°øÇÔ");
+            Debug.Log("ì—¬ê¸°ê¹Œì§„ ë¡œë“œ ì˜ ì„±ê³µí•¨");
         }
 
 
@@ -263,52 +264,52 @@ public class FirebaseDBMgr : MonoBehaviour
 
     IEnumerator UpdateMoney(int money)
     {
-        //¸¶Ä¡ ¼Ó¿¡ user ¶ó´Â ÀÌ¸§ÀÇ Æú´õ¸¦ ¸¸µéµí, 
+        //ë§ˆì¹˜ ì†ì— user ë¼ëŠ” ì´ë¦„ì˜ í´ë”ë¥¼ ë§Œë“¤ë“¯, 
         var DBTask = dbRef.Child("users").Child(user.UserId).Child("money").SetValueAsync(money);
         yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
 
         if (DBTask.Exception != null)
         {
-            Debug.LogWarning($"µ· ¾÷µ¥ÀÌÆ® ½ÇÆĞ! »çÀ¯ {DBTask.Exception}");
+            Debug.LogWarning($"ëˆ ì—…ë°ì´íŠ¸ ì‹¤íŒ¨! ì‚¬ìœ  {DBTask.Exception}");
         }
         else
         {
-            //¸¸¾à ÀúÀå¿Ï·á ÆË¾÷°°Àº°Å ¶ç¿ì°í ½Í´Ù¸é ¿©±â ÀÛ¼º
-            //ÀúÀå¿Ï·á¸¦ 3ÃÊ°£ ¶ç¿ì°í, ÆäÀÌµå¾Æ¿ô
+            //ë§Œì•½ ì €ì¥ì™„ë£Œ íŒì—…ê°™ì€ê±° ë„ìš°ê³  ì‹¶ë‹¤ë©´ ì—¬ê¸° ì‘ì„±
+            //ì €ì¥ì™„ë£Œë¥¼ 3ì´ˆê°„ ë„ìš°ê³ , í˜ì´ë“œì•„ì›ƒ
         }
     }
 
     IEnumerator UpdateExp(int exp)
     {
-        //¸¶Ä¡ ¼Ó¿¡ user ¶ó´Â ÀÌ¸§ÀÇ Æú´õ¸¦ ¸¸µéµí, 
-        var DBTask = dbRef.Child("users").Child(user.UserId).Child("exp").SetValueAsync(exp); //2°³ ¹Ù²Ù±â exp·Î
+        //ë§ˆì¹˜ ì†ì— user ë¼ëŠ” ì´ë¦„ì˜ í´ë”ë¥¼ ë§Œë“¤ë“¯, 
+        var DBTask = dbRef.Child("users").Child(user.UserId).Child("exp").SetValueAsync(exp); //2ê°œ ë°”ê¾¸ê¸° expë¡œ
         yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
 
         if (DBTask.Exception != null)
         {
-            Debug.LogWarning($"°æÇèÄ¡ ¾÷µ¥ÀÌÆ® ½ÇÆĞ! »çÀ¯ {DBTask.Exception}"); //°æÇèÄ¡·Î ¹Ù²Ù±â
+            Debug.LogWarning($"ê²½í—˜ì¹˜ ì—…ë°ì´íŠ¸ ì‹¤íŒ¨! ì‚¬ìœ  {DBTask.Exception}"); //ê²½í—˜ì¹˜ë¡œ ë°”ê¾¸ê¸°
         }
         else
         {
-            //¸¸¾à ÀúÀå¿Ï·á ÆË¾÷°°Àº°Å ¶ç¿ì°í ½Í´Ù¸é ¿©±â ÀÛ¼º
-            //ÀúÀå¿Ï·á¸¦ 3ÃÊ°£ ¶ç¿ì°í, ÆäÀÌµå¾Æ¿ô
+            //ë§Œì•½ ì €ì¥ì™„ë£Œ íŒì—…ê°™ì€ê±° ë„ìš°ê³  ì‹¶ë‹¤ë©´ ì—¬ê¸° ì‘ì„±
+            //ì €ì¥ì™„ë£Œë¥¼ 3ì´ˆê°„ ë„ìš°ê³ , í˜ì´ë“œì•„ì›ƒ
         }
     }
 
     IEnumerator UpdateLevel(int lvl)
     {
-        //¸¶Ä¡ ¼Ó¿¡ user ¶ó´Â ÀÌ¸§ÀÇ Æú´õ¸¦ ¸¸µéµí, 
-        var DBTask = dbRef.Child("users").Child(user.UserId).Child("lvl").SetValueAsync(lvl); //2°³ ¹Ù²Ù±â exp·Î
+        //ë§ˆì¹˜ ì†ì— user ë¼ëŠ” ì´ë¦„ì˜ í´ë”ë¥¼ ë§Œë“¤ë“¯, 
+        var DBTask = dbRef.Child("users").Child(user.UserId).Child("lvl").SetValueAsync(lvl); //2ê°œ ë°”ê¾¸ê¸° expë¡œ
         yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
 
         if (DBTask.Exception != null)
         {
-            Debug.LogWarning($"·¹º§ ¾÷µ¥ÀÌÆ® ½ÇÆĞ! »çÀ¯ {DBTask.Exception}"); //·¹º§·Î ¹Ù²Ù±â
+            Debug.LogWarning($"ë ˆë²¨ ì—…ë°ì´íŠ¸ ì‹¤íŒ¨! ì‚¬ìœ  {DBTask.Exception}"); //ë ˆë²¨ë¡œ ë°”ê¾¸ê¸°
         }
         else
         {
-            //¸¸¾à ÀúÀå¿Ï·á ÆË¾÷°°Àº°Å ¶ç¿ì°í ½Í´Ù¸é ¿©±â ÀÛ¼º
-            //ÀúÀå¿Ï·á¸¦ 3ÃÊ°£ ¶ç¿ì°í, ÆäÀÌµå¾Æ¿ô
+            //ë§Œì•½ ì €ì¥ì™„ë£Œ íŒì—…ê°™ì€ê±° ë„ìš°ê³  ì‹¶ë‹¤ë©´ ì—¬ê¸° ì‘ì„±
+            //ì €ì¥ì™„ë£Œë¥¼ 3ì´ˆê°„ ë„ìš°ê³ , í˜ì´ë“œì•„ì›ƒ
         }
     }
 
