@@ -39,7 +39,7 @@ public class LightningStrike : MonoBehaviourPun
 
         SoundManager.Instance.PlaySFX(data.lightningSound, 1f, 100f, gameObject.transform.position);
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, data.strikeRadius, data.hitLayer);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, data.radius, data.hitLayer);
 
         foreach (var col in colliders)
         {
@@ -63,7 +63,7 @@ public class LightningStrike : MonoBehaviourPun
                 Rigidbody rb = col.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
-                    rb.AddExplosionForce(data.knockbackForce, transform.position, data.strikeRadius, data.forceUpward, ForceMode.Impulse);
+                    rb.AddExplosionForce(data.knockbackForce, transform.position, data.radius, data.forceUpward, ForceMode.Impulse);
                 }
             }
 

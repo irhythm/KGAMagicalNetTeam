@@ -4,8 +4,7 @@ using UnityEngine;
 public class LightningStrikeSO : MagicDataSO
 {
     [Header("Strike Settings")]
-    public float strikeRadius = 5f;       // 타격 범위
-    public float strikeDelay = 0.5f;      // 마법 시전 후 데미지가 들어가기까지의 시간
+    public float strikeDelay = 0.3f;      // 마법 시전 후 데미지가 들어가기까지의 시간
 
     [Header("Visuals")]
     public GameObject strikeEffectPrefab; // 실제 쾅 하고 떨어지는 번개 이펙트
