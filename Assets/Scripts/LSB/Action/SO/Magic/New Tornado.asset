@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec88fa99a9263484d98aed805849c0ec, type: 3}
+  m_Name: New Tornado
+  m_EditorClassIdentifier: Assembly-CSharp::TornadoSO
+  itemId: 
+  itemName: 
+  itemImage: {fileID: 0}
+  itemPrefab: {fileID: 1704780292850497117, guid: fa93d0bed17cf024384f235ce4ea4247, type: 3}
+  description: 
+  cooldown: 0
+  isDisposable: 0
+  damage: 0
+  knockbackForce: 0
+  radius: 5
+  forceUpward: 1
+  spawnOffset: {x: 0, y: 0, z: 0}
+  magicSound: {fileID: 0}
+  moveSpeed: 5
+  rotationSpeed: 200
+  duration: 6
+  hitLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  orbitSpeed: 15
+  suctionSpeed: 20
+  liftSpeed: 6
+  captureStrength: 5
+  releaseHeight: 8
+  ejectForce: 50
+  maxDistance: 10

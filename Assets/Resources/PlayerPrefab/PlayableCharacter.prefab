@@ -176,6 +176,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   checkDistance: 1
+  assassinateData: {fileID: 0}
   isRoom: 0
 --- !u!114 &-6589114128582020185
 MonoBehaviour:
@@ -228,7 +229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMagicSystem
   LeftHandSlot: {fileID: 11400000, guid: fbadf4988709712469694beead882a26, type: 2}
-  RightHandSlot: {fileID: 11400000, guid: e8c3c0ad6ad875346984481f51f21ab0, type: 2}
+  RightHandSlot: {fileID: 11400000, guid: 78b14261e6e16134495bce0e3e3800f1, type: 2}
   leftSpawnPoint: {fileID: 12994451976599241}
   rightSpawnPoint: {fileID: 1860097665412997098}
   maxAimDistance: 50
