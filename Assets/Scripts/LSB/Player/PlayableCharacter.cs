@@ -1,5 +1,7 @@
 using Photon.Pun;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayableCharacter : MonoBehaviourPun, IInteractable
@@ -36,7 +38,7 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     [SerializeField] private LayerMask canInteractLayer;    // 상호작용이 가능한 레이어
     [SerializeField] private float checkDistance = 1f;      // 260122 신현섭: 상호작용 체크 거리
 
-    [SerializeField] private InteractionDataSO assassinateData; // 260126 신현섭: 암살 연출 데이터
+    public HashSet<IInteractable> receivers = new HashSet<IInteractable>();
 
     public enum MoveDir { Front, Back, Left, Right }
 
@@ -72,9 +74,13 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     public PlayerAttackState AttackState { get; private set; }
     public PlayerInteractState InteractState { get; private set; }    // 260122 신현섭: 상호작용 상태로 전환
 
-    public bool isInteracted { get; private set; }  // 260122 신현섭: IInteractable 인터페이스 필드 → 상호작용이 진행 중이면 true
+    public bool IsInteracted { get; private set; }  // 260122 신현섭: IInteractable 인터페이스 필드 → 상호작용이 진행 중이면 true
 
     public Transform ActorTrans => transform;
+
+    [field: SerializeField] public InteractionDataSO interactionData { get; set; }  // 260126 신현섭: 암살 연출 데이터
+
+
     #endregion
 
     #region 애니메이션
@@ -201,6 +207,7 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
         InputHandler.OnJumpEvent += HandleJump;
         InputHandler.OnAttackEvent += HandleAttack;
         InputHandler.OnTransformEvent += HandleTransformation;
+        InputHandler.OnInteractMotionEvent += HandleInteract;
     }
 
     private void UnsubscribeInputEvents()
@@ -209,6 +216,7 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
         InputHandler.OnJumpEvent -= HandleJump;
         InputHandler.OnAttackEvent -= HandleAttack;
         InputHandler.OnTransformEvent -= HandleTransformation;
+        InputHandler.OnInteractMotionEvent -= HandleInteract;
     }
 
     // 점프/회피 이벤트
@@ -265,14 +273,20 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
         TransformationController.HandleTransformInput(isPressed);
     }
 
+    // 20260127 신현섭: 상호작용 이벤트에 체인시킬 메서드
+    private void HandleInteract()
+    {
+        InteractionManager.Instance.RequestInteraction(interactionData, this, receivers.ToArray());
+    }
+
     // 260122 신현섭: 상호작용이 가능한 상태인지 체크 (레이캐스트)
     private void CanInteractMotion()
     {
         if (!(StateMachine.CurrentState is PlayerMoveState)) return;
 
-        if(Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out RaycastHit hit, checkDistance, canInteractLayer))
+        if(Physics.Raycast(transform.position + new Vector3(0, 1, 0), Camera.main.transform.forward, out RaycastHit hit, checkDistance, canInteractLayer))
         {
-            if(hit.collider.TryGetComponent<IInteractable>(out var interact))
+            if(hit.collider.TryGetComponent<IInteractable>(out var interact) && transform.IsTargetInDirection(interact.ActorTrans, DirectionType.Backward, 110f))
             {
                 // todo: 상호작용 가능 UI 띄우기 등 실행
                 InputHandler.CanInteractMotion = true;
@@ -281,11 +295,14 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
                 if(InteractState.target != interact)
                 {
                     InteractState.SetTarget(interact);
+                    InteractState.Init(interact.interactionData);
+                    receivers.Add(interact);
                 }
             }
             else
             {
                 InputHandler.CanInteractMotion = false;
+                receivers.Clear();
             }
         }
     }
@@ -343,19 +360,15 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     }
 
     // 260122 신현섭: 상호작용 시 진행할 것들
-    public void OnExecuterInteraction()
+    public void OnInteraction()
     {
-
-    }
-
-    public void OnReceiverInteraction()
-    {
+        // 인풋시스템 x
 
     }
 
     public void OnStopped()
     {
-
+        // 인풋시스템 o
     }
 }
 #region 레거시 코드

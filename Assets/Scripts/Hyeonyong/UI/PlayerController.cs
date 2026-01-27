@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviourPun, IDamageable, IExplosion
 {
-    [SerializeField] private InputActionReference testTakeDamageAction;
     PhotonView pv;
     PhotonVoiceView pvv;
 
@@ -72,10 +71,6 @@ public class PlayerController : MonoBehaviourPun, IDamageable, IExplosion
         yield return null;
         SetPlayerName(pv.Owner.NickName);
 
-
-        testTakeDamageAction.action.Enable();
-        testTakeDamageAction.action.performed += TestTakeDamage;
-
         RoomManager.Instance?.fryingPanLogic.AddTarget(transform);
     }
 
@@ -96,22 +91,12 @@ public class PlayerController : MonoBehaviourPun, IDamageable, IExplosion
     {
         if (playableCharacter != null) 
             playableCharacter.OnHpChanged -= HandleHpChanged;
-        testTakeDamageAction.action.performed -= TestTakeDamage;
     }
 
     private void HandleHpChanged(float hpRatio)
     {
         playerView.UpdatePlayerHP(hpRatio);
     }
-
-    public void TestTakeDamage(InputAction.CallbackContext context)
-    {
-        if (!pv.IsMine) return;
-        GameManager.Instance.PlusMoneyCount();
-        if(GetComponent<PlayableCharacter>().Model.CurHp>0 )
-            GetComponent<PlayableCharacter>().OnAttacked(1f);
-    }
-
 
     public void OnExplosion(Vector3 explosionPos, MagicDataSO data, int attackerActorNr)
     {
