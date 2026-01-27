@@ -30,10 +30,10 @@ MonoBehaviour:
   duration: 6
   hitLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 3831
   orbitSpeed: 15
   suctionSpeed: 20
-  liftSpeed: 6
+  liftSpeed: 2
   captureStrength: 5
   releaseHeight: 8
   ejectForce: 50
