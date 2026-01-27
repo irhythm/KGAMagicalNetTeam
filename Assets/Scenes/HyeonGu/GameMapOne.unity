@@ -54107,7 +54107,7 @@ MonoBehaviour:
   - {fileID: 708594106}
   - {fileID: 1716231358}
   roundAudio: {fileID: 8300000, guid: 8e57c40f7980f674aa0191429ce1352d, type: 3}
-  onGameAudio: {fileID: 0}
+  onGameAudio: {fileID: 8300000, guid: bebb0c0f89b825545a43564714dc000d, type: 3}
 --- !u!4 &2007374131
 Transform:
   m_ObjectHideFlags: 0
