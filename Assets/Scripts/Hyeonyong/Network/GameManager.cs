@@ -19,7 +19,325 @@ public class GameManager : PhotonSingleton<GameManager>
 
     public GameObject LocalPlayer { get; set; }
 
-    //public static GameManager Instance;
+    [SerializeField] GameObject playerPrefab;
+
+    [SerializeField] InventoryWheelLogic _inventoryWheelLogic;
+    public InventoryWheelLogic InventoryWheel { get { return _inventoryWheelLogic; } set { _inventoryWheelLogic = value; } }
+
+    [SerializeField] int needMoneyCount = 5;
+
+    void Start()//씬이 너무 빨리 불러와져서 스타트가 room 들어가기 전에 호출되는 것이 문제임
+    {
+        if (LocalPlayer == null)
+        {
+            StartCoroutine(SpawnPlayerWhenConnected());
+        }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.AutomaticallySyncScene = true;
+        }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    IEnumerator SpawnPlayerWhenConnected() //네트워크 게임은, 라이프 사이클도 중요하고, 또 네트워크 지연까지 고려해야 함
+    {
+        yield return new WaitUntil(() => PhotonNetwork.InRoom);
+        yield return new WaitUntil(()=>RoundManager.Instance!=null);
+        int spawnPosNum = PhotonNetwork.LocalPlayer.ActorNumber -1 ;
+        int maxSpawnPosCount = RoundManager.Instance.spawnPos.Length;
+        while (spawnPosNum >= maxSpawnPosCount)
+        {
+            spawnPosNum -= maxSpawnPosCount;
+        }
+
+        GameObject player = null;
+        if (LocalPlayer == null)
+            player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, RoundManager.Instance.spawnPos[spawnPosNum].position, Quaternion.identity, 0);
+        
+        //260121 다른 사람 변신 상태 유지
+        Player[] players = PhotonNetwork.PlayerList;//방 속 사람을 받아옴
+
+        PlayerTransformationController[] checkWizard = GameObject.FindObjectsByType<PlayerTransformationController>(FindObjectsSortMode.None);
+        foreach (var p in players)
+        {
+            PlayerTransformationController myCheckWizard = null;
+            foreach (PlayerTransformationController playerTransformationController in checkWizard)
+            {
+                PhotonView pv = playerTransformationController.GetComponent<PhotonView>();
+                if (pv.IsMine)
+                {
+                    RoomManager.Instance?.fryingPanLogic.AddTarget(playerTransformationController.gameObject.transform);
+                    continue;
+                }
+                if (pv.OwnerActorNr == p.ActorNumber)
+                {
+                    myCheckWizard = playerTransformationController;
+                    RoomManager.Instance?.fryingPanLogic.AddTarget(myCheckWizard.gameObject.transform);
+                    break;
+                }
+            }
+
+            if (p.GetProps<bool>(NetworkProperties.PLAYER_ISWIZARD))
+                myCheckWizard?.TransformToWizard();
+        }
+
+        PhotonNetwork.LocalPlayer.SetProps(NetworkProperties.PLAYER_ISWIZARD, false);
+
+        LocalPlayer = player;
+
+        CheckInGamePlayer();
+
+        yield return new WaitUntil(() => UIManager.Instance != null);
+        InitMoneyCountAndStore();
+    }
+
+    //다음 씬을 넘어갈수 있는지 확인하는 코드
+    public bool CheckMoneyCount()
+    {
+        if(PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.ONSTORE))
+            return true;
+
+        if (PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.MONEYCOUNT)>=needMoneyCount)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void UseTeamMoney(int moneyCount)
+    {
+        int result = CurTeamMoney() - moneyCount;
+        PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.MONEYCOUNT, result);
+    }
+
+    public int CurTeamMoney()
+    {
+        return PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.MONEYCOUNT);
+    }
+
+    //게임 라운드 넘어갈 경우 해당 팀 재화를 일정 수 만큼 깎는 코드 (상점씬에서는 재화를 깎지 않아야 함) <- 해당 코드는 플레이어 소환 전에 실행
+    public void InitMoneyCountAndStore()
+    {
+        int result = -1;
+        result = CurTeamMoney();
+        if (!PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.ONSTORE))
+        {
+            //처음 시작했을 때 대비용
+            if (result >= needMoneyCount)
+            {
+                result = result - needMoneyCount;
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.MONEYCOUNT, result);
+                }
+            }
+        }
+        if (PhotonNetwork.IsMasterClient)
+        {
+            bool curOnStore = PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.ONSTORE);
+            PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ONSTORE, !curOnStore);
+        }
+
+        if (UIManager.Instance.moneyCount != null)
+        {
+            UIManager.Instance.moneyCount.text = result + "";
+            Debug.Log("팀 재화 표시");
+        }
+        else
+        {
+            Debug.Log("팀 재화 표시 실패");
+
+        }
+    }
+
+    public void PlusMoneyCount()
+    {
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.MONEYCOUNT, CurTeamMoney()+1);
+    }
+
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+        if (propertiesThatChanged.ContainsKey(NetworkProperties.MONEYCOUNT))
+        {
+            if (UIManager.Instance.moneyCount != null)
+            {
+                UIManager.Instance.moneyCount.text = CurTeamMoney() + "";
+            }
+        }
+
+
+        if (propertiesThatChanged.ContainsKey(NetworkProperties.PLAYERCOUNT))
+        {
+            if (PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.PLAYERCOUNT) <= 0)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    PhotonNetwork.LoadLevel("Lose");
+                    ResetCustomProperty();
+                }
+            }
+        }
+    }
+
+    public void CheckInGamePlayer()
+    {
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.PLAYERCOUNT, PhotonNetwork.CurrentRoom.PlayerCount);
+    }
+
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void LeaveRoom()
+    {
+        if (!PhotonNetwork.InRoom)
+            return;
+        if (PhotonNetwork.NetworkClientState == Photon.Realtime.ClientState.Leaving)
+            return;
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log(otherPlayer.NickName + "님이 게임을 떠났습니다.");
+        CheckInGamePlayer();
+    }
+
+    public void ExitGame()
+    {
+        LeaveRoom();
+        SceneManager.LoadSceneAsync("Lobby");
+    }
+
+    public void CheckDie()
+    {
+        if (!(PhotonNetwork.IsMasterClient))
+            return;
+        int curPlayerCount = PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.PLAYERCOUNT)-1;
+        PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.PLAYERCOUNT, curPlayerCount);
+    }
+
+    public void CheckRoundClear(int player)
+    {
+        if (!CheckMoneyCount())
+        {
+            Debug.Log("재화량을 충족시키지 못함");
+            return;
+        }
+
+        int maxPlayer = PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.PLAYERCOUNT);
+
+        Debug.Log($"인원 {player}/{maxPlayer} ");
+        if (player < maxPlayer)
+            return;
+
+        int curRound = PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.GAMEROUND);
+        curRound--;
+
+        if ((curRound > 0))
+        {
+            if (PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.ONSTORE))
+            {
+                TemporaryPlayerInventory.Clear();
+                foreach (var keyvaluepair in LocalPlayer.GetComponent<PlayableCharacter>().Inventory.Inventory)
+                {
+                    Debug.Log($"인벤토리 보존 {keyvaluepair.Key.itemName} : {keyvaluepair.Value}");
+
+                    TemporaryPlayerInventory.Add(keyvaluepair.Key, keyvaluepair.Value);
+                    //playerTable[keyvaluepair.Key.itemName] = keyvaluepair.Value;
+                }
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    PhotonNetwork.LoadLevel("GameMapOne");
+                    PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.GAMEROUND, curRound);
+                }
+            }
+            else
+            {
+                //260123 최정욱 인벤토리 보존
+                TemporaryPlayerInventory.Clear();
+                foreach (var keyvaluepair in LocalPlayer.GetComponent<PlayableCharacter>().Inventory.Inventory)
+                {
+                    Debug.Log($"인벤토리 보존 {keyvaluepair.Key.itemName} : {keyvaluepair.Value}");
+
+                    TemporaryPlayerInventory.Add(keyvaluepair.Key, keyvaluepair.Value);
+                    //playerTable[keyvaluepair.Key.itemName] = keyvaluepair.Value;
+                }
+                if (PhotonNetwork.IsMasterClient)
+                    PhotonNetwork.LoadLevel("StoreMapSensei");
+            }
+        }
+        else if (PhotonNetwork.IsMasterClient)
+        {
+            //모든 라운드를 소비하였으므로 Win
+            PhotonNetwork.LoadLevel("Win");
+            ResetCustomProperty();
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.buildIndex >= 4 && scene.buildIndex <= SceneManager.sceneCountInBuildSettings-2)
+        {
+            StartCoroutine(SpawnPlayerWhenConnected());
+        }
+    }
+
+    public void ResetCustomProperty()
+    {
+        //마스터가 커스텀 프로퍼티 목록들 초기화
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+        PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.MONEYCOUNT, 0);
+        PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ONSTORE, true);
+        PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.GAMEROUND, 2);
+        PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.PLAYERCOUNT, PhotonNetwork.CurrentRoom.PlayerCount);
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.AutomaticallySyncScene = true;
+        }
+    }
+
+}
+
+
+#region Legacy Code
+/*
+using Photon.Pun;
+using Photon.Realtime;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using TMPro;
+using Unity.Collections;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Unity.VisualScripting;
+public class GameManager : PhotonSingleton<GameManager>
+{
+    public Dictionary<InventoryDataSO, int> TemporaryPlayerInventory = new Dictionary<InventoryDataSO, int>();
+
+    public GameObject LocalPlayer { get; set; }
+
     [SerializeField] GameObject playerPrefab;
 
     [SerializeField] InventoryWheelLogic _inventoryWheelLogic;
@@ -28,15 +346,11 @@ public class GameManager : PhotonSingleton<GameManager>
     Hashtable roomTable = new Hashtable();
     Hashtable playerTable = new Hashtable();
 
-    //PhotonView pv;
-
     [SerializeField] int needMoneyCount = 5;
 
     void Start()//씬이 너무 빨리 불러와져서 스타트가 room 들어가기 전에 호출되는 것이 문제임
     {
-        //pv=GetComponent<PhotonView>();
-        //Instance = this;//실체도 없고 그냥 스크립트로만 존재해서 간단히 제작
-        if (PlayerManager.LocalPlayerInstance == null)//플레이어 매니저가 이미 플레이어 정보를 들고있을 경우 패스
+        if (PlayerManager.LocalPlayerInstance == null)
         {
             StartCoroutine(SpawnPlayerWhenConnected());
         }
@@ -457,3 +771,6 @@ public class GameManager : PhotonSingleton<GameManager>
     }
 
 }
+
+ */
+#endregion
