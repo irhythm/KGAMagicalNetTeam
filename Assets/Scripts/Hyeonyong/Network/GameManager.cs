@@ -302,11 +302,16 @@ public class GameManager : PhotonSingleton<GameManager>
     {
         if (scene.buildIndex >= 4 && scene.buildIndex <= SceneManager.sceneCountInBuildSettings-2)
         {
+            if (LocalPlayer != null)
+            {
+                PhotonNetwork.Destroy(LocalPlayer);
+                LocalPlayer = null;
+            }
             StartCoroutine(SpawnPlayerWhenConnected());
         }
         if (scene.name == "Room_new")
         {
-            LocalPlayer = null;
+            //LocalPlayer = null;
             InventoryWheel = null;
             TemporaryPlayerInventory.Clear();
         }
