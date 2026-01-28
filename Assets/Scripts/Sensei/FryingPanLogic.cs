@@ -38,8 +38,6 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
     [PunRPC]
     void FireMushroom(Vector3 target)
     {
-        Debug.Log("쏜다 코드 실행");
-
         GameObject mushroom=PoolMushRoom();
         if (mushroom == null)
         {
@@ -108,7 +106,6 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
     {
         if (CheckTargetAlreadyContain(transform))
             return;
-        Debug.Log("더하기");
         _targets.Add(transform);
     }
 }

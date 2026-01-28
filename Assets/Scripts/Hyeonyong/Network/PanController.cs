@@ -70,7 +70,6 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
     {
         float curHp = GetFryingPanHP()- damage;
         //HandleHpChanged(curHp/fryingPanMaxHp);
-        Debug.Log("프라이팬 : 현재 HP: " + curHp);
         SetFryingPanHP(curHp);
         //CheckDie();
 
@@ -97,10 +96,8 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
     }
     void CheckDie()
     {
-        Debug.Log("프라이팬 : 죽음 체크");
         if (GetFryingPanHP() <= 0)
         {
-            Debug.Log("프라이팬 : 죽음");
             if (PanHpBanner != null)
                 PanHpBanner.SetActive(false);
             if (gameObject != null)
@@ -153,7 +150,6 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
         float ratio = curTime;
         while (curTime > 0)
         {
-            Debug.Log("노이즈 발생");
             ratio = curTime / damageChangeDelay;
             //curNoiseStrength = Mathf.Lerp(curNoiseStrength, 0, ratio);
             float x = Random.Range(-1f, 1f) * curNoiseStrength;
