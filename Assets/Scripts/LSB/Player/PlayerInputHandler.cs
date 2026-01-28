@@ -29,6 +29,7 @@ public class PlayerInputHandler : MonoBehaviourPun
     private InputAction _transformAction;
     private InputAction _interactAction;
     private InputAction _interactMotionAction;  // 260122 신현섭: 상호작용 모션 전용 인풋 액션 (x키)
+    private InputAction _cameraChangeAction;  // 260128 양현용: 카메라 전환 전용 인풋 액션 (tab키)
 
     #region 이벤트 정의
     public event Action<Vector2> OnMoveEvent;   // 이동
@@ -312,6 +313,26 @@ public class PlayerInputHandler : MonoBehaviourPun
             _areInputsAllowed = true;
             if (_moveAction != null) 
                 _rawMoveInput = _moveAction.ReadValue<Vector2>();
+        }
+    }
+    public void ConnectCameraChange()
+    {
+        if (photonView.IsMine)
+        {
+            OffPlayerInput();
+            if (_cameraChangeAction == null)
+                _cameraChangeAction = _playerInput.actions["Tab"];
+            _cameraChangeAction.started += _player.ChangeCameraTargetOnPlayerInput;
+        }
+    }
+    public void DisconnectCameraChange()
+    {
+        if (photonView.IsMine)
+        {
+            OnPlayerInput();
+            if (_cameraChangeAction == null)
+                return;
+            _cameraChangeAction.started -= _player.ChangeCameraTargetOnPlayerInput;
         }
     }
 }
