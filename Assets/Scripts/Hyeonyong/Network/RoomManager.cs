@@ -129,8 +129,12 @@ public class RoomManager : MonoBehaviourPunCallbacks
     private void OnDisable()
     {
         base.OnDisable();
-        GameManager.Instance.isRoom=false;
-        if (tabInput != null)
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.isRoom = false;
+        }
+            if (tabInput != null)
         {
             tabInput.action.performed -= OpenRoomTab;
         }
