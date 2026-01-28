@@ -19,6 +19,7 @@ public static class NetworkProperties
     public const string MONEYCOUNT = "MONEYCOUNT";
     public const string ONSTART = "ONSTART";
     public const string ONSTORE = "ONSTORE";
+    public const string ONROOM = "ONROOM";
     public const string PLAYERCOUNT = "PLAYERCOUNT";
     public const string FRYINGPANHP = "FRYINGPANHP";
 
