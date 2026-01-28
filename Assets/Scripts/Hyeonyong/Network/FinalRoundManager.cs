@@ -1,6 +1,8 @@
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using System.Collections;
+
 
 public class FinalRoundManager : MonoBehaviourPunCallbacks
 {
@@ -25,9 +27,17 @@ public class FinalRoundManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.LoadLevel("Room_new");//네트워크 상에서 씬 바꾸는 것
+            StartCoroutine(CoLoadRoom()); 
         }
     }
+
+    IEnumerator CoLoadRoom()
+    {
+        PhotonNetwork.IsMessageQueueRunning = false;
+        yield return new WaitForSeconds(1.0f);
+        PhotonNetwork.LoadLevel("Room_new");
+    }
+
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {

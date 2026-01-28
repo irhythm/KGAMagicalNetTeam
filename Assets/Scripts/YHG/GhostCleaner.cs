@@ -5,6 +5,10 @@ public class GhostCleaner : MonoBehaviourPunCallbacks
 {
     private void Start()
     {
+        if (!PhotonNetwork.IsMessageQueueRunning)
+        {
+            PhotonNetwork.IsMessageQueueRunning = true;
+        }
         CleanUpGhosts();
     }
 
