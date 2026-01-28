@@ -198,7 +198,7 @@ public class GameManager : PhotonSingleton<GameManager>
 
     public override void OnLeftRoom()
     {
-        SceneManager.LoadScene("Lobby");
+        PhotonNetwork.LoadLevel("Lobby");
     }
 
     public void LeaveRoom()

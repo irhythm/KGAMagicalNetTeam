@@ -86,15 +86,16 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
     void CheckDie()
     {
         Debug.Log("프라이팬 : 죽음 체크");
-        if (GetFryingPanHP() > 0)
-            return;
-        Debug.Log("프라이팬 : 죽음");
-        if(PanHpBanner != null)
-            PanHpBanner.SetActive(false);
-        if (gameObject != null)
+        if (GetFryingPanHP() <= 0)
         {
-            gameObject.SetActive(false);
-            return;
+            Debug.Log("프라이팬 : 죽음");
+            if (PanHpBanner != null)
+                PanHpBanner.SetActive(false);
+            if (gameObject != null)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
         }
 
 
