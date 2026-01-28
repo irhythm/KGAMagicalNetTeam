@@ -184,8 +184,6 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
             UnsubscribeInputEvents();
         }
         OnDie -= GameManager.Instance.CheckDie;
-
-        PhotonNetwork.Destroy(gameObject);
     }
 
     private void Update()
