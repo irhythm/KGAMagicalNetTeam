@@ -222,6 +222,7 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
         InputHandler.OnAttackEvent -= HandleAttack;
         InputHandler.OnTransformEvent -= HandleTransformation;
         InputHandler.OnInteractMotionEvent -= HandleInteract;
+        InputHandler.DisconnectCameraChange();
     }
 
     // 점프/회피 이벤트
