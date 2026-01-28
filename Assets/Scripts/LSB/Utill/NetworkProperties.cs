@@ -10,6 +10,7 @@ public static class NetworkProperties
     [Header("Player")]
     public const string PLAYER_ISWIZARD = "ISWIZARD";
     public const string PLAYER_READY = "READY";
+    public const string PLAYER_ALIVE = "ALIVE";
 
     [Header("Room")]
     public const string ROOM = "ROOM";
