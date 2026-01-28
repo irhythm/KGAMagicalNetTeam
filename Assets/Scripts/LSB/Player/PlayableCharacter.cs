@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayableCharacter : MonoBehaviourPun, IInteractable
 {
@@ -12,7 +13,7 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
 
     // 모델
     private PlayerModel _model;
-    public PlayerModel Model=>_model;
+    public PlayerModel Model => _model;
 
     [Header("Settings")]
     [SerializeField] private float maxHp = 100f; // 체력 인스펙터 노출
@@ -38,11 +39,12 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     [SerializeField] private LayerMask canInteractLayer;    // 상호작용이 가능한 레이어
     [SerializeField] private float checkDistance = 1f;      // 260122 신현섭: 상호작용 체크 거리
 
+    [Header("Camera Setting")]
+    [SerializeField] private int cameraIndex = -1;
+
     public HashSet<IInteractable> receivers = new HashSet<IInteractable>();
 
     public enum MoveDir { Front, Back, Left, Right }
-
-    [SerializeField] bool isRoom;
 
     #region 프로퍼티
     public float MoveSpeed => moveSpeed;
@@ -64,6 +66,7 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     public PlayerMagicSystem MagicSystem { get; private set; }
     public PlayerController playerController { get; private set; }
     public PlayerTransformationController TransformationController { get; private set; }
+    public List<Transform> otherPlayerTransform = new List<Transform>();
     #endregion
 
     #region 상태 머신
@@ -77,6 +80,7 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     public bool IsInteracted { get; private set; }  // 260122 신현섭: IInteractable 인터페이스 필드 → 상호작용이 진행 중이면 true
 
     [SerializeField] private Transform currentTransform;
+
     public Transform ActorTrans => currentTransform;
 
     [field: SerializeField] public InteractionDataSO interactionData { get; set; }  // 260126 신현섭: 암살 연출 데이터
@@ -126,11 +130,8 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
         if (photonView.IsMine)
         {
             GameManager.Instance.LocalPlayer = gameObject;
+            PhotonNetwork.LocalPlayer.SetProps(NetworkProperties.PLAYER_ALIVE, true);
         }
-
-        //260121 양현용 : 룸 전용 플레이어 생성용도
-        if (isRoom)
-            return;
 
         // 260121 신현섭 : 미니맵 연동 및 아이콘 지정
         if (photonView.IsMine)
@@ -285,15 +286,15 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     {
         if (!(StateMachine.CurrentState is PlayerMoveState)) return;
 
-        if(Physics.Raycast(transform.position + new Vector3(0, 1, 0), Camera.main.transform.forward, out RaycastHit hit, checkDistance, canInteractLayer))
+        if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), Camera.main.transform.forward, out RaycastHit hit, checkDistance, canInteractLayer))
         {
-            if(hit.collider.TryGetComponent<IInteractable>(out var interact) && transform.IsTargetInDirection(interact.ActorTrans, DirectionType.Backward, 110f))
+            if (hit.collider.TryGetComponent<IInteractable>(out var interact) && transform.IsTargetInDirection(interact.ActorTrans, DirectionType.Backward, 110f))
             {
                 // todo: 상호작용 가능 UI 띄우기 등 실행
                 InputHandler.CanInteractMotion = true;
 
                 // 상호작용 대상이 다를 경우 갱신
-                if(InteractState.target != interact)
+                if (InteractState.target != interact)
                 {
                     InteractState.SetTarget(interact);
                     InteractState.Init(interact.interactionData);
@@ -310,6 +311,8 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
 
     public void OnAttacked(float damage)
     {
+        if (photonView.IsMine == true && !PhotonNetwork.LocalPlayer.GetProps<bool>(NetworkProperties.PLAYER_ALIVE))
+            return;
         photonView.RPC(nameof(RPC_TakeDamage), RpcTarget.All, damage);
     }
 
@@ -321,6 +324,11 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
 
         if (isDie)
         {
+            if (photonView.IsMine)
+            {
+                CheckCameraOnDie();
+                PhotonNetwork.LocalPlayer.SetProps(NetworkProperties.PLAYER_ALIVE, false);
+            }
             OnDie?.Invoke();
             Debug.Log("캐릭터 사망");
         }
@@ -365,16 +373,64 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     {
         // 인풋시스템 x
         InputHandler.OffPlayerInput();
-        Debug.Log("컷씬 시작");
     }
 
     public void OnStopped()
     {
         // 인풋시스템 o
         InputHandler.OnPlayerInput();
-        Debug.Log("컷씬 종료");
+    }
+
+    public void CheckCameraOnDie()
+    {
+        //1. 조작권 박탈 <- 인풋핸들러 쪽으로 이양
+
+        //2. 카메라 타겟 다른 플레이어로 전환
+        if (otherPlayerTransform.Count <= 0)
+        {
+            PlayableCharacter[] otherPlayer = FindObjectsByType<PlayableCharacter>(FindObjectsSortMode.None);
+
+            foreach (PlayableCharacter p in otherPlayer)
+            {
+                if (!p.GetComponent<PhotonView>().IsMine)
+                    otherPlayerTransform.Add(p.transform);
+            }
+        }
+        //3. 특정 버튼 클릭 시 다른 플레이어 확인 가능 여기서 액션 버튼 +=으로 넣고 파괴시 빼자
+        ChangeCameraTarget();
+        InputHandler.ConnectCameraChange();
+    }
+
+    public void ChangeCameraTarget()
+    {
+        cameraIndex++;
+        if (cameraIndex >= otherPlayerTransform.Count)
+            cameraIndex = 0;
+
+        int checkCount = 0;
+
+        while (!otherPlayerTransform[cameraIndex].GetComponent<PhotonView>().Owner.GetProps<bool>(NetworkProperties.PLAYER_ALIVE))
+        {
+            cameraIndex++;
+            if (cameraIndex >= otherPlayerTransform.Count)
+                cameraIndex = 0;
+            checkCount++;
+            if (checkCount >= otherPlayerTransform.Count)
+            {
+                Debug.Log("생존자 없음");
+                break;
+            }
+        }
+        GameCamera.SetTarget(otherPlayerTransform[cameraIndex]);
+    }
+    public void ChangeCameraTargetOnPlayerInput(InputAction.CallbackContext ctx)
+    {
+        ChangeCameraTarget();
     }
 }
+
+
+
 #region 레거시 코드
 //using Photon.Pun;
 //using System;
