@@ -6,6 +6,11 @@ public class FinalRoundManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject backToRoomBtn;
     [SerializeField] AudioClip loseOrWinAudio;
+    private void Awake()
+    {
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.DestroyAll();
+    }
     private void Start()
     {
         SoundManager.Instance.PlayBGM(loseOrWinAudio);
