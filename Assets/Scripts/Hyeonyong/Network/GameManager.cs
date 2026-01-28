@@ -304,6 +304,12 @@ public class GameManager : PhotonSingleton<GameManager>
         {
             StartCoroutine(SpawnPlayerWhenConnected());
         }
+        if (scene.name == "Room_new")
+        {
+            LocalPlayer = null;
+            InventoryWheel = null;
+            TemporaryPlayerInventory.Clear();
+        }
     }
 
     public void ResetCustomProperty()

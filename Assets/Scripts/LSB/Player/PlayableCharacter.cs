@@ -177,6 +177,8 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     {
         if (photonView.IsMine)
         {
+            //260128 최정욱 카메라 초기화
+            GameCamera = null;
             // 메모리 누수 방지용 구독 해제
             UnsubscribeInputEvents();
         }

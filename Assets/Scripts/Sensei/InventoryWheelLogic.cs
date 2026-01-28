@@ -46,7 +46,14 @@ public class InventoryWheelLogic : MonoBehaviour
             }
             _isInventoryUIOn = !_isInventoryUIOn;
             _inventoryUI.SetActive(_isInventoryUIOn);
-            GameManager.Instance.LocalPlayer.GetComponent<PlayerCameraSetup>().cameraScript.SetControl(false);
+            if (GameManager.Instance == null || GameManager.Instance.LocalPlayer == null)
+            {
+                return;
+            }
+            //GameManager.Instance.LocalPlayer.GetComponent<PlayerCameraSetup>().cameraScript.SetControl(false);
+
+            GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().GameCamera.SetControl(false);
+
         }
     }
 
@@ -54,12 +61,16 @@ public class InventoryWheelLogic : MonoBehaviour
 
     IEnumerator Start()
     {
-        yield return new WaitUntil(() => GameManager.Instance != null && GameManager.Instance.LocalPlayer != null);
-        yield return new WaitUntil(() => GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>() != null);
+        //yield return new WaitUntil(() => GameManager.Instance != null && GameManager.Instance.LocalPlayer != null);
+        //yield return new WaitUntil(() => GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>() != null);
+        yield return new WaitUntil(() =>
+        GameManager.Instance != null &&
+        GameManager.Instance.LocalPlayer != null &&
+        GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>() != null
+        );
         GameManager.Instance.InventoryWheel = this;
         //yield return new WaitUntil(() => ourPlayerReference != null && ourPlayerReference.GetComponent<PlayerInputHandler>() != null);
 
-        GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnSelectQorEEvent += OpenInventory;
 
         //Debug.Log("인벤토리 휠 로직 스타트에서 플레이어 레퍼런스 할당됨");
         if (GameManager.Instance.TemporaryPlayerInventory != null)
@@ -85,10 +96,16 @@ public class InventoryWheelLogic : MonoBehaviour
 
         }
 
-        foreach (var item in GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.Inventory)
-        {
-            Debug.Log("인벤토리 아이템들: " + item.Key.itemName + " , " + item.Value);
-        }
+        //foreach (var item in GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.Inventory)
+        //{
+        //    Debug.Log("인벤토리 아이템들: " + item.Key.itemName + " , " + item.Value);
+        //}
+        Debug.Log(GameManager.Instance + " , " + GameManager.Instance.LocalPlayer);
+        Debug.Log(GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>() + " , 플레이어 인풋 핸들러");
+        Debug.Log("check input handler");
+        //yield return new WaitUntil(() => GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>() != null);
+        Debug.Log("check input handler success");
+        GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnSelectQorEEvent += OpenInventory;
         GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnDeselectQorEEvent += CloseInventory;
         //260115 최정욱 인벤토리 UI 관련 추가
         //_inventoryInputActions
@@ -271,7 +288,13 @@ public class InventoryWheelLogic : MonoBehaviour
         _isInventoryUIOn = !_isInventoryUIOn;
         Debug.Log(InventoryUI +"최정욱", _inventoryUI.gameObject);
         _inventoryUI.SetActive(_isInventoryUIOn);
-        GameManager.Instance.LocalPlayer.GetComponent<PlayerCameraSetup>().cameraScript.SetControl(true);
+        Debug.Log(GameManager.Instance + " , " + GameManager.Instance.LocalPlayer + " , "+ GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().GameCamera);
+        if (GameManager.Instance == null || GameManager.Instance.LocalPlayer == null)
+        {
+            return;
+        }
+        //GameManager.Instance.LocalPlayer.GetComponent<PlayerCameraSetup>().cameraScript.SetControl(true);
+        GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().GameCamera.SetControl(true);
         //if (EventSystem.current.IsPointerOverGameObject())
         //{
         //    PointerEventData mouseEventData = new PointerEventData(EventSystem.current);
@@ -322,6 +345,10 @@ public class InventoryWheelLogic : MonoBehaviour
 
 
         int index = 0;
+        if (GameManager.Instance == null || GameManager.Instance.LocalPlayer == null)
+        {
+            return;
+        }
         foreach (var item in GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.Inventory)
         {
             _wheelSlots[index].gameObject.SetActive(true);
