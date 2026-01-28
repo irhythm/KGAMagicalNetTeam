@@ -26,7 +26,7 @@ public class GameManager : PhotonSingleton<GameManager>
 
     [SerializeField] int needMoneyCount = 5;
 
-    public bool isRoom=false;
+    public bool isRoom = false;
 
     void Start()//씬이 너무 빨리 불러와져서 스타트가 room 들어가기 전에 호출되는 것이 문제임
     {
@@ -51,8 +51,8 @@ public class GameManager : PhotonSingleton<GameManager>
     IEnumerator SpawnPlayerWhenConnected() //네트워크 게임은, 라이프 사이클도 중요하고, 또 네트워크 지연까지 고려해야 함
     {
         yield return new WaitUntil(() => PhotonNetwork.InRoom);
-        yield return new WaitUntil(()=>RoundManager.Instance!=null);
-        int spawnPosNum = PhotonNetwork.LocalPlayer.ActorNumber -1 ;
+        yield return new WaitUntil(() => RoundManager.Instance != null);
+        int spawnPosNum = PhotonNetwork.LocalPlayer.ActorNumber - 1;
         int maxSpawnPosCount = RoundManager.Instance.spawnPos.Length;
         while (spawnPosNum >= maxSpawnPosCount)
         {
@@ -62,7 +62,7 @@ public class GameManager : PhotonSingleton<GameManager>
         GameObject player = null;
         if (LocalPlayer == null)
             player = PhotonNetwork.Instantiate("PlayerPrefab/" + playerPrefab.name, RoundManager.Instance.spawnPos[spawnPosNum].position, Quaternion.identity, 0);
-        
+
         //260121 다른 사람 변신 상태 유지
         Player[] players = PhotonNetwork.PlayerList;//방 속 사람을 받아옴
 
@@ -103,10 +103,10 @@ public class GameManager : PhotonSingleton<GameManager>
     //다음 씬을 넘어갈수 있는지 확인하는 코드
     public bool CheckMoneyCount()
     {
-        if(PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.ONSTORE))
+        if (PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.ONSTORE))
             return true;
 
-        if (PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.MONEYCOUNT)>=needMoneyCount)
+        if (PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.MONEYCOUNT) >= needMoneyCount)
         {
             return true;
         }
@@ -162,7 +162,7 @@ public class GameManager : PhotonSingleton<GameManager>
     public void PlusMoneyCount()
     {
         if (PhotonNetwork.IsMasterClient)
-            PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.MONEYCOUNT, CurTeamMoney()+1);
+            PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.MONEYCOUNT, CurTeamMoney() + 1);
     }
 
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
@@ -192,7 +192,7 @@ public class GameManager : PhotonSingleton<GameManager>
 
     public void CheckInGamePlayer()
     {
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
             PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.PLAYERCOUNT, PhotonNetwork.CurrentRoom.PlayerCount);
     }
 
@@ -221,7 +221,16 @@ public class GameManager : PhotonSingleton<GameManager>
             {
                 int curPlayerCount = PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.PLAYERCOUNT) - 1;
                 Debug.Log("사망 판정 :" + curPlayerCount + "/" + PhotonNetwork.CurrentRoom.PlayerCount);
-                PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.PLAYERCOUNT, curPlayerCount);
+
+                if (curPlayerCount <= 0)
+                {
+                    PhotonNetwork.AutomaticallySyncScene = true;
+                    PhotonNetwork.LoadLevel("Lose");
+                    ResetCustomProperty();
+                }
+
+
+
             }
         }
     }
@@ -236,7 +245,7 @@ public class GameManager : PhotonSingleton<GameManager>
     {
         if (!(PhotonNetwork.IsMasterClient))
             return;
-        int curPlayerCount = PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.PLAYERCOUNT)-1;
+        int curPlayerCount = PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.PLAYERCOUNT) - 1;
         Debug.Log("사망 판정 :" + curPlayerCount + "/" + PhotonNetwork.CurrentRoom.PlayerCount);
         PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.PLAYERCOUNT, curPlayerCount);
     }
@@ -317,7 +326,7 @@ public class GameManager : PhotonSingleton<GameManager>
             return;
         }
 
-        if (scene.buildIndex >= 4 && scene.buildIndex <= SceneManager.sceneCountInBuildSettings-2)
+        if (scene.buildIndex >= 4 && scene.buildIndex <= SceneManager.sceneCountInBuildSettings - 2)
         {
             StartCoroutine(SpawnPlayerWhenConnected());
         }

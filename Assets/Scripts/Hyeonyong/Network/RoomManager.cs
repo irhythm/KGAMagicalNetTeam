@@ -55,13 +55,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
         InitReady();
 
-        Debug.Log("탭 테스트 1");
-
 
         Player[] players = PhotonNetwork.PlayerList;//방 속 사람을 받아옴
         foreach (var p in players)
         {
-            Debug.Log("방 안의 사람들 목록: " + p.NickName);
             GameObject player = Instantiate(playerInfo, playerInfoTab);
             playerInfoDic.Add(p.ActorNumber, player);
             player.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = p.NickName;
@@ -83,7 +80,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
             }
         }
 
-        Debug.Log("탭 테스트 2");
         checkHiddenRoom.isOn = !PhotonNetwork.CurrentRoom.IsVisible;
         if (PhotonNetwork.IsMasterClient)
         {
@@ -104,21 +100,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
             ReadyBtn.gameObject.SetActive(true);
             checkHiddenRoom.gameObject.SetActive(false);
         }
-        Debug.Log("탭 테스트 3");
         CheckReady();
 
         if (tabInput != null)
         {
-            Debug.Log("탭 인풋 있음");
             tabInput.action.performed += OpenRoomTab;
             tabInput.action.Enable();
         }
-        else
-        {
-            Debug.Log("탭 인풋 없음");
-        }
-
-        Debug.Log("탭 테스트 4");
     }
 
     public void SetPlayer(GameObject player)
@@ -190,13 +178,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
         onReady = !onReady;
         PhotonNetwork.LocalPlayer.SetProps(NetworkProperties.PLAYER_READY, onReady);
         CheckReady();
-
-        Debug.Log("준비 상태 변경");
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Debug.Log(newPlayer.NickName + "님이 방에 입장하셨습니다.");
-
         GameObject player = Instantiate(playerInfo, playerInfoTab);
         playerInfoDic.Add(newPlayer.ActorNumber, player);
 
@@ -223,7 +207,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        Debug.Log("준비 상태 변경");
         CheckReady();
     }
 

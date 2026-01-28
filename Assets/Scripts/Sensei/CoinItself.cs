@@ -1,5 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
+using System.Collections;
 
 public class CoinItself : MonoBehaviourPunCallbacks
 {
@@ -11,7 +12,7 @@ public class CoinItself : MonoBehaviourPunCallbacks
     {
         SoundManager.Instance.PlaySFX(coinData.CoinPickupSFX, 1f, 100f, transform.position);
 
-        if (PhotonNetwork.IsMasterClient || photonView.IsMine)
+        if (photonView.IsMine)
         {
             PhotonNetwork.Destroy(this.gameObject);
         }
@@ -29,10 +30,25 @@ public class CoinItself : MonoBehaviourPunCallbacks
     {
         if (this.gameObject != null)
         {
-            PhotonNetwork.Destroy(this.gameObject);
+            photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+            
+            
+            StartCoroutine(WaitToDestroyCoin());
+            //PhotonNetwork.Destroy(this.gameObject);
         }
     }
 
+
+    //Coroutine WaitToDestroy;
+    IEnumerator WaitToDestroyCoin()
+    {
+        yield return new WaitUntil(() => photonView.IsMine);
+       
+            PhotonNetwork.Destroy(this.gameObject);
+        
+        //WaitToDestroy = null;
+
+    }
 
     public void DropCoin(Vector3 spawnPos, Vector3 targetPos)
     {
@@ -40,6 +56,8 @@ public class CoinItself : MonoBehaviourPunCallbacks
         photonView.RPC("RPC_DropCoin", RpcTarget.All, spawnPos, targetPos);
         GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.RemoveItem(coinData);
     }
+
+
 
 
     [PunRPC]
