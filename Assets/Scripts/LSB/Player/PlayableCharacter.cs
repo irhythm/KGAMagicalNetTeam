@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayableCharacter : MonoBehaviourPun, IInteractable
 {
@@ -38,6 +39,9 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     [SerializeField] private LayerMask canInteractLayer;    // 상호작용이 가능한 레이어
     [SerializeField] private float checkDistance = 1f;      // 260122 신현섭: 상호작용 체크 거리
 
+    [Header("Camera Setting")]
+    [SerializeField] private int cameraIndex = -1;
+
     public HashSet<IInteractable> receivers = new HashSet<IInteractable>();
 
     public enum MoveDir { Front, Back, Left, Right }
@@ -62,6 +66,7 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     public PlayerMagicSystem MagicSystem { get; private set; }
     public PlayerController playerController { get; private set; }
     public PlayerTransformationController TransformationController { get; private set; }
+    public List<Transform> otherPlayerTransform = new List<Transform>();
     #endregion
 
     #region 상태 머신
@@ -318,7 +323,10 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
         if (isDie)
         {
             if (photonView.IsMine)
+            {
+                CheckCameraOnDie();
                 PhotonNetwork.LocalPlayer.SetProps(NetworkProperties.PLAYER_ALIVE, false);
+            }
             OnDie?.Invoke();
             Debug.Log("캐릭터 사망");
         }
@@ -369,7 +377,57 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     {
         // 인풋시스템 o
     }
+
+    public void CheckCameraOnDie()
+    {
+        //1. 조작권 박탈 <- 인풋핸들러 쪽으로 이양
+        
+        //2. 카메라 타겟 다른 플레이어로 전환
+        if (otherPlayerTransform.Count <= 0)
+        {
+            PlayableCharacter[] otherPlayer = FindObjectsByType<PlayableCharacter>(FindObjectsSortMode.None);
+
+            foreach (PlayableCharacter p in otherPlayer)
+            {
+                if (!p.GetComponent<PhotonView>().IsMine)
+                    otherPlayerTransform.Add(p.transform);
+            }
+        }
+        //3. 특정 버튼 클릭 시 다른 플레이어 확인 가능 여기서 액션 버튼 +=으로 넣고 파괴시 빼자
+        ChangeCameraTarget();
+        InputHandler.ConnectCameraChange();
+    }
+
+    public void ChangeCameraTarget()
+    {
+        cameraIndex++;
+        if (cameraIndex >= otherPlayerTransform.Count)
+            cameraIndex = 0;
+
+        int checkCount = 0;
+
+        while (!otherPlayerTransform[cameraIndex].GetComponent<PhotonView>().Owner.GetProps<bool>(NetworkProperties.PLAYER_ALIVE))
+        {
+            cameraIndex++;
+            if (cameraIndex >= otherPlayerTransform.Count)
+                cameraIndex = 0;
+            checkCount++;
+            if (checkCount >= otherPlayerTransform.Count)
+            {
+                Debug.Log("생존자 없음");
+                break;
+            }
+        }
+        GameCamera.SetTarget(otherPlayerTransform[cameraIndex]);
+    }
+    public void ChangeCameraTargetOnPlayerInput(InputAction.CallbackContext ctx)
+    {
+        ChangeCameraTarget();
+    }
 }
+
+
+
 #region 레거시 코드
 //using Photon.Pun;
 //using System;

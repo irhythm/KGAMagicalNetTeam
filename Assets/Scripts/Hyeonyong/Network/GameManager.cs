@@ -26,6 +26,8 @@ public class GameManager : PhotonSingleton<GameManager>
 
     [SerializeField] int needMoneyCount = 5;
 
+    public bool isRoom=false;
+
     void Start()//씬이 너무 빨리 불러와져서 스타트가 room 들어가기 전에 호출되는 것이 문제임
     {
         if (LocalPlayer == null)
@@ -209,6 +211,9 @@ public class GameManager : PhotonSingleton<GameManager>
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log(otherPlayer.NickName + "님이 게임을 떠났습니다.");
+
+        if (PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.ONROOM))
+            return;
         if (PhotonNetwork.IsMasterClient)
         {
             if (otherPlayer.GetProps<bool>(NetworkProperties.PLAYER_ALIVE))
