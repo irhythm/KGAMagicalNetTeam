@@ -182,6 +182,7 @@ public class GameManager : PhotonSingleton<GameManager>
             {
                 if (PhotonNetwork.IsMasterClient)
                 {
+                    PhotonNetwork.AutomaticallySyncScene = true;
                     PhotonNetwork.LoadLevel("Lose");
                     ResetCustomProperty();
                 }
@@ -271,6 +272,7 @@ public class GameManager : PhotonSingleton<GameManager>
                 }
                 if (PhotonNetwork.IsMasterClient)
                 {
+                    PhotonNetwork.AutomaticallySyncScene = true;
                     PhotonNetwork.LoadLevel("GameMapOne");
                     PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.GAMEROUND, curRound);
                 }
@@ -287,12 +289,16 @@ public class GameManager : PhotonSingleton<GameManager>
                     //playerTable[keyvaluepair.Key.itemName] = keyvaluepair.Value;
                 }
                 if (PhotonNetwork.IsMasterClient)
+                {
+                    PhotonNetwork.AutomaticallySyncScene = true;
                     PhotonNetwork.LoadLevel("StoreMapSensei");
+                }
             }
         }
         else if (PhotonNetwork.IsMasterClient)
         {
             //모든 라운드를 소비하였으므로 Win
+            PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.LoadLevel("Win");
             ResetCustomProperty();
         }

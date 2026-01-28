@@ -169,6 +169,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             {
                 player = null;
                 //PhotonNetwork.Destroy(player);
+                PhotonNetwork.AutomaticallySyncScene = true;
                 PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
                 PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ONSTART, false);
                 PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ONROOM, false);
