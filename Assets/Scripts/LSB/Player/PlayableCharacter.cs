@@ -182,8 +182,8 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
             GameCamera = null;
             // 메모리 누수 방지용 구독 해제
             UnsubscribeInputEvents();
+            OnDie -= GameManager.Instance.CheckDie;
         }
-        OnDie -= GameManager.Instance.CheckDie;
     }
 
     private void Update()
