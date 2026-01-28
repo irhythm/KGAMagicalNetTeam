@@ -12,18 +12,18 @@ public class Tornado : MonoBehaviourPun
     private int shooterID;
     private Vector3 moveDirection;
 
-    public void Setup(TornadoSO data, int shooterID)
+    [PunRPC]
+    public void RPC_Setup(int shooterID)
     {
-        if (this.data == null) this.data = data;
         this.shooterID = shooterID;
-
-        moveDirection = transform.forward;
-        moveDirection.y = 0;
-        moveDirection.Normalize();
-        if (moveDirection == Vector3.zero) moveDirection = Vector3.forward;
 
         if (photonView.IsMine)
         {
+            moveDirection = transform.forward;
+            moveDirection.y = 0;
+            moveDirection.Normalize();
+            if (moveDirection == Vector3.zero) moveDirection = Vector3.forward;
+
             StartCoroutine(LifetimeRoutine());
         }
     }
@@ -47,7 +47,6 @@ public class Tornado : MonoBehaviourPun
 
     private void FixedUpdate()
     {
-        if (!photonView.IsMine) return;
         ControlSatellites();
     }
 
@@ -57,6 +56,7 @@ public class Tornado : MonoBehaviourPun
 
         RaycastHit hit;
         int layerMask = 1 << LayerMask.NameToLayer("Ground");
+        if (layerMask == 0) layerMask = ~0;
 
         if (Physics.Raycast(nextPosition + Vector3.up * 5.0f, Vector3.down, out hit, 20.0f, layerMask))
         {
@@ -67,48 +67,25 @@ public class Tornado : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!photonView.IsMine) return;
-
-        Rigidbody rb = other.GetComponent<Rigidbody>();
-        if (rb == null) return;
-
-        if ((data.hitLayer.value & (1 << other.gameObject.layer)) == 0)
+        if (!other.TryGetComponent<Rigidbody>(out Rigidbody rb))
             return;
-        
+        if (other.TryGetComponent<PhotonView>(out PhotonView pv) && pv.OwnerActorNr == shooterID)
+            return;
 
-        PhotonView targetPv = other.GetComponent<PhotonView>();
-        if (targetPv != null && targetPv.OwnerActorNr == shooterID) return;
+
+        if (!other.TryGetComponent<IPhysicsObject>(out IPhysicsObject obj))
+            return;
 
         if (!activeTargets.Contains(rb))
         {
             activeTargets.Add(rb);
 
-            ChunkNode node = other.GetComponent<ChunkNode>();
-            if (node == null) node = other.GetComponentInParent<ChunkNode>();
-
-            if (node != null)
-            {
-                node.Unfreeze();
-            }
-            else
-            {
-                if (rb.isKinematic) rb.isKinematic = false;
-            }
-
-            rb.transform.SetParent(null);
-
-            rb.useGravity = false;
-
-            rb.position += Vector3.up * 0.5f;
-
-            other.GetComponent<IPhysicsObject>()?.OnStatusChange(true);
+            obj?.OnStatusChange(true);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!photonView.IsMine) return;
-
         Rigidbody rb = other.GetComponent<Rigidbody>();
         if (rb != null && activeTargets.Contains(rb))
         {
@@ -123,10 +100,8 @@ public class Tornado : MonoBehaviourPun
         foreach (var rb in activeTargets)
         {
             if (rb == null) continue;
-            if (rb.isKinematic) rb.isKinematic = false;
 
             Vector3 objectPos = rb.position;
-
             Vector3 offset = objectPos - transform.position;
             float distance = offset.magnitude;
 
@@ -141,17 +116,12 @@ public class Tornado : MonoBehaviourPun
             Vector3 tangentDir = Vector3.Cross(horizontalDir, Vector3.up).normalized;
 
             float distFactor = Mathf.Clamp01(distance / data.maxDistance);
-
             float currentSuction = Mathf.Lerp(data.suctionSpeed, data.suctionSpeed * 2.5f, distFactor);
-
-            float heightFactor = (offset.y < 1.0f) ? 2.0f : 1.0f;
+            float heightFactor = (offset.y < 2.0f) ? 2.0f : 1.0f;
             float currentLift = data.liftSpeed * heightFactor;
 
-            Vector3 targetVelocity = (tangentDir * data.orbitSpeed)
-                                   + (horizontalDir * currentSuction);
-
+            Vector3 targetVelocity = (tangentDir * data.orbitSpeed) + (horizontalDir * currentSuction);
             Vector3 newVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, Time.fixedDeltaTime * data.captureStrength);
-
             newVelocity.y = currentLift;
 
             rb.linearVelocity = newVelocity;
@@ -188,12 +158,12 @@ public class Tornado : MonoBehaviourPun
         yield return new WaitForSeconds(data.duration);
 
         List<Rigidbody> finalTargets = new List<Rigidbody>(activeTargets);
-        foreach (var rb in finalTargets)
-        {
-            ReleaseTarget(rb, true);
-        }
+        foreach (var rb in finalTargets) ReleaseTarget(rb, true);
         activeTargets.Clear();
 
-        if (photonView.IsMine) PhotonNetwork.Destroy(gameObject);
+        if (photonView.IsMine)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 }

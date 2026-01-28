@@ -1,5 +1,4 @@
 using Photon.Pun;
-//using UnityEngine.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
 public class MagicTornado : MagicAction
@@ -26,10 +25,10 @@ public class MagicTornado : MagicAction
 
             GameObject obj = PhotonNetwork.Instantiate("EffectPrefab/" + tornadoData.itemPrefab.name, finalSpawnPos, rotation);
 
-            Tornado tornadoLogic = obj.GetComponent<Tornado>();
-            if (tornadoLogic != null)
+            PhotonView pv = obj.GetComponent<PhotonView>();
+            if (pv != null)
             {
-                tornadoLogic.Setup(tornadoData, shooterID);
+                pv.RPC("RPC_Setup", RpcTarget.AllBuffered, shooterID);
             }
         }
     }
