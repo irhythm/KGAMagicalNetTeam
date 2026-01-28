@@ -36,6 +36,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     [SerializeField] AudioClip RoomAudio;
 
+    [SerializeField] string uiName = "RoomMenu";
     private void Awake()
     {
         Instance = this;
@@ -335,11 +336,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            UIManager.Instance.OpenUI(uiName);
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            UIManager.Instance.CloseUI(uiName);
         }
 
         roomTab.SetActive(onOpen);

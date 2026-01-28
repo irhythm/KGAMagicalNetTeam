@@ -189,13 +189,13 @@ public class GameManager : PhotonSingleton<GameManager>
 
     public void CheckInGamePlayer()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if(PhotonNetwork.IsMasterClient)
             PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.PLAYERCOUNT, PhotonNetwork.CurrentRoom.PlayerCount);
     }
 
     public override void OnLeftRoom()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Lobby");
     }
 
     public void LeaveRoom()
@@ -206,17 +206,24 @@ public class GameManager : PhotonSingleton<GameManager>
             return;
         PhotonNetwork.LeaveRoom();
     }
-
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log(otherPlayer.NickName + "님이 게임을 떠났습니다.");
-        CheckInGamePlayer();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (otherPlayer.GetProps<bool>(NetworkProperties.PLAYER_ALIVE))
+            {
+                int curPlayerCount = PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.PLAYERCOUNT) - 1;
+                Debug.Log("사망 판정 :" + curPlayerCount + "/" + PhotonNetwork.CurrentRoom.PlayerCount);
+                PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.PLAYERCOUNT, curPlayerCount);
+            }
+        }
     }
 
     public void ExitGame()
     {
         LeaveRoom();
-        SceneManager.LoadSceneAsync("Lobby");
+        //SceneManager.LoadSceneAsync("Lobby");
     }
 
     public void CheckDie()
@@ -224,6 +231,7 @@ public class GameManager : PhotonSingleton<GameManager>
         if (!(PhotonNetwork.IsMasterClient))
             return;
         int curPlayerCount = PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.PLAYERCOUNT)-1;
+        Debug.Log("사망 판정 :" + curPlayerCount + "/" + PhotonNetwork.CurrentRoom.PlayerCount);
         PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.PLAYERCOUNT, curPlayerCount);
     }
 

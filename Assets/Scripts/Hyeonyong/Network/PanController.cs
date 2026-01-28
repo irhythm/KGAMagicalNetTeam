@@ -113,6 +113,7 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
     }
     private void OnDisable()
     {
+        base.OnDisable();
         //비활성화시 실행할 코드
         if(damageCoroutine_Color!=null)
             StopCoroutine(damageCoroutine_Color);

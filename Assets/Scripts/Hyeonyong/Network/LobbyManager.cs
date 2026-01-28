@@ -129,7 +129,21 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void Refresh()//룸 새로고침 : 로비 나갔다 들어오기
     {
+        StartCoroutine(RefreshRoomList());
+    }
+
+    private IEnumerator RefreshRoomList()
+    {
+        // 1. 로비를 나갑니다.
         PhotonNetwork.LeaveLobby();
+
+        // 2. 상태가 완전히 '마스터 서버(로비 밖)'로 바뀔 때까지 대기
+        while (PhotonNetwork.InLobby)
+        {
+            yield return null;
+        }
+
+        // 3. 이제 안전하게 다시 로비 진입
         PhotonNetwork.JoinLobby();
     }
 

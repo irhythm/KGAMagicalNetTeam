@@ -18,7 +18,7 @@ public class ChattingManager : MonoBehaviourPunCallbacks
     string _myName;
     PhotonView pv;
     //PlayerInput playerInput;
-    [Header("ÀÎÇ² ¾×¼Ç")]
+    [Header("ì¸í’‹ ì•¡ì…˜")]
     [SerializeField] private InputActionReference playerInput;
     bool onChat=false;
 
@@ -29,12 +29,12 @@ public class ChattingManager : MonoBehaviourPunCallbacks
     Coroutine receiveCoroutine;
     public void Start()
     {
-        Debug.Log("¹æ ÀÔÀå");
+        Debug.Log("ë°© ì…ì¥");
 
         chatInputField = chatInput.GetComponent<TMP_InputField>();
         pv= GetComponent<PhotonView>();
         _myName = PhotonNetwork.NickName;
-        //chattingText.text += "È¯¿µÇÕ´Ï´Ù " + _myName + "´Ô.";
+        //chattingText.text += "í™˜ì˜í•©ë‹ˆë‹¤ " + _myName + "ë‹˜.";
         //playerInput = GetComponent<PlayerInput>();
         playerInput.action.Enable();
         playerInput.action.performed += SendControl;
@@ -43,6 +43,7 @@ public class ChattingManager : MonoBehaviourPunCallbacks
     }
     private void OnDisable()
     {
+        base.OnDisable();
         playerInput.action.performed -= SendControl;
     }
     public override void OnLeftRoom()
@@ -53,7 +54,7 @@ public class ChattingManager : MonoBehaviourPunCallbacks
 
     private void SendControl(InputAction.CallbackContext context)
     {
-        Debug.Log("¿£ÅÍ ÀÔ·Â");
+        Debug.Log("ì—”í„° ì…ë ¥");
         //if (!pv.IsMine)
         //    return;
         if (!onChat)
@@ -81,7 +82,7 @@ public class ChattingManager : MonoBehaviourPunCallbacks
 
     IEnumerator SendMyMessage()
     {
-        Debug.Log("Ã¤ÆÃÀÔ·Â");
+        Debug.Log("ì±„íŒ…ì…ë ¥");
         //yield return CoroutineManager.WaitForSeconds(0.3f);
         yield return new WaitForSeconds(0.3f);
         onChat = false;
@@ -122,7 +123,7 @@ public class ChattingManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        chattingText.text += "\n" + newPlayer.NickName + "´ÔÀÌ ¹æ¿¡ ÀÔÀåÇÏ¼Ì½À´Ï´Ù.";
+        chattingText.text += "\n" + newPlayer.NickName + "ë‹˜ì´ ë°©ì— ì…ì¥í•˜ì…¨ìŠµë‹ˆë‹¤.";
     }
 
 
