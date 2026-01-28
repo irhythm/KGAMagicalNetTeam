@@ -9,7 +9,7 @@ public class CoinItself : MonoBehaviourPunCallbacks
 
     public void RequestDestroy()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient || photonView.IsMine)
         {
             PhotonNetwork.Destroy(this.gameObject);
         }
@@ -25,7 +25,10 @@ public class CoinItself : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RPC_Destroy()
     {
-        PhotonNetwork.Destroy(this.gameObject);
+        if (this.gameObject != null)
+        {
+            PhotonNetwork.Destroy(this.gameObject);
+        }
     }
 
 
