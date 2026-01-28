@@ -34,6 +34,7 @@ public class FinalRoundManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             backToRoomBtn.gameObject.SetActive(true);
+            PhotonNetwork.DestroyAll();
         }
         else
         {
