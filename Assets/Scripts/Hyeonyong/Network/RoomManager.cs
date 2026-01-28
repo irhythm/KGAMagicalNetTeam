@@ -44,7 +44,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     private IEnumerator Start()
     {
-
         SoundManager.Instance.PlayBGM(RoomAudio);
         //yield return new WaitUntil(() => FirebaseAuthManager.Instance != null);//파이어베이스 초기화 대기
         if (FirebaseAuthManager.Instance != null)
@@ -53,6 +52,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         yield return new WaitUntil(() => PhotonNetwork.InRoom);//방에 입장했는지
         yield return null;
+
         InitReady();
 
         Debug.Log("탭 테스트 1");
@@ -87,6 +87,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         checkHiddenRoom.isOn = !PhotonNetwork.CurrentRoom.IsVisible;
         if (PhotonNetwork.IsMasterClient)
         {
+            PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ONROOM, true);
             PhotonNetwork.CurrentRoom.IsOpen = true;
             StartBtn.gameObject.SetActive(true);
             checkHiddenRoom.gameObject.SetActive(true);
@@ -128,6 +129,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     private void OnDisable()
     {
         base.OnDisable();
+        GameManager.Instance.isRoom=false;
         if (tabInput != null)
         {
             tabInput.action.performed -= OpenRoomTab;
@@ -169,6 +171,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
                 //PhotonNetwork.Destroy(player);
                 PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
                 PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ONSTART, false);
+                PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ONROOM, false);
             }
         }
     }
