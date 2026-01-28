@@ -71,13 +71,6 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
         Debug.Log("프라이팬 : 현재 HP: " + curHp);
         SetFryingPanHP(curHp);
         //CheckDie();
-        if(damageCoroutine_Color!=null) 
-            StopCoroutine(damageCoroutine_Color);
-        damageCoroutine_Color=StartCoroutine(TakeDamageEvent_Color());
-
-        if(damageCoroutine_Noise != null)
-            StopCoroutine(damageCoroutine_Noise);
-        damageCoroutine_Noise=StartCoroutine(TakeDamageEvent_Noise());
     }
 
     //룸 프로퍼티의 값이 바뀌면 호출
@@ -101,7 +94,17 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
         if (gameObject != null)
         {
             gameObject.SetActive(false);
+            return;
         }
+
+
+        if (damageCoroutine_Color != null)
+            StopCoroutine(damageCoroutine_Color);
+        damageCoroutine_Color = StartCoroutine(TakeDamageEvent_Color());
+
+        if (damageCoroutine_Noise != null)
+            StopCoroutine(damageCoroutine_Noise);
+        damageCoroutine_Noise = StartCoroutine(TakeDamageEvent_Noise());
     }
 
     void SetFryingPanHP(float curHp)
