@@ -94,12 +94,9 @@ public class PlayerInputHandler : MonoBehaviourPun
             UIManager.Instance.onOpenUI -= DisableInputLogic;
             UIManager.Instance.onCloseUI -= EnableInputLogic;
         }
-    }
-    private void OnDestroy()
-    {
         DisconnectQE();
     }
-
+    
 
 
     private void ResetInputs()
