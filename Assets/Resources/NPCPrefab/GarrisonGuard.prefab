@@ -1681,6 +1681,7 @@ MonoBehaviour:
   moveSpeed: 3.5
   rotSpeed: 1500
   maxHP: 40
+  humanModel: {fileID: 1515497200967369440}
   currentNetworkState: 0
   detectRadius: 15
   attackRange: 3

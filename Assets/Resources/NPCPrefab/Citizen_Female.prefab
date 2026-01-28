@@ -3805,6 +3805,7 @@ MonoBehaviour:
   moveSpeed: 3.5
   rotSpeed: 1500
   maxHP: 1
+  humanModel: {fileID: 8422139059911836487}
   currentNetworkState: 0
   patrolRange: 5
   detectRadius: 15
