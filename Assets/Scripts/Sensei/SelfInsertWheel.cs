@@ -8,7 +8,7 @@ public class SelfInsertWheel : MonoBehaviour
 
         yield return new WaitUntil(() =>
             GameManager.Instance != null &&
-            GameManager.Instance.InventoryWheel != null);
+            GameManager.Instance.InventoryWheel != null && FindFirstObjectByType<InventoryWheelLogic>() == GameManager.Instance.InventoryWheel);
 
         // UI 할당
         GameManager.Instance.InventoryWheel.InventoryUI = gameObject;
