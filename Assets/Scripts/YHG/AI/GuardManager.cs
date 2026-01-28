@@ -253,27 +253,10 @@ public class GuardManager : MonoBehaviourPunCallbacks
 
     private void OnDestroy()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            CleanUpAllGuards();
-        }
-
         if (instance != null)
         {
             instance = null;
         }
-    }
-    //경비제거
-    private void CleanUpAllGuards()
-    {
-        foreach (var guard in activeGuards)
-        {
-            if (guard != null)
-            {
-                PhotonNetwork.Destroy(guard);
-            }
-        }
-        activeGuards.Clear();
     }
 
     //마법용(신빈님), 발동 시점에 호출
