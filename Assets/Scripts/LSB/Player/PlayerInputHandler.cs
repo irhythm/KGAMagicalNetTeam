@@ -94,6 +94,11 @@ public class PlayerInputHandler : MonoBehaviourPun
             UIManager.Instance.onCloseUI -= EnableInputLogic;
         }
     }
+    private void OnDestroy()
+    {
+        DisconnectQE();
+    }
+
 
 
     private void ResetInputs()
@@ -158,18 +163,47 @@ public class PlayerInputHandler : MonoBehaviourPun
     private void ConnectQInput()
     {
         _selectQAction = _playerInput.actions["SelectQ"];
-        _selectQAction.performed += ctx => QorEActionEvent(true);
-        _selectQAction.canceled += ctx => QorEDeselectActionEvent(true);
+        _selectQAction.performed += QInput;
+        _selectQAction.canceled += QDeselect;
 
     }
     private void ConnectEInput()
     {
         _selectEAction = _playerInput.actions["SelectE"];
-        _selectEAction.performed += ctx => QorEActionEvent(false);
-        _selectEAction.canceled += ctx => QorEDeselectActionEvent(false);
+        _selectEAction.performed += EInput;
+        _selectEAction.canceled += EDeselect;
     }
 
-    void QorEActionEvent(bool isHold)
+    void DisconnectQE()
+    {
+        _selectQAction.performed -= QInput;
+        _selectQAction.canceled -= QDeselect;
+        _selectEAction.performed -= EInput;
+        _selectEAction.canceled -= EDeselect;
+    }
+
+
+    void QInput(InputAction.CallbackContext ctx)
+    {
+        QorEActionEvent(true);
+
+    }
+    void EInput(InputAction.CallbackContext ctx)
+    {
+
+        QorEActionEvent(false);
+    }
+
+    void QDeselect(InputAction.CallbackContext ctx)
+    {
+        QorEDeselectActionEvent(true);
+    }
+    void EDeselect(InputAction.CallbackContext ctx)
+    {
+        QorEDeselectActionEvent(false);
+    }
+
+        void QorEActionEvent(bool isHold)
     {
         //_isQHold = isHold;
         OnSelectQorEEvent?.Invoke(isHold);

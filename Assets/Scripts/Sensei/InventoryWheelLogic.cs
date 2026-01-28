@@ -16,6 +16,9 @@ public class InventoryWheelLogic : MonoBehaviour
     [SerializeField] List<InputActionReference> _inventoryInputActions; //0은 q, 1은 e
     [SerializeField] GameObject _inventoryUI;
     [SerializeField] InventoryWheelLogic _inventoryWheelLogic;
+
+    public GameObject InventoryUI { get { return _inventoryUI; } set { _inventoryUI = value; } }
+
     public InventoryWheelLogic InventoryWheel => _inventoryWheelLogic;
     bool _isInventoryUIOn = false;
     public bool IsInventoryUIOn => _isInventoryUIOn;
@@ -106,9 +109,17 @@ public class InventoryWheelLogic : MonoBehaviour
         {
             return;
         }
-        GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnSelectQorEEvent -= OpenInventory;
-        GameManager.Instance.LocalPlayer.GetComponent<PlayerInputHandler>().OnDeselectQorEEvent -= CloseInventory;
+        var inputHandler = GameManager.Instance?.LocalPlayer?.GetComponent<PlayerInputHandler>();
 
+        if (inputHandler != null)
+        {
+            inputHandler.OnSelectQorEEvent -= OpenInventory;
+            inputHandler.OnDeselectQorEEvent -= CloseInventory;
+        }
+
+        
+        //GameManager.Instance.InventoryWheel = null;
+        _inventoryUI = null;
         //260115 최정욱 인벤토리 UI 관련 추가
         //_inventoryInputActions
         //_inventoryInputActions[0].action.performed -= OpenInventory;
@@ -258,6 +269,7 @@ public class InventoryWheelLogic : MonoBehaviour
             }
         }
         _isInventoryUIOn = !_isInventoryUIOn;
+        Debug.Log(InventoryUI +"최정욱", _inventoryUI.gameObject);
         _inventoryUI.SetActive(_isInventoryUIOn);
         GameManager.Instance.LocalPlayer.GetComponent<PlayerCameraSetup>().cameraScript.SetControl(true);
         //if (EventSystem.current.IsPointerOverGameObject())
