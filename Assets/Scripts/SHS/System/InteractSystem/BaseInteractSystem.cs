@@ -9,11 +9,8 @@ public abstract class BaseInteractSystem
     protected IInteractable executer;           // 상호작용을 시작하는 트랜스폼
     protected List<IInteractable> receivers;    // 상호작용을 당하는 트랜스폼
 
-    protected event Action executeStartAct;
-    protected event Action receiveStartAct;
-
-    protected event Action executeEndAct;
-    protected event Action receiveEndAct;
+    protected event Action StartAct;
+    protected event Action EndAct;
 
     public BaseInteractSystem(InteractionDataSO data, IInteractable executer, params IInteractable[] receivers)
     {
@@ -32,36 +29,31 @@ public abstract class BaseInteractSystem
         this.executer = executer;
         this.receivers = receivers.ToList();
 
-        executeStartAct = executer.OnInteraction;
-        executeEndAct = executer.OnStopped;
+        StartAct += executer.OnInteraction;
+        EndAct += executer.OnStopped;
 
         foreach(var receiver in receivers)
         {
-            receiveStartAct += receiver.OnInteraction;
-            receiveEndAct += receiver.OnStopped;
+            StartAct += receiver.OnInteraction;
+            EndAct += receiver.OnStopped;
         }
     }
 
     // 행동이 다 끝나고 빠져나오기 전 액션 실행 및 초기화
     public void EndInteract()
     {
-        executeEndAct?.Invoke();
-        receiveEndAct?.Invoke();
+        EndAct?.Invoke();
 
         executer = null;
         receivers = null;
 
-        executeStartAct = null;
-        receiveStartAct = null;
-
-        executeEndAct = null;
-        receiveEndAct = null;
+        StartAct = null;
+        EndAct = null;
     }
 
     // 상호작용 실행
     public virtual void PlayInteract()
     {
-        executeStartAct?.Invoke();   // 실행자 액션 실행
-        receiveStartAct?.Invoke();   // 리시버 액션 실행
+        StartAct?.Invoke();   // 시작 액션 실행
     }
 }

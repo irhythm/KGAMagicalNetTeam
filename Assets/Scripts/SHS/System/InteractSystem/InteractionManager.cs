@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -18,8 +17,7 @@ public class InteractionManager : Singleton<InteractionManager>
 
     private BaseInteractSystem interactSystem;      // 상호작용 클래스 캐싱
 
-    private AssassinateInteract assassinateSystem;  // 암살 상호작용 클래스
-
+    private Dictionary<InteractionType, BaseInteractSystem> interactSystemDic = new Dictionary<InteractionType, BaseInteractSystem>();
 
     protected override void Awake()
     {
@@ -30,20 +28,25 @@ public class InteractionManager : Singleton<InteractionManager>
     {
         if (data == null || executer == null || receivers == null) return;
 
-        switch (data.type)
+        if (!interactSystemDic.ContainsKey(data.type))
         {
-            case InteractionType.Assassinate:
-                if (assassinateSystem == null)
-                {
-                    assassinateSystem = new AssassinateInteract(data, executer, receivers);
-                }
-                else
-                {
-                    assassinateSystem.Init(data, executer, receivers);
-                }
-                interactSystem = assassinateSystem;
-                break;
+            BaseInteractSystem newSystem = null;
+
+            switch (data.type)
+            {
+                case InteractionType.Assassinate:
+                    newSystem = new AssassinateInteract(data, executer, receivers);
+                    break;
+            }
+
+            interactSystemDic.Add(data.type, newSystem);
         }
+        else
+        {
+            interactSystemDic[data.type].Init(data, executer, receivers);
+        }
+
+        interactSystem = interactSystemDic[data.type];
 
         this.executer = executer;
         this.receivers = receivers.ToList();
@@ -70,6 +73,7 @@ public class InteractionManager : Singleton<InteractionManager>
     {
         ProjectManager.Instance.CinemachineControl.SetCameraType(Cinemachinetype.CutScene);
 
+        interactSystem.PlayInteract();
         pd.stopped += Stop;
 
         pd.Play();
@@ -131,8 +135,8 @@ public class InteractionManager : Singleton<InteractionManager>
         // 기준 트랜스폼을 기준으로 실제 위치, 회전값 적용
         if (data.offset_Executer.isApply)
         {
-            executer.ActorTrans.position = pivotTrans.TransformPoint(data.offset_Executer.position);
-            executer.ActorTrans.rotation = Quaternion.Euler(pivotTrans.eulerAngles + data.offset_Executer.rotation);
+            executer.ActorTrans.root.position = pivotTrans.TransformPoint(data.offset_Executer.position);
+            executer.ActorTrans.root.rotation = Quaternion.Euler(pivotTrans.eulerAngles + data.offset_Executer.rotation);
         }
 
         if (data.offset_Camera.isApply)
@@ -146,8 +150,8 @@ public class InteractionManager : Singleton<InteractionManager>
             if (data.offset_Receiver[i].isApply == false) continue;
 
             // 트랜스폼 변경
-            receivers[i].ActorTrans.position = pivotTrans.TransformPoint(data.offset_Receiver[i].position);
-            receivers[i].ActorTrans.rotation = Quaternion.Euler(pivotTrans.eulerAngles + data.offset_Receiver[i].rotation);
+            receivers[i].ActorTrans.root.position = pivotTrans.TransformPoint(data.offset_Receiver[i].position);
+            receivers[i].ActorTrans.root.rotation = Quaternion.Euler(pivotTrans.eulerAngles + data.offset_Receiver[i].rotation);
         }
     }
 }
