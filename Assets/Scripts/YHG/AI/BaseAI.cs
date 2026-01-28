@@ -102,72 +102,8 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamag
             initialPosition = transform.position;
         }
         SetInitialState();
-        if (PhotonNetwork.IsMasterClient)
-        {
-            StartCoroutine(CoCheckMapBoundary());
-        }
     }
 
-    //맵 이탈 복귀 코루틴
-    protected IEnumerator CoCheckMapBoundary()
-    {
-        //10초 캐싱
-        var wait = CoroutineManager.waitForSeconds(10f);
-        var recheckWait = CoroutineManager.waitForSeconds(3f);
-        while (true)
-        {
-            yield return wait;
-            bool isOutBound = false;
-
-            //사망, 랙돌 상태면 패스
-            if (currentNetworkState == AIStateID.Dead || IsKnockedDown) continue;
-            //에이전트가 꺼져있으면 패스
-            if (Agent == null || !Agent.enabled) continue;
-            //공격중(나가있을리가 없음)
-            if (currentNetworkState == AIStateID.Attack) continue;
-
-
-            if (!Agent.isOnNavMesh)
-            {
-                isOutBound = true;
-            }
-            else if (!NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
-            {
-                isOutBound = true;
-            }
-
-            //초기 위치로 복귀
-            if (isOutBound)
-            {
-                yield return recheckWait;
-                if (currentNetworkState == AIStateID.Dead || IsKnockedDown) continue;
-                if (Agent == null || !Agent.enabled) continue;
-
-                bool isConfirmedOut = !Agent.isOnNavMesh;
-                if (!isConfirmedOut && !NavMesh.SamplePosition(transform.position, out NavMeshHit hitFinal, 1.0f, NavMesh.AllAreas))
-                {
-                    isConfirmedOut = true;
-                }
-
-                if (isConfirmedOut)
-                {
-                    Debug.LogWarning($"{name}가 맵 밖으로 이탈하여 초기 위치로 소환");
-                    //물리력 초기화
-                    Agent.velocity = Vector3.zero;
-                    Agent.isStopped = true;
-
-                    //강제 이동
-                    Agent.Warp(initialPosition);
-
-                    Agent.isStopped = false;
-
-                    //초기상태
-                    SetInitialState();
-                }
-
-            }
-        }
-    }
 
     protected abstract void SetInitialState(); //자식이 구현
 
