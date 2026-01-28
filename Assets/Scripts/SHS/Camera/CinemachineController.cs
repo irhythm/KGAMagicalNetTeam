@@ -19,12 +19,11 @@ public class CinemachineController : MonoBehaviour
 
     [field: SerializeField] public CinemachineCamera cutSceneCamera { get; private set; }      // 연출용 시네머신 카메라
     [field: SerializeField] public CinemachineCamera playerCamera { get; private set; }        // 평소에 플레이어를 따라다니는 3인칭 카메라
-
     private void Start()
     {
         ProjectManager.Instance.CinemachineControl = this;
     }
-
+    
     public void SetCameraType(Cinemachinetype type)
     {
         if (cutSceneCamera == null || playerCamera == null) return;

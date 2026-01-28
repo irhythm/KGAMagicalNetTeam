@@ -76,7 +76,8 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
 
     public bool IsInteracted { get; private set; }  // 260122 신현섭: IInteractable 인터페이스 필드 → 상호작용이 진행 중이면 true
 
-    public Transform ActorTrans => transform;
+    [SerializeField] private Transform currentTransform;
+    public Transform ActorTrans => currentTransform;
 
     [field: SerializeField] public InteractionDataSO interactionData { get; set; }  // 260126 신현섭: 암살 연출 데이터
 
@@ -363,12 +364,15 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
     public void OnInteraction()
     {
         // 인풋시스템 x
-
+        InputHandler.OffPlayerInput();
+        Debug.Log("컷씬 시작");
     }
 
     public void OnStopped()
     {
         // 인풋시스템 o
+        InputHandler.OnPlayerInput();
+        Debug.Log("컷씬 종료");
     }
 }
 #region 레거시 코드
