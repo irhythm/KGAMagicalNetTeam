@@ -29,6 +29,7 @@ public class CoinItself : MonoBehaviourPunCallbacks
     {
         if (this.gameObject != null)
         {
+            photonView.TransferOwnership(PhotonNetwork.MasterClient);
             PhotonNetwork.Destroy(this.gameObject);
         }
     }
