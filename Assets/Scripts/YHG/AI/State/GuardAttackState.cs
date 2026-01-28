@@ -111,6 +111,7 @@ public class GuardAttackState : AIStateBase
         //쿨타임 체크 (애니메이션이랑 맞춰야함)
         if (Time.time >= guard.lastAttackTime + guard.attackCooldown)
         {
+            LookAtTarget(true);
             Attack();
         }
     }
