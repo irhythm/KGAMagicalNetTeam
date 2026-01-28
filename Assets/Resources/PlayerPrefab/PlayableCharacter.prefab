@@ -583,6 +583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoinLogic
   _pickupRange: 10
+  _purchaseSound: {fileID: 8300000, guid: 79c5d4b982f41144baf9a41fcda8b81d, type: 3}
 --- !u!114 &3537390183694864578
 MonoBehaviour:
   m_ObjectHideFlags: 0

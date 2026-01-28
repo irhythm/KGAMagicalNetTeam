@@ -3,12 +3,14 @@ using Photon.Pun;
 
 public class CoinItself : MonoBehaviourPunCallbacks
 {
-    [SerializeField] InventoryDataSO coinData;
+    [SerializeField] CoinSO coinData;
     public InventoryDataSO CoinData => coinData;
 
 
     public void RequestDestroy()
     {
+        SoundManager.Instance.PlaySFX(coinData.CoinPickupSFX, 1f, 100f, transform.position);
+
         if (PhotonNetwork.IsMasterClient || photonView.IsMine)
         {
             PhotonNetwork.Destroy(this.gameObject);
@@ -34,6 +36,7 @@ public class CoinItself : MonoBehaviourPunCallbacks
 
     public void DropCoin(Vector3 spawnPos, Vector3 targetPos)
     {
+        SoundManager.Instance.PlaySFX(coinData.CoinThrowSFX, 1f, 100f, transform.position);
         photonView.RPC("RPC_DropCoin", RpcTarget.All, spawnPos, targetPos);
         GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().Inventory.RemoveItem(coinData);
     }
