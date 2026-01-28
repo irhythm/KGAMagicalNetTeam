@@ -300,6 +300,12 @@ public class GameManager : PhotonSingleton<GameManager>
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (SceneManager.sceneCountInBuildSettings - 2 <= scene.buildIndex)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         if (scene.buildIndex >= 4 && scene.buildIndex <= SceneManager.sceneCountInBuildSettings-2)
         {
             if (LocalPlayer != null)

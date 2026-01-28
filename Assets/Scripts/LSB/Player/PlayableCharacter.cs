@@ -105,6 +105,7 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
 
     private void Awake()
     {
+        Debug.Log("플레이어가 생성되었다");
         InputHandler = GetComponent<PlayerInputHandler>();
         Rigidbody = GetComponent<Rigidbody>();
         MagicSystem = GetComponent<PlayerMagicSystem>();
@@ -183,6 +184,8 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
             UnsubscribeInputEvents();
         }
         OnDie -= GameManager.Instance.CheckDie;
+
+        PhotonNetwork.Destroy(gameObject);
     }
 
     private void Update()
@@ -399,8 +402,11 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
             }
         }
         //3. 특정 버튼 클릭 시 다른 플레이어 확인 가능 여기서 액션 버튼 +=으로 넣고 파괴시 빼자
-        ChangeCameraTarget();
-        InputHandler.ConnectCameraChange();
+        if (otherPlayerTransform.Count > 0)
+        {
+            ChangeCameraTarget();
+            InputHandler.ConnectCameraChange();
+        }
     }
 
     public void ChangeCameraTarget()
