@@ -11,7 +11,7 @@ public class CoinItself : MonoBehaviourPunCallbacks
     {
         SoundManager.Instance.PlaySFX(coinData.CoinPickupSFX, 1f, 100f, transform.position);
 
-        if (PhotonNetwork.IsMasterClient || photonView.IsMine)
+        if (photonView.IsMine)
         {
             PhotonNetwork.Destroy(this.gameObject);
         }
@@ -29,7 +29,7 @@ public class CoinItself : MonoBehaviourPunCallbacks
     {
         if (this.gameObject != null)
         {
-            photonView.TransferOwnership(PhotonNetwork.MasterClient);
+            photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             PhotonNetwork.Destroy(this.gameObject);
         }
     }
