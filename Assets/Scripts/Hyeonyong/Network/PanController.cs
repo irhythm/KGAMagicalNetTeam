@@ -28,13 +28,15 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
     {
         pv= GetComponent<PhotonView>();
         panView = GetComponent<PanView>();
-        InitFryingPan();
+
 
         myRenderer = GetComponent<Renderer>();
         myMaterial = myRenderer.material;
         myMaterial.EnableKeyword("_EMISSION");
         originColor = myMaterial.GetColor("_EmissionColor");
         originPos=transform.position;
+
+        InitFryingPan();
     }
     void InitFryingPan()
     {
@@ -71,6 +73,16 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
         Debug.Log("프라이팬 : 현재 HP: " + curHp);
         SetFryingPanHP(curHp);
         //CheckDie();
+
+        if (!gameObject.activeSelf)
+            return;
+        if (damageCoroutine_Color != null)
+            StopCoroutine(damageCoroutine_Color);
+        damageCoroutine_Color = StartCoroutine(TakeDamageEvent_Color());
+
+        if (damageCoroutine_Noise != null)
+            StopCoroutine(damageCoroutine_Noise);
+        damageCoroutine_Noise = StartCoroutine(TakeDamageEvent_Noise());
     }
 
     //룸 프로퍼티의 값이 바뀌면 호출
@@ -97,15 +109,6 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
                 return;
             }
         }
-
-
-        if (damageCoroutine_Color != null)
-            StopCoroutine(damageCoroutine_Color);
-        damageCoroutine_Color = StartCoroutine(TakeDamageEvent_Color());
-
-        if (damageCoroutine_Noise != null)
-            StopCoroutine(damageCoroutine_Noise);
-        damageCoroutine_Noise = StartCoroutine(TakeDamageEvent_Noise());
     }
 
     void SetFryingPanHP(float curHp)
@@ -121,6 +124,8 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
         //비활성화시 실행할 코드
         if(damageCoroutine_Color!=null)
             StopCoroutine(damageCoroutine_Color);
+        if(damageCoroutine_Noise!=null)
+            StopCoroutine(damageCoroutine_Noise);
     }
 
     float GetFryingPanHP()

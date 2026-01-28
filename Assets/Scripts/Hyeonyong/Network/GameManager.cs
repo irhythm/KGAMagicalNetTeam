@@ -308,7 +308,7 @@ public class GameManager : PhotonSingleton<GameManager>
     {
         if (LocalPlayer != null)
         {
-            PhotonNetwork.Destroy(LocalPlayer);
+            //PhotonNetwork.Destroy(LocalPlayer);
             LocalPlayer = null;
         }
         if (SceneManager.sceneCountInBuildSettings - 2 <= scene.buildIndex)
