@@ -42,8 +42,6 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
 
     public enum MoveDir { Front, Back, Left, Right }
 
-    [SerializeField] bool isRoom;
-
     #region 프로퍼티
     public float MoveSpeed => moveSpeed;
     public float RotationSpeed => rotationSpeed;
@@ -125,11 +123,8 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
         if (photonView.IsMine)
         {
             GameManager.Instance.LocalPlayer = gameObject;
+            PhotonNetwork.LocalPlayer.SetProps(NetworkProperties.PLAYER_ALIVE, true);
         }
-
-        //260121 양현용 : 룸 전용 플레이어 생성용도
-        if (isRoom)
-            return;
 
         // 260121 신현섭 : 미니맵 연동 및 아이콘 지정
         if (photonView.IsMine)
@@ -309,6 +304,8 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
 
     public void OnAttacked(float damage)
     {
+        if (photonView.IsMine == true && !PhotonNetwork.LocalPlayer.GetProps<bool>(NetworkProperties.PLAYER_ALIVE))
+            return;
         photonView.RPC(nameof(RPC_TakeDamage), RpcTarget.All, damage);
     }
 
@@ -320,6 +317,8 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
 
         if (isDie)
         {
+            if (photonView.IsMine)
+                PhotonNetwork.LocalPlayer.SetProps(NetworkProperties.PLAYER_ALIVE, false);
             OnDie?.Invoke();
             Debug.Log("캐릭터 사망");
         }
