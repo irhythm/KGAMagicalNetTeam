@@ -7,6 +7,7 @@ public class CoinLogic : MonoBehaviour
 {
     [SerializeField] float _pickupRange = 10f;
 
+    [SerializeField] AudioClip _purchaseSound;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -72,6 +73,7 @@ public class CoinLogic : MonoBehaviour
 
                     if (GameManager.Instance.CurTeamMoney() >= (hit.transform.gameObject.GetComponent<PurchasableScriptableObject>().Cost))
                     {
+                        SoundManager.Instance.PlaySFX(_purchaseSound, 1f, 100f, transform.position);
                         //Hashtable customProperties = new Hashtable();
                         //customProperties["MoneyCount"] = (int)PhotonNetwork.CurrentRoom.CustomProperties["MoneyCount"] - (hit.transform.gameObject.GetComponent<PurchasableScriptableObject>().Cost);
                         //PhotonNetwork.CurrentRoom.SetCustomProperties(customProperties); // = (int)PhotonNetwork.CurrentRoom.CustomProperties["MoneyCount"] - (hit.transform.gameObject.GetComponent<PurchasableScriptableObject>().Cost);

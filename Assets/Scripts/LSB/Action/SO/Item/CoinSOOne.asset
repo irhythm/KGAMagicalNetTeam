@@ -20,3 +20,5 @@ MonoBehaviour:
   cooldown: 0
   isDisposable: 1
   CoinThrowForce: 2
+  CoinPickupSFX: {fileID: 8300000, guid: db9db8a931db8604d89ccb3379706ca2, type: 3}
+  CoinThrowSFX: {fileID: 8300000, guid: 79c5d4b982f41144baf9a41fcda8b81d, type: 3}
