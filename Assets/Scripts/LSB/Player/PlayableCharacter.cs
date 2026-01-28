@@ -323,7 +323,10 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
         if (isDie)
         {
             if (photonView.IsMine)
+            {
+                CheckCameraOnDie();
                 PhotonNetwork.LocalPlayer.SetProps(NetworkProperties.PLAYER_ALIVE, false);
+            }
             OnDie?.Invoke();
             Debug.Log("캐릭터 사망");
         }
@@ -375,9 +378,9 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
         // 인풋시스템 o
     }
 
-    public void CheckDie()
+    public void CheckCameraOnDie()
     {
-        //1. 조작권 박탈
+        //1. 조작권 박탈 <- 인풋핸들러 쪽으로 이양
         
         //2. 카메라 타겟 다른 플레이어로 전환
         if (otherPlayerTransform.Count <= 0)
@@ -392,6 +395,7 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
         }
         //3. 특정 버튼 클릭 시 다른 플레이어 확인 가능 여기서 액션 버튼 +=으로 넣고 파괴시 빼자
         ChangeCameraTarget();
+        InputHandler.ConnectCameraChange();
     }
 
     public void ChangeCameraTarget()
@@ -415,7 +419,6 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
             }
         }
         GameCamera.SetTarget(otherPlayerTransform[cameraIndex]);
-        InputHandler.ConnectCameraChange();
     }
     public void ChangeCameraTargetOnPlayerInput(InputAction.CallbackContext ctx)
     {
