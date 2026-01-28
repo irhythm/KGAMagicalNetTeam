@@ -12,9 +12,9 @@ public class PhotonSingleton<T> : MonoBehaviourPunCallbacks where T : MonoBehavi
         {
             if (_instance == null)
             {
-#pragma warning disable CS0618 // Çü½Ä ¶Ç´Â ¸â¹ö´Â »ç¿ëµÇÁö ¾Ê½À´Ï´Ù.
+#pragma warning disable CS0618 // í˜•ì‹ ë˜ëŠ” ë©¤ë²„ëŠ” ì‚¬ìš©ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
                 _instance = FindObjectOfType<T>();
-#pragma warning restore CS0618 // Çü½Ä ¶Ç´Â ¸â¹ö´Â »ç¿ëµÇÁö ¾Ê½À´Ï´Ù.
+#pragma warning restore CS0618 // í˜•ì‹ ë˜ëŠ” ë©¤ë²„ëŠ” ì‚¬ìš©ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
                 if (_instance == null)
                 {
                     GameObject singletonObject = new GameObject();
@@ -45,8 +45,8 @@ public class PhotonSingleton<T> : MonoBehaviourPunCallbacks where T : MonoBehavi
 
         }
     }
-    public override void OnJoinedLobby()
-    {
-        Destroy(gameObject);
-    }
+    //public override void OnJoinedLobby()
+    //{
+    //    Destroy(gameObject);
+    //}
 }

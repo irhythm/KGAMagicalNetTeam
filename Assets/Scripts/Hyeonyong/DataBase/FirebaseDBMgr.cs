@@ -63,7 +63,7 @@ public class FirebaseDBMgr : MonoBehaviour
         }
         //Debug.Log(dbRef)
         this.user = FirebaseAuthManager.Instance.user;
-        Debug.Log("FirebaseDBMgr에서 user ID: " + user.UserId);
+        //Debug.Log("FirebaseDBMgr에서 user ID: " + user.UserId);
 
     }
 
