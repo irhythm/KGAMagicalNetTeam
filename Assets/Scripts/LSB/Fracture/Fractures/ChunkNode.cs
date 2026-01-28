@@ -210,7 +210,10 @@ public class ChunkNode : MonoBehaviour, IExplosion, IPhysicsObject
 
     public void OnStatusChange(bool isControlled)
     {
-        Debug.Log("청크노드 상태 변경");
+        if(IsIndestructible)
+            return;
+        else
+            Unfreeze();
     }
 
     public void OnApplyExternalForce(Vector3 forceDirection, float forcePower, ForceMode mode)
