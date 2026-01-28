@@ -29,7 +29,7 @@ MonoBehaviour:
   startSpeedMul: 0.2
   maxSpeedMul: 3
   accelerationTime: 2
-  explosionEffectPrefab: {fileID: 1879798220002124, guid: 8c988011ae9fc604a8a3761a0ac3d8a8, type: 3}
+  explosionEffectPrefab: {fileID: 1879798220002124, guid: 68db1ff198511d04eb170d58b7930744, type: 3}
   explosionSound: {fileID: 8300000, guid: 34a1e0dd450b03343bb4fd0fcefccce7, type: 3}
   explosionLayer:
     serializedVersion: 2
