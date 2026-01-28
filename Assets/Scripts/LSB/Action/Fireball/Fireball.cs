@@ -1,5 +1,6 @@
 using Photon.Pun;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 /// <summary>
@@ -32,6 +33,26 @@ public class Fireball : MonoBehaviourPun
         currentTimer += Time.fixedDeltaTime;
 
         ApplyVelocity();
+    }
+
+    private bool isDestroyed = false;
+
+    public void OnEnable()
+    {
+        SceneManager.activeSceneChanged += OnSceneChanged;
+    }
+
+    public void OnDisable()
+    {
+        SceneManager.activeSceneChanged -= OnSceneChanged;
+    }
+
+    private void OnSceneChanged(Scene current, Scene next)
+    {
+        if (isDestroyed || !photonView.IsMine) return;
+
+        isDestroyed = true;
+        PhotonNetwork.Destroy(gameObject);
     }
 
     private void ApplyVelocity()
