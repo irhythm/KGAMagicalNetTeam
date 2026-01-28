@@ -288,6 +288,7 @@ public class InventoryWheelLogic : MonoBehaviour
         _isInventoryUIOn = !_isInventoryUIOn;
         Debug.Log(InventoryUI +"최정욱", _inventoryUI.gameObject);
         _inventoryUI.SetActive(_isInventoryUIOn);
+        Debug.Log(GameManager.Instance + " , " + GameManager.Instance.LocalPlayer + " , "+ GameManager.Instance.LocalPlayer.GetComponent<PlayableCharacter>().GameCamera);
         if (GameManager.Instance == null || GameManager.Instance.LocalPlayer == null)
         {
             return;
