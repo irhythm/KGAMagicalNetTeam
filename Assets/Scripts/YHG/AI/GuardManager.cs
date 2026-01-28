@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //마법 사용 정보, 경비간 무전 구현할 인스턴스 컴포넌트
@@ -36,11 +37,15 @@ public class GuardManager : MonoBehaviourPunCallbacks
     private float nextSpawnTargetTime = 60f; //첫 스폰 1분 대기
     private int currentWave = 0;
 
+    //현재 경비 리스트, 가드매니저 파괴 시 전부 파괴
+    private List<GameObject> activeGuards = new List<GameObject>();
+
     public struct MagicNoise
     {
         public Vector3 position;
         public float time;
     }
+
 
     private List<MagicNoise> magicNoises = new List<MagicNoise>();
     //타겟 공유 딕셔너리. 중복 방지용 key 액터넘버, val 위치벡터값 
@@ -163,7 +168,8 @@ public class GuardManager : MonoBehaviourPunCallbacks
                     int randomIndex = UnityEngine.Random.Range(0, guardPrefabs.Count);
                     string prefabName = guardPrefabs[randomIndex].name;
                     string selectedPrefabName = "NPCPrefab/" + prefabName;
-                    PhotonNetwork.InstantiateRoomObject(selectedPrefabName, point.position + offset, Quaternion.identity); //룸 오브젝트로 소환
+                    GameObject guardObj = PhotonNetwork.InstantiateRoomObject(selectedPrefabName, point.position + offset, Quaternion.identity); //룸 오브젝트로 소환
+                    activeGuards.Add(guardObj);
                 }
 
             }
@@ -247,10 +253,27 @@ public class GuardManager : MonoBehaviourPunCallbacks
 
     private void OnDestroy()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            CleanUpAllGuards();
+        }
+
         if (instance != null)
         {
             instance = null;
         }
+    }
+    //경비제거
+    private void CleanUpAllGuards()
+    {
+        foreach (var guard in activeGuards)
+        {
+            if (guard != null)
+            {
+                PhotonNetwork.Destroy(guard);
+            }
+        }
+        activeGuards.Clear();
     }
 
     //마법용(신빈님), 발동 시점에 호출
@@ -265,6 +288,7 @@ public class GuardManager : MonoBehaviourPunCallbacks
         UpdateEnemyInfo(actorNumber, pos);
         photonView.RPC("RpcUpdateEnemyInfo", RpcTarget.Others, actorNumber, pos);
     }
+
 
     #region RPC 정리
 
