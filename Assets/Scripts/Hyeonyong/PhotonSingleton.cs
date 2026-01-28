@@ -17,10 +17,11 @@ public class PhotonSingleton<T> : MonoBehaviourPunCallbacks where T : MonoBehavi
 #pragma warning restore CS0618 // 형식 또는 멤버는 사용되지 않습니다.
                 if (_instance == null)
                 {
-                    GameObject singletonObject = new GameObject();
-                    _instance = singletonObject.AddComponent<T>();
-                    singletonObject.name = typeof(T).ToString() + " (Singleton)";
-                    DontDestroyOnLoad(singletonObject);
+                    //260113 최정욱 수정: 싱글톤 오브젝트가 없을 때 새로 생성하지 않음
+                    //GameObject singletonObject = new GameObject();
+                    //_instance = singletonObject.AddComponent<T>();
+                    //singletonObject.name = typeof(T).ToString() + " (Singleton)";
+                    //DontDestroyOnLoad(singletonObject);
                 }
             }
             return _instance;
