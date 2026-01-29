@@ -210,11 +210,8 @@ public class GameManager : PhotonSingleton<GameManager>
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log(otherPlayer.NickName + "님이 게임을 떠났습니다.");
-
         if (PhotonNetwork.IsMasterClient)
         {
-            if (!PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.ONROOM))
-                return;
             if (otherPlayer.GetProps<bool>(NetworkProperties.PLAYER_ALIVE))
             {
                 int curPlayerCount = PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.PLAYERCOUNT) - 1;
