@@ -1,6 +1,10 @@
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 public class TitleManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] string roomSceneName;
@@ -15,6 +19,10 @@ public class TitleManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         SoundManager.Instance.PlayBGM(titleAudio);
+#if UNITY_EDITOR
+        PhotonNetwork.PhotonServerSettings.RpcList.Clear();
+        PhotonEditor.UpdateRpcList();
+#endif
     }
 
     //버튼 연결을 위해 우리가 만든 메서드임 OnConnectToServer아님
