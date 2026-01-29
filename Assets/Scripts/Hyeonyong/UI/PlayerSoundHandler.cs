@@ -1,9 +1,9 @@
-using NUnit.Framework;
 using Photon.Pun;
 using Photon.Voice.Unity.UtilityScripts;
+using Photon.Voice.Unity;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Profiling;
+using Photon.Voice.PUN;
 
 public class PlayerSoundHandler : MonoBehaviour
 {
@@ -27,6 +27,7 @@ public class PlayerSoundHandler : MonoBehaviour
             SetSoundEvent();
             //SetMicSound(-1);
             //SetVoiceSound(-1);
+            PunVoiceClient.Instance.PrimaryRecorder = recorder;
         }
         else
         {
