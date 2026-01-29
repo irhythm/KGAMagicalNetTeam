@@ -44,7 +44,6 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
         if (mushroom == null)
         {
             mushroom = Instantiate(_mushroomPrefab, _mushroomSpawnPoint.position, Quaternion.identity);
-            mushroom.transform.SetParent(transform);
         }
         else
         {
@@ -69,7 +68,7 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
         StartCoroutine(DeActiveMushroom(mushroom, rb));
     }
 
-
+    
     GameObject PoolMushRoom()
     {
         if(_mushrooms.Count > 0) 
@@ -97,6 +96,12 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
     {
         base.OnDisable();
         StopCoroutine(_mushroomCoroutine);
+        while (_mushrooms.Count > 0)
+        {
+            GameObject mushroom = _mushrooms.Dequeue();
+            mushroom.SetActive(false );
+
+        }
     }
 
     public bool CheckTargetAlreadyContain(Transform transform)
