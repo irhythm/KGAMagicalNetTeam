@@ -1,12 +1,14 @@
 using Photon.Pun;
+using Photon.Realtime;
 using Photon.Voice.PUN;
+using System.Buffers.Text;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviourPun, IDamageable, IExplosion
+public class PlayerController : MonoBehaviourPun, IDamageable, IMagicInteractable
 {
     PhotonView pv;
     PhotonVoiceView pvv;
@@ -98,38 +100,11 @@ public class PlayerController : MonoBehaviourPun, IDamageable, IExplosion
         playerView.UpdatePlayerHP(hpRatio);
     }
 
-    public void OnExplosion(Vector3 explosionPos, MagicDataSO data, int attackerActorNr)
-    {
-        if (pv.OwnerActorNr == attackerActorNr) return;
-        if (!IsFriendlyFireOn()) return;
-
-        if (playableCharacter.Rigidbody != null)
-        {
-            playableCharacter.Rigidbody.AddExplosionForce(data.knockbackForce, explosionPos, data.radius, data.forceUpward, ForceMode.Impulse);
-        }
-
-        if (pv.IsMine)
-        {
-            TakeDamage(data.damage);
-        }
-    }
-
     public void TakeDamage(float takeDamage)
     {
         if (!pv.IsMine) return;
         playableCharacter.OnAttacked(takeDamage);
     }
-
-    private bool IsFriendlyFireOn()
-    {
-        if (PhotonNetwork.CurrentRoom != null &&
-            PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("FriendlyFire", out object isFF))
-        {
-            return (bool)isFF;
-        }
-        return false;
-    }
-
 
     public void SetPlayerInfo()
     {
@@ -181,6 +156,75 @@ public class PlayerController : MonoBehaviourPun, IDamageable, IExplosion
         //{
         //    playerView.CheckVoiceImage(pvv.IsRecording);
         //}
+    }
+    private bool IsFriendlyFireOn()
+    {
+        return (PhotonNetwork.CurrentRoom != null && PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.FRIENDLYFIRE));
+    }
+
+    public void OnMagicInteract(GameObject magic, MagicDataSO data, int attackerActorNr)
+    {
+        if (pv.OwnerActorNr == attackerActorNr) return;
+        if (!IsFriendlyFireOn()) return;
+
+        switch (data.magicType)
+        {
+            case MagicType.Fireball:
+                FireballReaction(magic, data, attackerActorNr);
+                break;
+            case MagicType.Lightning:
+                LightningStrikeReaction(magic, data, attackerActorNr);
+                break;
+            case MagicType.Tornado:
+                TornadoReaction();
+                break;
+            default:
+                Debug.LogWarning("[PlayerController] 마법 타입 설정 안했거나 구현을 안했음");
+                break;
+        }
+    }
+
+    public void FireballReaction(GameObject magic, MagicDataSO data, int attackerActorNr)
+    {
+        if (playableCharacter.Rigidbody != null)
+        {
+            playableCharacter.Rigidbody.AddExplosionForce(
+                data.knockbackForce,
+                magic.transform.position,
+                data.radius,
+                data.forceUpward,
+                ForceMode.Impulse
+                );
+        }
+
+        if (pv.IsMine && !PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.ONROOM))
+        {
+            TakeDamage(data.damage);
+        }
+    }
+
+    public void LightningStrikeReaction(GameObject magic, MagicDataSO data, int attackerActorNr)
+    {
+        if (playableCharacter.Rigidbody != null)
+        {
+            playableCharacter.Rigidbody.AddExplosionForce(
+                data.knockbackForce,
+                magic.transform.position,
+                data.radius,
+                data.forceUpward,
+                ForceMode.Impulse
+                );
+        }
+
+        if (pv.IsMine && !PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.ONROOM))
+        {
+            TakeDamage(data.damage);
+        }
+    }
+
+    public void TornadoReaction()
+    {
+        return;
     }
 }
 #region 레거시 코드

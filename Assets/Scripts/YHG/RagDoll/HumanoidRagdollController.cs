@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(PhotonView))]
 [RequireComponent(typeof(BzRagdoll))]
-public class HumanoidRagdollController : MonoBehaviourPun, IExplosion
+public class HumanoidRagdollController : MonoBehaviourPun, IMagicInteractable
 {
     [Header("컴포넌트부착")]
     [SerializeField] private BzRagdoll bzRagdoll;
@@ -178,13 +178,47 @@ public class HumanoidRagdollController : MonoBehaviourPun, IExplosion
         isRagdollActive = false;
     }
 
-    public void OnExplosion(Vector3 explosionPos, MagicDataSO data, int attackerActorNr)
+    public void OnMagicInteract(GameObject magic, MagicDataSO data, int attackerActorNr)
     {
-        Vector3 dir = (transform.position - explosionPos).normalized;
+        switch(data.magicType)
+        {
+            case MagicType.Fireball:
+                FireballReaction(magic, data, attackerActorNr);
+                break;
+            case MagicType.Lightning:
+                LightningStrikeReaction(magic, data, attackerActorNr);
+                break;
+            case MagicType.Tornado:
+                TornadoReaction();
+                break;
+            default:
+                Debug.LogWarning("[HumanoidRagdollController] 마법 타입 설정 안했거나 구현을 안했음");
+                break;
+        }
+    }
+
+    public void FireballReaction(GameObject magic, MagicDataSO data, int attackerActorNr)
+    {
+        Vector3 dir = (transform.position - magic.transform.position).normalized;
         Vector3 force = (dir + Vector3.up * 0.5f) * data.knockbackForce;
         ApplyRagdoll(force);
 
-        if(baseAI != null)
+        if (baseAI != null)
             baseAI.TakeDamage(data.damage);
+    }
+
+    public void LightningStrikeReaction(GameObject magic, MagicDataSO data, int attackerActorNr)
+    {
+        Vector3 dir = (transform.position - magic.transform.position).normalized;
+        Vector3 force = (dir + Vector3.up * 0.5f) * data.knockbackForce;
+        ApplyRagdoll(force);
+
+        if (baseAI != null)
+            baseAI.TakeDamage(data.damage);
+    }
+
+    public void TornadoReaction()
+    {
+        ApplyRagdoll(Vector3.zero);
     }
 }

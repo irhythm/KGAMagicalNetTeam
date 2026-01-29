@@ -51,12 +51,12 @@ public class LightningStrike : MonoBehaviourPun
                     continue;
             }
 
-            IExplosion targetComponent = col.GetComponent<IExplosion>();
-            if (targetComponent == null) targetComponent = col.GetComponentInParent<IExplosion>();
+            IMagicInteractable targetComponent = col.GetComponent<IMagicInteractable>();
+            if (targetComponent == null) targetComponent = col.GetComponentInParent<IMagicInteractable>();
 
             if (targetComponent != null)
             {
-                targetComponent.OnExplosion(transform.position, data, _shooterID);
+                targetComponent.OnMagicInteract(gameObject, data, _shooterID);
             }
             else
             {

@@ -25,7 +25,7 @@ MonoBehaviour:
   forceUpward: 1
   spawnOffset: {x: 0, y: 0, z: 0}
   magicSound: {fileID: 8300000, guid: 59775caacc554a341911ba6d9b9c2f99, type: 3}
-  strikeRadius: 5
+  magicType: 2
   strikeDelay: 0.3
   strikeEffectPrefab: {fileID: 0}
   lightningSound: {fileID: 8300000, guid: 6f29e402ff8a08b469f8c60e57bfe190, type: 3}

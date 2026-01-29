@@ -25,6 +25,7 @@ MonoBehaviour:
   forceUpward: 1
   spawnOffset: {x: 0, y: 0, z: 0}
   magicSound: {fileID: 8300000, guid: 5b6935c78d4a801438cc45ac1a8b4680, type: 3}
+  magicType: 1
   speed: 80
   startSpeedMul: 0.2
   maxSpeedMul: 3

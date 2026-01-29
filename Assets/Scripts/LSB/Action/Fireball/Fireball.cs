@@ -75,6 +75,7 @@ public class Fireball : MonoBehaviourPun
             if(other.CompareTag("Player"))
                 return;
         }
+        if (other.isTrigger) return;
 
         if (hasExploded) return;
         hasExploded = true;
@@ -98,12 +99,12 @@ public class Fireball : MonoBehaviourPun
 
         foreach (Collider hit in colliders)
         {
-            IExplosion targetComponent = hit.GetComponent<IExplosion>();
-            if (targetComponent == null) targetComponent = hit.GetComponentInParent<IExplosion>();
+            IMagicInteractable targetComponent = hit.GetComponent<IMagicInteractable>();
+            if (targetComponent == null) targetComponent = hit.GetComponentInParent<IMagicInteractable>();
 
             if (targetComponent != null)
             {
-                targetComponent.OnExplosion(explosionPos, fireballData, shooterActorNumber);
+                targetComponent.OnMagicInteract(gameObject, fireballData, shooterActorNumber);
             }
             else
             {
