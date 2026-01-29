@@ -182,7 +182,10 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
             GameCamera = null;
             // 메모리 누수 방지용 구독 해제
             UnsubscribeInputEvents();
-            OnDie -= GameManager.Instance.CheckDie;
+            if(GameManager.Instance != null)
+            {
+                OnDie -= GameManager.Instance.CheckDie;
+            }
         }
     }
 
@@ -387,6 +390,8 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
 
     public void CheckCameraOnDie()
     {
+        if (!photonView.IsMine)
+            return;
         //1. 조작권 박탈 <- 인풋핸들러 쪽으로 이양
         
         //2. 카메라 타겟 다른 플레이어로 전환
@@ -416,8 +421,17 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
 
         int checkCount = 0;
 
-        while (!otherPlayerTransform[cameraIndex].GetComponent<PhotonView>().Owner.GetProps<bool>(NetworkProperties.PLAYER_ALIVE))
-        {
+        while (true)
+        {      
+            Transform t = otherPlayerTransform[cameraIndex];
+            if (t != null)
+            {
+                PhotonView pv = t.GetComponent<PhotonView>();
+                if (pv.Owner.GetProps<bool>(NetworkProperties.PLAYER_ALIVE))
+                {
+                    break;
+                }
+            }
             cameraIndex++;
             if (cameraIndex >= otherPlayerTransform.Count)
                 cameraIndex = 0;
@@ -428,7 +442,10 @@ public class PlayableCharacter : MonoBehaviourPun, IInteractable
                 break;
             }
         }
-        GameCamera.SetTarget(otherPlayerTransform[cameraIndex]);
+        if (otherPlayerTransform[cameraIndex] != null) 
+        {
+            GameCamera.SetTarget(otherPlayerTransform[cameraIndex]);
+        }
     }
     public void ChangeCameraTargetOnPlayerInput(InputAction.CallbackContext ctx)
     {
