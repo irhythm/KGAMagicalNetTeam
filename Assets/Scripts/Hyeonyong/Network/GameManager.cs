@@ -91,7 +91,8 @@ public class GameManager : PhotonSingleton<GameManager>
         PhotonNetwork.LocalPlayer.SetProps(NetworkProperties.PLAYER_ISWIZARD, false);
 
         LocalPlayer = player;
-        player.GetComponent<PlayableCharacter>().OnDie += CheckDie;
+        if (player != null)
+            player.GetComponent<PlayableCharacter>().OnDie += CheckDie;
         CheckInGamePlayer();
 
         yield return new WaitUntil(() => UIManager.Instance != null);
