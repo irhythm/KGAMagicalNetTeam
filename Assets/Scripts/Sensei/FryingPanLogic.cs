@@ -13,7 +13,8 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
     [SerializeField] List<Transform> _targets = new List<Transform>();
     PhotonView pv;
 
-    Queue<GameObject> _mushrooms = new Queue<GameObject>();
+    Queue<GameObject> _deActiveMushrooms = new Queue<GameObject>();
+    Queue<GameObject> _activeMushrooms = new Queue<GameObject>();
 
     Coroutine _mushroomCoroutine;
 
@@ -51,7 +52,7 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
             mushroom.transform.position = _mushroomSpawnPoint.position;
             mushroom.transform.rotation = Quaternion.identity;
         }
-
+        _activeMushrooms.Enqueue(mushroom);
         Rigidbody rb = mushroom.GetComponent<Rigidbody>();
         //Quaternion lookRotation = Quaternion.LookRotation(target.position - _mushroomSpawnPoint.position);
         Quaternion lookRotation = Quaternion.LookRotation(target - _mushroomSpawnPoint.position);
@@ -71,8 +72,8 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
     
     GameObject PoolMushRoom()
     {
-        if(_mushrooms.Count > 0) 
-            return _mushrooms.Dequeue();
+        if(_deActiveMushrooms.Count > 0) 
+            return _deActiveMushrooms.Dequeue();
         else return null;
     }
 
@@ -82,7 +83,9 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
         rb.angularVelocity = Vector3.zero;
         rb.linearVelocity = Vector3.zero;
         mushroom.SetActive(false);
-        _mushrooms.Enqueue(mushroom);
+        _deActiveMushrooms.Enqueue(_activeMushrooms.Dequeue());
+
+        //_deActiveMushrooms.Enqueue(mushroom);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -96,9 +99,9 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
     {
         base.OnDisable();
         StopCoroutine(_mushroomCoroutine);
-        while (_mushrooms.Count > 0)
+        while (_activeMushrooms.Count > 0)
         {
-            GameObject mushroom = _mushrooms.Dequeue();
+            GameObject mushroom = _activeMushrooms.Dequeue();
             mushroom.SetActive(false );
 
         }

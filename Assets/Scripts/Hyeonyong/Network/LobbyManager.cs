@@ -26,7 +26,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         SoundManager.Instance.PlayBGM(LobbyAudio);
         Debug.Log("로비 씬 시작");
-        FirebaseAuthManager.Instance.RefreshUser();
+        if(FirebaseAuthManager.Instance!=null)
+            FirebaseAuthManager.Instance.RefreshUser();
         if (FirebaseAuthManager.Instance.user != null)
         {
             PhotonNetwork.NickName = FirebaseAuthManager.Instance.user.DisplayName;
