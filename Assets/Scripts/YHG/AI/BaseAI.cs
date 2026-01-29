@@ -274,6 +274,7 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamag
         IsKnockedDown = false; // 기본 동작: 상태 플래그 끄기
     }
 
+    #region 디버프 관련 메서드 모음
     public void ApplyDebuff(DebuffInfo info)
     {
         if (currentNetworkState == AIStateID.Dead) return;
@@ -290,4 +291,51 @@ public abstract class BaseAI : MonoBehaviourPunCallbacks, IPunObservable, IDamag
             }
         }
     }
+   //속도 수정
+    public void SetSpeed(float speed)
+    {
+        if (Agent != null) Agent.speed = speed;
+    }
+
+    //원래 속도 반환
+    public float GetOriginalSpeed()
+    {
+        return moveSpeed;
+    }
+
+    //이동 가능 여부
+    public void SetCanMove(bool canMove)
+    {
+        if (Agent != null && Agent.isOnNavMesh)
+        {
+            Agent.isStopped = !canMove;
+        }
+    }
+
+    //애니메이터 반환
+    public Animator GetAnimator()
+    {
+        return Anim;
+    }
+
+    //모델 끄기/켜기
+    public void SetModelVisibility(bool isVisible)
+    {
+        if (humanModel != null)
+        {
+            humanModel.SetActive(isVisible);
+        }
+    }
+
+    //이펙트 생성 위치 반환
+    public Transform GetCenterPosition()
+    {
+        return transform;
+    }
+
+    public void SetModelVisibiltity(bool isVisible)
+    {
+        throw new System.NotImplementedException();
+    }
+    #endregion
 }
