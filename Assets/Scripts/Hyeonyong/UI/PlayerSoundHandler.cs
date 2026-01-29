@@ -10,25 +10,28 @@ public class PlayerSoundHandler : MonoBehaviour
     PhotonView pv;
     MicAmplifier mic;
     AudioSource audio;
+    Recorder recorder;
     static List<AudioSource> otherPlayerAudio = new List<AudioSource>();
+
     private void Start()
     {
 
         pv = GetComponent<PhotonView>();
         audio = GetComponent<AudioSource>();
-
+        mic = GetComponent<MicAmplifier>();
+        recorder = GetComponent<Recorder>();
 
         if (pv.IsMine)
         {
             Debug.Log("내거 값 가져옴");
-            mic = GetComponent<MicAmplifier>();
-
             SetSoundEvent();
             //SetMicSound(-1);
             //SetVoiceSound(-1);
         }
         else
         {
+            recorder.enabled = false;
+            mic.enabled = false;
             otherPlayerAudio.Add(audio);
         }
     }
