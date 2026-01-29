@@ -102,8 +102,10 @@ public class FryingPanLogic : MonoBehaviourPunCallbacks
         while (_activeMushrooms.Count > 0)
         {
             GameObject mushroom = _activeMushrooms.Dequeue();
-            mushroom.SetActive(false );
-
+            if (mushroom != null)
+            {
+                mushroom.SetActive(false);
+            }
         }
     }
 

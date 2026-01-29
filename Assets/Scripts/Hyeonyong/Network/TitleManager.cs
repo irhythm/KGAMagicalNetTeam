@@ -8,7 +8,7 @@ public class TitleManager : MonoBehaviourPunCallbacks
     [SerializeField] AudioClip titleAudio;
     private void Awake()
     {
-        //È£½ºÆ®°¡ ¾À ÀÌµ¿½Ã Å¬¶óÀÌ¾ğÆ®µµ °°ÀÌ ÀÌµ¿
+        //í˜¸ìŠ¤íŠ¸ê°€ ì”¬ ì´ë™ì‹œ í´ë¼ì´ì–¸íŠ¸ë„ ê°™ì´ ì´ë™
        PhotonNetwork.AutomaticallySyncScene=true;
     }
 
@@ -17,7 +17,7 @@ public class TitleManager : MonoBehaviourPunCallbacks
         SoundManager.Instance.PlayBGM(titleAudio);
     }
 
-    //¹öÆ° ¿¬°áÀ» À§ÇØ ¿ì¸®°¡ ¸¸µç ¸Ş¼­µåÀÓ OnConnectToServer¾Æ´Ô
+    //ë²„íŠ¼ ì—°ê²°ì„ ìœ„í•´ ìš°ë¦¬ê°€ ë§Œë“  ë©”ì„œë“œì„ OnConnectToServerì•„ë‹˜
     public void ConnectToServer()
     {
         if (PhotonNetwork.IsConnected)
@@ -34,26 +34,24 @@ public class TitleManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("¸¶½ºÅÍ ¼­¹ö ¿¬µ¿ ¼º°ø");
-        // PhotonNetwork.JoinLobby();//·Îºñ ÀÔÀåÀ» ½ÃÅ°´Â ¸í·É
-        if (onTest)
-        {
-            PhotonNetwork.JoinLobby();
-        }
-        else
-        {
-            SceneManager.LoadScene("Login");//½Ì±ÛÅæµµ ¾Æ´Ï°í dontdestroy ¾Æ´Ï¸é ¾À ³Ñ¾î°¥ °æ¿ì ÇØ´ç ½ºÅ©¸³Æ® ÆÄ±«
-        }
+        PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinedLobby()
     {
-        PhotonNetwork.JoinRandomOrCreateRoom();
+        if (onTest)
+        {
+            PhotonNetwork.JoinRandomOrCreateRoom();
+        }
+        else
+        {
+            SceneManager.LoadScene("Login");
+        }
     }
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("¹æ ÀÔÀå ¹× ·ë ¾ÀÀ¸·Î ÀüÈ¯ ¿äÃ»");
+        Debug.Log("ë°© ì…ì¥ ë° ë£¸ ì”¬ìœ¼ë¡œ ì „í™˜ ìš”ì²­");
         SceneManager.LoadScene(roomSceneName);
     }
 }

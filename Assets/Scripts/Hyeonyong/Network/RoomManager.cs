@@ -55,13 +55,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
         yield return null;
         InitReady();
 
-        Debug.Log("탭 테스트 1");
-
-
         Player[] players = PhotonNetwork.PlayerList;//방 속 사람을 받아옴
         foreach (var p in players)
         {
-            Debug.Log("방 안의 사람들 목록: " + p.NickName);
             GameObject player = Instantiate(playerInfo, playerInfoTab);
             playerInfoDic.Add(p.ActorNumber, player);
             player.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = p.NickName;
@@ -83,7 +79,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
             }
         }
 
-        Debug.Log("탭 테스트 2");
         checkHiddenRoom.isOn = !PhotonNetwork.CurrentRoom.IsVisible;
         if (PhotonNetwork.IsMasterClient)
         {
@@ -103,21 +98,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
             ReadyBtn.gameObject.SetActive(true);
             checkHiddenRoom.gameObject.SetActive(false);
         }
-        Debug.Log("탭 테스트 3");
         CheckReady();
 
         if (tabInput != null)
         {
-            Debug.Log("탭 인풋 있음");
             tabInput.action.performed += OpenRoomTab;
             tabInput.action.Enable();
         }
-        else
-        {
-            Debug.Log("탭 인풋 없음");
-        }
 
-        Debug.Log("탭 테스트 4");
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     public void SetPlayer(GameObject player)
@@ -320,13 +309,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
             return;
         if (PhotonNetwork.NetworkClientState == Photon.Realtime.ClientState.Leaving)
             return;
+
         PhotonNetwork.LeaveRoom();
     }
 
-    public override void OnLeftRoom()
-    {
-        SceneManager.LoadScene("Lobby");
-    }
+    //public override void OnLeftRoom()
+    //{
+    //    //SceneManager.LoadScene("Lobby");
+    //}
+
 
     public void OpenRoomTab(InputAction.CallbackContext context)
     {

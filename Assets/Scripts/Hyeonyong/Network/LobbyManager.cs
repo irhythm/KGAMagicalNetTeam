@@ -26,36 +26,39 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         SoundManager.Instance.PlayBGM(LobbyAudio);
         Debug.Log("로비 씬 시작");
-        if(FirebaseAuthManager.Instance!=null)
+        if (FirebaseAuthManager.Instance != null)
+        {
             FirebaseAuthManager.Instance.RefreshUser();
-        if (FirebaseAuthManager.Instance.user != null)
-        {
-            PhotonNetwork.NickName = FirebaseAuthManager.Instance.user.DisplayName;
-        }
-        else
-        {
-            PhotonNetwork.NickName = "Tester"+PhotonNetwork.CountOfPlayers;
+            if (FirebaseAuthManager.Instance.user != null)
+            {
+                PhotonNetwork.NickName = FirebaseAuthManager.Instance.user.DisplayName;
+                changeNicknameInput.placeholder.GetComponent<TMP_Text>().text = FirebaseAuthManager.Instance.user.DisplayName;
+            }
+            else
+            {
+                PhotonNetwork.NickName = "Tester" + PhotonNetwork.CountOfPlayers;
+                Debug.Log("유저가 없다");
+                return;
+            }
         }
 
-        if (FirebaseAuthManager.Instance.user == null)
-        {
-            Debug.Log("유저가 없다");
-            //yield break;
-            return;
-        }    
-        changeNicknameInput.placeholder.GetComponent<TMP_Text>().text = FirebaseAuthManager.Instance.user.DisplayName;
+        
+        //    return;
+        //if (PhotonNetwork.NetworkClientState == Photon.Realtime.ClientState.Leaving)
+        //    return;
 
+        if (PhotonNetwork.IsConnectedAndReady && !PhotonNetwork.InLobby)
+        {
+                PhotonNetwork.JoinLobby();
+        }
         //260113 최정욱 방 나가고 로비로 돌아올때 마스터서버로 전환 기다리기
 
-        if (PhotonNetwork.IsConnectedAndReady)
-        {
-            PhotonNetwork.JoinLobby();
-        }
-        if (PhotonNetwork.InLobby)
-            return;
-            //yield break;
-        if (PhotonNetwork.NetworkClientState == Photon.Realtime.ClientState.Leaving)
-            return;
+
+        //if (PhotonNetwork.InLobby)
+        //    return;
+        //    //yield break;
+        //if (PhotonNetwork.NetworkClientState == Photon.Realtime.ClientState.Leaving)
+        //    return;
             //yield break;
         //yield return new WaitUntil(() => PhotonNetwork.InLobby);
         //yield return null;
@@ -65,7 +68,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //260113 최정욱 방 나가고 로비로 돌아올때 마스터서버로 전환 기다리기
     public override void OnConnectedToMaster()
     {
+        if (!PhotonNetwork.InLobby)
+            return;
         PhotonNetwork.JoinLobby();
+        Debug.Log("마스터와 커넥트");
     }
 
 

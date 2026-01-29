@@ -195,7 +195,7 @@ public class GameManager : PhotonSingleton<GameManager>
 
     public override void OnLeftRoom()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Lobby");
     }
 
     public void LeaveRoom()
@@ -204,6 +204,7 @@ public class GameManager : PhotonSingleton<GameManager>
             return;
         if (PhotonNetwork.NetworkClientState == Photon.Realtime.ClientState.Leaving)
             return;
+
         PhotonNetwork.LeaveRoom();
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -223,7 +224,7 @@ public class GameManager : PhotonSingleton<GameManager>
     public void ExitGame()
     {
         LeaveRoom();
-        SceneManager.LoadSceneAsync("Lobby");
+        //SceneManager.LoadSceneAsync("Lobby");
     }
 
     public void CheckDie()
