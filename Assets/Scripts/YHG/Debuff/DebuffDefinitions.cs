@@ -20,12 +20,43 @@ public struct DebuffInfo
     public float Duration;
     public float Value;
     public GameObject VisualPrefab;
+    public GameObject[] PolymorphPrefabs;
 
-    public DebuffInfo(DebuffType type, float duration, float value = 0f, GameObject visual = null)
+    public DebuffInfo(DebuffType type, float duration, float value = 0f, GameObject visual = null, GameObject[] polyPrefabs = null)
     {
         Type = type;
         Duration = duration;
         Value = value;
         VisualPrefab = visual;
+        PolymorphPrefabs = polyPrefabs;
     }
 }
+
+//AI, Player가 상속받아야 할 인터페이스
+
+public interface IDebuffable
+{
+    GameObject gameObject { get; }
+    Transform transform { get; }
+
+    void SetSpeed(float speed);
+    void SetCanMove(bool canMove);
+    float GetOriginalSpeed();
+
+    Animator GetAnimator();
+    void SetModelVisibility(bool isVisible);
+    Transform GetCenterPosition();
+    void ApplyDebuff(DebuffInfo info);
+    void RemoveDebuff(DebuffType type);
+}
+
+
+
+//디버프 전략이 구현할 인터페이스
+public interface IDebuffBehavior
+{
+    void OnEnter(IDebuffable target, DebuffInfo info);
+    void OnExecute(IDebuffable target);
+    void OnExit(IDebuffable target);
+}
+

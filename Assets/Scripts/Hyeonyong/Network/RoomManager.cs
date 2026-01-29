@@ -44,6 +44,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     private IEnumerator Start()
     {
+
         SoundManager.Instance.PlayBGM(RoomAudio);
         //yield return new WaitUntil(() => FirebaseAuthManager.Instance != null);//파이어베이스 초기화 대기
         if (FirebaseAuthManager.Instance != null)
@@ -52,9 +53,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         }
         yield return new WaitUntil(() => PhotonNetwork.InRoom);//방에 입장했는지
         yield return null;
-
         InitReady();
-
 
         Player[] players = PhotonNetwork.PlayerList;//방 속 사람을 받아옴
         foreach (var p in players)
@@ -83,7 +82,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
         checkHiddenRoom.isOn = !PhotonNetwork.CurrentRoom.IsVisible;
         if (PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ONROOM, true);
             PhotonNetwork.CurrentRoom.IsOpen = true;
             StartBtn.gameObject.SetActive(true);
             checkHiddenRoom.gameObject.SetActive(true);
@@ -107,6 +105,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
             tabInput.action.performed += OpenRoomTab;
             tabInput.action.Enable();
         }
+
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     public void SetPlayer(GameObject player)
@@ -117,12 +117,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     private void OnDisable()
     {
         base.OnDisable();
-
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.isRoom = false;
-        }
-            if (tabInput != null)
+        if (tabInput != null)
         {
             tabInput.action.performed -= OpenRoomTab;
         }
@@ -161,10 +156,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
             {
                 player = null;
                 //PhotonNetwork.Destroy(player);
-                PhotonNetwork.AutomaticallySyncScene = true;
                 PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
                 PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ONSTART, false);
-                PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ONROOM, false);
             }
         }
     }
@@ -178,9 +171,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
         onReady = !onReady;
         PhotonNetwork.LocalPlayer.SetProps(NetworkProperties.PLAYER_READY, onReady);
         CheckReady();
+
+        Debug.Log("준비 상태 변경");
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        Debug.Log(newPlayer.NickName + "님이 방에 입장하셨습니다.");
+
         GameObject player = Instantiate(playerInfo, playerInfoTab);
         playerInfoDic.Add(newPlayer.ActorNumber, player);
 
@@ -207,6 +204,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
+        Debug.Log("준비 상태 변경");
         CheckReady();
     }
 
@@ -311,13 +309,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
             return;
         if (PhotonNetwork.NetworkClientState == Photon.Realtime.ClientState.Leaving)
             return;
+
         PhotonNetwork.LeaveRoom();
     }
 
-    public override void OnLeftRoom()
-    {
-        SceneManager.LoadScene("Lobby");
-    }
+    //public override void OnLeftRoom()
+    //{
+    //    //SceneManager.LoadScene("Lobby");
+    //}
+
 
     public void OpenRoomTab(InputAction.CallbackContext context)
     {
