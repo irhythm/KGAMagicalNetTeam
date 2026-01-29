@@ -1,5 +1,11 @@
 using UnityEngine;
-
+public enum MagicType
+{
+    None,
+    Fireball,
+    Lightning,
+    Tornado
+}
 public abstract class MagicDataSO : ActionItemDataSO
 {
     [Header("Magic Setting")]
@@ -9,6 +15,7 @@ public abstract class MagicDataSO : ActionItemDataSO
     public float forceUpward = 1f;
     public Vector3 spawnOffset;
     public AudioClip magicSound;
+    public MagicType magicType = MagicType.None;
 
 
     public abstract override ActionBase CreateInstance();

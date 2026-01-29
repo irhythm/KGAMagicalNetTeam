@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
+public class PanController : MonoBehaviourPunCallbacks, IMagicInteractable, IDamageable
 {
     [SerializeField] GameObject PanHpBanner;
     [SerializeField] float fryingPanMaxHp = 20;
@@ -50,14 +50,6 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
             CheckDie();
         }
             //CheckDie();
-    }
-
-    public void OnExplosion(Vector3 explosionPos, MagicDataSO data, int attackerActorNr)
-    {
-        if (pv.IsMine)
-        {
-            TakeDamage(data.damage);
-        }
     }
 
     public void TakeDamage(float damage)
@@ -167,5 +159,26 @@ public class PanController : MonoBehaviourPunCallbacks, IExplosion, IDamageable
     {
         if (PhotonNetwork.IsMasterClient)
             InitFryingPan();
+    }
+
+    public void OnMagicInteract(GameObject magic, MagicDataSO data, int attackerActorNr)
+    {
+        switch(data.magicType)
+        {
+            case MagicType.Fireball:
+                FireballReaction(magic.transform.position, data, attackerActorNr);
+                break;
+            default:
+                Debug.LogWarning("[PanController] 마법 타입 설정 안했거나 구현을 안했음");
+                break;
+        }
+    }
+
+    public void FireballReaction(Vector3 explosionPos, MagicDataSO data, int attackerActorNr)
+    {
+        if (pv.IsMine)
+        {
+            TakeDamage(data.damage);
+        }
     }
 }

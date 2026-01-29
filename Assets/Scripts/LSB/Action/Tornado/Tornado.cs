@@ -73,14 +73,14 @@ public class Tornado : MonoBehaviourPun
             return;
 
 
-        if (!other.TryGetComponent<IPhysicsObject>(out IPhysicsObject obj))
+        if (!other.TryGetComponent<IMagicInteractable>(out IMagicInteractable obj))
             return;
 
         if (!activeTargets.Contains(rb))
         {
             activeTargets.Add(rb);
 
-            obj?.OnStatusChange(true);
+            obj?.OnMagicInteract(gameObject, data, shooterID);
         }
     }
 

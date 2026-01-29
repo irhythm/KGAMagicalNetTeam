@@ -7,7 +7,7 @@ using UnityEngine;
 /// <summary>
 /// 파편의 상태와 이웃의 정보를 관리하는 노드
 /// </summary>
-public class ChunkNode : MonoBehaviour, IExplosion, IPhysicsObject
+public class ChunkNode : MonoBehaviour, IMagicInteractable
 {
     // 프리팹 직렬화용 이웃 배열
     [SerializeField] public ChunkNode[] neighbours;
@@ -197,27 +197,52 @@ public class ChunkNode : MonoBehaviour, IExplosion, IPhysicsObject
         }
     }
 
-    public void OnExplosion(Vector3 explosionPos, MagicDataSO data, int attackerActorNr)
+    public void OnMagicInteract(GameObject magic, MagicDataSO data, int attackerActorNr)
     {
+        switch(data.magicType)
+        {
+            case MagicType.Fireball:
+                FireballReaction(magic, data, attackerActorNr);
+                break;
+            case MagicType.Lightning:
+                LightningReaction(magic, data, attackerActorNr);
+                break;
+            case MagicType.Tornado:
+                TornadoReaction();
+                break;
+            default:
+                Debug.LogWarning("[ChunkNode] 마법 타입 설정 안했거나 구현을 안했음");
+                break;
+        }
+    }
 
+    public void FireballReaction(GameObject fireball, MagicDataSO data, int attackerActorNr)
+    {
         ApplyExplosionForce(
-            data.knockbackForce,
-            explosionPos,
-            data.radius,
-            data.forceUpward
-        );
+             data.knockbackForce,
+             fireball.transform.position,
+             data.radius,
+             data.forceUpward
+         );
     }
 
-    public void OnStatusChange(bool isControlled)
+    public void LightningReaction(GameObject lightning, MagicDataSO data, int attackerActorNr)
     {
-        if(IsIndestructible)
-            return;
-        else
+        ApplyExplosionForce(
+             data.knockbackForce,
+             lightning.transform.position,
+             data.radius,
+             data.forceUpward
+         );
+    }
+
+    public void TornadoReaction()
+    {
+        if (IsIndestructible) return;
+
+        if (IsFrozen)
+        {
             Unfreeze();
-    }
-
-    public void OnApplyExternalForce(Vector3 forceDirection, float forcePower, ForceMode mode)
-    {
-        Debug.Log("물리 적용");
+        }
     }
 }
