@@ -19,16 +19,24 @@ public struct DebuffInfo
     public DebuffType Type;
     public float Duration;
     public float Value;
+
+    [Header("Visual 관련")]
     public GameObject VisualPrefab;
     public GameObject[] PolymorphPrefabs;
 
-    public DebuffInfo(DebuffType type, float duration, float value = 0f, GameObject visual = null, GameObject[] polyPrefabs = null)
+    [Header("Execution 시 변경될 애니메이터")]
+    public RuntimeAnimatorController ExecutionAnimator;
+
+    public DebuffInfo(DebuffType type, float duration, float value = 0f, 
+        GameObject visual = null, GameObject[] polyPrefabs = null,
+        RuntimeAnimatorController execAnim = null)
     {
         Type = type;
         Duration = duration;
         Value = value;
         VisualPrefab = visual;
         PolymorphPrefabs = polyPrefabs;
+        ExecutionAnimator = execAnim;
     }
 }
 

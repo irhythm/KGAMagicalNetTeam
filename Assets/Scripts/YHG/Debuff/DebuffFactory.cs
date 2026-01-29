@@ -9,6 +9,7 @@ public static class DebuffFactory
             case DebuffType.Stun: return new StunBehavior();
             case DebuffType.Slow: return new SlowBehavior();
             case DebuffType.Polymorph: return new PolymorphBehavior();
+            case DebuffType.Execution: return new ExecutionBehavior();
             default: return null;
         }
     }

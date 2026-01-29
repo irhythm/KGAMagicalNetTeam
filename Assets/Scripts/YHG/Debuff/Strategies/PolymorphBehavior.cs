@@ -27,7 +27,11 @@ public class PolymorphBehavior : IDebuffBehavior
             animalInstance = Object.Instantiate(selectedModel, target.transform.position, target.transform.rotation);
             animalInstance.transform.SetParent(target.transform);
         }
-        target.SetSpeed(originalSpeed * 0.5f); 
+
+        float penalty = (info.Value > 0f) ? info.Value : 0.5f;
+        float speedMultiplier = Mathf.Clamp01(1.0f - penalty);
+
+        target.SetSpeed(originalSpeed * speedMultiplier); 
     }
 
     public void OnExecute(IDebuffable target) {    }
