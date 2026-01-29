@@ -88,6 +88,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             friendlyFire.gameObject.SetActive(true);
 
             friendlyFire.isOn = PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.FRIENDLYFIRE);
+            PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ONROOM, true);
 
             InitGameRound();
 
@@ -158,6 +159,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
                 //PhotonNetwork.Destroy(player);
                 PhotonNetwork.LoadLevel("GameMapOne");//네트워크 상에서 씬 바꾸는 것
                 PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ONSTART, false);
+                PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.ONROOM, false);
             }
         }
     }
