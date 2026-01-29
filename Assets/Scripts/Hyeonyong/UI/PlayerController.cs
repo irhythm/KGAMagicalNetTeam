@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using Photon.Voice.PUN;
 using System.Buffers.Text;
 using System.Collections;
@@ -196,7 +197,7 @@ public class PlayerController : MonoBehaviourPun, IDamageable, IMagicInteractabl
                 );
         }
 
-        if (pv.IsMine)
+        if (pv.IsMine && !PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.ONROOM))
         {
             TakeDamage(data.damage);
         }
@@ -215,7 +216,7 @@ public class PlayerController : MonoBehaviourPun, IDamageable, IMagicInteractabl
                 );
         }
 
-        if (pv.IsMine)
+        if (pv.IsMine && !PhotonNetwork.CurrentRoom.GetProps<bool>(NetworkProperties.ONROOM))
         {
             TakeDamage(data.damage);
         }
