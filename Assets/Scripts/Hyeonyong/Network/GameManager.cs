@@ -91,7 +91,7 @@ public class GameManager : PhotonSingleton<GameManager>
         PhotonNetwork.LocalPlayer.SetProps(NetworkProperties.PLAYER_ISWIZARD, false);
 
         LocalPlayer = player;
-
+        player.GetComponent<PlayableCharacter>().OnDie += CheckDie;
         CheckInGamePlayer();
 
         yield return new WaitUntil(() => UIManager.Instance != null);
@@ -232,8 +232,8 @@ public class GameManager : PhotonSingleton<GameManager>
 
     public void CheckDie()
     {
-        if (!(PhotonNetwork.IsMasterClient))
-            return;
+        //if (!(PhotonNetwork.IsMasterClient))
+        //    return;
         int curPlayerCount = PhotonNetwork.CurrentRoom.GetProps<int>(NetworkProperties.PLAYERCOUNT)-1;
         Debug.Log("사망 판정 :" + curPlayerCount + "/" + PhotonNetwork.CurrentRoom.PlayerCount);
         PhotonNetwork.CurrentRoom.SetProps(NetworkProperties.PLAYERCOUNT, curPlayerCount);
